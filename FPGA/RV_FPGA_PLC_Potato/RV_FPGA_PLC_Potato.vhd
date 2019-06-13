@@ -24,6 +24,12 @@ entity RV_FPGA_PLC_Potato is
       --------- HEX1 ---------
       HEX1			: out std_logic_vector(6 DOWNTO 0);
 		
+		--------- HEX2 ---------
+      HEX2			: out std_logic_vector(6 DOWNTO 0);
+		
+		--------- HEX3 ---------
+      HEX3			: out std_logic_vector(6 DOWNTO 0);
+		
 		--------- KEY ---------
       KEY_n			: in std_logic_vector(3 DOWNTO 0);
 
@@ -53,21 +59,33 @@ architecture behaviour of RV_FPGA_PLC_Potato is
 			uart0_txd : out std_logic;
 			uart0_rxd : in  std_logic;
 		
-		-- KEY signals
-      KEY			: in std_logic_vector(3 DOWNTO 0);
-		
-		-- SW signals
-      SW				: in std_logic_vector(9 DOWNTO 0);
-		
-		-- LEDG signals
-      LEDG			: out std_logic_vector(7 DOWNTO 0);
-		
-		-- LEDR signals
-      LEDR			: out std_logic_vector(9 DOWNTO 0);
-		
-		-- GPIO signals
-      GPIO_IN		: in std_logic_vector(17 DOWNTO 0);
-      GPIO_OUT		: out std_logic_vector(17 DOWNTO 0)
+			-- KEY signals
+			KEY			: in std_logic_vector(3 DOWNTO 0);
+			
+			-- SW signals
+			SW				: in std_logic_vector(9 DOWNTO 0);
+			
+			-- LEDG signals
+			LEDG			: out std_logic_vector(7 DOWNTO 0);
+			
+			-- LEDR signals
+			LEDR			: out std_logic_vector(9 DOWNTO 0);
+			
+			-- GPIO signals
+			GPIO_IN		: in std_logic_vector(17 DOWNTO 0);
+			GPIO_OUT		: out std_logic_vector(17 DOWNTO 0);
+			
+			--------- HEX0 ---------
+			HEX0			: out std_logic_vector(6 DOWNTO 0);
+
+			--------- HEX1 ---------
+			HEX1			: out std_logic_vector(6 DOWNTO 0);
+			
+			--------- HEX2 ---------
+			HEX2			: out std_logic_vector(6 DOWNTO 0);
+			
+			--------- HEX3 ---------
+			HEX3			: out std_logic_vector(6 DOWNTO 0)
 		);
 	end component;
 	
@@ -100,7 +118,19 @@ architecture behaviour of RV_FPGA_PLC_Potato is
 			
 			-- GPIO signals
 			GPIO_IN		=> GPIO_IN,
-			GPIO_OUT		=> GPIO_OUT
+			GPIO_OUT		=> GPIO_OUT,
+			
+			--------- HEX0 ---------
+			HEX0			=> HEX0,
+
+			--------- HEX1 ---------
+			HEX1			=> HEX1,
+			
+			--------- HEX2 ---------
+			HEX2			=> HEX2,
+			
+			--------- HEX3 ---------
+			HEX3			=> HEX3
 		);
 		
 end architecture;

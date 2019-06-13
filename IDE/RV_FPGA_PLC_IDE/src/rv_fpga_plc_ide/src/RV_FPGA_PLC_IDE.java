@@ -2831,32 +2831,37 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         Data.C_code =   "#include <stdint.h>\n" +
                         "//#include <string.h>\n" +
                         "#include \"platform.h\"\n" +
-                        "#include \"uart.h\"\n" +
+                        "//#include \"uart.h\"\n" +
                         "#include \"timer.h\"\n" +
+                        "#include \"time_measurement.h\"\n" +
                         "#include \"i_o_peripheral.h\"\n" +
                         "\n" +
                         "#define TIMER_ENABLED 1\n" +
                         "#define TIMER_DISABLED 0\n" +
                         "\n" +
-                        "static struct uart uart0;\n" +
+                        "//static struct uart uart0;\n" +
+                        "static struct time_measurement time_measurement_d;\n" +
                         "static struct io_per io_per_d;\n" +
                         "\n" +
                         "void exception_handler(uint32_t cause, void * epc, void * regbase)\n" +
                         "{\n" +
-                        "	while(uart_tx_fifo_full(&uart0));\n" +
-                        "	uart_tx(&uart0, 'E');\n" +
+                        "	//while(uart_tx_fifo_full(&uart0));\n" +
+                        "	//uart_tx(&uart0, 'E');\n" +
                         "}\n" +
                         "\n" +
                         "int main(void)\n" +
                         "{\n" +
                         "	//uart_initialize(&uart0, (volatile void *) PLATFORM_UART0_BASE);\n" +
                         "	//uart_set_divisor(&uart0, uart_baud2divisor(115200, PLATFORM_SYSCLK_FREQ));\n" +
+                        "time_measurement_per_initialize(&time_measurement_d, (volatile void *) PLATFORM_TIME_MEASUREMENT);\n" +
+                        "set_micro(&time_measurement_d);\n" +
                         "	io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n" +
                         "\n" +
                         "	//uart_tx_string(&uart0, \"Hi ...\\n\\rRun \\\""+Data.Project_Name+"/\\\" ...\\n\\r\");\n" +
                         "\n";
         declareAndInitializeVariables();
         Data.C_code +=  "\n	while(1){\n" +
+                        "               start_time(&time_measurement_d);\n" +
                         "		io_per_set_output(&io_per_d, RWD, 0, 0);\n";
         
         Data.Load_index = 0;
@@ -2865,7 +2870,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             sucsess &= compile_rung(rung_i);
         }
         
-        Data.C_code += "	}\n" +
+        Data.C_code += "        stop_time(&time_measurement_d);\n" +
+                       "    }\n" +
                        "\n" +
                        "	return 0;\n}";
         write_c_file(Data.Project_Folder.getPath()+"/c_files");
@@ -3189,6 +3195,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         write_i_o_peripheral_file(Folder);
         write_platform_file(Folder);
         write_uart_file(Folder);
+        write_time_measurement_file(Folder);
         write_timer_file(Folder);
     }
 
@@ -3273,14 +3280,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         "#define PLATFORM_SYSCLK_FREQ	"+Data.CPU_Freq_S+"U\n" +
                         "\n" +
                         "// Base addresses for peripherals:\n" +
-                        "#define PLATFORM_UART0_BASE	    0x00001000\n" +
-                        "#define PLATFORM_TIMER0_BASE	0x00002000\n" +
-                        "#define PLATFORM_TIMER1_BASE	0x00003000\n" +
-                        "#define PLATFORM_IO_BASE       0x00004000\n" +
-                        "#define PLATFORM_TON_0_BASE    0x00005000\n" +
-                        "#define PLATFORM_ICERROR_BASE	0x10000000\n" +
-                        "#define PLATFORM_PAEE_ROM_BASE	0xffff8000\n" +
-                        "#define PLATFORM_PAEE_RAM_BASE	0xffffc000\n" +
+                        "#define PLATFORM_UART0_BASE			0x00001000\n" +
+                        "#define PLATFORM_TIMER0_BASE		0x00002000\n" +
+                        "#define PLATFORM_TIMER1_BASE		0x00003000\n" +
+                        "#define PLATFORM_IO_BASE			0x00004000\n" +
+                        "#define PLATFORM_TIME_MEASUREMENT	0x00005000\n" +
+                        "#define PLATFORM_ICERROR_BASE		0x10000000\n" +
+                        "#define PLATFORM_PAEE_ROM_BASE		0xffff8000\n" +
+                        "#define PLATFORM_PAEE_RAM_BASE		0xffffc000\n" +
                         "\n" +
                         "// Interrupts:\n" +
                         "#define PLATFORM_IRQ_TIMER0	0\n" +
@@ -4233,6 +4240,76 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         try {
             new File(Folder+"/timer.h").delete();
             i_o_peripheral_file = new FileOutputStream(Folder+"/timer.h");
+            i_o_peripheral_file.write(data.getBytes(), 0, data.length());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                i_o_peripheral_file.close();
+            } catch (IOException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void write_time_measurement_file(String Folder) {
+        FileOutputStream i_o_peripheral_file = null;
+        String data =   "// The Potato SoC Library add from hossameldin\n" +
+                        "// (c) Hossameldin Bayoummy Eassa 2019 <hossameassa@gmail.com>\n" +
+                        "\n" +
+                        "#ifndef PAEE_TIME_MEASUREMENT_H\n" +
+                        "#define PAEE_TIME_MEASUREMENT_H\n" +
+                        "\n" +
+                        "#include <stdbool.h>\n" +
+                        "#include <stdint.h>\n" +
+                        "\n" +
+                        "#define START_STOP_A	0x00 // Address of writing start and stop\n" +
+                        "#define START			0x71\n" +
+                        "#define STOP			0x53\n" +
+                        "\n" +
+                        "#define MICRO_NANO_A	0x04 // Address of writing Micro Or Nano Measurements\n" +
+                        "#define MICRO			0x36\n" +
+                        "#define NANO			0x42\n" +
+                        "\n" +
+                        "#define READ_TIME_A		0x08\n" +
+                        "\n" +
+                        "\n" +
+                        "struct time_measurement\n" +
+                        "{\n" +
+                        "	volatile uint32_t * registers;\n" +
+                        "};\n" +
+                        "\n" +
+                        "static inline void time_measurement_per_initialize(struct time_measurement * module, volatile void * base)\n" +
+                        "{\n" +
+                        "	module->registers = base;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline void start_time(struct time_measurement * module)\n" +
+                        "{\n" +
+                        "	module->registers[(START_STOP_A >> 2)] = START;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline void stop_time(struct time_measurement * module)\n" +
+                        "{\n" +
+                        "	module->registers[(START_STOP_A >> 2)] = STOP;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline void set_micro(struct time_measurement * module)\n" +
+                        "{\n" +
+                        "	module->registers[(MICRO_NANO_A >> 2)] = MICRO;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline void set_nano(struct time_measurement * module)\n" +
+                        "{\n" +
+                        "	module->registers[(MICRO_NANO_A >> 2)] = NANO;\n" +
+                        "}\n" +
+                        "\n" +
+                        "#endif";
+        try {
+            new File(Folder+"/time_measurement.h").delete();
+            i_o_peripheral_file = new FileOutputStream(Folder+"/time_measurement.h");
             i_o_peripheral_file.write(data.getBytes(), 0, data.length());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);

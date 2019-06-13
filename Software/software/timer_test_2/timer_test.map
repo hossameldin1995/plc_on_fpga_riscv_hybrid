@@ -20,25 +20,25 @@ AEE_RAM          0x00000000ffffc000 0x0000000000004000 rw
 Linker script and memory map
 
 
-.text           0x00000000ffff8000      0x288
+.text           0x00000000ffff8000      0x228
  *(.init)
  .init          0x00000000ffff8000      0x188 start.o
                 0x00000000ffff8000                _start
                 0x00000000ffff8074                _machine_exception_handler
  *(.text*)
  .text.exception_handler
-                0x00000000ffff8188        0x8 main.o
+                0x00000000ffff8188        0x4 main.o
                 0x00000000ffff8188                exception_handler
  .text.startup.main
-                0x00000000ffff8190       0xf8 main.o
-                0x00000000ffff8190                main
-                0x00000000ffff8288                __text_end = .
+                0x00000000ffff818c       0x9c main.o
+                0x00000000ffff818c                main
+                0x00000000ffff8228                __text_end = .
  *(.rodata*)
 
-.rela.dyn       0x00000000ffff8288        0x0
- .rela.init     0x00000000ffff8288        0x0 main.o
+.rela.dyn       0x00000000ffff8228        0x0
+ .rela.init     0x00000000ffff8228        0x0 main.o
 
-.data           0x00000000ffffc000        0x0 load address 0x00000000ffff8288
+.data           0x00000000ffffc000        0x0 load address 0x00000000ffff8228
                 0x00000000ffffc000                __data_begin = .
  *(.data*)
  *(.eh_frame*)

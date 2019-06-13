@@ -1,7 +1,3 @@
--- The Potato Processor - SoC design for the Arty FPGA board
--- (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>
--- Report bugs and issues on <https://github.com/skordal/potato/issues>
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -48,7 +44,7 @@ begin
 	wb_dat_out <= "0000000000000000000000000000000" & OUT_Data_1;
 	wb_ack_out <= read_ack and wb_stb_in;
 
-	process(clk, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in)
+	process(clk, reset, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in)
 	begin
 		if rising_edge(clk) then
 			if reset = '1' then
@@ -65,7 +61,7 @@ begin
 				if wb_cyc_in = '1' then
 					case state is
 						when IDLE =>
-							if wb_stb_in = '1' and wb_we_in = '1' then
+							if wb_stb_in = '1' and wb_we_in = '1' then -- write
 								if wb_adr_in = "1111111" then
 									register_in        <= "00000000000000000000000000000000" & KEY & SW & GPIO_IN;
 									GPIO_OUT           <= register_out(17 downto 0);
@@ -74,9 +70,9 @@ begin
 								else
 									register_out(to_integer(unsigned(wb_adr_in(5 downto 0)))) <= wb_dat_in(0);
 								end if;
-								 read_ack <= '1';
-								 state <= ACK;
-							elsif wb_stb_in = '1' then
+								read_ack <= '1';
+								state <= ACK;
+							elsif wb_stb_in = '1' then -- read
 								if wb_adr_in(6) = '0' then   -- read inputs
 									OUT_Data_1 <= register_in(to_integer(unsigned(wb_adr_in(5 downto 0))));
 								else                       -- read outputs

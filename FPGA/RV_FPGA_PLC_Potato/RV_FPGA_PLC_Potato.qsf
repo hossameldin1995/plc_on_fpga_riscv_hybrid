@@ -129,20 +129,6 @@ set_location_assignment PIN_Y8 -to GPIO_OUT[1]
 set_location_assignment PIN_AA7 -to GPIO_OUT[2]
 set_location_assignment PIN_G26 -to GPIO_OUT[0]
 set_location_assignment PIN_AA6 -to GPIO_OUT[3]
-set_location_assignment PIN_AD7 -to GPIO_OUT[4]
-set_location_assignment PIN_AD6 -to GPIO_OUT[5]
-set_location_assignment PIN_U20 -to GPIO_OUT[6]
-set_location_assignment PIN_V22 -to GPIO_OUT[7]
-set_location_assignment PIN_V20 -to GPIO_OUT[8]
-set_location_assignment PIN_W21 -to GPIO_OUT[9]
-set_location_assignment PIN_W20 -to GPIO_OUT[10]
-set_location_assignment PIN_Y24 -to GPIO_OUT[11]
-set_location_assignment PIN_Y23 -to GPIO_OUT[12]
-set_location_assignment PIN_AA23 -to GPIO_OUT[13]
-set_location_assignment PIN_AA22 -to GPIO_OUT[14]
-set_location_assignment PIN_AC24 -to GPIO_OUT[15]
-set_location_assignment PIN_AC23 -to GPIO_OUT[16]
-set_location_assignment PIN_AC22 -to GPIO_OUT[17]
 
 set_global_assignment -name TOP_LEVEL_ENTITY RV_FPGA_PLC_Potato
 
@@ -240,6 +226,36 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[14]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[15]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[16]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[17]
+set_location_assignment PIN_AD7 -to HEX2[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[0]
+set_location_assignment PIN_AD6 -to HEX2[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[6]
+set_location_assignment PIN_U20 -to HEX2[2]
+set_location_assignment PIN_V22 -to HEX2[3]
+set_location_assignment PIN_V20 -to HEX2[4]
+set_location_assignment PIN_W21 -to HEX2[5]
+set_location_assignment PIN_W20 -to HEX2[6]
+set_location_assignment PIN_Y24 -to HEX3[0]
+set_location_assignment PIN_Y23 -to HEX3[1]
+set_location_assignment PIN_AA23 -to HEX3[2]
+set_location_assignment PIN_AA22 -to HEX3[3]
+set_location_assignment PIN_AC24 -to HEX3[4]
+set_location_assignment PIN_AC23 -to HEX3[5]
+set_location_assignment PIN_AC22 -to HEX3[6]
+set_global_assignment -name VERILOG_FILE verilog/SEG7_LUT_4.v
+set_global_assignment -name VERILOG_FILE verilog/SEG7_LUT.v
 set_global_assignment -name VHDL_FILE vhdl/Input_Output_Peripheral_REG.vhd
 set_global_assignment -name VHDL_FILE RV_FPGA_PLC_Potato.vhd
 set_global_assignment -name VHDL_FILE vhdl/pp_soc_uart.vhd
@@ -285,4 +301,7 @@ set_global_assignment -name SDC_FILE RV_FPGA_PLC_Potato.sdc
 set_global_assignment -name VHDL_FILE vhdl/Timer_on_64_Controller.vhd
 set_global_assignment -name VHDL_FILE vhdl/Counter_Down_64_bit_Cin.vhd
 set_global_assignment -name VHDL_FILE vhdl/TON_Peripheral.vhd
+set_global_assignment -name VHDL_FILE vhdl/Time_Measurement_Peripheral.vhd
+set_global_assignment -name VHDL_FILE vhdl/Time_Calculation.vhd
+set_global_assignment -name VHDL_FILE vhdl/Write_To_Hexa.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

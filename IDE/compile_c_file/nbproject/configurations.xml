@@ -44,7 +44,7 @@
           <commandLine>-shared</commandLine>
         </cTool>
         <linkerTool>
-          <output>/home/hossameldin/Documents/NetBeansProjects/RV_FPGA_PLC_IDE/src/compile_c_file.so</output>
+          <output>/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/compile_c_file.so</output>
         </linkerTool>
       </compileType>
       <item path="compile_c_file.c" ex="false" tool="0" flavor2="0">

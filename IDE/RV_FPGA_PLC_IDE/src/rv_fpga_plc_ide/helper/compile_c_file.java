@@ -11,7 +11,7 @@ package rv_fpga_plc_ide.helper;
  */
 public class compile_c_file {
     static {
-        System.load("/home/hossameldin/Documents/NetBeansProjects/RV_FPGA_PLC_IDE/src/compile_c_file.so");
+        System.load("/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/compile_c_file.so");
     }
 
     private native boolean compile_c_to_mif(String c_Folder_Path, String c_File_Path);

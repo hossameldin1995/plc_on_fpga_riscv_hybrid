@@ -11,6 +11,7 @@ use ieee.std_logic_1164.all;
 -- 0x00002000: Timer0
 -- 0x00003000: Timer1
 -- 0x00004000: IO Peripheral
+-- 0x00005000: TON_0
 -- 0x10000000: Interconnect control/error module
 -- 0xffff8000: Application execution environment ROM (16 kB)
 -- 0xffffc000: Application execution environment RAM (16 kB)
@@ -148,7 +149,7 @@ architecture behaviour of toplevel is
 	signal aee_ram_we_in   : std_logic;
 	signal aee_ram_ack_out : std_logic;
 
-	-- AEE IO_peripheral signals:
+	-- IO_peripheral signals:
 	signal io_peripheral_adr_in  : std_logic_vector(13 downto 0);
 	signal io_peripheral_dat_in  : std_logic_vector(31 downto 0);
 	signal io_peripheral_dat_out : std_logic_vector(31 downto 0);
@@ -158,9 +159,19 @@ architecture behaviour of toplevel is
 	signal io_peripheral_we_in   : std_logic;
 	signal io_peripheral_ack_out : std_logic;
 	
+	-- TON_0 signals:
+	signal TON_0_adr_in  : std_logic_vector(13 downto 0);
+	signal TON_0_dat_in  : std_logic_vector(31 downto 0);
+	signal TON_0_dat_out : std_logic_vector(31 downto 0);
+	signal TON_0_cyc_in  : std_logic;
+	signal TON_0_stb_in  : std_logic;
+	signal TON_0_sel_in  : std_logic_vector(3 downto 0);
+	signal TON_0_we_in   : std_logic;
+	signal TON_0_ack_out : std_logic;
+	
 	-- Selected peripheral on the interconnect:
 	type intercon_peripheral_type is (
-		PERIPHERAL_TIMER0, PERIPHERAL_TIMER1, PERIPHERAL_IO, 
+		PERIPHERAL_TIMER0, PERIPHERAL_TIMER1, PERIPHERAL_IO, PERIPHERAL_TON_0, 
 		PERIPHERAL_UART0, PERIPHERAL_AEE_ROM, PERIPHERAL_AEE_RAM,
 		PERIPHERAL_INTERCON, PERIPHERAL_ERROR, PERIPHERAL_NONE);
 	signal intercon_peripheral : intercon_peripheral_type := PERIPHERAL_NONE;
@@ -204,6 +215,8 @@ begin
 									intercon_peripheral <= PERIPHERAL_TIMER1;
 								when x"04" =>
 									intercon_peripheral <= PERIPHERAL_IO;
+								when x"05" =>
+									intercon_peripheral <= PERIPHERAL_TON_0;
 								when others => -- Invalid address - delegated to the error peripheral
 									intercon_peripheral <= PERIPHERAL_ERROR;
 							end case;
@@ -236,7 +249,7 @@ begin
 		uart0_ack_out, uart0_dat_out,
 		intercon_ack_out, intercon_dat_out, error_ack_out,
 		aee_rom_ack_out, aee_rom_dat_out, aee_ram_ack_out, aee_ram_dat_out,
-		io_peripheral_ack_out, io_peripheral_dat_out)
+		io_peripheral_ack_out, io_peripheral_dat_out, TON_0_ack_out, TON_0_dat_out)
 	begin
 		case intercon_peripheral is
 			when PERIPHERAL_TIMER0 =>
@@ -260,6 +273,9 @@ begin
 			when PERIPHERAL_IO =>
 				processor_ack_in <= io_peripheral_ack_out;
 				processor_dat_in <= io_peripheral_dat_out;
+			when PERIPHERAL_TON_0 =>
+				processor_ack_in <= TON_0_ack_out;
+				processor_dat_in <= TON_0_dat_out;
 			when PERIPHERAL_ERROR =>
 				processor_ack_in <= error_ack_out;
 				processor_dat_in <= (others => '0');
@@ -290,7 +306,9 @@ begin
 	processor: entity work.pp_potato
 		generic map(
 			RESET_ADDRESS => x"ffff8000",
-			ICACHE_ENABLE => false
+			ICACHE_ENABLE => false,
+			ICACHE_LINE_SIZE => 128,
+			ICACHE_NUM_LINES => 128
 		) port map(
 			clk => system_clk,
 			timer_clk => timer_clk,
@@ -420,7 +438,7 @@ begin
 
 	aee_ram: entity work.pp_soc_memory
 		generic map(
-			MEMORY_SIZE => 128
+			MEMORY_SIZE => 128 --16384
 		) port map(
 			clk => system_clk,
 			reset => reset,
@@ -466,4 +484,24 @@ begin
 	io_peripheral_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_IO else '0';
 	io_peripheral_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_IO else '0';
 
+	TON_0: entity work.TON_Peripheral
+		port map(
+			clk 			=> system_clk,
+			reset 		=> reset,
+			wb_adr_in 	=> TON_0_adr_in(3 downto 2),
+			wb_dat_in 	=> TON_0_dat_in,
+			wb_dat_out 	=> TON_0_dat_out,
+			wb_cyc_in 	=> TON_0_cyc_in,
+			wb_stb_in 	=> TON_0_stb_in,
+			wb_sel_in 	=> TON_0_sel_in,
+			wb_we_in 	=> TON_0_we_in,
+			wb_ack_out 	=> TON_0_ack_out
+		);
+	TON_0_adr_in <= processor_adr_out(TON_0_adr_in'range);
+	TON_0_dat_in <= processor_dat_out;
+	TON_0_we_in  <= processor_we_out;
+	TON_0_sel_in <= processor_sel_out;
+	TON_0_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_TON_0 else '0';
+	TON_0_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_TON_0 else '0';
+	
 end architecture behaviour;

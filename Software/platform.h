@@ -10,7 +10,7 @@
 // based "official" Potato SoC.
 
 // System clock frequency:
-#define PLATFORM_SYSCLK_FREQ	80000000U
+#define PLATFORM_SYSCLK_FREQ	100000000U
 
 // Base addresses for peripherals:
 #define PLATFORM_UART0_BASE	    0x00001000

@@ -9,13 +9,15 @@ use ieee.numeric_std.all;
 --! @brief Simple timer module for generating periodic interrupts.
 --!
 --! The following registers are defined:
---! |---------|------------------|
---! | Address | Description      |
---! |---------|------------------|
---! | 0x00    | Control register |
---! | 0x04    | Compare register |
---! | 0x08    | Counter register |
---! |---------|------------------|
+--! |---------|-------------------|
+--! | Address | Description       |
+--! |---------|-------------------|
+--! | 0x00    | Control register  |
+--! | 0x04    | CompareL register |
+--! | 0x08    | CompareH register |
+--! | 0x0C    | CounterL register |
+--! | 0x10    | CounterH register |
+--! |---------|-------------------|
 --!
 --! The bits for the control register are:
 --! - 0: Run - set to '1' to enable the counter.
@@ -42,8 +44,8 @@ end entity;
 architecture behaviour of pp_soc_timer is
 	signal ctrl_run : std_logic;
 
-	signal counter : std_logic_vector(31 downto 0);
-	signal compare : std_logic_vector(31 downto 0);
+	signal counter : std_logic_vector(63 downto 0);
+	signal compare : std_logic_vector(63 downto 0);
 
 	-- Wishbone acknowledge signal:
 	signal ack : std_logic;
@@ -76,9 +78,13 @@ begin
 									counter <= (others => '0');
 								end if;
 							when x"004" => -- Write compare register
-								compare <= wb_dat_in;
+								compare(31 downto 0) <= wb_dat_in;
 							when x"008" => -- Write count register
-								counter <= wb_dat_in;
+								compare(63 downto 32) <= wb_dat_in;
+							when x"00C" => -- Write count register
+								counter(31 downto 0) <= wb_dat_in;
+							when x"010" => -- Write count register
+								counter(63 downto 32) <= wb_dat_in;
 							when others =>
 						end case;
 						ack <= '1';
@@ -87,9 +93,13 @@ begin
 							when x"000" => -- Read control register
 								wb_dat_out <= (0 => ctrl_run, others => '0');
 							when x"004" => -- Read compare register
-								wb_dat_out <= compare;
+								wb_dat_out <= compare(31 downto 0);
 							when x"008" => -- Read count register
-								wb_dat_out <= counter;
+								wb_dat_out <= compare(63 downto 32);
+							when x"00C" => -- Read count register
+								wb_dat_out <= counter(31 downto 0);
+							when x"010" => -- Read count register
+								wb_dat_out <= counter(63 downto 32);
 							when others =>
 								wb_dat_out <= (others => '0');
 						end case;

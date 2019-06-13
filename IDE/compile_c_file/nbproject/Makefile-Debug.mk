@@ -56,11 +56,11 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk /home/hossameldin/Documents/NetBeansProjects/RV_FPGA_PLC_IDE/src/compile_c_file.so
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/compile_c_file.so
 
-/home/hossameldin/Documents/NetBeansProjects/RV_FPGA_PLC_IDE/src/compile_c_file.so: ${OBJECTFILES}
-	${MKDIR} -p /home/hossameldin/Documents/NetBeansProjects/RV_FPGA_PLC_IDE/src
-	${LINK.c} -o /home/hossameldin/Documents/NetBeansProjects/RV_FPGA_PLC_IDE/src/compile_c_file.so ${OBJECTFILES} ${LDLIBSOPTIONS} -shared -fPIC
+/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/compile_c_file.so: ${OBJECTFILES}
+	${MKDIR} -p /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src
+	${LINK.c} -o /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/compile_c_file.so ${OBJECTFILES} ${LDLIBSOPTIONS} -shared -fPIC
 
 ${OBJECTDIR}/compile_c_file.o: compile_c_file.c
 	${MKDIR} -p ${OBJECTDIR}

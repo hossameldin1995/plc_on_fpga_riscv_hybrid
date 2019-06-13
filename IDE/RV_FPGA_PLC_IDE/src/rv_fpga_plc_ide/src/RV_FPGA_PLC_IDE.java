@@ -121,6 +121,10 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jButton14 = new javax.swing.JButton();
+        jComboBox_Variables_Timer = new javax.swing.JComboBox<>();
         jFileChooser1 = new javax.swing.JFileChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -156,7 +160,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenuItem_Remove_Variable = new javax.swing.JMenuItem();
         jMenu_Basic_Comands = new javax.swing.JMenu();
         jMenuItem_Load = new javax.swing.JMenuItem();
+        jMenuItem_Load_Not = new javax.swing.JMenuItem();
         jMenuItem_Store = new javax.swing.JMenuItem();
+        jMenuItem_Store_Not = new javax.swing.JMenuItem();
         jMenuItem_Set = new javax.swing.JMenuItem();
         jMenuItem_Reset = new javax.swing.JMenuItem();
         jMenu_Logic_Operations = new javax.swing.JMenu();
@@ -164,6 +170,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenuItem_Or = new javax.swing.JMenuItem();
         jMenuItem_Xor = new javax.swing.JMenuItem();
         jMenuItem_Not = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu_Arithmetic = new javax.swing.JMenu();
         jMenuItem_Add = new javax.swing.JMenuItem();
         jMenuItem_Sub = new javax.swing.JMenuItem();
@@ -214,7 +229,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         });
 
-        jComboBox_Variable_Type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BOOL", "REAL", "INT", "TIME", "TON" }));
         jComboBox_Variable_Type.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jComboBox_Variable_TypeKeyReleased(evt);
@@ -287,9 +301,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         });
 
-        jComboBox_Variables.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox_VariablesMouseClicked(evt);
+        jComboBox_Variables.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_VariablesItemStateChanged(evt);
             }
         });
         jComboBox_Variables.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -306,9 +320,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         });
 
         jComboBox_Inputs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "%I0.0", "%I0.1", "%I0.2", "%I0.3", "%I0.4", "%I0.5", "%I0.6", "%I0.7", "%I1.0", "%I1.1", "%I1.2", "%I1.3", "%I1.4", "%I1.5", "%I1.6", "%I1.7", "%I2.0", "%I2.1" }));
-        jComboBox_Inputs.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox_InputsMouseClicked(evt);
+        jComboBox_Inputs.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_InputsItemStateChanged(evt);
             }
         });
         jComboBox_Inputs.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -339,9 +353,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         });
 
         jComboBox_Leds.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "%LEDG.0", "%LEDG.1", "%LEDG.2", "%LEDG.3", "%LEDG.4", "%LEDG.5", "%LEDG.6", "%LEDG.7", "%LEDR.0", "%LEDR.1", "%LEDR.2", "%LEDR.3", "%LEDR.4", "%LEDR.5", "%LEDR.6", "%LEDR.7", "%LEDR.8", "%LEDR.9" }));
-        jComboBox_Leds.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox_LedsMouseClicked(evt);
+        jComboBox_Leds.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_LedsItemStateChanged(evt);
             }
         });
         jComboBox_Leds.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -351,9 +365,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         });
 
         jComboBox_Switches.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "%SW.0", "%SW.1", "%SW.2", "%SW.3", "%SW.4", "%SW.5", "%SW.6", "%SW.7", "%SW.8", "%SW.9" }));
-        jComboBox_Switches.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox_SwitchesMouseClicked(evt);
+        jComboBox_Switches.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_SwitchesItemStateChanged(evt);
             }
         });
         jComboBox_Switches.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -363,9 +377,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         });
 
         jComboBox_Keys.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "%KEY.0", "%KEY.1", "%KEY.2", "%KEY.3" }));
-        jComboBox_Keys.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox_KeysMouseClicked(evt);
+        jComboBox_Keys.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_KeysItemStateChanged(evt);
             }
         });
         jComboBox_Keys.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -382,9 +396,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         });
 
         jComboBox_Outputs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "%Q0.0", "%Q0.1", "%Q0.2", "%Q0.3", "%Q0.4", "%Q0.5", "%Q0.6", "%Q0.7", "%Q1.0", "%Q1.1", "%Q1.2", "%Q1.3", "%Q1.4", "%Q1.5", "%Q1.6", "%Q1.7", "%Q2.0", "%Q2.1" }));
-        jComboBox_Outputs.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox_OutputsMouseClicked(evt);
+        jComboBox_Outputs.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_OutputsItemStateChanged(evt);
             }
         });
         jComboBox_Outputs.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -677,9 +691,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Inputs"));
 
-        jLabel9.setText("IN");
+        jLabel9.setText("IN:");
 
-        jLabel10.setText("PT");
+        jLabel10.setText("PT:");
 
         jTextField_IN_Timer.setEditable(false);
 
@@ -691,11 +705,21 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 jButton8ActionPerformed(evt);
             }
         });
+        jButton8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton8KeyPressed(evt);
+            }
+        });
 
         jButton9.setText("Choose Operator");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
+            }
+        });
+        jButton9.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton9KeyPressed(evt);
             }
         });
 
@@ -709,13 +733,13 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField_IN_Timer, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(jTextField_PT_Timer))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jTextField_IN_Timer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_PT_Timer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -744,11 +768,21 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 jButton10ActionPerformed(evt);
             }
         });
+        jButton10.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton10KeyPressed(evt);
+            }
+        });
 
         jButton13.setText("Choose Operator");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
+            }
+        });
+        jButton13.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton13KeyPressed(evt);
             }
         });
 
@@ -765,16 +799,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField_ET_Timer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Q_Timer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jTextField_ET_Timer, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jTextField_Q_Timer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton13)))
+                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -807,6 +839,52 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         });
 
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("TON"));
+
+        jLabel13.setText("Name:");
+
+        jButton14.setText("New Variable");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+        jButton14.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton14KeyPressed(evt);
+            }
+        });
+
+        jComboBox_Variables_Timer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBox_Variables_TimerKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jComboBox_Variables_Timer, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jButton14)
+                    .addComponent(jComboBox_Variables_Timer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -820,21 +898,24 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton11)))
+                        .addComponent(jButton11))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton11)
                     .addComponent(jButton12))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialog_Timer_CommandLayout = new javax.swing.GroupLayout(jDialog_Timer_Command.getContentPane());
@@ -1025,6 +1106,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         });
         jMenu_Basic_Comands.add(jMenuItem_Load);
 
+        jMenuItem_Load_Not.setText("Load Not");
+        jMenuItem_Load_Not.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Load_NotActionPerformed(evt);
+            }
+        });
+        jMenu_Basic_Comands.add(jMenuItem_Load_Not);
+
         jMenuItem_Store.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, 0));
         jMenuItem_Store.setText("Store");
         jMenuItem_Store.addActionListener(new java.awt.event.ActionListener() {
@@ -1033,6 +1122,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         });
         jMenu_Basic_Comands.add(jMenuItem_Store);
+
+        jMenuItem_Store_Not.setText("Store Not");
+        jMenuItem_Store_Not.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Store_NotActionPerformed(evt);
+            }
+        });
+        jMenu_Basic_Comands.add(jMenuItem_Store_Not);
 
         jMenuItem_Set.setText("Set");
         jMenuItem_Set.addActionListener(new java.awt.event.ActionListener() {
@@ -1087,6 +1184,60 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenu_Logic_Operations.add(jMenuItem_Not);
 
         jMenu_Commands.add(jMenu_Logic_Operations);
+
+        jMenu2.setText("Comparison");
+
+        jMenuItem2.setText("Greater Than (>)");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuItem3.setText("Greater or Equal (>=)");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+        jMenu2.add(jSeparator6);
+
+        jMenuItem4.setText("Equal (=)");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("Not Equal (<>)");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+        jMenu2.add(jSeparator7);
+
+        jMenuItem6.setText("Less Than (<)");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
+
+        jMenuItem7.setText("Less Than or Equal (<=)");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
+
+        jMenu_Commands.add(jMenu2);
 
         jMenu_Arithmetic.setText("Arithmatic");
 
@@ -1166,6 +1317,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
         jMenu_Timer.setText("Timer");
 
+        jMenuItem_Timer_On.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem_Timer_On.setText("Timer On");
         jMenuItem_Timer_On.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1174,6 +1326,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         });
         jMenu_Timer.add(jMenuItem_Timer_On);
 
+        jMenuItem_Timer_Off.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem_Timer_Off.setText("Timer Off");
         jMenuItem_Timer_Off.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1211,11 +1364,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenu_Compile.setText("Compile");
         jMenu_Compile.setEnabled(false);
 
-        jMenuItem_Compile_Hardware.setText("Compile Hardware");
+        jMenuItem_Compile_Hardware.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem_Compile_Hardware.setText("Compile As Hardware");
         jMenu_Compile.add(jMenuItem_Compile_Hardware);
 
-        jMenuItem_Compile_Software.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, 0));
-        jMenuItem_Compile_Software.setText("Compile Software");
+        jMenuItem_Compile_Software.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem_Compile_Software.setText("Compile As Software");
         jMenuItem_Compile_Software.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem_Compile_SoftwareActionPerformed(evt);
@@ -1223,7 +1377,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         });
         jMenu_Compile.add(jMenuItem_Compile_Software);
 
-        jMenuItem_Compile_All.setText("Compile All");
+        jMenuItem_Compile_All.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem_Compile_All.setText("Compile Using Optimization Algorithm");
         jMenu_Compile.add(jMenuItem_Compile_All);
         jMenu_Compile.add(jSeparator2);
 
@@ -1375,6 +1530,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Add_RungActionPerformed
 
     private void jMenuItem_Add_VariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Add_VariableActionPerformed
+        jComboBox_Variable_Type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BOOL", "REAL", "INT", "TIME", "TON", "TOF" }));
+        Data.is_newVariable_timer = false;
         jDialog_Add_Variable.show();
     }//GEN-LAST:event_jMenuItem_Add_VariableActionPerformed
 
@@ -1385,7 +1542,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_Add_V_CancelActionPerformed
 
     private void jButton_Add_V_OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_OkActionPerformed
-        Add_Variable();
+        OK_Button_Add_Variable();
     }//GEN-LAST:event_jButton_Add_V_OkActionPerformed
 
     private void jMenuItem_LoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_LoadActionPerformed
@@ -1454,13 +1611,13 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
     private void jTextFieldVariable_NameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldVariable_NameKeyReleased
         if (evt.getKeyCode() == 10) {
-            Add_Variable();
+            OK_Button_Add_Variable();
         }
     }//GEN-LAST:event_jTextFieldVariable_NameKeyReleased
 
     private void jComboBox_Variable_TypeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_Variable_TypeKeyReleased
         if (evt.getKeyCode() == 10) {
-            Add_Variable();
+            OK_Button_Add_Variable();
         }
     }//GEN-LAST:event_jComboBox_Variable_TypeKeyReleased
 
@@ -1534,7 +1691,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_XorActionPerformed
 
     private void jMenuItem_NotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_NotActionPerformed
-        Basic_commands_button("Add Not Command", "NOT");
+        add_to_2d_program(1, new String[] {"        NOT"});
     }//GEN-LAST:event_jMenuItem_NotActionPerformed
 
     private void jMenuItem_Set_DominantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Set_DominantActionPerformed
@@ -1544,17 +1701,17 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Set_DominantActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Data.genetal_JTextField = jTextField_Set_Bistable;
+        Data.general_JTextField = jTextField_Set_Bistable;
         Choose_Operator();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Data.genetal_JTextField = jTextField_Q_Bistable;                                         
+        Data.general_JTextField = jTextField_Q_Bistable;                                         
         Choose_Operator();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Data.genetal_JTextField = jTextField_Reset_Bistable;
+        Data.general_JTextField = jTextField_Reset_Bistable;
         Choose_Operator();
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -1615,60 +1772,30 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Timer_OffActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        Data.genetal_JTextField = jTextField_IN_Timer;
+        Data.general_JTextField = jTextField_IN_Timer;
         Choose_Operator();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        Data.genetal_JTextField = jTextField_PT_Timer;
+        Data.general_JTextField = jTextField_PT_Timer;
         Choose_Operator();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        Data.genetal_JTextField = jTextField_ET_Timer;
+        Data.general_JTextField = jTextField_ET_Timer;
         Choose_Operator();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        String Function_Block;
-        if (Data.is_TON) {
-            Function_Block = "TON";
-        } else {
-            Function_Block = "TOF";
-        }
-        if (jTextField_IN_Timer.getText() == null || jTextField_IN_Timer.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Please choose IN operand", Data.Function_Name, JOptionPane.OK_OPTION);
-        } else if (jTextField_PT_Timer.getText() == null || jTextField_PT_Timer.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Please choose PT operand", Data.Function_Name, JOptionPane.OK_OPTION);
-        } else if (jTextField_ET_Timer.getText() == null || jTextField_ET_Timer.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Please choose ET operand", Data.Function_Name, JOptionPane.OK_OPTION);
-        } else if (jTextField_Q_Timer.getText() == null || jTextField_Q_Timer.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Please choose Q operand", Data.Function_Name, JOptionPane.OK_OPTION);
-        } else {
-            add_to_2d_program(5, new String[] {"        CAL "+Function_Block+"(",
-                                               "            IN := "+jTextField_IN_Timer.getText()+",",
-                                               "            PT := "+jTextField_PT_Timer.getText()+",",
-                                               "            ET := "+jTextField_ET_Timer.getText()+",",
-                                               "            Q  => "+jTextField_Q_Timer.getText()+")"});
-            jDialog_Timer_Command.hide();
-            jTextField_Set_Bistable.setText("");
-            jTextField_Q_Bistable.setText("");
-            jTextField_Reset_Bistable.setText("");
-            Data.is_timer = false;
-        }
+        Ok_Button_Timer_command();
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        jDialog_Timer_Command.hide();
-        jTextField_IN_Timer.setText("");
-        jTextField_Q_Timer.setText("");
-        jTextField_PT_Timer.setText("");
-        jTextField_ET_Timer.setText("");
-        Data.is_timer=false;
+        Cancel_Button_Timer_command();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        Data.genetal_JTextField = jTextField_Q_Timer;
+        Data.general_JTextField = jTextField_Q_Timer;
         Choose_Operator();
     }//GEN-LAST:event_jButton13ActionPerformed
 
@@ -1723,7 +1850,23 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Close_ProjectActionPerformed
 
     private void jMenuItem_Compile_SoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_SoftwareActionPerformed
-        compile_software(Data.Project_Folder.getPath());
+        if (Data.is_Saved_Project)
+            if (compile_software(Data.Project_Folder.getPath())) {
+                JOptionPane.showMessageDialog(this, "Successful");
+            } else {
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(this, "Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
+            }
+        else {
+            int sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save is?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (sel == JOptionPane.YES_OPTION){
+                save();
+                jMenuItem_Compile_SoftwareActionPerformed(evt);
+            } else {
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(this, "Program is not saved!", "Compile As Software", JOptionPane.OK_OPTION, icon);
+            }
+        }
     }//GEN-LAST:event_jMenuItem_Compile_SoftwareActionPerformed
 
     private void jTextField_InstantKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_InstantKeyPressed
@@ -1778,7 +1921,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox_KeysKeyPressed
 
-    private void jComboBox_VariablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_VariablesMouseClicked
+    private void jComboBox_VariablesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_VariablesItemStateChanged
         Data.Operator_Select = 0;
         jRadioButton_Variables.setSelected(true);
         jRadioButton_Keys.setSelected(false);
@@ -1787,9 +1930,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jRadioButton_Outputs.setSelected(false);
         jRadioButton_Switches.setSelected(false);
         jRadioButton_Instant.setSelected(false);
-    }//GEN-LAST:event_jComboBox_VariablesMouseClicked
+    }//GEN-LAST:event_jComboBox_VariablesItemStateChanged
 
-    private void jComboBox_InputsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_InputsMouseClicked
+    private void jComboBox_InputsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_InputsItemStateChanged
         Data.Operator_Select = 1;
         jRadioButton_Inputs.setSelected(true);
         jRadioButton_Keys.setSelected(false);
@@ -1798,9 +1941,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jRadioButton_Switches.setSelected(false);
         jRadioButton_Variables.setSelected(false);
         jRadioButton_Instant.setSelected(false);
-    }//GEN-LAST:event_jComboBox_InputsMouseClicked
+    }//GEN-LAST:event_jComboBox_InputsItemStateChanged
 
-    private void jComboBox_OutputsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_OutputsMouseClicked
+    private void jComboBox_OutputsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_OutputsItemStateChanged
         Data.Operator_Select = 2;
         jRadioButton_Outputs.setSelected(true);
         jRadioButton_Keys.setSelected(false);
@@ -1809,9 +1952,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jRadioButton_Switches.setSelected(false);
         jRadioButton_Variables.setSelected(false);
         jRadioButton_Instant.setSelected(false);
-    }//GEN-LAST:event_jComboBox_OutputsMouseClicked
+    }//GEN-LAST:event_jComboBox_OutputsItemStateChanged
 
-    private void jComboBox_LedsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_LedsMouseClicked
+    private void jComboBox_LedsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_LedsItemStateChanged
         Data.Operator_Select = 3;
         jRadioButton_Leds.setSelected(true);
         jRadioButton_Keys.setSelected(false);
@@ -1820,9 +1963,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jRadioButton_Switches.setSelected(false);
         jRadioButton_Variables.setSelected(false);
         jRadioButton_Instant.setSelected(false);
-    }//GEN-LAST:event_jComboBox_LedsMouseClicked
+    }//GEN-LAST:event_jComboBox_LedsItemStateChanged
 
-    private void jComboBox_SwitchesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_SwitchesMouseClicked
+    private void jComboBox_SwitchesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_SwitchesItemStateChanged
         Data.Operator_Select = 4;
         jRadioButton_Switches.setSelected(true);
         jRadioButton_Keys.setSelected(false);
@@ -1831,9 +1974,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jRadioButton_Outputs.setSelected(false);
         jRadioButton_Variables.setSelected(false);
         jRadioButton_Instant.setSelected(false);
-    }//GEN-LAST:event_jComboBox_SwitchesMouseClicked
+    }//GEN-LAST:event_jComboBox_SwitchesItemStateChanged
 
-    private void jComboBox_KeysMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_KeysMouseClicked
+    private void jComboBox_KeysItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_KeysItemStateChanged
         Data.Operator_Select = 5;
         jRadioButton_Keys.setSelected(true);
         jRadioButton_Inputs.setSelected(false);
@@ -1842,7 +1985,73 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jRadioButton_Switches.setSelected(false);
         jRadioButton_Variables.setSelected(false);
         jRadioButton_Instant.setSelected(false);
-    }//GEN-LAST:event_jComboBox_KeysMouseClicked
+    }//GEN-LAST:event_jComboBox_KeysItemStateChanged
+
+    private void jMenuItem_Load_NotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Load_NotActionPerformed
+        Basic_commands_button("Add Load Not Command", "LDN");
+    }//GEN-LAST:event_jMenuItem_Load_NotActionPerformed
+
+    private void jMenuItem_Store_NotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Store_NotActionPerformed
+        Basic_commands_button("Add Store Not Command", "STN");
+    }//GEN-LAST:event_jMenuItem_Store_NotActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Basic_commands_button("Add Greater Than Command", "GT ");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        Basic_commands_button("Add Greater Than or Equal Command", "GE ");
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        Basic_commands_button("Add Equal Command", "EQ ");
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        Basic_commands_button("Add Not Equal Command", "NE ");
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        Basic_commands_button("Add Less Than Command", "LT ");
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        Basic_commands_button("Add Less Than or Equal Command", "LE ");
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        if (Data.is_TON) {
+            jComboBox_Variable_Type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"TON"}));
+        } else {
+            jComboBox_Variable_Type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"TOF"}));
+        }
+        Data.is_newVariable_timer = true;
+        jDialog_Add_Variable.show();
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jComboBox_Variables_TimerKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_Variables_TimerKeyPressed
+        Timer_Button_Pressed(evt);
+    }//GEN-LAST:event_jComboBox_Variables_TimerKeyPressed
+
+    private void jButton13KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton13KeyPressed
+        Timer_Button_Pressed(evt);
+    }//GEN-LAST:event_jButton13KeyPressed
+
+    private void jButton10KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton10KeyPressed
+        Timer_Button_Pressed(evt);
+    }//GEN-LAST:event_jButton10KeyPressed
+
+    private void jButton9KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton9KeyPressed
+        Timer_Button_Pressed(evt);
+    }//GEN-LAST:event_jButton9KeyPressed
+
+    private void jButton8KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton8KeyPressed
+        Timer_Button_Pressed(evt);
+    }//GEN-LAST:event_jButton8KeyPressed
+
+    private void jButton14KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton14KeyPressed
+        Timer_Button_Pressed(evt);
+    }//GEN-LAST:event_jButton14KeyPressed
 
     private void FillListProgram() {
         jList_Program.setModel(new javax.swing.AbstractListModel() {
@@ -1963,6 +2172,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1980,6 +2190,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox_Switches;
     private javax.swing.JComboBox<String> jComboBox_Variable_Type;
     private javax.swing.JComboBox<String> jComboBox_Variables;
+    private javax.swing.JComboBox<String> jComboBox_Variables_Timer;
     private javax.swing.JDialog jDialog_Add_Variable;
     private javax.swing.JDialog jDialog_Basic_Commands;
     private javax.swing.JDialog jDialog_Bistable_Command;
@@ -1989,6 +2200,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2000,8 +2212,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JList<String> jList_Program;
     private javax.swing.JList<String> jList_Variable;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem_About;
     private javax.swing.JMenuItem jMenuItem_Add;
     private javax.swing.JMenuItem jMenuItem_Add_Rung;
@@ -2022,6 +2241,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Falling_Edge_Detector;
     private javax.swing.JMenuItem jMenuItem_How_to_Use;
     private javax.swing.JMenuItem jMenuItem_Load;
+    private javax.swing.JMenuItem jMenuItem_Load_Not;
     private javax.swing.JMenuItem jMenuItem_Mod;
     private javax.swing.JMenuItem jMenuItem_Move_Rung_Down;
     private javax.swing.JMenuItem jMenuItem_Move_Rung_Up;
@@ -2042,6 +2262,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Set;
     private javax.swing.JMenuItem jMenuItem_Set_Dominant;
     private javax.swing.JMenuItem jMenuItem_Store;
+    private javax.swing.JMenuItem jMenuItem_Store_Not;
     private javax.swing.JMenuItem jMenuItem_Sub;
     private javax.swing.JMenuItem jMenuItem_Timer_Off;
     private javax.swing.JMenuItem jMenuItem_Timer_On;
@@ -2069,6 +2290,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JRadioButton jRadioButton_Inputs;
     private javax.swing.JRadioButton jRadioButton_Instant;
     private javax.swing.JRadioButton jRadioButton_Keys;
@@ -2084,6 +2306,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextFieldVariable_Name;
     private javax.swing.JTextField jTextField_ET_Timer;
@@ -2110,8 +2334,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         FillListVariables();
     }
 
-    private void remove_Spaces_Before_String(String[] Variables_temp) {
-        for(int i = 0; i < Variables_temp.length; i++) {
+    private void remove_Spaces_Before_Strings(String[] Variables_temp, int Variables_temp_lenght) {
+        for(int i = 0; i < Variables_temp_lenght; i++) {
             Variables_temp[i] = Variables_temp[i].replaceFirst("\\s+", "");
         }
     }
@@ -2121,7 +2345,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         if (check_rung_selection()) {
             String[] Variables_temp = new String[Data.size_Vaiables-1];
             System.arraycopy(Data.Vaiables, 0, Variables_temp, 0, Data.size_Vaiables-1);
-            remove_Spaces_Before_String(Variables_temp);
+            remove_Spaces_Before_Strings(Variables_temp, Variables_temp.length);
             Variables_temp[0] = "Choose Variable";
             jComboBox_Variables.setModel(new javax.swing.DefaultComboBoxModel<>(Variables_temp));
             Data.Operator_Select = -1;
@@ -2159,10 +2383,17 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }
     
     private void Timer_commands_button() {
+        int size_timer_variables = 0;
         if (Data.is_TON) {
             Data.Function_Name = "Timer function block (TON)";
+            jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("TON"));
+            size_timer_variables = get_number_of_variables_type("TON");
+            fill_compo_variables("TON", size_timer_variables);
         } else {
             Data.Function_Name = "Timer function block (TOF)";
+            jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("TOF"));
+            size_timer_variables = get_number_of_variables_type("TOF");
+            fill_compo_variables("TOF", size_timer_variables);
         }
         if (check_rung_selection()) {
             jDialog_Timer_Command.setTitle(Data.Function_Name);
@@ -2192,7 +2423,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private void Choose_Operator() {
         String[] Variables_temp = new String[Data.size_Vaiables-1];
         System.arraycopy(Data.Vaiables, 0, Variables_temp, 0, Data.size_Vaiables-1);
-        remove_Spaces_Before_String(Variables_temp);
+        remove_Spaces_Before_Strings(Variables_temp, Variables_temp.length);
         Variables_temp[0] = "Choose Variable";
         jComboBox_Variables.setModel(new javax.swing.DefaultComboBoxModel<>(Variables_temp));
         Data.Operator_Select = -1;
@@ -2260,7 +2491,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
     private boolean save_As() {
         jFileChooser1.setDialogTitle("Choose directory for new project");
-        jFileChooser1.setCurrentDirectory(new File("/home/hossameldin/Documents/RV_FPGA_PLC_IDE"));
+        jFileChooser1.setCurrentDirectory(new File("/home/hossameldin/Documents"));
         jFileChooser1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         jFileChooser1.setAcceptAllFileFilterUsed(false);
         if (jFileChooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -2464,13 +2695,16 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }
 
     private boolean compile_software(String Project_Folder) {
+        boolean success = true;
         File c_files = new File(Project_Folder+"/c_files");
         if (!c_files.exists()){
             c_files.mkdirs();
         }
-        compill_il_file();
-        compile_c_file c_c_f = new compile_c_file();
-        boolean success = c_c_f.compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
+        success &= compill_il_file();
+        if (success) {
+            compile_c_file c_c_f = new compile_c_file();
+            success &= c_c_f.compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
+        }
         
         return success;
     }
@@ -2580,7 +2814,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
         if (close) {
             if (Data.is_bistable || Data.is_timer) {
-                Data.genetal_JTextField.setText(Operator);
+                Data.general_JTextField.setText(Operator);
             } else {
                 IL_Command = "        "+Data.Basic_Comman_IL+"    " + Operator;
                 add_to_2d_program(1, new String[] {IL_Command});
@@ -2589,15 +2823,20 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }
 
-    private void compill_il_file() {
+    private boolean compill_il_file() {
+        boolean sucsess = true;
         write_header_files(Data.Project_Folder.getPath()+"/c_files");
         write_start_S_file(Data.Project_Folder.getPath()+"/c_files");
         write_load_file(Data.Project_Folder.getPath()+"/c_files");
         Data.C_code =   "#include <stdint.h>\n" +
-                        "#include <string.h>\n" +
+                        "//#include <string.h>\n" +
                         "#include \"platform.h\"\n" +
                         "#include \"uart.h\"\n" +
+                        "#include \"timer.h\"\n" +
                         "#include \"i_o_peripheral.h\"\n" +
+                        "\n" +
+                        "#define TIMER_ENABLED 1\n" +
+                        "#define TIMER_DISABLED 0\n" +
                         "\n" +
                         "static struct uart uart0;\n" +
                         "static struct io_per io_per_d;\n" +
@@ -2610,56 +2849,311 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         "\n" +
                         "int main(void)\n" +
                         "{\n" +
-                        "	uart_initialize(&uart0, (volatile void *) PLATFORM_UART0_BASE);\n" +
-                        "	uart_set_divisor(&uart0, uart_baud2divisor(115200, PLATFORM_SYSCLK_FREQ));\n" +
+                        "	//uart_initialize(&uart0, (volatile void *) PLATFORM_UART0_BASE);\n" +
+                        "	//uart_set_divisor(&uart0, uart_baud2divisor(115200, PLATFORM_SYSCLK_FREQ));\n" +
                         "	io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n" +
                         "\n" +
-                        "	uart_tx_string(&uart0, \"Hi ...\\n\\rRun \\\""+Data.Project_Name+"/\\\" ...\\n\\r\");\n" +
-                        "\n" +
-                        "	while(1){\n" +
+                        "	//uart_tx_string(&uart0, \"Hi ...\\n\\rRun \\\""+Data.Project_Name+"/\\\" ...\\n\\r\");\n" +
+                        "\n";
+        declareAndInitializeVariables();
+        Data.C_code +=  "\n	while(1){\n" +
                         "		io_per_set_output(&io_per_d, RWD, 0, 0);\n";
         
+        Data.Load_index = 0;
         for (int rung_i = 0; rung_i < Data.size_Rung; rung_i++) {
             Data.C_code += "\n\t\t// Rung " + rung_i + " :" + Data.Rung_Name[rung_i].replaceAll(":", "") + "\n";
-            compile_rung(rung_i);
+            sucsess &= compile_rung(rung_i);
         }
         
-        Data.C_code += "\n		io_per_set_output(&io_per_d, RWD,  0, 0);\n" +
-                       "	}\n" +
+        Data.C_code += "	}\n" +
                        "\n" +
                        "	return 0;\n}";
         write_c_file(Data.Project_Folder.getPath()+"/c_files");
+        return sucsess;
     }
 
-    private void compile_rung(int rung_i) {
+    private boolean compile_rung(int rung_i) {
+        boolean success = true;
         String il_inst;
-        long address_io;
         for (int program_i = 0; program_i < Data.size_Program_in_rung[rung_i]; program_i++) {
             il_inst = Data.Program_2D[rung_i][program_i];
-            if (il_inst.contains("LD")) {
-                if (il_inst.contains("%")){
-                    String Operand = il_inst.replaceAll(" ", "").replaceAll("LD", "").replaceAll("%", "");
-                    String offc = Operand.split("\\.")[1];
-                    Operand = Operand.split("\\.")[0];
-                    Data.C_code += "\t\tchar var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+            String[] il_inst_Arr = new String[1];
+            il_inst_Arr[0] = il_inst;
+            remove_Spaces_Before_Strings(il_inst_Arr, 1);
+            il_inst = il_inst_Arr[0];
+            if (il_inst.split(" ")[0].contains("LDN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("LDN", "");
+                success = success && add_basic_load_command(Operand, "~");
+            } else if (il_inst.split(" ")[0].contains("STN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("STN", "");
+                success = success && add_basic_store_command(Operand, "~");
+            } else if (il_inst.split(" ")[0].contains("LD")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("LD", "");
+                success = success && add_basic_load_command(Operand, "");
+            } else if (il_inst.split(" ")[0].contains("ST")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("ST", "");
+                success = success && add_basic_store_command(Operand, "");
+            } else if (il_inst.split(" ")[0].contains("ANDN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("ANDN", "");
+                add_basic_c_command(Operand, "&", "~");
+            } else if (il_inst.split(" ")[0].contains("XORN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("XOR", "");
+                add_basic_c_command(Operand, "^", "~");
+            } else if (il_inst.split(" ")[0].contains("ORN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("OR", "");
+                add_basic_c_command(Operand, "|", "~");
+            } else if (il_inst.split(" ")[0].contains("AND")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("AND", "");
+                add_basic_c_command(Operand, "&", "");
+            } else if (il_inst.split(" ")[0].contains("XOR")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("XOR", "");
+                add_basic_c_command(Operand, "^", "");
+            } else if (il_inst.split(" ")[0].contains("OR")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("OR", "");
+                add_basic_c_command(Operand, "|", "");
+            } else if (il_inst.split(" ")[0].contains("ADD")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("ADD", "");
+                add_basic_c_command(Operand, "+", "");
+            } else if (il_inst.split(" ")[0].contains("SUB")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("SUB", "");
+                add_basic_c_command(Operand, "-", "");
+            } else if (il_inst.split(" ")[0].contains("MUL")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("MUL", "");
+                add_basic_c_command(Operand, "*", "");
+            } else if (il_inst.split(" ")[0].contains("DIV")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("DIV", "");
+                add_basic_c_command(Operand, "/", "");
+            } else if (il_inst.split(" ")[0].contains("MOD")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("MOD", "");
+                add_basic_c_command(Operand, "%", "");
+            } else if (il_inst.split(" ")[0].contains("NOT")) {
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" = ~var"+(Data.Load_index - 1)+";\n";
+            } else if (il_inst.split(" ")[0].contains("GT")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("GT", "");
+                add_comparison_c_command(Operand, ">");
+            } else if (il_inst.split(" ")[0].contains("GE")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("GE", "");
+                add_comparison_c_command(Operand, ">=");
+            } else if (il_inst.split(" ")[0].contains("EQ")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("EQ", "");
+                add_comparison_c_command(Operand, "==");
+            } else if (il_inst.split(" ")[0].contains("NE")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("NE", "");
+                add_comparison_c_command(Operand, "!=");
+            } else if (il_inst.split(" ")[0].contains("LT")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("LT", "");
+                add_comparison_c_command(Operand, "<");
+            } else if (il_inst.split(" ")[0].contains("LE")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("LE", "");
+                add_comparison_c_command(Operand, "<=");
+            } else if (il_inst.split(" ")[0].contains("CAL")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("CAL", "").replaceAll("\\(", "");
+                
+                program_i++; // IN
+                il_inst = Data.Program_2D[rung_i][program_i];
+                il_inst_Arr[0] = il_inst;
+                remove_Spaces_Before_Strings(il_inst_Arr, 1);
+                il_inst = il_inst_Arr[0].replaceAll(" ", "");
+                il_inst = il_inst.replaceAll(",", "");
+                
+                String typeOfVariable = "No Type";
+                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                    String Variable_temp = Data.Vaiables[i].replace(" ", "");
+                    if (Variable_temp.contains(Operand)) {
+                        typeOfVariable = Variable_temp.split(":")[1];
+                        break;
+                    }
                 }
-                Data.Load_index++;
-            } else if (il_inst.contains("ST")) {
-                if (il_inst.contains("%")){
-                    String Operand = il_inst.replaceAll(" ", "").replaceAll("ST", "").replaceAll("%", "");
-                    String offc = Operand.split("\\.")[1];
-                    Operand = Operand.split("\\.")[0];
-                    Data.C_code += "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", var"+(Data.Load_index-1)+");\n";
+                if (typeOfVariable.contains("TON")) {
+                    if (Data.Number_Of_Timers_SW_C <= Data.Max_Number_Of_Timers_SW_C) {
+                        Data.Number_Of_Timers_SW_C++;
+                        switch (Data.Number_Of_Timers_SW_C) {
+                            case 1:
+                                Data.C_code = insertStringAfter("static struct io_per io_per_d;\n", "\nstatic struct timer timer0;\n", Data.C_code);
+                                Data.C_code = insertStringAfter("io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n", "\n\ttimer_initialize(&timer0, (volatile void *) PLATFORM_TIMER0_BASE);\n\ttimer_reset(&timer0);\n\tuint64_t timer0_count;\n\tint timer0_is_enabled = TIMER_DISABLED;\n\tint timer0_output = 0;\n", Data.C_code);
+                                break;
+                            case 2:
+                                Data.C_code = insertStringAfter("timer_initialize(&timer0, (volatile void *) PLATFORM_TIMER0_BASE);\n", "\ttimer_initialize(&timer1, (volatile void *) PLATFORM_TIMER1_BASE);\n", Data.C_code);
+                                Data.C_code = insertStringAfter("static struct timer timer0;\n", "static struct timer timer1;\n", Data.C_code);
+                                Data.C_code = insertStringAfter("uint64_t timer0_count;\n", "\tuint64_t timer1_count;\n", Data.C_code);
+                                Data.C_code = insertStringAfter("int timer0_is_enabled = TIMER_DISABLED;\n", "\tint timer1_is_enabled = TIMER_DISABLED;\n", Data.C_code);
+                                Data.C_code = insertStringAfter("int timer0_output = 0;\n", "\tint timer1_output = 0;\n", Data.C_code);
+                                break;
+                            default:
+                                JOptionPane.showMessageDialog(this, "This CPU has only two timers.\nPlease compile as hardware or use optimaization algorithm.", "Compile il", JOptionPane.OK_OPTION);
+                                success = false;
+                                break;
+                        }
+                        int timer_number = (Data.Number_Of_Timers_SW_C-1);
+                        
+                        Data.C_code += "\n\t\t// TON "+Operand+"\n";
+                        Operand = il_inst.split(":=")[1];
+                        int Instant_Operand;
+                        if (Operand.contains("%")){
+                            Operand = Operand.replaceAll("%", "");
+                            String offc = Operand.split("\\.")[1];
+                            Operand = Operand.split("\\.")[0];
+                            Data.C_code += "\t\tint var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                        } else {
+                            try {
+                                Instant_Operand = Integer.parseInt(Operand);
+                                Data.C_code += "\t\tint var"+Data.Load_index+" = "+Instant_Operand+";\n";
+                            } catch (NumberFormatException ex) {
+                                String Variable_temp;
+                                typeOfVariable = "Not Supported Type";
+                                String nameOfVariable = "Variabe Not Found";
+                                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                                    Variable_temp = Data.Vaiables[i].replace(" ", "");
+                                    if (Variable_temp.contains(Operand)) {
+                                        nameOfVariable = Variable_temp.split(":")[0];
+                                        typeOfVariable = Variable_temp.split(":")[1];
+                                        break;
+                                    }
+                                }
+                                if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                                    Data.C_code += "\t\tint var"+Data.Load_index+" = "+nameOfVariable+";\n";
+                                } else {
+                                    JOptionPane.showMessageDialog(this, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
+                                    success = false;
+                                }
+                            }
+                        }
+                        
+                        program_i++; // Preset Time (PT)
+                        il_inst = Data.Program_2D[rung_i][program_i];
+                        il_inst_Arr[0] = il_inst;
+                        remove_Spaces_Before_Strings(il_inst_Arr, 1);
+                        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+                        il_inst = il_inst.replaceAll(",", "");
+                        Operand = il_inst.split(":=")[1];
+                        
+                        typeOfVariable = "No Type";
+                        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+                            if (Variable_temp.contains(Operand)) {
+                                typeOfVariable = Variable_temp.split(":")[1];
+                                break;
+                            }
+                        }
+                        
+                        String Preset_Time = "ERROR_PRESET_TIME";
+                        
+                        if (typeOfVariable.contains("TIME")) {
+                            Preset_Time = Operand;
+                        } else if (Operand.contains("T#")) {
+                            double time_sec = getSecFromTimeFormat(Operand);
+                            long Number_of_Clocks = (long) time_sec*Data.CPU_Timer_Freq_I;
+                            Preset_Time = "(uint64_t)"+Number_of_Clocks;
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Preset time should be variable with type \"TIME\" or instant begins with T#.", "Compile il", JOptionPane.OK_OPTION);
+                            success = false;
+                        }
+                        
+                        program_i++; // Elapsed Time (ET)
+                        il_inst = Data.Program_2D[rung_i][program_i];
+                        il_inst_Arr[0] = il_inst;
+                        remove_Spaces_Before_Strings(il_inst_Arr, 1);
+                        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+                        il_inst = il_inst.replaceAll(",", "");
+                        Operand = il_inst.split("=>")[1];
+                        
+                        String Elapset_Time = "ERROR_ELAPSET_TIME";
+                        
+                        typeOfVariable = "No Type";
+                        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+                            if (Variable_temp.contains(Operand)) {
+                                typeOfVariable = Variable_temp.split(":")[1];
+                                break;
+                            }
+                        }
+                        
+                        if (typeOfVariable.contains("TIME")) {
+                                Elapset_Time = Operand;
+                            } else {
+                            JOptionPane.showMessageDialog(this, "Elapsed time should be variable with type \"TIME\".", "Compile il", JOptionPane.OK_OPTION);
+                            success = false;
+                        }
+                        
+                        program_i++; // Q
+                        il_inst = Data.Program_2D[rung_i][program_i];
+                        il_inst_Arr[0] = il_inst;
+                        remove_Spaces_Before_Strings(il_inst_Arr, 1);
+                        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+                        il_inst = il_inst.replaceAll("\\)", "");
+                        Operand = il_inst.split("=>")[1];
+                        
+                        String Output_Timer = "ERROR_OUTPUT_TIMER";
+                        if (Operand.contains("%")){
+                            Operand = Operand.replaceAll("%", "");
+                            String offc = Operand.split("\\.")[1];
+                            Operand = Operand.split("\\.")[0];
+                            Output_Timer = "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", timer"+timer_number+"_output);\n";
+                        } else {
+                            try {
+                                Instant_Operand = Integer.parseInt(Operand);
+                                JOptionPane.showMessageDialog(this, "Tho output of the timer shouldn't be instant value.", "Compile il", JOptionPane.OK_OPTION);
+                                success = false;
+                            } catch (NumberFormatException ex) {
+                                String Variable_temp;
+                                typeOfVariable = "Not Supported Type";
+                                String nameOfVariable = "Variabe Not Found";
+                                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                                    Variable_temp = Data.Vaiables[i].replace(" ", "");
+                                    if (Variable_temp.contains(Operand)) {
+                                        nameOfVariable = Variable_temp.split(":")[0];
+                                        typeOfVariable = Variable_temp.split(":")[1];
+                                        break;
+                                    }
+                                }
+                                
+                                if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                                    Output_Timer = "\t\t"+nameOfVariable+" = timer"+timer_number+"_output";
+                                } else {
+                                    JOptionPane.showMessageDialog(this, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
+                                    success = false;
+                                }
+                            }
+                        }
+                        
+                        Data.C_code +="\t\tif (var"+Data.Load_index+") {\n"
+                                    + "\t\t\ttimer_set_compare(&timer"+timer_number+", "+Preset_Time+");\n"
+                                    + "\t\t\tif (timer"+timer_number+"_is_enabled) {\n"
+                                    + "\t\t\t\ttimer"+timer_number+"_count = timer_get_count(&timer"+timer_number+");\n"
+                                    + "\t\t\t\t"+Elapset_Time+" = timer"+timer_number+"_count;\n"
+                                    + "\t\t\t\tif (timer"+timer_number+"_count == "+Preset_Time+") {\n"
+                                    + "\t\t\t\t\ttimer"+timer_number+"_output = 1;\n\t\t\t\t}\n"
+                                    + "\t\t\t} else {\n"
+                                    + "\t\t\t\ttimer_reset(&timer"+timer_number+");\n"
+                                    + "\t\t\t\ttimer_start(&timer"+timer_number+");\n"
+                                    + "\t\t\t\ttimer"+timer_number+"_is_enabled = TIMER_ENABLED;\n"
+                                    + "\t\t\t\t"+Elapset_Time+" = 0;\n"
+                                    + "\t\t\t}\n"
+                                    + "\t\t} else {\n"
+                                    + "\t\t\ttimer_reset(&timer"+timer_number+");\n"
+                                    + "\t\t\ttimer"+timer_number+"_is_enabled = TIMER_DISABLED;\n"
+                                    + "\t\t\t"+Elapset_Time+" = 0;\n"
+                                    + "\t\t\ttimer"+timer_number+"_output = 0;\n"
+                                    + "\t\t}\n"
+                                    + Output_Timer
+                                    + "\n"
+                                    + "";
+                        
+                        Data.Load_index++;
+                    } else {
+                        JOptionPane.showMessageDialog(this, "There is only two timers in the core.", "Compile il", JOptionPane.OK_OPTION);
+                        success = false;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "\""+typeOfVariable+"\"not supported yet", "Compile il", JOptionPane.OK_OPTION);
+                    success = false;
                 }
-            } else if (il_inst.contains("AND")) {
-                if (il_inst.contains("%")){
-                    String Operand = il_inst.replaceAll(" ", "").replaceAll("AND", "").replaceAll("%", "");
-                    String offc = Operand.split("\\.")[1];
-                    Operand = Operand.split("\\.")[0];
-                    Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" &= io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
-                }
+            } else {
+                JOptionPane.showMessageDialog(this, "\""+il_inst+"\"not supported yet", "Compile il", JOptionPane.OK_OPTION);
+                success = false;
             }
         }
+        return success;
     }
 
     private long get_address_io(String Operand) {
@@ -2695,6 +3189,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         write_i_o_peripheral_file(Folder);
         write_platform_file(Folder);
         write_uart_file(Folder);
+        write_timer_file(Folder);
     }
 
     private void write_i_o_peripheral_file(String Folder) {
@@ -2775,13 +3270,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         "// based \"official\" Potato SoC.\n" +
                         "\n" +
                         "// System clock frequency:\n" +
-                        "#define PLATFORM_SYSCLK_FREQ	80000000U\n" +
+                        "#define PLATFORM_SYSCLK_FREQ	"+Data.CPU_Freq_S+"U\n" +
                         "\n" +
                         "// Base addresses for peripherals:\n" +
                         "#define PLATFORM_UART0_BASE	    0x00001000\n" +
                         "#define PLATFORM_TIMER0_BASE	0x00002000\n" +
                         "#define PLATFORM_TIMER1_BASE	0x00003000\n" +
-                        "#define PLATFORM_IO_BASE        0x00004000\n" +
+                        "#define PLATFORM_IO_BASE       0x00004000\n" +
+                        "#define PLATFORM_TON_0_BASE    0x00005000\n" +
                         "#define PLATFORM_ICERROR_BASE	0x10000000\n" +
                         "#define PLATFORM_PAEE_ROM_BASE	0xffff8000\n" +
                         "#define PLATFORM_PAEE_RAM_BASE	0xffffc000\n" +
@@ -3216,6 +3712,527 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         try {
             new File(Folder+"/load.ld").delete();
             i_o_peripheral_file = new FileOutputStream(Folder+"/load.ld");
+            i_o_peripheral_file.write(data.getBytes(), 0, data.length());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                i_o_peripheral_file.close();
+            } catch (IOException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void declareAndInitializeVariables() {
+        String Variable_temp;
+        String typeOfVariable;
+        String nameOfVariable;
+        String Type;
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            Variable_temp = Data.Vaiables[i].replace(" ", "");
+            nameOfVariable = Variable_temp.split(":")[0];
+            typeOfVariable = Variable_temp.split(":")[1];
+            switch (typeOfVariable) {
+                case "INT":
+                    Type = "int";
+                    break;
+                case "BOOL":
+                    Type = "int";
+                    break;
+                case "REAL":
+                    Type = "float";
+                    break;
+                case "TIME":
+                    Type = "uint64_t";
+                    break;
+                case "TON":
+                    Type = "Timer";
+                    break;
+                case "TOF":
+                    Type = "Timer";
+                    break;
+                default:
+                    Type = "NotSupported";
+                    break;
+            }
+            if (!Type.equals("Timer")) Data.C_code += "\t"+Type+" "+nameOfVariable+" = 0;\n";
+        }
+    }
+
+    private void add_basic_c_command(String Operand, String operation, String not) {
+        int Instant_Operand;
+        if (Operand.contains("%")){
+            Operand = Operand.replaceAll("%", "");
+            String offc = Operand.split("\\.")[1];
+            Operand = Operand.split("\\.")[0];
+            Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" "+operation+"= "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+        } else {
+            try {
+                Instant_Operand = Integer.parseInt(Operand);
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" "+operation+"= "+not+Instant_Operand+";\n";
+            } catch (NumberFormatException ex) {
+                String Variable_temp;
+                String typeOfVariable = "Variabe Not Found";
+                String nameOfVariable = "Variabe Not Found";
+                String Type = "NotSupported";
+                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                    Variable_temp = Data.Vaiables[i].replace(" ", "");
+                    if (Variable_temp.contains(Operand)) {
+                        nameOfVariable = Variable_temp.split(":")[0];
+                        typeOfVariable = Variable_temp.split(":")[1];
+                        break;
+                    }
+                }
+                switch (typeOfVariable) {
+                    case "INT":
+                        Type = "int";
+                        break;
+                    case "BOOL":
+                        Type = "int";
+                        break;
+                    case "REAL":
+                        Type = "float";
+                        break;
+                    case "TIME":
+                        Type = "uint64_t";
+                        break;
+                    default:
+                        break;
+                }
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" "+operation+"= "+not+nameOfVariable+";\n";
+            }
+        }
+    }
+
+    private void add_comparison_c_command(String Operand, String compare) {
+        int Instant_Operand;
+        if (Operand.contains("%")){
+            Operand = Operand.replaceAll("%", "");
+            String offc = Operand.split("\\.")[1];
+            Operand = Operand.split("\\.")[0];
+            Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" io_per_get_input(&io_per_d, "+Operand+", "+offc+")) var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
+            } else {
+            try {
+                Instant_Operand = Integer.parseInt(Operand);
+            Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" "+Instant_Operand+") var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
+            } catch (NumberFormatException ex) {
+                String Variable_temp;
+                String typeOfVariable = "Variabe Not Found";
+                String nameOfVariable = "Variabe Not Found";
+                String Type = "NotSupported";
+                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                    Variable_temp = Data.Vaiables[i].replace(" ", "");
+                    if (Variable_temp.contains(Operand)) {
+                        nameOfVariable = Variable_temp.split(":")[0];
+                        typeOfVariable = Variable_temp.split(":")[1];
+                        break;
+                    }
+                }
+                switch (typeOfVariable) {
+                    case "INT":
+                        Type = "int";
+                        break;
+                    case "BOOL":
+                        Type = "int";
+                        break;
+                    case "REAL":
+                        Type = "float";
+                        break;
+                    case "TIME":
+                        Type = "uint64_t";
+                        break;
+                    default:
+                        break;
+                }
+                Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" "+nameOfVariable+") var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
+            }
+        }
+    }
+
+    private double getSecFromTimeFormat(String Operand) {
+        Operand = Operand.replaceAll("T#", "");
+        char[] Operand_c = Operand.toCharArray();
+        int i_pointer = 0;
+        String number;
+        double time_sec = 0.0;
+        for (int i = 0; i < Operand_c.length; i++) {
+            switch (Operand_c[i]) {
+                case 'd':
+                    number = "";
+                    for (int j = i_pointer; j < i; j++) {
+                        number = number + Operand_c[j];
+                    }   time_sec = time_sec + (Double.parseDouble(number) * 24 * 60 * 60);
+                    i_pointer = i+1;
+                    break;
+                case 'h':
+                    number = "";
+                    for (int j = i_pointer; j < i; j++) {
+                        number = number + Operand_c[j];
+                    }   time_sec = time_sec + (Double.parseDouble(number) * 60 * 60);
+                    i_pointer = i+1;
+                    break;
+                case 'm':
+                    if ((i+1) < Operand_c.length) {
+                        if (Operand_c[i+1] == 's') {
+                            number = "";
+                            for (int j = i_pointer; j < i; j++) {
+                                number = number + Operand_c[j];
+                            }
+                            time_sec = time_sec + (Double.parseDouble(number) * 0.001);
+                            i_pointer = i+1;
+                        } else {
+                            number = "";
+                            for (int j = i_pointer; j < i; j++) {
+                                number = number + Operand_c[j];
+                            }
+                            time_sec = time_sec + (Double.parseDouble(number) * 60);
+                            i_pointer = i+1;
+                        }
+                    } else {
+                        number = "";
+                        for (int j = i_pointer; j < i; j++) {
+                            number = number + Operand_c[j];
+                        }
+                        time_sec = time_sec + (Double.parseDouble(number) * 60);
+                        i_pointer = i+1;
+                    }   break;
+                case 's':
+                    if (Operand_c[i-1] != 'm') {
+                        number = "";
+                        for (int j = i_pointer; j < i; j++) {
+                            number = number + Operand_c[j];
+                        }
+                        time_sec = time_sec + Double.parseDouble(number);
+                        i_pointer = i+1;
+                    }   break;
+                default:
+                    break;
+            }
+        }
+        return time_sec;
+    }
+
+    private boolean add_basic_load_command(String Operand, String not) {
+        boolean success = true;
+        int Instant_Operand;
+        if (Operand.contains("%")){
+            Operand = Operand.replaceAll("%", "");
+            String offc = Operand.split("\\.")[1];
+            Operand = Operand.split("\\.")[0];
+            Data.C_code += "\t\tint var"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+        } else if (Operand.contains("T#")) {
+            if (not.equals("")) {
+                double time_sec = getSecFromTimeFormat(Operand);
+                long Number_of_Clocks = (long) time_sec*Data.CPU_Timer_Freq_I;
+                Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
+            } else {
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(this, "Time can't be invertes!", "Compile As Software", JOptionPane.OK_OPTION, icon);
+                success = false;
+            }
+        } else {
+            try {
+                Instant_Operand = Integer.parseInt(Operand);
+                Data.C_code += "\t\tint var"+Data.Load_index+" = "+not+Instant_Operand+";\n";
+            } catch (NumberFormatException ex) {
+                String Variable_temp;
+                String typeOfVariable = "Variabe Not Found";
+                String nameOfVariable = "Variabe Not Found";
+                String Type = "NotSupported";
+                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                    Variable_temp = Data.Vaiables[i].replace(" ", "");
+                    if (Variable_temp.contains(Operand)) {
+                        nameOfVariable = Variable_temp.split(":")[0];
+                        typeOfVariable = Variable_temp.split(":")[1];
+                        break;
+                    }
+                }
+                switch (typeOfVariable) {
+                    case "INT":
+                        Type = "int";
+                        break;
+                    case "BOOL":
+                        Type = "int";
+                        break;
+                    case "REAL":
+                        Type = "float";
+                        break;
+                    case "TIME":
+                        Type = "uint64_t";
+                        break;
+                    default:
+                        break;
+                }
+                Data.C_code += "\t\t"+Type+" var"+Data.Load_index+" = "+not+nameOfVariable+";\n";
+            }
+        }
+        Data.Load_index++;
+        return success;
+    }
+
+    private boolean add_basic_store_command(String Operand, String not) {
+        boolean success = true;
+        if (Operand.contains("%")){
+            Operand = Operand.replaceAll("%", "");
+            String offc = Operand.split("\\.")[1];
+            Operand = Operand.split("\\.")[0];
+            Data.C_code += "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", "+not+"var"+(Data.Load_index-1)+");\n";
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(this, "Can not add instanse in store command", "Compile As Software", JOptionPane.OK_OPTION, icon);
+                success = false;
+            } catch (NumberFormatException ex) {
+                String Variable_temp;
+                String typeOfVariable = "Variabe Not Found";
+                String nameOfVariable = "Variabe Not Found";
+                String Type = "NotSupported";
+                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                    Variable_temp = Data.Vaiables[i].replace(" ", "");
+                    if (Variable_temp.contains(Operand)) {
+                        nameOfVariable = Variable_temp.split(":")[0];
+                        typeOfVariable = Variable_temp.split(":")[1];
+                        break;
+                    }
+                }
+                switch (typeOfVariable) {
+                    case "INT":
+                        Type = "int";
+                        break;
+                    case "BOOL":
+                        Type = "int";
+                        break;
+                    case "REAL":
+                        Type = "float";
+                        break;
+                    case "TIME":
+                        Type = "uint64_t";
+                        break;
+                    default:
+                        break;
+                }
+                Data.C_code += "\t\t"+nameOfVariable+" = "+not+"var"+(Data.Load_index-1)+";\n";
+            }
+        }
+        return success;
+    }
+    
+    private String insertStringAfter(String After, String stringToBeInserted, String originalString) {
+        int index = originalString.indexOf(After) + After.length() - 1;
+        // Create a new string 
+        String newString = new String(); 
+  
+        for (int i = 0; i < originalString.length(); i++) { 
+  
+            // Insert the original string character 
+            // into the new string 
+            newString += originalString.charAt(i); 
+  
+            if (i == index) { 
+  
+                // Insert the string to be inserted 
+                // into the new string 
+                newString += stringToBeInserted; 
+            } 
+        } 
+  
+        // return the modified String 
+        return newString;
+    }
+
+    private void fill_compo_variables(String timer_type, int number_of_variables) {
+        String[] Variables_temp = new String[number_of_variables+1];
+        int timer_index = 1;
+        for (int i = 0; i < Data.size_Vaiables-1; i++) {
+            if (Data.Vaiables[i].contains(timer_type)) {
+                Variables_temp[timer_index] = Data.Vaiables[i];
+                timer_index++;
+            }
+        }
+        //remove_Spaces_Before_Strings(Variables_temp, number_of_variables); mlhash lazma
+        Variables_temp[0] = "Choose Variable";
+        jComboBox_Variables_Timer.setModel(new javax.swing.DefaultComboBoxModel<>(Variables_temp));
+    }
+
+    private int get_number_of_variables_type(String timer_type) {
+        int number_of_variables = 0;
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            if (Data.Vaiables[i].contains(timer_type)) {
+                number_of_variables++;
+            }
+        }
+        return number_of_variables;
+    }
+
+    private void Cancel_Button_Timer_command() {
+        jDialog_Timer_Command.hide();
+        jTextField_IN_Timer.setText("");
+        jTextField_Q_Timer.setText("");
+        jTextField_PT_Timer.setText("");
+        jTextField_ET_Timer.setText("");
+        Data.is_timer=false;
+    }
+    
+    private void Ok_Button_Timer_command() {
+        String Timer_Variable_Name = jComboBox_Variables_Timer.getSelectedItem().toString().replaceAll(" ", "").split(":")[0];
+        if (jTextField_IN_Timer.getText() == null || jTextField_IN_Timer.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Please choose IN operand", Data.Function_Name, JOptionPane.OK_OPTION);
+        } else if (jTextField_PT_Timer.getText() == null || jTextField_PT_Timer.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Please choose PT operand", Data.Function_Name, JOptionPane.OK_OPTION);
+        } else if (jTextField_ET_Timer.getText() == null || jTextField_ET_Timer.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Please choose ET operand", Data.Function_Name, JOptionPane.OK_OPTION);
+        } else if (jTextField_Q_Timer.getText() == null || jTextField_Q_Timer.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Please choose Q operand", Data.Function_Name, JOptionPane.OK_OPTION);
+        } else {
+            add_to_2d_program(5, new String[] {"        CAL "+Timer_Variable_Name+"(",
+                                               "            IN := "+jTextField_IN_Timer.getText()+",",
+                                               "            PT := "+jTextField_PT_Timer.getText()+",",
+                                               "            ET => "+jTextField_ET_Timer.getText()+",",
+                                               "            Q  => "+jTextField_Q_Timer.getText()+")"});
+            jDialog_Timer_Command.hide();
+            jTextField_Set_Bistable.setText("");
+            jTextField_Q_Bistable.setText("");
+            jTextField_Reset_Bistable.setText("");
+            Data.is_timer = false;
+        }
+    }
+
+    private void Timer_Button_Pressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == 10) {
+            Ok_Button_Timer_command();
+        } else if (evt.getKeyCode() == 27) {
+            Cancel_Button_Timer_command();
+        }
+    }
+
+    private void OK_Button_Add_Variable() {
+        Add_Variable();
+        if (Data.is_newVariable_timer) {
+            // Update jComboBox_Variables_Timer
+            int size_timer_variables = get_number_of_variables_type("TON");
+            fill_compo_variables("TON", size_timer_variables);
+        }
+    }
+
+    private void write_timer_file(String Folder) {
+        FileOutputStream i_o_peripheral_file = null;
+        String data =   "// The Potato SoC Library\n" +
+                        "// (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
+                        "// Report bugs and issues on <https://github.com/skordal/potato/issues>\n" +
+                        "\n" +
+                        "#ifndef LIBSOC_TIMER_H\n" +
+                        "#define LIBSOC_TIMER_H\n" +
+                        "\n" +
+                        "#include <stdint.h>\n" +
+                        "\n" +
+                        "// Timer register offsets:\n" +
+                        "#define TIMER_REG_CONTROL	0x00\n" +
+                        "#define TIMER_REG_COMPARE_L	0x04\n" +
+                        "#define TIMER_REG_COMPARE_H	0x08\n" +
+                        "#define TIMER_REG_COUNTER_L	0x0C\n" +
+                        "#define TIMER_REG_COUNTER_H	0x10\n" +
+                        "\n" +
+                        "// Timer control register bits:\n" +
+                        "#define TIMER_CONTROL_RUN	0\n" +
+                        "#define TIMER_CONTROL_CLEAR	1\n" +
+                        "\n" +
+                        "struct timer\n" +
+                        "{\n" +
+                        "	volatile uint32_t * registers;\n" +
+                        "};\n" +
+                        "\n" +
+                        "/**\n" +
+                        " * Initializes a timer instance.\n" +
+                        " * @param module       Pointer to a timer instance structure.\n" +
+                        " * @param base_address Base address of the timer hardware module.\n" +
+                        " */\n" +
+                        "static inline void timer_initialize(struct timer * module, volatile void * base_address)\n" +
+                        "{\n" +
+                        "	module->registers = base_address;\n" +
+                        "}\n" +
+                        "\n" +
+                        "/**\n" +
+                        " * Resets a timer.\n" +
+                        " * This stops the timer and resets its counter value to 0.\n" +
+                        " * @param module Pointer to a timer instance structure.\n" +
+                        " */\n" +
+                        "static inline void timer_reset(struct timer * module)\n" +
+                        "{\n" +
+                        "	module->registers[TIMER_REG_CONTROL >> 2] = 1 << TIMER_CONTROL_CLEAR;\n" +
+                        "}\n" +
+                        "\n" +
+                        "/**\n" +
+                        " * Starts a timer.\n" +
+                        " * @param module Pointer to a timer instance structure.\n" +
+                        " */\n" +
+                        "static inline void timer_start(struct timer * module)\n" +
+                        "{\n" +
+                        "	module->registers[TIMER_REG_CONTROL >> 2] = 1 << TIMER_CONTROL_RUN | 1 << TIMER_CONTROL_CLEAR;\n" +
+                        "}\n" +
+                        "\n" +
+                        "/**\n" +
+                        " * Stops a timer.\n" +
+                        " * @param module Pointer to a timer instance structure.\n" +
+                        " */\n" +
+                        "static inline void timer_stop(struct timer * module)\n" +
+                        "{\n" +
+                        "	module->registers[TIMER_REG_CONTROL >> 2] = 0;\n" +
+                        "}\n" +
+                        "\n" +
+                        "/**\n" +
+                        " * Clears a timer.\n" +
+                        " * @param module Pointer to a timer instance structure.\n" +
+                        " */\n" +
+                        "static inline void timer_clear(struct timer * module)\n" +
+                        "{\n" +
+                        "	module->registers[TIMER_REG_CONTROL >> 2] |= 1 << TIMER_CONTROL_CLEAR;\n" +
+                        "}\n" +
+                        "\n" +
+                        "/**\n" +
+                        " * Sets the compare register of a timer.\n" +
+                        " * @param module  Pointer to a timer instance structure.\n" +
+                        " * @param compare Value to write to the timer compare register.\n" +
+                        " * @warning Using this function while the timer is running could cause undefined bahviour.\n" +
+                        " */\n" +
+                        "static inline void timer_set_compare(struct timer * module, uint64_t compare)\n" +
+                        "{\n" +
+                        "	module->registers[TIMER_REG_COMPARE_L >> 2] = (uint32_t) compare;\n" +
+                        "    module->registers[TIMER_REG_COMPARE_H >> 2] = (uint32_t) (compare >> 32);\n" +
+                        "}\n" +
+                        "\n" +
+                        "/**\n" +
+                        " * Reads the current value of a timer's counter.\n" +
+                        " * @param module Pointer to a timer instance structure.\n" +
+                        " * @returns The value of the timer's counter register.\n" +
+                        " */\n" +
+                        "static inline uint64_t timer_get_count(struct timer  * module)\n" +
+                        "{\n" +
+                        "\tuint64_t ret = module->registers[TIMER_REG_COUNTER_H >> 2];\n" +
+                        "\tret = ret << 32;\n" +
+                        "\tret = ret | (module->registers[TIMER_REG_COUNTER_L >> 2]);\n" +
+                        "\treturn ret;\n" +
+                        "}\n" +
+                        "\n" +
+                        "/**\n" +
+                        " * Sets the value of a timer's counter register.\n" +
+                        " * @param module  Pointer to a timer instance structure.\n" +
+                        " * @param counter New value of the timer's counter register.\n" +
+                        " * @warning This function should only be used when the timer is stopped to avoid undefined behaviour.\n" +
+                        " */\n" +
+                        " static inline void timer_set_count(struct timer * module, uint64_t counter)\n" +
+                        " {\n" +
+                        "	module->registers[TIMER_REG_COUNTER_L >> 2] = (uint32_t) counter;\n" +
+                        "	module->registers[TIMER_REG_COUNTER_H >> 2] = (uint32_t) (counter >> 32);\n" +
+                        " }\n" +
+                        "\n" +
+                        "#endif";
+        try {
+            new File(Folder+"/timer.h").delete();
+            i_o_peripheral_file = new FileOutputStream(Folder+"/timer.h");
             i_o_peripheral_file.write(data.getBytes(), 0, data.length());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);

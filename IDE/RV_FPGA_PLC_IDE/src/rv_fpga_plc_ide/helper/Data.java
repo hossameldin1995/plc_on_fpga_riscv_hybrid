@@ -35,18 +35,25 @@ public class Data {
     public static String Basic_Comman_IL;
     public static int Selected_Rung;
     
-    public static JTextField genetal_JTextField;
+    public static JTextField general_JTextField;
     public static boolean is_set;
     public static boolean is_TON;
     public static boolean is_bistable;
     public static boolean is_timer;
+    public static boolean is_newVariable_timer;
     public static String Function_Name;
     
     public static File Project_Folder;
     
     public static int Max_Number_Of_Instructions = 256;
     
+    public static int Number_Of_Timers_SW_C = 0;
+    public static final int Max_Number_Of_Timers_SW_C = 2;
+    
     // Compill il to c
     public static String C_code;
     public static int Load_index = 0;
+    public static String CPU_Freq_S = "100000000";
+    public static String CPU_Timer_Freq_S ="100000000";
+    public static int CPU_Timer_Freq_I = 100000000;
 }

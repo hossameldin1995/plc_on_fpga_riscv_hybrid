@@ -27,8 +27,9 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     
     strcpy(hex_file, (*env)->GetStringUTFChars(env, c_File_path, 0));
     strcat(hex_file, ".hex");
-    strcpy(mif_file, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(mif_file, ".mif");
+    //strcpy(mif_file, (*env)->GetStringUTFChars(env, c_File_path, 0));
+    strcpy(mif_file, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+    strcat(mif_file, "/bootloader.mif");
     
     if( access(hex_file, F_OK ) != -1 ) {
         fp_out = fopen(hex_file, "w+");
@@ -41,7 +42,19 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
     strcat(command, ".o\" -march=rv32i -Wall -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
     strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, "-std=gnu99 -Wall -Werror=implicit-function-declaration -ffunction-sections -fdata-sections \"");
+    strcat(command, " -std=gnu99 -Werror=implicit-function-declaration -ffunction-sections -fdata-sections \"");
+    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+    strcat(command, ".c\" ");
+    printf("%s\n", command);
+    fflush(stdout);
+    res = system(command);
+    
+    // ASM
+    strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -march=rv32i -Wall -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
+    strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+    strcat(command, " -std=gnu99 -Werror=implicit-function-declaration -ffunction-sections -fdata-sections -S -o \"");
+    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+    strcat(command, ".asm\" \"");
     strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
     strcat(command, ".c\" ");
     printf("%s\n", command);
@@ -50,9 +63,9 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     
     strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -DCOPY_DATA_TO_RAM -c -o \"");
     strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, "/start.o\" -march=rv32i -Wall -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
+    strcat(command, "/start.o\" -march=rv32i -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
     strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, "-std=gnu99 -Wall -Werror=implicit-function-declaration -ffunction-sections -fdata-sections \"");
+    strcat(command, " -std=gnu99 -Wall -Werror=implicit-function-declaration -ffunction-sections -fdata-sections \"");
     strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
     strcat(command, "/start.S\" ");
     printf("%s\n", command);
@@ -120,7 +133,7 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
         i++;
     }
     
-    fprintf(fp_out, "[%d..%d]  :   00000000;\nEND;", i-1, (BOOT_SIZE-1));
+    fprintf(fp_out, "[%d..%d]  :   00000000;\nEND;", i, (BOOT_SIZE-1));
     
     fclose(fp_in);
     fclose(fp_out);

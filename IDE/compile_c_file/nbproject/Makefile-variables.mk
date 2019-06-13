@@ -8,9 +8,9 @@ CND_BUILDDIR=build
 CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
-CND_ARTIFACT_DIR_Debug=/home/hossameldin/Documents/NetBeansProjects/RV_FPGA_PLC_IDE/src
+CND_ARTIFACT_DIR_Debug=/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src
 CND_ARTIFACT_NAME_Debug=compile_c_file.so
-CND_ARTIFACT_PATH_Debug=/home/hossameldin/Documents/NetBeansProjects/RV_FPGA_PLC_IDE/src/compile_c_file.so
+CND_ARTIFACT_PATH_Debug=/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/compile_c_file.so
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
 CND_PACKAGE_NAME_Debug=libcompilecfile.so.tar
 CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/libcompilecfile.so.tar

@@ -13,7 +13,7 @@ CND_BUILDDIR=build
 CND_DLIB_EXT=so
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=/home/hossameldin/Documents/NetBeansProjects/RV_FPGA_PLC_IDE/src/compile_c_file.so
+OUTPUT_PATH=/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/compile_c_file.so
 OUTPUT_BASENAME=compile_c_file.so
 PACKAGE_TOP_DIR=libcompilecfile.so/
 

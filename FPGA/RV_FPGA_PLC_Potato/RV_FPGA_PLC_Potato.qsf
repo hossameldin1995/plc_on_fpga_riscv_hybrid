@@ -146,44 +146,6 @@ set_location_assignment PIN_AC22 -to GPIO_OUT[17]
 
 set_global_assignment -name TOP_LEVEL_ENTITY RV_FPGA_PLC_Potato
 
-set_global_assignment -name VHDL_FILE RV_FPGA_PLC_Potato.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_soc_uart.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_soc_timer.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_soc_reset.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_soc_memory.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_soc_intercon.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_soc_gpio.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_fifo.vhd
-set_global_assignment -name VHDL_FILE vhdl/toplevel.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_writeback.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_wb_arbiter.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_wb_adapter.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_utilities.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_types.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_register_file.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_potato.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_memory.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_imm_decoder.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_icache.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_fetch.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_execute.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_decode.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_csr_unit.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_csr_alu.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_csr.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_counter.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_core.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_control_unit.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_constants.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_comparator.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_alu_mux.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_alu_control_unit.vhd
-set_global_assignment -name VHDL_FILE vhdl/pp_alu.vhd
-set_global_assignment -name VHDL_FILE vhdl/aee_rom_wrapper.vhd
-set_global_assignment -name SIP_FILE vhdl/clock_generator.sip
-set_global_assignment -name QIP_FILE vhdl/aee_rom.qip
-set_global_assignment -name VHDL_FILE RV_FPGA_PLC.vhd
-set_global_assignment -name QIP_FILE vhdl/clock_generator.qip
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -278,6 +240,49 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[14]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[15]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[16]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[17]
+set_global_assignment -name VHDL_FILE vhdl/Input_Output_Peripheral_REG.vhd
+set_global_assignment -name VHDL_FILE RV_FPGA_PLC_Potato.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_soc_uart.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_soc_timer.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_soc_reset.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_soc_memory.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_soc_intercon.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_soc_gpio.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_fifo.vhd
+set_global_assignment -name VHDL_FILE vhdl/toplevel.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_writeback.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_wb_arbiter.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_wb_adapter.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_utilities.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_types.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_register_file.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_potato.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_memory.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_imm_decoder.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_icache.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_fetch.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_execute.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_decode.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_csr_unit.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_csr_alu.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_csr.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_counter.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_core.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_control_unit.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_constants.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_comparator.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_alu_mux.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_alu_control_unit.vhd
+set_global_assignment -name VHDL_FILE vhdl/pp_alu.vhd
+set_global_assignment -name VHDL_FILE vhdl/aee_rom_wrapper.vhd
+set_global_assignment -name SIP_FILE vhdl/clock_generator.sip
+set_global_assignment -name QIP_FILE vhdl/aee_rom.qip
+set_global_assignment -name VHDL_FILE RV_FPGA_PLC.vhd
+set_global_assignment -name QIP_FILE vhdl/clock_generator.qip
 set_global_assignment -name VHDL_FILE vhdl/Input_Output_Peripheral.vhd
 set_global_assignment -name VHDL_FILE vhdl/In_Out_Peripheral.vhd
+set_global_assignment -name SDC_FILE RV_FPGA_PLC_Potato.sdc
+set_global_assignment -name VHDL_FILE vhdl/Timer_on_64_Controller.vhd
+set_global_assignment -name VHDL_FILE vhdl/Counter_Down_64_bit_Cin.vhd
+set_global_assignment -name VHDL_FILE vhdl/TON_Peripheral.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -9,8 +9,10 @@
 
 // Timer register offsets:
 #define TIMER_REG_CONTROL	0x00
-#define TIMER_REG_COMPARE	0x04
-#define TIMER_REG_COUNTER	0x08
+#define TIMER_REG_COMPARE_L	0x04
+#define TIMER_REG_COMPARE_H	0x08
+#define TIMER_REG_COUNTER_L	0x0C
+#define TIMER_REG_COUNTER_H	0x10
 
 // Timer control register bits:
 #define TIMER_CONTROL_RUN	0
@@ -74,9 +76,10 @@ static inline void timer_clear(struct timer * module)
  * @param compare Value to write to the timer compare register.
  * @warning Using this function while the timer is running could cause undefined bahviour.
  */
-static inline void timer_set_compare(struct timer * module, uint32_t compare)
+static inline void timer_set_compare(struct timer * module, uint64_t compare)
 {
-	module->registers[TIMER_REG_COMPARE >> 2] = compare;
+	module->registers[TIMER_REG_COMPARE_L >> 2] = (uint32_t) compare;
+    module->registers[TIMER_REG_COMPARE_H >> 2] = (uint32_t) (compare >> 32);
 }
 
 /**
@@ -84,9 +87,12 @@ static inline void timer_set_compare(struct timer * module, uint32_t compare)
  * @param module Pointer to a timer instance structure.
  * @returns The value of the timer's counter register.
  */
-static inline uint32_t timer_get_count(struct timer  * module)
+static inline uint64_t timer_get_count(struct timer  * module)
 {
-	return module->registers[TIMER_REG_COUNTER >> 2];
+    uint64_t ret = module->registers[TIMER_REG_COUNTER_H >> 2];
+    ret = ret << 32;
+    ret = ret | (module->registers[TIMER_REG_COUNTER_L >> 2]);
+	return ret;
 }
 
 /**
@@ -95,9 +101,10 @@ static inline uint32_t timer_get_count(struct timer  * module)
  * @param counter New value of the timer's counter register.
  * @warning This function should only be used when the timer is stopped to avoid undefined behaviour.
  */
- static inline void timer_set_count(struct timer * module, uint32_t counter)
+ static inline void timer_set_count(struct timer * module, uint64_t counter)
  {
-	module->registers[TIMER_REG_COUNTER >> 2] = counter;
+	module->registers[TIMER_REG_COUNTER_L >> 2] = (uint32_t) counter;
+	module->registers[TIMER_REG_COUNTER_H >> 2] = (uint32_t) (counter >> 32);
  }
 
 #endif

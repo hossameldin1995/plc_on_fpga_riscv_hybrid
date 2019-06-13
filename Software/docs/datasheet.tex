@@ -1,0 +1,133 @@
+% The Potato Processor - Processor Datasheet
+% (c) Kristian Klomsten Skordal 2015 -2017 <kristian.skordal@wafflemail.net>
+% Report bugs and issues on <https://github.com/skordal/potato/issues>
+
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[pdftitle={The Potato Processor Datasheet},
+	pdfauthor={Kristian Klomsten Skordal}]{hyperref}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage[margin=2.0cm,includefoot,footskip=10pt]{geometry}
+\usepackage[british]{babel}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\titleformat{\section}[block]{}{}{0pt}{\normalfont\large\bfseries}
+\pagestyle{empty}
+
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=*,nosep}
+
+\begin{document}
+
+\begin{minipage}{0.5\textwidth}
+\raggedright\huge
+\textsf{The Potato Project}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\raggedleft\huge
+\textsf{Processor Datasheet}
+\end{minipage}
+
+\vspace{0.5em}
+\noindent\rule{\linewidth}{1pt}\\
+
+\begin{minipage}[t]{0.48\textwidth}
+
+\section{Architecture}
+\includegraphics[width=\textwidth]{diagram.png}
+
+\section{Features}
+
+\begin{itemize}
+\item Supports the complete 32-bit RISC-V base integer ISA (RV32I) version 2.0
+\item Supports machine mode from the RISC-V Privileged Architecture version 1.10
+\item Includes a hardware timer with microsecond resolution and compare interrupt
+\item Up to 8 IRQ inputs that can be individually enabled
+\item Classic 5-stage RISC pipeline
+\item Wishbone interface
+\item Optional instruction cache
+\item Automatic test suite
+\end{itemize}
+
+\section{Interface}
+
+The processor includes a wishbone interface conforming to the B4 revision of the
+wishbone specification.\\
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+Interface type & Master \\
+Address port width & 32 bits \\
+Data port width & 32 bits \\
+Data port granularity & 8 bits \\
+Maximum operand size & 32 bits \\
+Endianess & Little \\
+Sequence of data transfer & In-order \\
+\hline
+\end{tabularx}
+
+\section{Specifications}
+
+\center\includegraphics[width=0.7\textwidth]{riscv.png}
+\url{http://riscv.org/specifications/}
+
+\center\includegraphics[width=0.7\textwidth]{opencores.png}
+\url{http://opencores.org/opencores,wishbone}
+
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+
+\section{Example Application}
+\includegraphics[width=\textwidth]{example.png}
+
+\section{Signals}
+
+The processor is provided by a VHDL module named \texttt{pp\_potato}. All signals
+are active high and the following signals are provided:\\
+
+\begin{tabularx}{\textwidth}{|l|l|X|}
+\hline
+\textbf{Name} & \textbf{Width} & \textbf{Description} \\
+\hline
+\texttt{clk} & 1 & Processor clock \\
+\texttt{timer\_clk} & 1 & 10~MHz timer clock \\
+\texttt{reset} & 1 & Reset signal \\
+\hline
+\texttt{irq} & 8 & IRQ inputs \\
+\hline
+\texttt{wb\_adr\_out} & 32 & Wishbone address \\
+\texttt{wb\_sel\_out} & 4 & Wishbone byte select \\
+\texttt{wb\_cyc\_out} & 1 & Wishbone cycle \\
+\texttt{wb\_stb\_out} & 1 & Wishbone strobe \\
+\texttt{wb\_we\_out} & 1 & Wishbone write enable \\
+\texttt{wb\_dat\_out} & 32 & Wishbone data output \\
+\texttt{wb\_dat\_in} & 32 & Wishbone data input \\
+\texttt{wb\_ack\_in} & 1 & Wishbone acknowledge \\
+\hline
+\end{tabularx}\\
+
+An additional output, \texttt{test\_context\_out} is used to provide feedback to testbenches
+when running automated tests. This port should be left unconnected.\\
+
+\section{Tools and Utilities}
+
+Tools for writing applications for the RISC-V architecture are available from the
+RISC-V project, at:\\[1em]
+\url{https://github.com/riscv/riscv-gnu-toolchain}\\
+
+\end{minipage}
+
+\vfill
+\noindent\rule{\linewidth}{1pt}
+{\small
+Project page: \url{https://github.com/skordal/potato}\\
+Report bugs and issues on \url{https://github.com/skordal/potato/issues}}
+
+\end{document}
+
+

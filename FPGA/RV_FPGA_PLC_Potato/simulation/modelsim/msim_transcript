@@ -1,0 +1,528 @@
+# ERROR: No extended dataflow license exists
+# do RV_FPGA_PLC_Potato_run_msim_rtl_vhdl.do
+# if ![file isdirectory RV_FPGA_PLC_Potato_iputf_libs] {
+# 	file mkdir RV_FPGA_PLC_Potato_iputf_libs
+# }
+# 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap work rtl_work 
+# Copying /home/hossameldin/intelFPGA_lite/18.0/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+###### Libraries for IPUTF cores 
+###### End libraries for IPUTF cores 
+###### MIF file copy and HDL compilation commands for IPUTF cores 
+# 
+# 
+# vcom "/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/clock_generator_sim/clock_generator.vho"
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:37 on Feb 07,2019
+# vcom -reportprogress 300 /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/clock_generator_sim/clock_generator.vho 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package altera_lnsim_components
+# -- Compiling entity clock_generator
+# -- Compiling architecture RTL of clock_generator
+# End time: 02:00:37 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/RV_FPGA_PLC_Potato.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:37 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/RV_FPGA_PLC_Potato.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity RV_FPGA_PLC_Potato
+# -- Compiling architecture behaviour of RV_FPGA_PLC_Potato
+# End time: 02:00:37 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_timer.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:37 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_timer.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity pp_soc_timer
+# -- Compiling architecture behaviour of pp_soc_timer
+# End time: 02:00:37 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_intercon.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:37 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_intercon.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity pp_soc_intercon
+# -- Compiling architecture behaviour of pp_soc_intercon
+# End time: 02:00:37 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_fifo.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:37 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_fifo.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity pp_fifo
+# -- Compiling architecture behaviour of pp_fifo
+# End time: 02:00:37 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_types.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:37 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_types.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package pp_types
+# -- Compiling package body pp_types
+# -- Loading package pp_types
+# End time: 02:00:37 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_imm_decoder.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:37 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_imm_decoder.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity pp_imm_decoder
+# -- Compiling architecture behaviour of pp_imm_decoder
+# End time: 02:00:37 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_csr.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:37 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_csr.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling package pp_csr
+# -- Compiling package body pp_csr
+# -- Loading package pp_csr
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_counter.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_counter.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity pp_counter
+# -- Compiling architecture behaviour of pp_counter
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/aee_rom.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/aee_rom.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package altera_mf_components
+# -- Compiling entity aee_rom
+# -- Compiling architecture SYN of aee_rom
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_uart.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_uart.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity pp_soc_uart
+# -- Compiling architecture behaviour of pp_soc_uart
+# -- Loading entity pp_fifo
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_writeback.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_writeback.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_csr
+# -- Compiling entity pp_writeback
+# -- Compiling architecture behaviour of pp_writeback
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_wb_arbiter.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_wb_arbiter.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package pp_types
+# -- Compiling entity pp_wb_arbiter
+# -- Compiling architecture behaviour of pp_wb_arbiter
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_csr_alu.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_csr_alu.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_csr
+# -- Compiling entity pp_csr_alu
+# -- Compiling architecture behaviour of pp_csr_alu
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_constants.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_constants.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package pp_types
+# -- Compiling package pp_constants
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_alu_mux.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_alu_mux.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Compiling entity pp_alu_mux
+# -- Compiling architecture behaviour of pp_alu_mux
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_alu.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_alu.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Compiling entity pp_alu
+# -- Compiling architecture behaviour of pp_alu
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_utilities.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_utilities.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Compiling package pp_utilities
+# -- Compiling package body pp_utilities
+# -- Loading package pp_utilities
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_fetch.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_fetch.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Compiling entity pp_fetch
+# -- Compiling architecture behaviour of pp_fetch
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_alu_control_unit.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_alu_control_unit.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Compiling entity pp_alu_control_unit
+# -- Compiling architecture behaviour of pp_alu_control_unit
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_reset.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_reset.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_soc_reset
+# -- Compiling architecture behaviour of pp_soc_reset
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_memory.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_soc_memory.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_soc_memory
+# -- Compiling architecture behaviour of pp_soc_memory
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_wb_adapter.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_wb_adapter.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_wb_adapter
+# -- Compiling architecture behaviour of pp_wb_adapter
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_register_file.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_register_file.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_register_file
+# -- Compiling architecture behaviour of pp_register_file
+# End time: 02:00:38 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_memory.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:38 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_memory.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_csr
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_memory
+# -- Compiling architecture behaviour of pp_memory
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_icache.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_icache.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_icache
+# -- Compiling architecture behaviour of pp_icache
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_csr_unit.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_csr_unit.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_csr
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_csr_unit
+# -- Compiling architecture behaviour of pp_csr_unit
+# -- Loading entity pp_counter
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_control_unit.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_control_unit.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_csr
+# -- Loading package pp_utilities
+# -- Compiling entity pp_control_unit
+# -- Compiling architecture behaviour of pp_control_unit
+# -- Loading entity pp_alu_control_unit
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_comparator.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_comparator.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_comparator
+# -- Compiling architecture behaviour of pp_comparator
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/aee_rom_wrapper.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/aee_rom_wrapper.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity aee_rom_wrapper
+# -- Compiling architecture behaviour of aee_rom_wrapper
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_execute.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_execute.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_csr
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_execute
+# -- Compiling architecture behaviour of pp_execute
+# -- Loading entity pp_alu_mux
+# -- Loading entity pp_comparator
+# -- Loading entity pp_alu
+# -- Loading entity pp_csr_alu
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_decode.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_decode.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_csr
+# -- Compiling entity pp_decode
+# -- Compiling architecture behaviour of pp_decode
+# -- Loading entity pp_imm_decoder
+# -- Loading package pp_utilities
+# -- Loading entity pp_control_unit
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_core.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_core.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Loading package pp_csr
+# -- Compiling entity pp_core
+# -- Compiling architecture behaviour of pp_core
+# -- Loading entity pp_csr_unit
+# -- Loading entity pp_register_file
+# -- Loading entity pp_fetch
+# -- Loading entity pp_decode
+# -- Loading entity pp_execute
+# -- Loading entity pp_memory
+# -- Loading entity pp_writeback
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_potato.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/pp_potato.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Compiling entity pp_potato
+# -- Compiling architecture behaviour of pp_potato
+# -- Loading package NUMERIC_STD
+# -- Loading package pp_csr
+# -- Loading entity pp_core
+# -- Loading entity pp_icache
+# -- Loading entity pp_wb_adapter
+# -- Loading entity pp_wb_arbiter
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/toplevel.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 02:00:39 on Feb 07,2019
+# vcom -reportprogress 300 -93 -work work /home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/toplevel.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity toplevel
+# -- Compiling architecture behaviour of toplevel
+# -- Loading package pp_types
+# -- Loading package pp_constants
+# -- Loading package pp_utilities
+# -- Loading entity pp_soc_reset
+# -- Loading entity pp_potato
+# -- Loading package NUMERIC_STD
+# -- Loading entity pp_soc_timer
+# -- Loading entity pp_soc_uart
+# -- Loading entity pp_soc_intercon
+# -- Loading entity aee_rom_wrapper
+# -- Loading entity pp_soc_memory
+# End time: 02:00:39 on Feb 07,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# 
+# stdin: <EOF>

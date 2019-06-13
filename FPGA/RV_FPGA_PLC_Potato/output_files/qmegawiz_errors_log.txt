@@ -1,0 +1,6 @@
+
+
+/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/clock_generator.vhd
+
+Feb 06 09PM:44:27>: Megafunction PLL Intel FPGA IP v18.0 is not listed in any 
+wizard.lst file in the specified library path(s).Wizard launch aborted

@@ -1,0 +1,75 @@
+
+Discarded input sections
+
+ .text          0x0000000000000000        0x0 main.o
+ .data          0x0000000000000000        0x0 main.o
+ .bss           0x0000000000000000        0x0 main.o
+ .comment       0x0000000000000000       0x12 main.o
+ .text          0x0000000000000000        0x0 start.o
+ .data          0x0000000000000000        0x0 start.o
+ .bss           0x0000000000000000        0x0 start.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x0000000000000000 0x0000000000020000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+
+.text           0x0000000000000000      0x1c0
+ *(.init)
+ .init          0x0000000000000000      0x158 start.o
+                0x0000000000000000                _start
+                0x0000000000000044                _machine_exception_handler
+                0x0000000000000158                __text_begin = .
+ *(.text*)
+ .text.exception_handler
+                0x0000000000000158        0x4 main.o
+                0x0000000000000158                exception_handler
+ .text.startup.main
+                0x000000000000015c       0x64 main.o
+                0x000000000000015c                main
+                0x00000000000001c0                __text_end = .
+
+.rodata         0x00000000000001c0        0xc
+                0x00000000000001c0                __rodata_begin = .
+ *(.rodata*)
+ .rodata.main.str1.4
+                0x00000000000001c0        0xc main.o
+                                          0xa (size before relaxing)
+                0x00000000000001cc                __rodata_end = .
+
+.rela.dyn       0x00000000000001cc        0x0
+ .rela.init     0x00000000000001cc        0x0 main.o
+
+.data           0x00000000000001cc        0x0
+                0x00000000000001cc                __data_begin = .
+ *(.data*)
+ *(.eh_frame*)
+                0x00000000000001cc                __data_end = .
+
+.bss            0x00000000000001cc        0x4
+                0x00000000000001cc                __bss_begin = .
+ *(.bss*)
+ *(.sbss*)
+ .sbss.uart0    0x00000000000001cc        0x4 main.o
+                0x00000000000001d0                __bss_end = ALIGN (0x4)
+                0x0000000000020000                __stack_top = 0x20000
+
+/DISCARD/
+ *(.comment)
+LOAD main.o
+LOAD start.o
+LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+START GROUP
+LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/8.2.0/../../../../riscv32-unknown-elf/lib/libc.a
+END GROUP
+LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+START GROUP
+LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/8.2.0/../../../../riscv32-unknown-elf/lib/libc.a
+LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/8.2.0/../../../../riscv32-unknown-elf/lib/libnosys.a
+END GROUP
+OUTPUT(hello.elf elf32-littleriscv)

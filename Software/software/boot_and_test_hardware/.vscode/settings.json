@@ -4,6 +4,8 @@
         "platform.h": "c",
         "uart.h": "c",
         "gpio.h": "c",
-        "i_o_peripheral.h": "c"
+        "i_o_peripheral.h": "c",
+        "stdbool.h": "c",
+        "stdio.h": "c"
     }
 }

@@ -43,6 +43,8 @@ int main() {
     
     fprintf(fp_out, "[%d..%d]  :   00000000;\nEND;", i-1, (BOOT_SIZE-1));
 
+    fclose(fp_in);
+    fclose(fp_out);
     return 0;
 }
 

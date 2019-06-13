@@ -2,6 +2,31 @@ LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 
+--! @brief Generic Wishbone IO_Peripheral Module.
+--!
+--! The following registers are defined:
+--! |---------|--------------------|
+--! | Address | Inputs             |
+--! |---------|--------------------|
+--! | 0x000   | GPIO_IN (size 18)  |
+--! | 0x048   | SW      (size 10)  |
+--! | 0x070   | KEY     (size 04)  |
+--! |---------|--------------------|
+--!
+--! |---------|--------------------|
+--! | Address | Outputs            |
+--! |---------|--------------------|
+--! | 0x100   | GPIO_OUT (size 18) |
+--! | 0x148   | LEDR     (size 10) |
+--! | 0x170   | LEDG     (size 08) |
+--! |---------|--------------------|
+--!
+--! |---------|--------------------|
+--! | Address | Read and Write Reg |
+--! |---------|--------------------|
+--! | 0x1fc   |                    |
+--! |---------|--------------------|
+
 ENTITY Input_Output_Peripheral IS
 	PORT( 
 		clk		: IN STD_LOGIC;
@@ -42,7 +67,7 @@ ARCHITECTURE RTL OF Input_Output_Peripheral IS
 			LEDG         <= (OTHERS => '0');
 			OUT_Data_1     <= '0';
 		ELSE
-		IF (falling_edge(clk) and EN='1') THEN
+		IF (rising_edge(clk) and EN='1') THEN
 				IF Address = X"7F" THEN
 					register_in        <= "00000000000000000000000000000000" & KEY & SW & GPIO_IN;
 					GPIO_OUT           <= register_out(17 DOWNTO 0);

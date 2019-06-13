@@ -20,30 +20,28 @@ AEE_RAM          0x00000000ffffc000 0x0000000000004000 rw
 Linker script and memory map
 
 
-.text           0x00000000ffff8000      0x2f8
+.text           0x00000000ffff8000      0x288
  *(.init)
  .init          0x00000000ffff8000      0x188 start.o
                 0x00000000ffff8000                _start
                 0x00000000ffff8074                _machine_exception_handler
  *(.text*)
- .text.uart_tx_string.constprop.6
-                0x00000000ffff8188       0x2c main.o
  .text.exception_handler
-                0x00000000ffff81b4       0x20 main.o
-                0x00000000ffff81b4                exception_handler
+                0x00000000ffff8188       0x20 main.o
+                0x00000000ffff8188                exception_handler
  .text.startup.main
-                0x00000000ffff81d4      0x104 main.o
-                0x00000000ffff81d4                main
-                0x00000000ffff82d8                __text_end = .
+                0x00000000ffff81a8       0xcc main.o
+                0x00000000ffff81a8                main
+                0x00000000ffff8274                __text_end = .
  *(.rodata*)
  .rodata.main.str1.4
-                0x00000000ffff82d8       0x20 main.o
-                                         0x1f (size before relaxing)
+                0x00000000ffff8274       0x14 main.o
+                                         0x12 (size before relaxing)
 
-.rela.dyn       0x00000000ffff82f8        0x0
- .rela.init     0x00000000ffff82f8        0x0 main.o
+.rela.dyn       0x00000000ffff8288        0x0
+ .rela.init     0x00000000ffff8288        0x0 main.o
 
-.data           0x00000000ffffc000        0x0 load address 0x00000000ffff82f8
+.data           0x00000000ffffc000        0x0 load address 0x00000000ffff8288
                 0x00000000ffffc000                __data_begin = .
  *(.data*)
  *(.eh_frame*)
@@ -56,8 +54,12 @@ Linker script and memory map
                 0x00000000ffffc000                __bss_end = ALIGN (0x4)
                 0x0000000000000000                __stack_top = 0x0
 
-.sbss.uart0     0x00000000ffffc000        0x4
- .sbss.uart0    0x00000000ffffc000        0x4 main.o
+.sbss.io_per_d  0x00000000ffffc000        0x4
+ .sbss.io_per_d
+                0x00000000ffffc000        0x4 main.o
+
+.sbss.uart0     0x00000000ffffc004        0x4
+ .sbss.uart0    0x00000000ffffc004        0x4 main.o
 
 /DISCARD/
  *(.comment)

@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "string.h": "c"
+        "string.h": "c",
+        "platform.h": "c",
+        "uart.h": "c",
+        "gpio.h": "c",
+        "i_o_peripheral.h": "c"
     }
 }

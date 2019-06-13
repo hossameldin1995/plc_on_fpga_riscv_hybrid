@@ -49,56 +49,58 @@ architecture behaviour of RV_FPGA_PLC_Potato is
 			clk     : in  std_logic;
 			reset_n : in  std_logic;
 
-			-- GPIOs:
-			-- 4x LEDs        (bits 11 downto 8)
-			-- 4x Switches    (bits  7 downto 4)
-			-- 4x Buttons     (bits  3 downto 0)
-			gpio_pins : inout std_logic_vector(11 downto 0);
-
 			-- UART0 signals:
 			uart0_txd : out std_logic;
 			uart0_rxd : in  std_logic;
-
-			-- UART1 signals:
-			uart1_txd : out std_logic;
-			uart1_rxd : in  std_logic
+		
+		-- KEY signals
+      KEY			: in std_logic_vector(3 DOWNTO 0);
+		
+		-- SW signals
+      SW				: in std_logic_vector(9 DOWNTO 0);
+		
+		-- LEDG signals
+      LEDG			: out std_logic_vector(7 DOWNTO 0);
+		
+		-- LEDR signals
+      LEDR			: out std_logic_vector(9 DOWNTO 0);
+		
+		-- GPIO signals
+      GPIO_IN		: in std_logic_vector(17 DOWNTO 0);
+      GPIO_OUT		: out std_logic_vector(17 DOWNTO 0)
 		);
 	end component;
 	
 	signal KEY : std_logic_vector(3 DOWNTO 0);
 	
-	signal uart1_txd : std_logic;
-	signal uart1_rxd : std_logic;
-	
-	signal gpio_cpu : std_logic_vector(11 downto 0);
-	signal controle : std_logic;
-	
 	begin
 		
 		KEY <= not(KEY_n);
 		
-		controle <= '1';
-		gpio_cpu(7 downto 0) <= SW(3 downto 0) & KEY when controle = '1' else (others => 'Z');
-		LEDG(3 downto 0) <= gpio_cpu(11 downto 8);
-		
 		Potato_SoC : toplevel
 		port map (
-			clk     => CLOCK_125_p,
-			reset_n => CPU_RESET_n,
-
-			-- GPIOs:
-			-- 4x LEDs        (bits 11 downto 8)
-			-- 4x Switches    (bits  7 downto 4)
-			-- 4x Buttons     (bits  3 downto 0)
-			gpio_pins => gpio_cpu,
+			clk     		=> CLOCK_125_p,
+			reset_n 		=> CPU_RESET_n,
 
 			-- UART0 signals:
-			uart0_txd => UART_TX,
-			uart0_rxd => UART_RX,
-
-			-- UART1 signals:
-			uart1_txd => uart1_txd,
-			uart1_rxd => uart1_rxd
+			uart0_txd 	=> UART_TX,
+			uart0_rxd 	=> UART_RX,
+		
+			-- KEY signals
+			KEY			=> KEY,
+			
+			-- SW signals
+			SW				=> SW,
+			
+			-- LEDG signals
+			LEDG			=> LEDG,
+			
+			-- LEDR signals
+			LEDR			=> LEDR,
+			
+			-- GPIO signals
+			GPIO_IN		=> GPIO_IN,
+			GPIO_OUT		=> GPIO_OUT
 		);
 		
 end architecture;

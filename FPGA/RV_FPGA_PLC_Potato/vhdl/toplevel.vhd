@@ -10,6 +10,7 @@ use ieee.std_logic_1164.all;
 -- 0x00001000: UART0 (for host communication)
 -- 0x00002000: Timer0
 -- 0x00003000: Timer1
+-- 0x00004000: IO Peripheral
 -- 0x10000000: Interconnect control/error module
 -- 0xffff8000: Application execution environment ROM (16 kB)
 -- 0xffffc000: Application execution environment RAM (16 kB)
@@ -18,19 +19,25 @@ entity toplevel is
 		clk     : in  std_logic;
 		reset_n : in  std_logic;
 
-		-- GPIOs:
-		-- 4x LEDs        (bits 11 downto 8)
-		-- 4x Switches    (bits  7 downto 4)
-		-- 4x Buttons     (bits  3 downto 0)
-		gpio_pins : inout std_logic_vector(11 downto 0);
-
 		-- UART0 signals:
 		uart0_txd : out std_logic;
 		uart0_rxd : in  std_logic;
-
-		-- UART1 signals:
-		uart1_txd : out std_logic;
-		uart1_rxd : in  std_logic
+		
+		-- KEY signals
+      KEY			: in std_logic_vector(3 DOWNTO 0);
+		
+		-- SW signals
+      SW				: in std_logic_vector(9 DOWNTO 0);
+		
+		-- LEDG signals
+      LEDG			: out std_logic_vector(7 DOWNTO 0);
+		
+		-- LEDR signals
+      LEDR			: out std_logic_vector(9 DOWNTO 0);
+		
+		-- GPIO signals
+      GPIO_IN		: in std_logic_vector(17 DOWNTO 0);
+      GPIO_OUT		: out std_logic_vector(17 DOWNTO 0)
 	);
 end entity toplevel;
 
@@ -141,9 +148,19 @@ architecture behaviour of toplevel is
 	signal aee_ram_we_in   : std_logic;
 	signal aee_ram_ack_out : std_logic;
 
+	-- AEE IO_peripheral signals:
+	signal io_peripheral_adr_in  : std_logic_vector(13 downto 0);
+	signal io_peripheral_dat_in  : std_logic_vector(31 downto 0);
+	signal io_peripheral_dat_out : std_logic_vector(31 downto 0);
+	signal io_peripheral_cyc_in  : std_logic;
+	signal io_peripheral_stb_in  : std_logic;
+	signal io_peripheral_sel_in  : std_logic_vector(3 downto 0);
+	signal io_peripheral_we_in   : std_logic;
+	signal io_peripheral_ack_out : std_logic;
+	
 	-- Selected peripheral on the interconnect:
 	type intercon_peripheral_type is (
-		PERIPHERAL_TIMER0, PERIPHERAL_TIMER1,
+		PERIPHERAL_TIMER0, PERIPHERAL_TIMER1, PERIPHERAL_IO, 
 		PERIPHERAL_UART0, PERIPHERAL_AEE_ROM, PERIPHERAL_AEE_RAM,
 		PERIPHERAL_INTERCON, PERIPHERAL_ERROR, PERIPHERAL_NONE);
 	signal intercon_peripheral : intercon_peripheral_type := PERIPHERAL_NONE;
@@ -185,6 +202,8 @@ begin
 									intercon_peripheral <= PERIPHERAL_TIMER0;
 								when x"03" =>
 									intercon_peripheral <= PERIPHERAL_TIMER1;
+								when x"04" =>
+									intercon_peripheral <= PERIPHERAL_IO;
 								when others => -- Invalid address - delegated to the error peripheral
 									intercon_peripheral <= PERIPHERAL_ERROR;
 							end case;
@@ -216,7 +235,8 @@ begin
 		timer0_ack_out, timer0_dat_out, timer1_ack_out, timer1_dat_out,
 		uart0_ack_out, uart0_dat_out,
 		intercon_ack_out, intercon_dat_out, error_ack_out,
-		aee_rom_ack_out, aee_rom_dat_out, aee_ram_ack_out, aee_ram_dat_out)
+		aee_rom_ack_out, aee_rom_dat_out, aee_ram_ack_out, aee_ram_dat_out,
+		io_peripheral_ack_out, io_peripheral_dat_out)
 	begin
 		case intercon_peripheral is
 			when PERIPHERAL_TIMER0 =>
@@ -237,6 +257,9 @@ begin
 			when PERIPHERAL_AEE_RAM =>
 				processor_ack_in <= aee_ram_ack_out;
 				processor_dat_in <= aee_ram_dat_out;
+			when PERIPHERAL_IO =>
+				processor_ack_in <= io_peripheral_ack_out;
+				processor_dat_in <= io_peripheral_dat_out;
 			when PERIPHERAL_ERROR =>
 				processor_ack_in <= error_ack_out;
 				processor_dat_in <= (others => '0');
@@ -416,5 +439,31 @@ begin
 	aee_ram_sel_in <= processor_sel_out;
 	aee_ram_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_AEE_RAM else '0';
 	aee_ram_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_AEE_RAM else '0';
+	
+	io_periphral: entity work.In_Out_Peripheral
+		port map(
+			clk 			=> system_clk,
+			reset 		=> reset,
+			wb_adr_in 	=> io_peripheral_adr_in(8 downto 2),
+			wb_dat_in 	=> io_peripheral_dat_in,
+			wb_dat_out 	=> io_peripheral_dat_out,
+			wb_cyc_in 	=> io_peripheral_cyc_in,
+			wb_stb_in 	=> io_peripheral_stb_in,
+			wb_sel_in 	=> io_peripheral_sel_in,
+			wb_we_in 	=> io_peripheral_we_in,
+			wb_ack_out 	=> io_peripheral_ack_out,
+			KEY			=> KEY,
+			LEDR			=> LEDR,
+			LEDG			=> LEDG,
+			SW				=> SW,
+			GPIO_OUT		=> GPIO_OUT,
+			GPIO_IN		=> GPIO_IN
+		);
+	io_peripheral_adr_in <= processor_adr_out(io_peripheral_adr_in'range);
+	io_peripheral_dat_in <= processor_dat_out;
+	io_peripheral_we_in  <= processor_we_out;
+	io_peripheral_sel_in <= processor_sel_out;
+	io_peripheral_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_IO else '0';
+	io_peripheral_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_IO else '0';
 
 end architecture behaviour;

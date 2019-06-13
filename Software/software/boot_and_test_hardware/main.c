@@ -20,15 +20,22 @@ void exception_handler(uint32_t cause, void * epc, void * regbase)
 
 int main(void)
 {
+	io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);
+    uart_initialize(&uart0, (volatile void *) PLATFORM_UART0_BASE);
+	uart_set_divisor(&uart0, uart_baud2divisor(115200, PLATFORM_SYSCLK_FREQ));
 	
-	volatile char x;
-	volatile char y;
-	volatile char z;
-
 	while(1) {
-		x = 91;    // 01011011 91  5B
-		y = 49;    // 00110001 49  31
-		z = x ^ y; // 01101010 106 6A
+		io_per_set_output(&io_per_d, RWD, 0, 0);
+
+        // Rung 0 :    Rung_Number_1 
+		char var0 = io_per_get_input(&io_per_d, SW, 0);
+		var0 ^= io_per_get_input(&io_per_d, SW, 1);
+		io_per_set_output(&io_per_d, LEDG, 0, var0);
+
+        char var1 = io_per_get_input(&io_per_d, SW, 2);
+		var1 ^= io_per_get_input(&io_per_d, SW, 3);
+		io_per_set_output(&io_per_d, LEDG, 1, var1);
+
 	}
 
 }

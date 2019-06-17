@@ -9,27 +9,19 @@ extern "C" {
 #endif
 /*
  * Class:     rv_fpga_plc_ide_helper_compile_c_file
- * Method:    compile_c_to_asm
- * Signature: (Ljava/lang/String;)Z
+ * Method:    compile_c_to_mif
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)Z
  */
-JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compile_1c_1to_1asm
-  (JNIEnv *, jobject, jstring);
+JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compile_1c_1to_1mif
+  (JNIEnv *, jobject, jstring, jstring);
 
 /*
  * Class:     rv_fpga_plc_ide_helper_compile_c_file
- * Method:    compile_c_to_hex
+ * Method:    compile_download_to_soc
  * Signature: (Ljava/lang/String;)Z
  */
-JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compile_1c_1to_1hex
+JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compile_1download_1to_1soc
   (JNIEnv *, jobject, jstring);
-
-/*
- * Class:     rv_fpga_plc_ide_helper_compile_c_file
- * Method:    test_func
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_test_1func
-  (JNIEnv *, jobject);
 
 #ifdef __cplusplus
 }

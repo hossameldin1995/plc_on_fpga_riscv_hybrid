@@ -10,10 +10,18 @@ extern "C" {
 /*
  * Class:     rv_fpga_plc_ide_helper_compile_c_file
  * Method:    compile_c_to_mif
- * Signature: (Ljava/lang/String;)Z
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)Z
  */
 JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compile_1c_1to_1mif
   (JNIEnv *, jobject, jstring, jstring);
+
+/*
+ * Class:     rv_fpga_plc_ide_helper_compile_c_file
+ * Method:    compile_download_to_soc
+ * Signature: (Ljava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compile_1download_1to_1soc
+  (JNIEnv *, jobject, jstring);
 
 #ifdef __cplusplus
 }

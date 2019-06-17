@@ -1,0 +1,8 @@
+Project Name           = Add_Bool
+Size of Program        = 16
+Max Size of Program    = 9
+Number of Rungs        = 2
+    Rung (1) Size      = 9
+    Rung (2) Size      = 3
+Number of Variables    = 1
+VHDL Compilation State = 4

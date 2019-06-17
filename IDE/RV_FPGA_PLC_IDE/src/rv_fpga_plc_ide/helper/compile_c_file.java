@@ -16,8 +16,14 @@ public class compile_c_file {
 
     private native boolean compile_c_to_mif(String c_Folder_Path, String c_File_Path);
     
+    private native boolean compile_download_to_soc(String c_Folder_Path);
+    
     public boolean compile_c_to_mif_p(String c_Folder_Path, String c_File_Path) {
         return compile_c_to_mif(c_Folder_Path, c_File_Path);
+    }
+    
+    public boolean compile_download_to_soc_p(String c_Folder_Path) {
+        return compile_download_to_soc(c_Folder_Path);
     }
     
 }

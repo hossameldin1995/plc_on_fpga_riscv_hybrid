@@ -1,17 +1,23 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template fileOutSt, choose Tools | Templates
  * and open the template in the editor.
  */
 package rv_fpga_plc_ide.src;
 
+import rv_fpga_plc_ide.helper.Write_Software_Files;
+import rv_fpga_plc_ide.helper.Write_Hardware_Files;
 import com.alee.laf.WebLookAndFeel;
+import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,8 +26,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.text.DefaultCaret;
 import rv_fpga_plc_ide.helper.Data;
+import rv_fpga_plc_ide.helper.Output_Tap;
 import rv_fpga_plc_ide.helper.compile_c_file;
+import rv_fpga_plc_ide.helper.printOutput;
 //import rv_fpga_plc_ide.helper.compile_c_file;
 
 /**
@@ -38,6 +47,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         this.setTitle("RV FPGA PLC IDE - No Project");
         initComponents();
         
+        Data.jTextArea_Output_Tab = jTextArea_Output_Tab;
+        
         int Width_addition = 30, Hight_addition = 30;
         jDialog_Basic_Commands.setSize((int) jDialog_Basic_Commands.getPreferredSize().getWidth()+Width_addition, 
                                        (int) jDialog_Basic_Commands.getPreferredSize().getHeight()+Hight_addition);
@@ -47,11 +58,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                                          (int) jDialog_Bistable_Command.getPreferredSize().getHeight()+Hight_addition);
         jDialog_Timer_Command.setSize((int) jDialog_Timer_Command.getPreferredSize().getWidth()+Width_addition, 
                                       (int) jDialog_Timer_Command.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_Loading.setSize((int) jDialog_Loading.getPreferredSize().getWidth()+Width_addition, 
+                                      (int) jDialog_Loading.getPreferredSize().getHeight()+Hight_addition);
         
         jDialog_Basic_Commands.setLocationRelativeTo(null);
         jDialog_Add_Variable.setLocationRelativeTo(null);
         jDialog_Bistable_Command.setLocationRelativeTo(null);
         jDialog_Timer_Command.setLocationRelativeTo(null);
+        jDialog_Loading.setLocationRelativeTo(null);
     }
 
     /**
@@ -126,8 +140,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jButton14 = new javax.swing.JButton();
         jComboBox_Variables_Timer = new javax.swing.JComboBox<>();
         jFileChooser1 = new javax.swing.JFileChooser();
+        jDialog_Loading = new javax.swing.JDialog();
+        jPanel9 = new javax.swing.JPanel();
+        JTextLableLoading = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextArea_Output_Tab = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList_Program = new javax.swing.JList<>();
@@ -206,9 +223,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenuItem_Compile_Software = new javax.swing.JMenuItem();
         jMenuItem_Compile_All = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem_Connect_SoC = new javax.swing.JMenuItem();
-        jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem_Download_Program_to_sdcard = new javax.swing.JMenuItem();
         jMenuItem_Download_Program_to_SoC = new javax.swing.JMenuItem();
         jMenu_Help = new javax.swing.JMenu();
         jMenuItem_How_to_Use = new javax.swing.JMenuItem();
@@ -935,6 +949,46 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jDialog_Loading.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        jDialog_Loading.setTitle("Add Variable");
+        jDialog_Loading.setModal(true);
+        jDialog_Loading.setUndecorated(true);
+        jDialog_Loading.setResizable(false);
+
+        jPanel9.setBackground(new java.awt.Color(79, 162, 230));
+
+        JTextLableLoading.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        JTextLableLoading.setForeground(new java.awt.Color(254, 254, 254));
+        JTextLableLoading.setText("Compiling ...");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap(70, Short.MAX_VALUE)
+                .addComponent(JTextLableLoading)
+                .addContainerGap(73, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(JTextLableLoading)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialog_LoadingLayout = new javax.swing.GroupLayout(jDialog_Loading.getContentPane());
+        jDialog_Loading.getContentPane().setLayout(jDialog_LoadingLayout);
+        jDialog_LoadingLayout.setHorizontalGroup(
+            jDialog_LoadingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialog_LoadingLayout.setVerticalGroup(
+            jDialog_LoadingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -942,10 +996,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextArea_Output_Tab.setEditable(false);
+        jTextArea_Output_Tab.setColumns(20);
+        jTextArea_Output_Tab.setRows(5);
+        DefaultCaret caret = (DefaultCaret) jTextArea_Output_Tab.getCaret(); caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        jScrollPane1.setViewportView(jTextArea_Output_Tab);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Output");
@@ -1361,11 +1416,16 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu_Commands);
 
-        jMenu_Compile.setText("Compile");
+        jMenu_Compile.setText("Compile and Burn");
         jMenu_Compile.setEnabled(false);
 
         jMenuItem_Compile_Hardware.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem_Compile_Hardware.setText("Compile As Hardware");
+        jMenuItem_Compile_Hardware.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Compile_HardwareActionPerformed(evt);
+            }
+        });
         jMenu_Compile.add(jMenuItem_Compile_Hardware);
 
         jMenuItem_Compile_Software.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -1382,14 +1442,13 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenu_Compile.add(jMenuItem_Compile_All);
         jMenu_Compile.add(jSeparator2);
 
-        jMenuItem_Connect_SoC.setText("Connect SoC");
-        jMenu_Compile.add(jMenuItem_Connect_SoC);
-        jMenu_Compile.add(jSeparator5);
-
-        jMenuItem_Download_Program_to_sdcard.setText("Download Program to sdcard");
-        jMenu_Compile.add(jMenuItem_Download_Program_to_sdcard);
-
+        jMenuItem_Download_Program_to_SoC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem_Download_Program_to_SoC.setText("Download Program to SoC");
+        jMenuItem_Download_Program_to_SoC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Download_Program_to_SoCActionPerformed(evt);
+            }
+        });
         jMenu_Compile.add(jMenuItem_Download_Program_to_SoC);
 
         jMenuBar1.add(jMenu_Compile);
@@ -1483,11 +1542,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             Data.Vaiables = new String[Data.size_Vaiables];
             Data.Vaiables[0] = "VAR";
             Data.Vaiables[1] = "END_VAR";
-            FillListVariables();
+            FillListVariables(true);
             
             Data.size_Rung = 0;
             convert_program_2D_to_1D();
-            FillListProgram();
+            FillListProgram(true);
         } else {
             Data.Project_Name = Project_Name_temp;
         }
@@ -1498,7 +1557,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         Icon icon = UIManager.getIcon("OptionPane.questionIcon");
         try{
             Rung_Name_temp_temp = JOptionPane.showInputDialog(this, "Rung Name:", "Add Rung", JOptionPane.OK_CANCEL_OPTION, icon, null, null).toString();
-        }catch (Exception e1){}
+        }catch (HeadlessException e1){}
         
         if (Rung_Name_temp_temp != null) {
             if (Data.size_Rung != 0) {
@@ -1525,7 +1584,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             Data.Program_2D = new String[Data.size_Rung][Data.max_size_program_in_rung];
             copy_2d_array(Program_2D_temp, Data.Program_2D, Data.size_Rung-1);
             convert_program_2D_to_1D();
-            FillListProgram();
+            FillListProgram(false);
         }
     }//GEN-LAST:event_jMenuItem_Add_RungActionPerformed
 
@@ -1800,11 +1859,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jMenuItem_Save_AsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Save_AsActionPerformed
-        save_As();
+        saveProject_As();
     }//GEN-LAST:event_jMenuItem_Save_AsActionPerformed
 
     private void jMenuItem_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_SaveActionPerformed
-        save();
+        saveProject();
     }//GEN-LAST:event_jMenuItem_SaveActionPerformed
 
     private void jMenuItem_Open_ProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Open_ProjectActionPerformed
@@ -1812,7 +1871,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             close_project();
         }
         jFileChooser1.setDialogTitle("Choose directory for openning project");
-        jFileChooser1.setCurrentDirectory(new File("/home/hossameldin/Documents/RV_FPGA_PLC_IDE"));
+        jFileChooser1.setCurrentDirectory(new File("/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/RV_FPGA_PLC_IDE_Projects"));
         jFileChooser1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         jFileChooser1.setAcceptAllFileFilterUsed(false);
         if (jFileChooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -1826,8 +1885,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     Data.is_There_is_a_project = true;
                     read_info_file(Project_Folder_Path);
                     read_il_file(Project_Folder_Path);
-                    FillListProgram();
-                    FillListVariables();
+                    FillListProgram(false);
+                    FillListVariables(false);
                     Data.is_Saved_Project = true;
                     Data.Commands_Enabeled = true;
                     jMenu_Commands.setEnabled(true);
@@ -1835,7 +1894,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     jMenu_Compile.setEnabled(true);
                     jMenuItem_Save_As.setEnabled(true);
                     jMenuItem_Close_Project.setEnabled(true);
-                    this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
+                    new Output_Tap().removeText();
+                    new Output_Tap().println("Project \""+Data.Project_Name+"\" opened.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Instruction List file dose not exists.", "Open Preoject", JOptionPane.OK_OPTION);
                 }
@@ -1850,17 +1910,17 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Close_ProjectActionPerformed
 
     private void jMenuItem_Compile_SoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_SoftwareActionPerformed
-        if (Data.is_Saved_Project)
-            if (compile_software(Data.Project_Folder.getPath())) {
-                JOptionPane.showMessageDialog(this, "Successful");
+        if (Data.is_Saved_Project) {
+            if (compile_software(Data.Project_Folder.getPath(), evt)) {
+                //JOptionPane.showMessageDialog(this, "Successful");
             } else {
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(this, "Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
             }
-        else {
+        } else {
             int sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save is?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (sel == JOptionPane.YES_OPTION){
-                save();
+                saveProject();
                 jMenuItem_Compile_SoftwareActionPerformed(evt);
             } else {
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
@@ -2053,7 +2113,38 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         Timer_Button_Pressed(evt);
     }//GEN-LAST:event_jButton14KeyPressed
 
-    private void FillListProgram() {
+    private void jMenuItem_Download_Program_to_SoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Download_Program_to_SoCActionPerformed
+        if (Data.is_Saved_Project) {
+            if (Data.vhdl_compilation_state == Data.UPDATED) {
+                download_software_to_SoC(Data.Project_Folder.getPath());
+            } else {
+                int sel = JOptionPane.showConfirmDialog(this, "This project is not compiled.\nDo you want to compile it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (sel == JOptionPane.YES_OPTION){
+                    //TODO need to add which compilation you need
+                    jMenuItem_Compile_SoftwareActionPerformed(evt);
+                    Data.RequistDownload = true;
+                } else {
+                    Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                    JOptionPane.showMessageDialog(this, "Program is not saved!", "Downloading to SoC", JOptionPane.OK_OPTION, icon);
+                }
+            }
+        } else {
+            int sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (sel == JOptionPane.YES_OPTION){
+                saveProject();
+                jMenuItem_Download_Program_to_SoCActionPerformed(evt);
+            } else {
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(this, "Program is not saved!", "Downloading to SoC", JOptionPane.OK_OPTION, icon);
+            }
+        }
+    }//GEN-LAST:event_jMenuItem_Download_Program_to_SoCActionPerformed
+
+    private void jMenuItem_Compile_HardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_HardwareActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem_Compile_HardwareActionPerformed
+
+    private void FillListProgram(boolean isEditing) {
         jList_Program.setModel(new javax.swing.AbstractListModel() {
             @Override
             public int getSize() { return Data.size_Program; }
@@ -2061,11 +2152,16 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             public Object getElementAt(int i) { return Data.Program_1D[i]; }
         });
         jList_Program.setSelectedIndex(-1);
-        Data.is_Saved_Project = false;
-        this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
+        if (isEditing) {
+            Data.is_Saved_Project = false;
+            this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
+            if (Data.vhdl_compilation_state == Data.UPDATED) {
+                Data.vhdl_compilation_state = Data.ASSEMBLER;
+            }
+        }
     }
     
-    private void FillListVariables() {
+    private void FillListVariables(boolean isEditing) {
         jList_Variable.setModel(new javax.swing.AbstractListModel() {
             @Override
             public int getSize() { return Data.size_Vaiables; }
@@ -2073,8 +2169,13 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             public Object getElementAt(int i) { return Data.Vaiables[i]; }
         });
         jList_Variable.setSelectedIndex(-1);
-        Data.is_Saved_Project = false;
-        this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
+        if (isEditing) {
+            Data.is_Saved_Project = false;
+            this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
+            if (Data.vhdl_compilation_state == Data.UPDATED) {
+                Data.vhdl_compilation_state = Data.ASSEMBLER;
+            }
+        }
     }
     
     private void convert_program_2D_to_1D() {
@@ -2138,35 +2239,25 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         //</editor-fold>
         */
         
-         SwingUtilities.invokeLater ( new Runnable ()
-        {
-            public void run ()
-            {
-                // Install WebLaF as application L&F
-                WebLookAndFeel.install ();
-
-                // You can also do that with one of old-fashioned ways:
-                // UIManager.setLookAndFeel ( new WebLookAndFeel () );
-                // UIManager.setLookAndFeel ( "com.alee.laf.WebLookAndFeel" );
-                // UIManager.setLookAndFeel ( WebLookAndFeel.class.getCanonicalName () );
-
-                // Create you application here using Swing components
-                // JFrame frame = ...
-
-                // Or use similar Web* components to get access to some extended features
-                // WebFrame frame = ...
-            }
-        } );
+         SwingUtilities.invokeLater (WebLookAndFeel::install // Install WebLaF as application L&F
+         // You can also do that with one of old-fashioned ways:
+         // UIManager.setLookAndFeel ( new WebLookAndFeel () );
+         // UIManager.setLookAndFeel ( "com.alee.laf.WebLookAndFeel" );
+         // UIManager.setLookAndFeel ( WebLookAndFeel.class.getCanonicalName () );
+         // Create you application here using Swing components
+         // JFrame frame = ...
+         // Or use similar Web* components to get access to some extended features
+         // WebFrame frame = ...
+         );
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RV_FPGA_PLC_IDE().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> {
+            new RV_FPGA_PLC_IDE().setVisible(true);
+         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel JTextLableLoading;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -2194,6 +2285,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog_Add_Variable;
     private javax.swing.JDialog jDialog_Basic_Commands;
     private javax.swing.JDialog jDialog_Bistable_Command;
+    private javax.swing.JDialog jDialog_Loading;
     private javax.swing.JDialog jDialog_Timer_Command;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
@@ -2230,13 +2322,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Compile_All;
     private javax.swing.JMenuItem jMenuItem_Compile_Hardware;
     private javax.swing.JMenuItem jMenuItem_Compile_Software;
-    private javax.swing.JMenuItem jMenuItem_Connect_SoC;
     private javax.swing.JMenuItem jMenuItem_Counter_Down;
     private javax.swing.JMenuItem jMenuItem_Counter_Up;
     private javax.swing.JMenuItem jMenuItem_Counter_Up_Down;
     private javax.swing.JMenuItem jMenuItem_Div;
     private javax.swing.JMenuItem jMenuItem_Download_Program_to_SoC;
-    private javax.swing.JMenuItem jMenuItem_Download_Program_to_sdcard;
     private javax.swing.JMenuItem jMenuItem_Exit;
     private javax.swing.JMenuItem jMenuItem_Falling_Edge_Detector;
     private javax.swing.JMenuItem jMenuItem_How_to_Use;
@@ -2291,6 +2381,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRadioButton_Inputs;
     private javax.swing.JRadioButton jRadioButton_Instant;
     private javax.swing.JRadioButton jRadioButton_Keys;
@@ -2305,10 +2396,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
-    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea_Output_Tab;
     private javax.swing.JTextField jTextFieldVariable_Name;
     private javax.swing.JTextField jTextField_ET_Timer;
     private javax.swing.JTextField jTextField_IN_Timer;
@@ -2319,7 +2409,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_Reset_Bistable;
     private javax.swing.JTextField jTextField_Set_Bistable;
     // End of variables declaration//GEN-END:variables
-
+        
     private void Add_Variable() {
         String[] Variables_temp = new String[Data.size_Vaiables];
         System.arraycopy(Data.Vaiables, 0, Variables_temp, 0, Data.size_Vaiables);
@@ -2331,7 +2421,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jTextFieldVariable_Name.setText("");
         jComboBox_Variable_Type.setSelectedIndex(0);
         jDialog_Add_Variable.hide();
-        FillListVariables();
+        FillListVariables(true);
     }
 
     private void remove_Spaces_Before_Strings(String[] Variables_temp, int Variables_temp_lenght) {
@@ -2383,7 +2473,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }
     
     private void Timer_commands_button() {
-        int size_timer_variables = 0;
+        int size_timer_variables;
         if (Data.is_TON) {
             Data.Function_Name = "Timer function block (TON)";
             jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("TON"));
@@ -2450,7 +2540,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         Data.size_Program_in_rung[Data.Selected_Rung] = new_program_size;
         System.arraycopy(Lines, 0, Data.Program_2D[Data.Selected_Rung], Data.size_Program_in_rung[Data.Selected_Rung]-number_of_lines, number_of_lines);
         convert_program_2D_to_1D();
-        FillListProgram();
+        FillListProgram(true);
     }
 
     private void exit_Operation() {
@@ -2459,7 +2549,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             if (Data.is_New_Project) {
                 Option = JOptionPane.showConfirmDialog(null, "The project \""+Data.Project_Name+"\" is not saved. Do you want to save it?", "Exit", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (Option == JOptionPane.YES_OPTION) {
-                    if (save_As()) {
+                    if (saveProject_As()) {
                         System.exit(0);
                     }
                 } else if (Option == JOptionPane.NO_OPTION) {
@@ -2474,7 +2564,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 } else {
                     Option = JOptionPane.showConfirmDialog(null, "The project \""+Data.Project_Name+"\" is not saved. Do you want to save it?", "Exit", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                     if (Option == JOptionPane.YES_OPTION) {
-                        save();
+                        saveProject();
                         System.exit(0);
                     } else if (Option == JOptionPane.NO_OPTION) {
                         System.exit(0);
@@ -2489,7 +2579,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }
 
-    private boolean save_As() {
+    private boolean saveProject_As() {
         jFileChooser1.setDialogTitle("Choose directory for new project");
         jFileChooser1.setCurrentDirectory(new File("/home/hossameldin/Documents"));
         jFileChooser1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -2507,9 +2597,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         return false;
     }
 
-    private boolean save() {
+    private boolean saveProject() {
         if(Data.is_New_Project) {
-            return save_As();
+            return saveProject_As();
         } else {
             write_info_file(Data.Project_Folder.getPath());
             write_il_file(Data.Project_Folder.getPath());
@@ -2527,14 +2617,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             project_info = new FileOutputStream(Project_Folder+"/"+Data.Project_Name+".rfpinfo");
             String Size_of_Programs = "";
             for (int i = 0; i < Data.size_Rung; i++) {
-                Size_of_Programs = Size_of_Programs + "    Rung ("+(i+1)+") Size   = "+Data.size_Program_in_rung[i]+"\n";
+                Size_of_Programs = Size_of_Programs + "    Rung ("+(i+1)+") Size      = "+Data.size_Program_in_rung[i]+"\n";
             }
-            String data = "Project Name        = "+Data.Project_Name+"\n"+
-                          "Size of Program     = "+Data.size_Program+"\n"+
-                          "Max Size of Program = "+Data.max_size_program_in_rung+"\n"+
-                          "Number of Rungs     = "+Data.size_Rung+"\n"+
+            String data = "Project Name           = "+Data.Project_Name+"\n"+
+                          "Size of Program        = "+Data.size_Program+"\n"+
+                          "Max Size of Program    = "+Data.max_size_program_in_rung+"\n"+
+                          "Number of Rungs        = "+Data.size_Rung+"\n"+
                           Size_of_Programs+
-                          "Number of Variables = "+(Data.size_Vaiables - 2);
+                          "Number of Variables    = "+(Data.size_Vaiables - 2)+"\n"+
+                          "VHDL Compilation State = "+Data.vhdl_compilation_state;
             project_info.write(data.getBytes(), 0, data.length());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
@@ -2589,6 +2680,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 Data.size_Program_in_rung[i] = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             }
             Data.size_Vaiables = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1])+2;
+            Data.vhdl_compilation_state = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            File q_files = new File(Project_Folder+"/q_files");
+            if (!q_files.exists()) {
+                Data.vhdl_compilation_state = Data.NO_COMPILATION;
+                write_info_file(Project_Folder);
+            }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -2611,7 +2708,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 Data.Vaiables[i] = il_file.readLine();
             }
             il_file.readLine(); // empty line
-            FillListVariables();
             Data.Program_2D = new String[Data.size_Rung][Data.max_size_program_in_rung];
             Data.Rung_Name = new String[Data.size_Rung];
             il_file.readLine(); // PROGRAM
@@ -2630,7 +2726,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 rung_i++;
             }
             convert_program_2D_to_1D();
-            FillListProgram();
             this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
@@ -2651,7 +2746,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             if (Data.is_New_Project) {
                 Option = JOptionPane.showConfirmDialog(null, "The project \""+Data.Project_Name+"\" is not saved. Do you want to save it?", "Close Project", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (Option == JOptionPane.YES_OPTION) {
-                    save_As();
+                    saveProject_As();
                     close_project_procedure();
                 } else if (Option == JOptionPane.NO_OPTION) {
                     close_project_procedure();
@@ -2662,7 +2757,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 } else {
                     Option = JOptionPane.showConfirmDialog(null, "The project \""+Data.Project_Name+"\" is not saved. Do you want to save it?", "Close Project", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                     if (Option == JOptionPane.YES_OPTION) {
-                        save();
+                        saveProject();
                         close_project_procedure();
                     } else if (Option == JOptionPane.NO_OPTION) {
                         close_project_procedure();
@@ -2686,24 +2781,39 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenuItem_Save_As.setEnabled(false);
         jMenuItem_Close_Project.setEnabled(false);
         
-        FillListVariables();
+        FillListVariables(false);
         
         Data.size_Rung = 0;
-        FillListProgram();
+        FillListProgram(false);
         Data.Project_Name = "No Project";
         this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
+        new Output_Tap().removeText();
     }
 
-    private boolean compile_software(String Project_Folder) {
+    private boolean compile_software(String Project_Folder, java.awt.event.ActionEvent evt) {
+        LoadingDialoge loading = new LoadingDialoge("Compiling ...");
+        loading.start();
+        new Output_Tap().removeText();
+        new Output_Tap().println("Start Compiling As Software.");
         boolean success = true;
         File c_files = new File(Project_Folder+"/c_files");
-        if (!c_files.exists()){
-            c_files.mkdirs();
-        }
+        File q_files = new File(Project_Folder+"/q_files");
+        
+        c_files.mkdirs();
+        q_files.mkdirs();
+        
+        new Output_Tap().println("  Start Compiling \"instruction list\".");
         success &= compill_il_file();
         if (success) {
-            compile_c_file c_c_f = new compile_c_file();
-            success &= c_c_f.compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
+            new Output_Tap().println("  Start Compiling \"c files\".");
+            success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
+        }
+        if (success) {
+            new Output_Tap().println("  Start Writting Hardware Files.");
+            new Write_Hardware_Files().generate_q_files(Project_Folder);
+            new Output_Tap().println("  Start Compiling \"Quartus Project\".");
+            copy_mif_to_q_files(Project_Folder);
+            compile_vhdl(Project_Folder, evt);
         }
         
         return success;
@@ -2825,9 +2935,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
     private boolean compill_il_file() {
         boolean sucsess = true;
-        write_header_files(Data.Project_Folder.getPath()+"/c_files");
-        write_start_S_file(Data.Project_Folder.getPath()+"/c_files");
-        write_load_file(Data.Project_Folder.getPath()+"/c_files");
+        new Write_Software_Files().write_software_files();
         Data.C_code =   "#include <stdint.h>\n" +
                         "//#include <string.h>\n" +
                         "#include \"platform.h\"\n" +
@@ -2859,7 +2967,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         "\n" +
                         "	//uart_tx_string(&uart0, \"Hi ...\\n\\rRun \\\""+Data.Project_Name+"/\\\" ...\\n\\r\");\n" +
                         "\n";
-        declareAndInitializeVariables();
+        new Write_Software_Files().declareAndInitializeVariables();
         Data.C_code +=  "\n	while(1){\n" +
                         "               start_time(&time_measurement_d);\n" +
                         "		io_per_set_output(&io_per_d, RWD, 0, 0);\n";
@@ -3097,7 +3205,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                             Output_Timer = "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", timer"+timer_number+"_output);\n";
                         } else {
                             try {
-                                Instant_Operand = Integer.parseInt(Operand);
                                 JOptionPane.showMessageDialog(this, "Tho output of the timer shouldn't be instant value.", "Compile il", JOptionPane.OK_OPTION);
                                 success = false;
                             } catch (NumberFormatException ex) {
@@ -3166,607 +3273,42 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         long address = 0;
         int offc = Integer.parseInt(Operand.split("\\.")[1]);
         String oper = Operand.split("\\.")[0];
-        if (oper.equals("I0")) {
-            address = offc + 0;
-        } else if (oper.equals("I1")) {
-            address = offc + 8;
-        } else if (oper.equals("I2")) {
-            address = offc + 16;
-        } else if (oper.equals("Q0")) {
-            address = offc + 0 + 0x40;   // 0x40 output
-        } else if (oper.equals("Q1")) {
-            address = offc + 8 + 0x40;
-        } else if (oper.equals("Q2")) {
-            address = offc + 16 + 0x40;
-        } else if (oper.equals("LEDG")) {
-            address = offc + 28 + 0x40;
-        } else if (oper.equals("LEDR")) {
-            address = offc + 18 + 0x40;
-        } else if (oper.equals("SW")) {
-            address = offc + 18;
-        } else if (oper.equals("KEY")) {
-            address = offc + 28;
+        switch (oper) {
+            case "I0":
+                address = offc + 0;
+                break;
+            case "I1":
+                address = offc + 8;
+                break;
+            case "I2":
+                address = offc + 16;
+                break;
+            case "Q0":
+                address = offc + 0 + 0x40;   // 0x40 output
+                break;
+            case "Q1":
+                address = offc + 8 + 0x40;
+                break;
+            case "Q2":
+                address = offc + 16 + 0x40;
+                break;
+            case "LEDG":
+                address = offc + 28 + 0x40;
+                break;
+            case "LEDR":
+                address = offc + 18 + 0x40;
+                break;
+            case "SW":
+                address = offc + 18;
+                break;
+            case "KEY":
+                address = offc + 28;
+                break;
+            default:
+                break;
         }
         System.out.println(address+" "+oper);
         return address + (long) 3221225472.0; // To enable IO
-    }
-    
-    private void write_header_files(String Folder) {
-        write_i_o_peripheral_file(Folder);
-        write_platform_file(Folder);
-        write_uart_file(Folder);
-        write_time_measurement_file(Folder);
-        write_timer_file(Folder);
-    }
-
-    private void write_i_o_peripheral_file(String Folder) {
-        FileOutputStream i_o_peripheral_file = null;
-        String data =   "// The Potato SoC Library modified from hossameldin\n" +
-                        "// (c) Hossameldin Bayoummy Eassa 2019 <hossameassa@gmail.com>\n" +
-                        "\n" +
-                        "#ifndef PAEE_I_O_PERIPHERAL_H\n" +
-                        "#define PAEE_I_O_PERIPHERAL_H\n" +
-                        "\n" +
-                        "#include <stdbool.h>\n" +
-                        "#include <stdint.h>\n" +
-                        "\n" +
-                        "#define GPIO_IN_BASE 	0x000    // 0x00\n" +
-                        "#define SW				0x048    // 0x12\n" +
-                        "#define KEY				0x070    // 0x1c\n" +
-                        "\n" +
-                        "#define GPIO_OUT		0x100    // 0x40\n" +
-                        "#define LEDR			0x148    // 0x52\n" +
-                        "#define LEDG			0x170    // 0x5c\n" +
-                        "\n" +
-                        "#define RWD				0x1fc    // 0x7f\n" +
-                        "\n" +
-                        "struct io_per\n" +
-                        "{\n" +
-                        "	volatile uint32_t * registers;\n" +
-                        "};\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Initializes a io_per instance.\n" +
-                        " * @param module Pointer to a io_per instance structure.\n" +
-                        " * @param base   Pointer to the base address of the io_per hardware instance.\n" +
-                        " */\n" +
-                        "static inline void io_per_initialize(struct io_per * module, volatile void * base)\n" +
-                        "{\n" +
-                        "	module->registers = base;\n" +
-                        "}\n" +
-                        "\n" +
-                        "static inline uint32_t io_per_get_input(struct io_per * module, volatile uint32_t submodule, uint32_t index)\n" +
-                        "{\n" +
-                        "	return module->registers[(submodule >> 2) + index];\n" +
-                        "}\n" +
-                        "\n" +
-                        "static inline void io_per_set_output(struct io_per * module, volatile uint32_t submodule, uint32_t index, volatile uint32_t output)\n" +
-                        "{\n" +
-                        "	module->registers[(submodule >> 2) + index] = output;\n" +
-                        "}\n" +
-                        "\n" +
-                        "#endif\n";
-        try {
-            new File(Folder+"/i_o_peripheral.h").delete();
-            i_o_peripheral_file = new FileOutputStream(Folder+"/i_o_peripheral.h");
-            i_o_peripheral_file.write(data.getBytes(), 0, data.length());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                i_o_peripheral_file.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    private void write_platform_file(String Folder) {
-        FileOutputStream i_o_peripheral_file = null;
-        String data =   "// The Potato Application Execution Environment (PAEE)\n" +
-                        "// (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
-                        "// Report bugs and issues on <https://github.com/skordal/potato/issues>\n" +
-                        "\n" +
-                        "#ifndef PAEE_PLATFORM_H\n" +
-                        "#define PAEE_PLATFORM_H\n" +
-                        "\n" +
-                        "// This file contains information about the platform that the PAEE is running\n" +
-                        "// on. The current version of the file contains information about the Arty-\n" +
-                        "// based \"official\" Potato SoC.\n" +
-                        "\n" +
-                        "// System clock frequency:\n" +
-                        "#define PLATFORM_SYSCLK_FREQ	"+Data.CPU_Freq_S+"U\n" +
-                        "\n" +
-                        "// Base addresses for peripherals:\n" +
-                        "#define PLATFORM_UART0_BASE			0x00001000\n" +
-                        "#define PLATFORM_TIMER0_BASE		0x00002000\n" +
-                        "#define PLATFORM_TIMER1_BASE		0x00003000\n" +
-                        "#define PLATFORM_IO_BASE			0x00004000\n" +
-                        "#define PLATFORM_TIME_MEASUREMENT	0x00005000\n" +
-                        "#define PLATFORM_ICERROR_BASE		0x10000000\n" +
-                        "#define PLATFORM_PAEE_ROM_BASE		0xffff8000\n" +
-                        "#define PLATFORM_PAEE_RAM_BASE		0xffffc000\n" +
-                        "\n" +
-                        "// Interrupts:\n" +
-                        "#define PLATFORM_IRQ_TIMER0	0\n" +
-                        "#define PLATFORM_IRQ_TIMER1	1\n" +
-                        "#define PLATFORM_IRQ_UART0	2\n" +
-                        "#define PLATFORM_IRQ_UART1	3\n" +
-                        "#define PLATFORM_IRQ_BUS_ERROR	4\n" +
-                        "\n" +
-                        "#endif\n";
-        try {
-            new File(Folder+"/platform.h").delete();
-            i_o_peripheral_file = new FileOutputStream(Folder+"/platform.h");
-            i_o_peripheral_file.write(data.getBytes(), 0, data.length());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                i_o_peripheral_file.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    private void write_uart_file(String Folder) {
-        FileOutputStream i_o_peripheral_file = null;
-        String data =   "// The Potato SoC Library\n" +
-                        "// (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
-                        "// Report bugs and issues on <https://github.com/skordal/potato/issues>\n" +
-                        "\n" +
-                        "#ifndef LIBSOC_UART_H\n" +
-                        "#define LIBSOC_UART_H\n" +
-                        "\n" +
-                        "#include <stdbool.h>\n" +
-                        "#include <stdint.h>\n" +
-                        "\n" +
-                        "#define UART_REG_TRANSMIT	0x00\n" +
-                        "#define UART_REG_RECEIVE	0x04\n" +
-                        "#define UART_REG_STATUS		0x08\n" +
-                        "#define UART_REG_DIVISOR	0x0c\n" +
-                        "#define UART_REG_INTERRUPT	0x10\n" +
-                        "\n" +
-                        "// Status register bit names:\n" +
-                        "#define UART_STATUS_TX_FULL	3\n" +
-                        "#define UART_STATUS_RX_FULL	2\n" +
-                        "#define UART_STATUS_TX_EMPTY	1\n" +
-                        "#define UART_STATUS_RX_EMPTY	0\n" +
-                        "\n" +
-                        "// Interrupt enable register bit names:\n" +
-                        "#define UART_REG_INTERRUPT_TX_READY	1\n" +
-                        "#define UART_REG_INTERRUPT_RECV		0\n" +
-                        "\n" +
-                        "struct uart\n" +
-                        "{\n" +
-                        "	volatile uint32_t * registers;\n" +
-                        "};\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Initializes a UART instance.\n" +
-                        " * @param module       Pointer to a UART instance structure.\n" +
-                        " * @param base_address Base address of the UART hardware instance.\n" +
-                        " */\n" +
-                        "static inline void uart_initialize(struct uart * module, volatile void * base_address)\n" +
-                        "{\n" +
-                        "	module->registers = base_address;\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Sets the UART divisor.\n" +
-                        " * @param module  Instance object.\n" +
-                        " * @param divisor Value of the divisor register. A baudrate can be converted into\n" +
-                        " *                a divisor value using the @c uart_baud2divisor function.\n" +
-                        " */\n" +
-                        "static inline void uart_set_divisor(struct uart * module, uint32_t divisor)\n" +
-                        "{\n" +
-                        "	module->registers[UART_REG_DIVISOR >> 2] = divisor;\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Enables or disables UART IRQs.\n" +
-                        " * @param module   Instance object.\n" +
-                        " * @param tx_ready Specifies whether to enable or disable the `TX ready` interrupt.\n" +
-                        " * @param recv     Specifies whether to enable or disable the `Data received` interrupt.\n" +
-                        " */\n" +
-                        "static inline void uart_enable_interrupt(struct uart * module, bool tx_ready, bool recv)\n" +
-                        "{\n" +
-                        "	module->registers[UART_REG_INTERRUPT >> 2] = 0\n" +
-                        "		| (tx_ready << UART_REG_INTERRUPT_TX_READY)\n" +
-                        "		| (recv << UART_REG_INTERRUPT_RECV);\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Checks if the UART transmit buffer is ready to accept more data.\n" +
-                        " * @param module Instance object.\n" +
-                        " * @return `true` if the UART transmit FIFO has free space, `false` otherwise.\n" +
-                        " */\n" +
-                        "static inline bool uart_tx_ready(struct uart * module)\n" +
-                        "{\n" +
-                        "	return !(module->registers[UART_REG_STATUS >> 2]  & (1 << UART_STATUS_TX_FULL));\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Checks if the UART transmit buffer is empty.\n" +
-                        " * @param module Instance object.\n" +
-                        " * @return `true` if the UART transmit FIFO is empty, `false` otherwise.\n" +
-                        " */\n" +
-                        "static inline bool uart_tx_fifo_empty(struct uart * module)\n" +
-                        "{\n" +
-                        "	return module->registers[UART_REG_STATUS >> 2] & (1 << UART_STATUS_TX_EMPTY);\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Checks if the UART transmit buffer is full.\n" +
-                        " * @param module Instance object.\n" +
-                        " * @return `true` if the UART transmit FIFO is full, `false` otherwise.\n" +
-                        " */\n" +
-                        "static inline bool uart_tx_fifo_full(struct uart * module)\n" +
-                        "{\n" +
-                        "	return module->registers[UART_REG_STATUS >> 2] & (1 << UART_STATUS_TX_FULL);\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Transmits a byte over the UART.\n" +
-                        " * This function does not check if the UART buffer is full; use the @ref uart_tx_ready()\n" +
-                        " * function to check if the UART can accept more data.\n" +
-                        " * @param module Instance object.\n" +
-                        " * @param byte   Byte to print to the UART.\n" +
-                        " */\n" +
-                        "static inline void uart_tx(struct uart * module, uint8_t byte)\n" +
-                        "{\n" +
-                        "	module->registers[UART_REG_TRANSMIT >> 2] = byte;\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Transmits an array of bytes over the UART.\n" +
-                        " * This function blocks until the entire array has been queued for transfer.\n" +
-                        " * @param module Instance object.\n" +
-                        " * @param array  Pointer to the aray to send on the UART.\n" +
-                        " * @param length Length of the array.\n" +
-                        " * @see uart_tx_string()\n" +
-                        " */\n" +
-                        "static inline void uart_tx_array(struct uart * module, const uint8_t * array, uint32_t length)\n" +
-                        "{\n" +
-                        "	for(uint32_t i = 0; i < length; ++i)\n" +
-                        "	{\n" +
-                        "		while(uart_tx_fifo_full(module));\n" +
-                        "		uart_tx(module, array[i]);\n" +
-                        "	}\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Transmits a character string over the UART.\n" +
-                        " * This function blocks until the entire array has been queued for transfer.\n" +
-                        " * @param module Instance object.\n" +
-                        " * @param string Pointer to the string to send on the UART. The string must be\n" +
-                        " *               NULL-terminated.\n" +
-                        " * @see uart_tx_array()\n" +
-                        " */\n" +
-                        "static inline void uart_tx_string(struct uart * module, const char * string)\n" +
-                        "{\n" +
-                        "	for(uint32_t i = 0; string[i] != 0; ++i)\n" +
-                        "	{\n" +
-                        "		while(uart_tx_fifo_full(module));\n" +
-                        "		uart_tx(module, string[i]);\n" +
-                        "	}\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Reads a byte from the UART.\n" +
-                        " * This function does not check if a byte is available in the UART buffer; use the\n" +
-                        " * @ref uart_rx_ready() function to check if the UART has received anything.\n" +
-                        " * @param module Instance object.\n" +
-                        " * @return Byte retrieved from the UART.\n" +
-                        " */\n" +
-                        "static inline uint8_t uart_rx(struct uart * module)\n" +
-                        "{\n" +
-                        "	return module->registers[UART_REG_RECEIVE >> 2];\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Checks if the UART receive buffer is empty.\n" +
-                        " * @param module Instance object.\n" +
-                        " * @return `true` if the UART receive FIFO is empty, `false` otherwise.\n" +
-                        " */\n" +
-                        "static inline bool uart_rx_fifo_empty(struct uart * module)\n" +
-                        "{\n" +
-                        "	return module->registers[UART_REG_STATUS >> 2] & (1 << UART_STATUS_RX_EMPTY);\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Utility function for calculating the UART baudrate divisor.\n" +
-                        " * @param baudrate   The desired baudrate.\n" +
-                        " * @param system_clk Frequency of the system clock in Hz.\n" +
-                        " * @return The value needed for the UART divisor register to obtain the requested baudrate.\n" +
-                        " */\n" +
-                        "static inline uint32_t uart_baud2divisor(uint32_t baudrate, uint32_t system_clk)\n" +
-                        "{\n" +
-                        "	return (system_clk / (baudrate * 16)) - 1;\n" +
-                        "}\n" +
-                        "\n" +
-                        "#endif\n";
-        try {
-            new File(Folder+"/uart.h").delete();
-            i_o_peripheral_file = new FileOutputStream(Folder+"/uart.h");
-            i_o_peripheral_file.write(data.getBytes(), 0, data.length());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                i_o_peripheral_file.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    private void write_start_S_file(String Folder) {
-        FileOutputStream i_o_peripheral_file = null;
-        String data =   "# The Potato Application Execution Environment (PAEE)\n" +
-                        "# (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
-                        "# Report bugs and issues on <https://github.com/skordal/potato/issues>\n" +
-                        "\n" +
-                        ".section .init\n" +
-                        "\n" +
-                        ".global _start\n" +
-                        "_start:\n" +
-                        "\n" +
-                        "// Sets the exception handler address:\n" +
-                        ".hidden init_mtvec\n" +
-                        "init_mtvec:\n" +
-                        "	la x1, _machine_exception_handler\n" +
-                        "	csrw mtvec, x1\n" +
-                        "\n" +
-                        "// Copies the .data from ROM to RAM - this is only used by the bootloader, which runs from ROM:\n" +
-                        "#ifdef COPY_DATA_TO_RAM\n" +
-                        ".hidden copy_data\n" +
-                        "copy_data:\n" +
-                        "	la x1, __text_end	// Copy source address\n" +
-                        "	la x2, __data_begin	// Copy destination address\n" +
-                        "	la x3, __data_end	// Copy destination end address\n" +
-                        "\n" +
-                        "	beq x2, x3, 2f		// Skip if there is no data to copy\n" +
-                        "\n" +
-                        "1:\n" +
-                        "	lb x4, (x1)\n" +
-                        "	sb x4, (x2)\n" +
-                        "	addi x1, x1, 1\n" +
-                        "	addi x2, x2, 1\n" +
-                        "\n" +
-                        "	bne x2, x3, 1b		// Repeat as long as there is more data to copy\n" +
-                        "2:\n" +
-                        "#endif\n" +
-                        "\n" +
-                        "// Clears the .bss (zero initialized data) section:\n" +
-                        ".hidden clear_bss\n" +
-                        "clear_bss:\n" +
-                        "	la x1, __bss_begin\n" +
-                        "	la x2, __bss_end\n" +
-                        "	beq x1, x2, 2f		// Skip if there is no .bss section\n" +
-                        "\n" +
-                        "1:\n" +
-                        "	sw x0, (x1)\n" +
-                        "	addi x1, x1, 4\n" +
-                        "	bne x1, x2, 1b\n" +
-                        "2:\n" +
-                        "\n" +
-                        "// Sets up the stack pointer:\n" +
-                        ".hidden init_stack\n" +
-                        "init_stack:\n" +
-                        "	la sp, __stack_top\n" +
-                        "\n" +
-                        ".hidden call_main\n" +
-                        "call_main:\n" +
-                        "	call main\n" +
-                        "\n" +
-                        "1:\n" +
-                        "	wfi\n" +
-                        "	j 1b\n" +
-                        "\n" +
-                        ".global _machine_exception_handler\n" +
-                        "_machine_exception_handler:\n" +
-                        "	// Save all registers (to aid in debugging):\n" +
-                        "	addi sp, sp, -124\n" +
-                        "	sw x1, 0(sp)\n" +
-                        "	sw x2, 4(sp)\n" +
-                        "	sw x3, 8(sp)\n" +
-                        "	sw x4, 12(sp)\n" +
-                        "	sw x5, 16(sp)\n" +
-                        "	sw x6, 20(sp)\n" +
-                        "	sw x7, 24(sp)\n" +
-                        "	sw x8, 28(sp)\n" +
-                        "	sw x9, 32(sp)\n" +
-                        "	sw x10, 36(sp)\n" +
-                        "	sw x11, 40(sp)\n" +
-                        "	sw x12, 44(sp)\n" +
-                        "	sw x13, 48(sp)\n" +
-                        "	sw x14, 52(sp)\n" +
-                        "	sw x15, 56(sp)\n" +
-                        "	sw x16, 60(sp)\n" +
-                        "	sw x17, 64(sp)\n" +
-                        "	sw x18, 68(sp)\n" +
-                        "	sw x19, 72(sp)\n" +
-                        "	sw x20, 76(sp)\n" +
-                        "	sw x21, 80(sp)\n" +
-                        "	sw x22, 84(sp)\n" +
-                        "	sw x23, 88(sp)\n" +
-                        "	sw x24, 92(sp)\n" +
-                        "	sw x25, 96(sp)\n" +
-                        "	sw x26, 100(sp)\n" +
-                        "	sw x27, 104(sp)\n" +
-                        "	sw x28, 108(sp)\n" +
-                        "	sw x29, 112(sp)\n" +
-                        "	sw x30, 116(sp)\n" +
-                        "	sw x31, 120(sp)\n" +
-                        "\n" +
-                        "	csrr a0, mcause # First parameter: cause\n" +
-                        "	csrr a1, mepc   # Second parameter: exception location\n" +
-                        "	mv a2, sp	# Third parameter: start of stored register array\n" +
-                        "	call exception_handler\n" +
-                        "\n" +
-                        ".hidden _machine_exception_return\n" +
-                        "_machine_exception_return:\n" +
-                        "	// Restore all registers:\n" +
-                        "	lw x1, 0(sp)\n" +
-                        "	# lw x2, 4(sp) <- x2 = sp, so do not load this register\n" +
-                        "	lw x3, 8(sp)\n" +
-                        "	lw x4, 12(sp)\n" +
-                        "	lw x5, 16(sp)\n" +
-                        "	lw x6, 20(sp)\n" +
-                        "	lw x7, 24(sp)\n" +
-                        "	lw x8, 28(sp)\n" +
-                        "	lw x9, 32(sp)\n" +
-                        "	lw x10, 36(sp)\n" +
-                        "	lw x11, 40(sp)\n" +
-                        "	lw x12, 44(sp)\n" +
-                        "	lw x13, 48(sp)\n" +
-                        "	lw x14, 52(sp)\n" +
-                        "	lw x15, 56(sp)\n" +
-                        "	lw x16, 60(sp)\n" +
-                        "	lw x17, 64(sp)\n" +
-                        "	lw x18, 68(sp)\n" +
-                        "	lw x19, 72(sp)\n" +
-                        "	lw x20, 76(sp)\n" +
-                        "	lw x21, 80(sp)\n" +
-                        "	lw x22, 84(sp)\n" +
-                        "	lw x23, 88(sp)\n" +
-                        "	lw x24, 92(sp)\n" +
-                        "	lw x25, 96(sp)\n" +
-                        "	lw x26, 100(sp)\n" +
-                        "	lw x27, 104(sp)\n" +
-                        "	lw x28, 108(sp)\n" +
-                        "	lw x29, 112(sp)\n" +
-                        "	lw x30, 116(sp)\n" +
-                        "	lw x31, 120(sp)\n" +
-                        "	addi sp, sp, 124\n" +
-                        "\n" +
-                        "	mret\n";
-        try {
-            new File(Folder+"/start.S").delete();
-            i_o_peripheral_file = new FileOutputStream(Folder+"/start.S");
-            i_o_peripheral_file.write(data.getBytes(), 0, data.length());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                i_o_peripheral_file.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    private void write_load_file(String Folder) {
-        FileOutputStream i_o_peripheral_file = null;
-        String data =   "/* Linker script for standalone test applications for the Potato SoC\n" +
-                        " * (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
-                        " * Report bugs and issues on <https://github.com/skordal/potato/issues>\n" +
-                        " */\n" +
-                        "\n" +
-                        "ENTRY(_start)\n" +
-                        "\n" +
-                        "MEMORY\n" +
-                        "{\n" +
-                        "	RAM (rwx)    : ORIGIN = 0x00000000, LENGTH = 0x00020000\n" +
-                        "	AEE_ROM (rx) : ORIGIN = 0xffff8000, LENGTH = 0x00004000\n" +
-                        "	AEE_RAM (rw) : ORIGIN = 0xffffc000, LENGTH = 0x00004000\n" +
-                        "}\n" +
-                        "\n" +
-                        "SECTIONS\n" +
-                        "{\n" +
-                        "	.text :\n" +
-                        "	{\n" +
-                        "		*(.init)\n" +
-                        "		*(.text*)\n" +
-                        "		__text_end = .;\n" +
-                        "		*(.rodata*)\n" +
-                        "	} > AEE_ROM\n" +
-                        "\n" +
-                        "	.data : AT(ADDR(.text) + SIZEOF(.text))\n" +
-                        "	{\n" +
-                        "		__data_begin = .;\n" +
-                        "		*(.data*)\n" +
-                        "		*(.eh_frame*)\n" +
-                        "		__data_end = ALIGN(4);\n" +
-                        "	} > AEE_RAM\n" +
-                        "\n" +
-                        "	.bss ALIGN(4) :\n" +
-                        "	{\n" +
-                        "		__bss_begin = .;\n" +
-                        "		*(.bss*)\n" +
-                        "		*(.sbss)\n" +
-                        "		__bss_end = ALIGN(4);\n" +
-                        "	} > AEE_RAM\n" +
-                        "\n" +
-                        "	/* Use the top of RAM and downwards for the stack: */\n" +
-                        "	__stack_top = 0x00000000;\n" +
-                        "\n" +
-                        "	/DISCARD/ :\n" +
-                        "	{\n" +
-                        "		*(.comment)\n" +
-                        "	}\n" +
-                        "}";
-        try {
-            new File(Folder+"/load.ld").delete();
-            i_o_peripheral_file = new FileOutputStream(Folder+"/load.ld");
-            i_o_peripheral_file.write(data.getBytes(), 0, data.length());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                i_o_peripheral_file.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    private void declareAndInitializeVariables() {
-        String Variable_temp;
-        String typeOfVariable;
-        String nameOfVariable;
-        String Type;
-        for (int i = 1; i < Data.size_Vaiables-1; i++) {
-            Variable_temp = Data.Vaiables[i].replace(" ", "");
-            nameOfVariable = Variable_temp.split(":")[0];
-            typeOfVariable = Variable_temp.split(":")[1];
-            switch (typeOfVariable) {
-                case "INT":
-                    Type = "int";
-                    break;
-                case "BOOL":
-                    Type = "int";
-                    break;
-                case "REAL":
-                    Type = "float";
-                    break;
-                case "TIME":
-                    Type = "uint64_t";
-                    break;
-                case "TON":
-                    Type = "Timer";
-                    break;
-                case "TOF":
-                    Type = "Timer";
-                    break;
-                default:
-                    Type = "NotSupported";
-                    break;
-            }
-            if (!Type.equals("Timer")) Data.C_code += "\t"+Type+" "+nameOfVariable+" = 0;\n";
-        }
     }
 
     private void add_basic_c_command(String Operand, String operation, String not) {
@@ -4125,202 +3667,254 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }
 
-    private void write_timer_file(String Folder) {
-        FileOutputStream i_o_peripheral_file = null;
-        String data =   "// The Potato SoC Library\n" +
-                        "// (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
-                        "// Report bugs and issues on <https://github.com/skordal/potato/issues>\n" +
-                        "\n" +
-                        "#ifndef LIBSOC_TIMER_H\n" +
-                        "#define LIBSOC_TIMER_H\n" +
-                        "\n" +
-                        "#include <stdint.h>\n" +
-                        "\n" +
-                        "// Timer register offsets:\n" +
-                        "#define TIMER_REG_CONTROL	0x00\n" +
-                        "#define TIMER_REG_COMPARE_L	0x04\n" +
-                        "#define TIMER_REG_COMPARE_H	0x08\n" +
-                        "#define TIMER_REG_COUNTER_L	0x0C\n" +
-                        "#define TIMER_REG_COUNTER_H	0x10\n" +
-                        "\n" +
-                        "// Timer control register bits:\n" +
-                        "#define TIMER_CONTROL_RUN	0\n" +
-                        "#define TIMER_CONTROL_CLEAR	1\n" +
-                        "\n" +
-                        "struct timer\n" +
-                        "{\n" +
-                        "	volatile uint32_t * registers;\n" +
-                        "};\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Initializes a timer instance.\n" +
-                        " * @param module       Pointer to a timer instance structure.\n" +
-                        " * @param base_address Base address of the timer hardware module.\n" +
-                        " */\n" +
-                        "static inline void timer_initialize(struct timer * module, volatile void * base_address)\n" +
-                        "{\n" +
-                        "	module->registers = base_address;\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Resets a timer.\n" +
-                        " * This stops the timer and resets its counter value to 0.\n" +
-                        " * @param module Pointer to a timer instance structure.\n" +
-                        " */\n" +
-                        "static inline void timer_reset(struct timer * module)\n" +
-                        "{\n" +
-                        "	module->registers[TIMER_REG_CONTROL >> 2] = 1 << TIMER_CONTROL_CLEAR;\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Starts a timer.\n" +
-                        " * @param module Pointer to a timer instance structure.\n" +
-                        " */\n" +
-                        "static inline void timer_start(struct timer * module)\n" +
-                        "{\n" +
-                        "	module->registers[TIMER_REG_CONTROL >> 2] = 1 << TIMER_CONTROL_RUN | 1 << TIMER_CONTROL_CLEAR;\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Stops a timer.\n" +
-                        " * @param module Pointer to a timer instance structure.\n" +
-                        " */\n" +
-                        "static inline void timer_stop(struct timer * module)\n" +
-                        "{\n" +
-                        "	module->registers[TIMER_REG_CONTROL >> 2] = 0;\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Clears a timer.\n" +
-                        " * @param module Pointer to a timer instance structure.\n" +
-                        " */\n" +
-                        "static inline void timer_clear(struct timer * module)\n" +
-                        "{\n" +
-                        "	module->registers[TIMER_REG_CONTROL >> 2] |= 1 << TIMER_CONTROL_CLEAR;\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Sets the compare register of a timer.\n" +
-                        " * @param module  Pointer to a timer instance structure.\n" +
-                        " * @param compare Value to write to the timer compare register.\n" +
-                        " * @warning Using this function while the timer is running could cause undefined bahviour.\n" +
-                        " */\n" +
-                        "static inline void timer_set_compare(struct timer * module, uint64_t compare)\n" +
-                        "{\n" +
-                        "	module->registers[TIMER_REG_COMPARE_L >> 2] = (uint32_t) compare;\n" +
-                        "    module->registers[TIMER_REG_COMPARE_H >> 2] = (uint32_t) (compare >> 32);\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Reads the current value of a timer's counter.\n" +
-                        " * @param module Pointer to a timer instance structure.\n" +
-                        " * @returns The value of the timer's counter register.\n" +
-                        " */\n" +
-                        "static inline uint64_t timer_get_count(struct timer  * module)\n" +
-                        "{\n" +
-                        "\tuint64_t ret = module->registers[TIMER_REG_COUNTER_H >> 2];\n" +
-                        "\tret = ret << 32;\n" +
-                        "\tret = ret | (module->registers[TIMER_REG_COUNTER_L >> 2]);\n" +
-                        "\treturn ret;\n" +
-                        "}\n" +
-                        "\n" +
-                        "/**\n" +
-                        " * Sets the value of a timer's counter register.\n" +
-                        " * @param module  Pointer to a timer instance structure.\n" +
-                        " * @param counter New value of the timer's counter register.\n" +
-                        " * @warning This function should only be used when the timer is stopped to avoid undefined behaviour.\n" +
-                        " */\n" +
-                        " static inline void timer_set_count(struct timer * module, uint64_t counter)\n" +
-                        " {\n" +
-                        "	module->registers[TIMER_REG_COUNTER_L >> 2] = (uint32_t) counter;\n" +
-                        "	module->registers[TIMER_REG_COUNTER_H >> 2] = (uint32_t) (counter >> 32);\n" +
-                        " }\n" +
-                        "\n" +
-                        "#endif";
+    private void copy_mif_to_q_files(String Project_Folder) {
         try {
-            new File(Folder+"/timer.h").delete();
-            i_o_peripheral_file = new FileOutputStream(Folder+"/timer.h");
-            i_o_peripheral_file.write(data.getBytes(), 0, data.length());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            Files.copy(Paths.get(Project_Folder+"/c_files/bootloader.mif"), Paths.get(Project_Folder+"/q_files/bootloader.mif"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                i_o_peripheral_file.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 
-    private void write_time_measurement_file(String Folder) {
-        FileOutputStream i_o_peripheral_file = null;
-        String data =   "// The Potato SoC Library add from hossameldin\n" +
-                        "// (c) Hossameldin Bayoummy Eassa 2019 <hossameassa@gmail.com>\n" +
-                        "\n" +
-                        "#ifndef PAEE_TIME_MEASUREMENT_H\n" +
-                        "#define PAEE_TIME_MEASUREMENT_H\n" +
-                        "\n" +
-                        "#include <stdbool.h>\n" +
-                        "#include <stdint.h>\n" +
-                        "\n" +
-                        "#define START_STOP_A	0x00 // Address of writing start and stop\n" +
-                        "#define START			0x71\n" +
-                        "#define STOP			0x53\n" +
-                        "\n" +
-                        "#define MICRO_NANO_A	0x04 // Address of writing Micro Or Nano Measurements\n" +
-                        "#define MICRO			0x36\n" +
-                        "#define NANO			0x42\n" +
-                        "\n" +
-                        "#define READ_TIME_A		0x08\n" +
-                        "\n" +
-                        "\n" +
-                        "struct time_measurement\n" +
-                        "{\n" +
-                        "	volatile uint32_t * registers;\n" +
-                        "};\n" +
-                        "\n" +
-                        "static inline void time_measurement_per_initialize(struct time_measurement * module, volatile void * base)\n" +
-                        "{\n" +
-                        "	module->registers = base;\n" +
-                        "}\n" +
-                        "\n" +
-                        "static inline void start_time(struct time_measurement * module)\n" +
-                        "{\n" +
-                        "	module->registers[(START_STOP_A >> 2)] = START;\n" +
-                        "}\n" +
-                        "\n" +
-                        "static inline void stop_time(struct time_measurement * module)\n" +
-                        "{\n" +
-                        "	module->registers[(START_STOP_A >> 2)] = STOP;\n" +
-                        "}\n" +
-                        "\n" +
-                        "static inline void set_micro(struct time_measurement * module)\n" +
-                        "{\n" +
-                        "	module->registers[(MICRO_NANO_A >> 2)] = MICRO;\n" +
-                        "}\n" +
-                        "\n" +
-                        "static inline void set_nano(struct time_measurement * module)\n" +
-                        "{\n" +
-                        "	module->registers[(MICRO_NANO_A >> 2)] = NANO;\n" +
-                        "}\n" +
-                        "\n" +
-                        "#endif";
-        try {
-            new File(Folder+"/time_measurement.h").delete();
-            i_o_peripheral_file = new FileOutputStream(Folder+"/time_measurement.h");
-            i_o_peripheral_file.write(data.getBytes(), 0, data.length());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
+    private boolean compile_vhdl(String Project_Folder, java.awt.event.ActionEvent evt) {
+        Project_Folder = Project_Folder + "/q_files/";
+        boolean success = false;
+        switch (Data.vhdl_compilation_state) {
+            case Data.NO_COMPILATION:
+                compile_analysis_synthesis cas = new compile_analysis_synthesis(Project_Folder, evt);
+                cas.start();
+                break;
+            case Data.ANALYSIS_SYNTHESIS:
+                compile_fitter cf = new compile_fitter(Project_Folder, evt);
+                cf.start();
+                break;
+            case Data.FITTER:
+                compile_assembler ca = new compile_assembler(Project_Folder, evt);
+                ca.start();
+                break;
+            case Data.ASSEMBLER:
+                compile_update_mif cum = new compile_update_mif(Project_Folder, evt);
+                cum.start();
+                break;
+            case Data.UPDATED:
+                new Output_Tap().println("No Need for Compilling");
+                jDialog_Loading.hide();
+                JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "No Need for Compilling");
+        }
+        return success;
+    }
+
+    private void download_software_to_SoC(String Project_Folder) {
+        LoadingDialoge loading = new LoadingDialoge("Downloading ...");
+        loading.start();
+        new Output_Tap().removeText();
+        new Output_Tap().println("Start Downloading Software to SoC.");
+        download_to_SoC_thread dtst = new download_to_SoC_thread(Project_Folder+"/q_files");
+        dtst.start();
+    }
+    
+    private class download_to_SoC_thread extends Thread {
+        private final String Project_Folder;
+        
+        download_to_SoC_thread(String Project_Folder) {
+            this.Project_Folder = Project_Folder;
+        }
+        
+        @Override
+        public void run() {
+            Runtime rt = Runtime.getRuntime();
+            printOutput errorReported, outputMessage;
+            boolean success = new compile_c_file().compile_download_to_soc_p(Project_Folder);
+            if (success) {
+                jDialog_Loading.hide();
+                new Output_Tap().println("Downloading Finished Successfully");
+                JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Downloading Finished Successfully");
+            } else {
+                jDialog_Loading.hide();
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Downloading did not Finished Successfully.", "Downloading to SoC", JOptionPane.OK_OPTION, icon);
+                new Output_Tap().println("Downloading did not Finished Successfully");
+            }
+            saveProject();
+        }
+    }
+    
+    private class compile_analysis_synthesis extends Thread {
+        private final String Project_Folder;
+        private final java.awt.event.ActionEvent evt;
+        
+        compile_analysis_synthesis(String Project_Folder, java.awt.event.ActionEvent evt) {
+            this.Project_Folder = Project_Folder;
+            this.evt = evt;
+        }
+        
+        @Override
+        public void run() {
+            new Output_Tap().println("      Starting Analysis snd Synthesis");
+            Runtime rt = Runtime.getRuntime();
+            printOutput errorReported, outputMessage;
             try {
-                i_o_peripheral_file.close();
-            } catch (IOException ex) {
+                String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_map --read_settings_files=on --write_settings_files=off "+Project_Folder+"RV_FPGA_PLC_Potato -c "+Project_Folder+"RV_FPGA_PLC_Potato";
+                Process proc = rt.exec(cmd);
+                errorReported = new printOutput(proc.getErrorStream(), "        ");
+                outputMessage = new printOutput(proc.getInputStream(), "        ");
+                errorReported.start();
+                outputMessage.start();
+                proc.waitFor();
+                if (proc.exitValue() == 0) {
+                    compile_fitter cf = new compile_fitter(Project_Folder, evt);
+                    Data.vhdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
+                    cf.start();
+                } else {
+                    jDialog_Loading.hide();
+                    Data.vhdl_compilation_state = Data.NO_COMPILATION;
+                    Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                    JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Analysis Synthesis Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
+                }
+                saveProject();
+            } catch (IOException | InterruptedException ex) {
                 Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
+    
+    private class compile_fitter extends Thread {
+        private final String Project_Folder;
+        private final java.awt.event.ActionEvent evt;
+        
+        compile_fitter(String Project_Folder, java.awt.event.ActionEvent evt) {
+            this.Project_Folder = Project_Folder;
+            this.evt = evt;
+        }
+        
+        @Override
+        public void run() {
+            new Output_Tap().println("      Starting Fitter");
+            Runtime rt = Runtime.getRuntime();
+            printOutput errorReported, outputMessage;
+            try {
+                String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_fit --read_settings_files=on --write_settings_files=off "+Project_Folder+"RV_FPGA_PLC_Potato -c "+Project_Folder+"RV_FPGA_PLC_Potato";
+                Process proc = rt.exec(cmd);
+                errorReported = new printOutput(proc.getErrorStream(), "        ");
+                outputMessage = new printOutput(proc.getInputStream(), "        ");
+                errorReported.start();
+                outputMessage.start();
+                proc.waitFor();
+                if (proc.exitValue() == 0) {
+                    compile_assembler ca = new compile_assembler(Project_Folder, evt);
+                    Data.vhdl_compilation_state = Data.FITTER;
+                    ca.start();
+                } else {
+                    jDialog_Loading.hide();
+                    Data.vhdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
+                    Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                    JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Fitter Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
+                }
+                saveProject();
+            } catch (IOException | InterruptedException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private class compile_assembler extends Thread {
+        private final String Project_Folder;
+        private final java.awt.event.ActionEvent evt;
+        
+        compile_assembler(String Project_Folder, java.awt.event.ActionEvent evt) {
+            this.Project_Folder = Project_Folder;
+            this.evt = evt;
+        }
+        
+        @Override
+        public void run() {
+            new Output_Tap().println("      Starting Assembler");
+            Runtime rt = Runtime.getRuntime();
+            printOutput errorReported, outputMessage;
+            try {
+                String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_asm --read_settings_files=on --write_settings_files=off "+Project_Folder+"RV_FPGA_PLC_Potato -c "+Project_Folder+"RV_FPGA_PLC_Potato";
+                Process proc = rt.exec(cmd);
+                errorReported = new printOutput(proc.getErrorStream(), "        ");
+                outputMessage = new printOutput(proc.getInputStream(), "        ");
+                errorReported.start();
+                outputMessage.start();
+                proc.waitFor();
+                if (proc.exitValue() == 0) {
+                    Data.vhdl_compilation_state = Data.UPDATED;
+                    jDialog_Loading.hide();
+                    new Output_Tap().println("  Compiling Finished Successfully");
+                    JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Compiling Finished Successfully");
+                    if (Data.RequistDownload) {
+                        Data.RequistDownload = false;
+                        jMenuItem_Download_Program_to_SoCActionPerformed(evt);
+                    }
+                } else {
+                    jDialog_Loading.hide();
+                    Data.vhdl_compilation_state = Data.FITTER;
+                    Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                    JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Compiling did not Finished Successfully", "Compile As Software", JOptionPane.OK_OPTION, icon);
+                    new Output_Tap().println("  Compiling did not Finished Successfully");
+                    if (Data.RequistDownload) {
+                        Data.RequistDownload = false;
+                        JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Downloading did not Finished Successfully.", "Downloading to SoC", JOptionPane.OK_OPTION, icon);
+                    }
+                }
+                saveProject();
+            } catch (IOException | InterruptedException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private class compile_update_mif extends Thread {
+        private final String Project_Folder;
+        private final java.awt.event.ActionEvent evt;
+        
+        compile_update_mif(String Project_Folder, java.awt.event.ActionEvent evt) {
+            this.Project_Folder = Project_Folder;
+            this.evt = evt;
+        }
+
+        @Override
+        public void run() {
+            new Output_Tap().println("      Starting Update mif");
+            Runtime rt = Runtime.getRuntime();
+            printOutput errorReported, outputMessage;
+            try {
+                String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_cdb "+Project_Folder+"RV_FPGA_PLC_Potato -c "+Project_Folder+"RV_FPGA_PLC_Potato --update_mif";
+                Process proc = rt.exec(cmd);
+                errorReported = new printOutput(proc.getErrorStream(), "        ");
+                outputMessage = new printOutput(proc.getInputStream(), "        ");
+                errorReported.start();
+                outputMessage.start();
+                proc.waitFor();
+                if (proc.exitValue() == 0) {
+                    compile_assembler ca = new compile_assembler(Project_Folder, evt);
+                    ca.start();
+                } else {
+                    jDialog_Loading.hide();
+                    Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                    JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Updating mif Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
+                    new Output_Tap().println("  Compiling did not Finished Successfully");
+                }
+                saveProject();
+            } catch (IOException | InterruptedException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private class LoadingDialoge extends Thread {
+        private final String loading_text;
+        
+        private LoadingDialoge(String loading_text) {
+            this.loading_text = loading_text;
+        }
+        
+        @Override
+        public void run() {
+            JTextLableLoading.setText(loading_text);
+            jDialog_Loading.show();
+        }
+    }
+    
 }

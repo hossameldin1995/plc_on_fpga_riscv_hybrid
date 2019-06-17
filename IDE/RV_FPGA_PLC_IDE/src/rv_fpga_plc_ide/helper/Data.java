@@ -6,6 +6,7 @@
 package rv_fpga_plc_ide.helper;
 
 import java.io.File;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -53,7 +54,19 @@ public class Data {
     // Compill il to c
     public static String C_code;
     public static int Load_index = 0;
-    public static String CPU_Freq_S = "100000000";
-    public static String CPU_Timer_Freq_S ="100000000";
-    public static int CPU_Timer_Freq_I = 100000000;
+    public static String    CPU_Freq_S = "100000000";
+    public static int       CPU_Freq_I = 100000000;
+    public static String    CPU_Timer_Freq_S ="100000000";
+    public static int       CPU_Timer_Freq_I = 100000000;
+    
+    // Comile vhdl (software branch)
+    public static final int NO_COMPILATION = 0;
+    public static final int ANALYSIS_SYNTHESIS = 1;
+    public static final int FITTER = 2;
+    public static final int ASSEMBLER = 3;
+    public static final int UPDATED = 4;
+    public static int vhdl_compilation_state = NO_COMPILATION;
+    
+    public static JTextArea jTextArea_Output_Tab;
+    public static boolean RequistDownload = false;
 }

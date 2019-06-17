@@ -1,0 +1,9 @@
+Project Name           = Test_IO
+Size of Program        = 11
+Max Size of Program    = 2
+Number of Rungs        = 3
+    Rung (1) Size      = 2
+    Rung (2) Size      = 2
+    Rung (3) Size      = 2
+Number of Variables    = 0
+VHDL Compilation State = 0

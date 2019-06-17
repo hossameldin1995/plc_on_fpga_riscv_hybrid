@@ -110,8 +110,8 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     strcat(command, ".bin\" >>");
     strcat(command, hex_file);
     printf("%s\n", command);
-    fflush(stdout);
     res += system(command);
+    fflush(stdout);
     
     fp_in = fopen(hex_file, "r");
     if( access(mif_file, F_OK ) != -1 ) {
@@ -137,6 +137,21 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     
     fclose(fp_in);
     fclose(fp_out);
+    
+    if (res) return 0;
+    else return 1;
+}
+
+JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compile_1download_1to_1soc
+  (JNIEnv * env, jobject obj, jstring c_Folder_path) {
+    int res = 0;
+    char command[1000];
+    strcpy(command, "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_pgm -m jtag -c 1 -o \"p;");
+    strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+    strcat(command, "/output_files/RV_FPGA_PLC_Potato.sof\"");
+    printf("%s\n", command);
+    res = system(command);
+    fflush(stdout);
     
     if (res) return 0;
     else return 1;

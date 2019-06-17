@@ -21,7 +21,8 @@ public class Write_Hardware_Files {
     public void generate_q_files(String Project_Folder) {
         generate_q_subfolders(Project_Folder);
         generate_q_project_files(Project_Folder);
-        generate_q_hdl_files(Project_Folder);
+        generate_q_hdl_toplevel_for_sw_comp_files(Project_Folder);
+        generate_q_hdl_basic_files(Project_Folder);
     }
     
     private void generate_q_subfolders(String Project_Folder) {
@@ -42,10 +43,13 @@ public class Write_Hardware_Files {
         generate_qpf_file(Project_Folder);
         generate_qsf_file(Project_Folder);
     }
-
-    private void generate_q_hdl_files(String Project_Folder) {
+    
+    private void generate_q_hdl_toplevel_for_sw_comp_files(String Project_Folder){
         generate_RV_FPGA_PLC_Potato_vhd_file(Project_Folder);
         generate_toplevel_vhd_file(Project_Folder);
+    }
+
+    private void generate_q_hdl_basic_files(String Project_Folder) {
         generate_pp_soc_reset_vhd_file(Project_Folder);
         generate_pp_utilities_vhd_file(Project_Folder);
         generate_pp_types_vhd_file(Project_Folder);
@@ -6824,10 +6828,10 @@ public class Write_Hardware_Files {
                         "		.reference_clock_frequency(\"125.0 MHz\"),\n" +
                         "		.operation_mode(\"direct\"),\n" +
                         "		.number_of_clocks(2),\n" +
-                        "		.output_clock_frequency0(\"100.000000 MHz\"),\n" +
+                        "		.output_clock_frequency0(\""+Data.CPU_Freq_I+".000000 MHz\"),\n" +
                         "		.phase_shift0(\"0 ps\"),\n" +
                         "		.duty_cycle0(50),\n" +
-                        "		.output_clock_frequency1(\"100.000000 MHz\"),\n" +
+                        "		.output_clock_frequency1(\""+Data.CPU_Timer_Freq_I+".000000 MHz\"),\n" +
                         "		.phase_shift1(\"0 ps\"),\n" +
                         "		.duty_cycle1(50),\n" +
                         "		.output_clock_frequency2(\"0 MHz\"),\n" +

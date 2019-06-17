@@ -183,10 +183,19 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenuItem_Set = new javax.swing.JMenuItem();
         jMenuItem_Reset = new javax.swing.JMenuItem();
         jMenu_Logic_Operations = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
         jMenuItem_And = new javax.swing.JMenuItem();
         jMenuItem_Or = new javax.swing.JMenuItem();
         jMenuItem_Xor = new javax.swing.JMenuItem();
         jMenuItem_Not = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem_And1 = new javax.swing.JMenuItem();
+        jMenuItem_Or1 = new javax.swing.JMenuItem();
+        jMenuItem_Xor1 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem_And2 = new javax.swing.JMenuItem();
+        jMenuItem_Or2 = new javax.swing.JMenuItem();
+        jMenuItem_Xor2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -1206,13 +1215,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
         jMenu_Logic_Operations.setText("Logic Operations");
 
+        jMenu3.setText("Regular Operations");
+
         jMenuItem_And.setText("And");
         jMenuItem_And.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem_AndActionPerformed(evt);
             }
         });
-        jMenu_Logic_Operations.add(jMenuItem_And);
+        jMenu3.add(jMenuItem_And);
 
         jMenuItem_Or.setText("Or");
         jMenuItem_Or.addActionListener(new java.awt.event.ActionListener() {
@@ -1220,7 +1231,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 jMenuItem_OrActionPerformed(evt);
             }
         });
-        jMenu_Logic_Operations.add(jMenuItem_Or);
+        jMenu3.add(jMenuItem_Or);
 
         jMenuItem_Xor.setText("Xor");
         jMenuItem_Xor.addActionListener(new java.awt.event.ActionListener() {
@@ -1228,7 +1239,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 jMenuItem_XorActionPerformed(evt);
             }
         });
-        jMenu_Logic_Operations.add(jMenuItem_Xor);
+        jMenu3.add(jMenuItem_Xor);
 
         jMenuItem_Not.setText("Not");
         jMenuItem_Not.addActionListener(new java.awt.event.ActionListener() {
@@ -1236,7 +1247,65 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 jMenuItem_NotActionPerformed(evt);
             }
         });
-        jMenu_Logic_Operations.add(jMenuItem_Not);
+        jMenu3.add(jMenuItem_Not);
+
+        jMenu_Logic_Operations.add(jMenu3);
+
+        jMenu4.setText("Complement Operations");
+
+        jMenuItem_And1.setText("AndN");
+        jMenuItem_And1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_And1ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem_And1);
+
+        jMenuItem_Or1.setText("OrN");
+        jMenuItem_Or1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Or1ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem_Or1);
+
+        jMenuItem_Xor1.setText("XorN");
+        jMenuItem_Xor1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Xor1ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem_Xor1);
+
+        jMenu_Logic_Operations.add(jMenu4);
+
+        jMenu5.setText("Branch Operations");
+
+        jMenuItem_And2.setText("AndB");
+        jMenuItem_And2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_And2ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem_And2);
+
+        jMenuItem_Or2.setText("OrB");
+        jMenuItem_Or2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Or2ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem_Or2);
+
+        jMenuItem_Xor2.setText("XorB");
+        jMenuItem_Xor2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Xor2ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem_Xor2);
+
+        jMenu_Logic_Operations.add(jMenu5);
 
         jMenu_Commands.add(jMenu_Logic_Operations);
 
@@ -1910,15 +1979,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Close_ProjectActionPerformed
 
     private void jMenuItem_Compile_SoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_SoftwareActionPerformed
+        int sel;
+        boolean compile_all_project;
         if (Data.is_Saved_Project) {
-            if (compile_software(Data.Project_Folder.getPath(), evt)) {
-                //JOptionPane.showMessageDialog(this, "Successful");
-            } else {
-                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
-                JOptionPane.showMessageDialog(this, "Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
-            }
+            sel = JOptionPane.showConfirmDialog(this, "Do you want to compile all project (C and VHDL)?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            compile_all_project = (sel == JOptionPane.YES_OPTION);
+            compile_software(Data.Project_Folder.getPath(), evt, compile_all_project);
         } else {
-            int sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save is?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save is?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (sel == JOptionPane.YES_OPTION){
                 saveProject();
                 jMenuItem_Compile_SoftwareActionPerformed(evt);
@@ -2144,6 +2212,30 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_Compile_HardwareActionPerformed
 
+    private void jMenuItem_And1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_And1ActionPerformed
+        Basic_commands_button("Add And Command", "ANDN");
+    }//GEN-LAST:event_jMenuItem_And1ActionPerformed
+
+    private void jMenuItem_Or1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Or1ActionPerformed
+        Basic_commands_button("Add And Command", "ORN");
+    }//GEN-LAST:event_jMenuItem_Or1ActionPerformed
+
+    private void jMenuItem_Xor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Xor1ActionPerformed
+        Basic_commands_button("Add And Command", "XORN");
+    }//GEN-LAST:event_jMenuItem_Xor1ActionPerformed
+
+    private void jMenuItem_And2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_And2ActionPerformed
+        add_to_2d_program(1, new String[] {"        ANDB"});
+    }//GEN-LAST:event_jMenuItem_And2ActionPerformed
+
+    private void jMenuItem_Or2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Or2ActionPerformed
+        add_to_2d_program(1, new String[] {"        ORB"});
+    }//GEN-LAST:event_jMenuItem_Or2ActionPerformed
+
+    private void jMenuItem_Xor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Xor2ActionPerformed
+        add_to_2d_program(1, new String[] {"        XORB"});
+    }//GEN-LAST:event_jMenuItem_Xor2ActionPerformed
+
     private void FillListProgram(boolean isEditing) {
         jList_Program.setModel(new javax.swing.AbstractListModel() {
             @Override
@@ -2305,6 +2397,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JList<String> jList_Variable;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -2318,6 +2413,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Add_Rung;
     private javax.swing.JMenuItem jMenuItem_Add_Variable;
     private javax.swing.JMenuItem jMenuItem_And;
+    private javax.swing.JMenuItem jMenuItem_And1;
+    private javax.swing.JMenuItem jMenuItem_And2;
     private javax.swing.JMenuItem jMenuItem_Close_Project;
     private javax.swing.JMenuItem jMenuItem_Compile_All;
     private javax.swing.JMenuItem jMenuItem_Compile_Hardware;
@@ -2340,6 +2437,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Not;
     private javax.swing.JMenuItem jMenuItem_Open_Project;
     private javax.swing.JMenuItem jMenuItem_Or;
+    private javax.swing.JMenuItem jMenuItem_Or1;
+    private javax.swing.JMenuItem jMenuItem_Or2;
     private javax.swing.JMenuItem jMenuItem_PWM;
     private javax.swing.JMenuItem jMenuItem_Redo;
     private javax.swing.JMenuItem jMenuItem_Remove_Rung;
@@ -2358,6 +2457,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Timer_On;
     private javax.swing.JMenuItem jMenuItem_Undo;
     private javax.swing.JMenuItem jMenuItem_Xor;
+    private javax.swing.JMenuItem jMenuItem_Xor1;
+    private javax.swing.JMenuItem jMenuItem_Xor2;
     private javax.swing.JMenu jMenu_Arithmetic;
     private javax.swing.JMenu jMenu_Basic_Comands;
     private javax.swing.JMenu jMenu_Bistable;
@@ -2790,7 +2891,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         new Output_Tap().removeText();
     }
 
-    private boolean compile_software(String Project_Folder, java.awt.event.ActionEvent evt) {
+    private void compile_software(String Project_Folder, java.awt.event.ActionEvent evt, boolean compile_all_project) {
         LoadingDialoge loading = new LoadingDialoge("Compiling ...");
         loading.start();
         new Output_Tap().removeText();
@@ -2800,7 +2901,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         File q_files = new File(Project_Folder+"/q_files");
         
         c_files.mkdirs();
-        q_files.mkdirs();
+        if (compile_all_project) q_files.mkdirs();
         
         new Output_Tap().println("  Start Compiling \"instruction list\".");
         success &= compill_il_file();
@@ -2808,7 +2909,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             new Output_Tap().println("  Start Compiling \"c files\".");
             success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
         }
-        if (success) {
+        if (success && compile_all_project) {
             new Output_Tap().println("  Start Writting Hardware Files.");
             new Write_Hardware_Files().generate_q_files(Project_Folder);
             new Output_Tap().println("  Start Compiling \"Quartus Project\".");
@@ -2816,7 +2917,17 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             compile_vhdl(Project_Folder, evt);
         }
         
-        return success;
+        if (success) {
+            if (!compile_all_project) {
+                jDialog_Loading.hide();
+                JOptionPane.showMessageDialog(this, "Successful");
+                new Output_Tap().println("Compilling Finished Successfully");
+            }
+        } else {
+            Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+            JOptionPane.showMessageDialog(this, "Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
+                new Output_Tap().println("Compilling did not Finished Successfully");
+        }
     }
     
     private void write_c_file(String Folder) {
@@ -2961,15 +3072,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         "{\n" +
                         "	//uart_initialize(&uart0, (volatile void *) PLATFORM_UART0_BASE);\n" +
                         "	//uart_set_divisor(&uart0, uart_baud2divisor(115200, PLATFORM_SYSCLK_FREQ));\n" +
-                        "time_measurement_per_initialize(&time_measurement_d, (volatile void *) PLATFORM_TIME_MEASUREMENT);\n" +
-                        "set_micro(&time_measurement_d);\n" +
+                        "	time_measurement_per_initialize(&time_measurement_d, (volatile void *) PLATFORM_TIME_MEASUREMENT);\n" +
+                        "	set_micro(&time_measurement_d);\n" +
                         "	io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n" +
                         "\n" +
                         "	//uart_tx_string(&uart0, \"Hi ...\\n\\rRun \\\""+Data.Project_Name+"/\\\" ...\\n\\r\");\n" +
                         "\n";
         new Write_Software_Files().declareAndInitializeVariables();
         Data.C_code +=  "\n	while(1){\n" +
-                        "               start_time(&time_measurement_d);\n" +
+                        "		start_time(&time_measurement_d);\n" +
                         "		io_per_set_output(&io_per_d, RWD, 0, 0);\n";
         
         Data.Load_index = 0;
@@ -3016,6 +3127,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             } else if (il_inst.split(" ")[0].contains("ORN")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("OR", "");
                 add_basic_c_command(Operand, "|", "~");
+            } else if (il_inst.split(" ")[0].contains("ANDB")) {
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" &= var"+(Data.Load_index - 2)+";\n";
+            } else if (il_inst.split(" ")[0].contains("XORB")) {
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" ^= var"+(Data.Load_index - 2)+";\n";
+            } else if (il_inst.split(" ")[0].contains("ORB")) {
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" |= var"+(Data.Load_index - 2)+";\n";
             } else if (il_inst.split(" ")[0].contains("AND")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("AND", "");
                 add_basic_c_command(Operand, "&", "");

@@ -1,5 +1,11 @@
+Version 0.9
+==========================================================================================================================
 1 - Asking before compillling for compilling all project or not (C and VHDL) or (C) only
 2 - Add complement(ANDN, ORN, XORN) and branch operations(ANDB, ORB, XORB) with compilation of software (Need Test)(No HW)
 3 - Sebarate generated hdl files into basic files and software compilation files (preparing to add variable hdl files)
 4 - Making CPU freq and Timer freq changable
+5 - Add "Two_Branches_One_Output" project on "RV_FPGA_PLC_IDE_Projects"
 
+Version 0.10
+==========================================================================================================================
+1 - Making output ports in "In_Out_Peripheral.vhd" preparing to compile as hardware.

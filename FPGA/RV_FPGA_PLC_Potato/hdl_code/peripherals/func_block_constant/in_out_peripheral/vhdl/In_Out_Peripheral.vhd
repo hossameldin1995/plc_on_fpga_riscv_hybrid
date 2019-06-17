@@ -25,7 +25,12 @@ entity In_Out_Peripheral is
 		LEDG			: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
 		SW				: IN STD_LOGIC_VECTOR(9 DOWNTO 0);
 		GPIO_OUT		: OUT STD_LOGIC_VECTOR(17 DOWNTO 0);
-		GPIO_IN		: IN STD_LOGIC_VECTOR(17 DOWNTO 0)
+		GPIO_IN		: IN STD_LOGIC_VECTOR(17 DOWNTO 0);
+		
+		-- Output Signal From Register
+		GPIO_IN_O	: OUT STD_LOGIC_VECTOR(17 DOWNTO 0);
+		SW_O			: OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
+		KEY_O			: OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
 	);
 end entity In_Out_Peripheral;
 
@@ -47,6 +52,11 @@ begin
 	process(clk, reset, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in)
 	begin
 		if rising_edge(clk) then
+		
+			GPIO_IN_O 	<= register_in(17 DOWNTO 0);
+			SW_O			<= register_in(27 DOWNTO 18);
+			KEY_O			<= register_in(31 DOWNTO 28);
+			
 			if reset = '1' then
 				register_in  <= (OTHERS => '0');
 				register_out <= (OTHERS => '0');

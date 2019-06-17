@@ -193,6 +193,11 @@ architecture behaviour of toplevel is
 	
 	-- HOSSAM 
 	signal not_reset_n : std_logic;
+	
+	-- Output Signal From Register
+	signal GPIO_IN_O	: STD_LOGIC_VECTOR(17 DOWNTO 0);
+	signal SW_O			: STD_LOGIC_VECTOR(9 DOWNTO 0);
+	signal KEY_O		: STD_LOGIC_VECTOR(3 DOWNTO 0);
 begin
 
 	not_reset_n <= not(reset_n);
@@ -488,7 +493,10 @@ begin
 			LEDG			=> LEDG,
 			SW				=> SW,
 			GPIO_OUT		=> GPIO_OUT,
-			GPIO_IN		=> GPIO_IN
+			GPIO_IN		=> GPIO_IN,
+			GPIO_IN_O	=> GPIO_IN_O,
+			SW_O			=> SW_O,
+			KEY_O			=> KEY_O
 		);
 	io_peripheral_adr_in <= processor_adr_out(io_peripheral_adr_in'range);
 	io_peripheral_dat_in <= processor_dat_out;

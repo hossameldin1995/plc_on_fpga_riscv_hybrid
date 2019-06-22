@@ -8,4 +8,15 @@ Version 0.9
 
 Version 0.10
 ==========================================================================================================================
-1 - Making output ports in "In_Out_Peripheral.vhd" preparing to compile as hardware.
+1 - Making output ports in "In_Out_Peripheral.vhd" preparing to compile as hardware (Need Test)(No HW)
+
+
+Version 0.11
+==========================================================================================================================
+1 - Add "Timer_Test_3" project on "RV_FPGA_PLC_IDE_Projects" (Need Test)(No HW)
+2 - Fix error "The 'output_clock_frequency' is '100000000.0 MHz"
+3 - Writting initial C file in compilling as HW
+4 - Writting HDL files with supporting TON function block only
+5 - Modify ".rfpinfo" file to hold which compiler is used (SW or HW) and number of timers
+6 - Adding check_hardware_change() function
+7 - Compile the program as hardware is finished initially

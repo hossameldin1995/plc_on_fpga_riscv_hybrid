@@ -20,8 +20,13 @@ import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
 public class Write_Hardware_Files {
     public void generate_q_files(String Project_Folder) {
         generate_q_subfolders(Project_Folder);
-        generate_q_project_files(Project_Folder);
         generate_q_hdl_toplevel_for_sw_comp_files(Project_Folder);
+        generate_q_hdl_basic_files(Project_Folder);
+    }
+    
+    public void generate_q_files_variables(String Project_Folder) {
+        generate_q_subfolders(Project_Folder);
+        generate_q_hdl_toplevel_for_hw_comp_files(Project_Folder);
         generate_q_hdl_basic_files(Project_Folder);
     }
     
@@ -38,18 +43,20 @@ public class Write_Hardware_Files {
         file = new File(Project_Folder+"peripherals/func_block_constant/clock_generator/clock_generator"); file.mkdirs();
         file = new File(Project_Folder+"peripherals/func_block_variable/TON/vhdl"); file.mkdirs();
     }
-
-    private void generate_q_project_files(String Project_Folder) {
-        generate_qpf_file(Project_Folder);
-        generate_qsf_file(Project_Folder);
-    }
     
     private void generate_q_hdl_toplevel_for_sw_comp_files(String Project_Folder){
-        generate_RV_FPGA_PLC_Potato_vhd_file(Project_Folder);
-        generate_toplevel_vhd_file(Project_Folder);
+        generate_toplevel_vhd_file_sw(Project_Folder);
+        generate_qsf_file_sw(Project_Folder);
+    }
+    
+    private void generate_q_hdl_toplevel_for_hw_comp_files(String Project_Folder){
+        generate_toplevel_vhd_file_hw(Project_Folder);
+        generate_qsf_file_sw(Project_Folder); // TODO need to be converted to hw
     }
 
     private void generate_q_hdl_basic_files(String Project_Folder) {
+        generate_qpf_file(Project_Folder);
+        generate_RV_FPGA_PLC_Potato_vhd_file(Project_Folder);
         generate_pp_soc_reset_vhd_file(Project_Folder);
         generate_pp_utilities_vhd_file(Project_Folder);
         generate_pp_types_vhd_file(Project_Folder);
@@ -151,7 +158,7 @@ public class Write_Hardware_Files {
         }
     }
     
-    private void generate_qsf_file(String Project_Folder) {
+    private void generate_qsf_file_sw(String Project_Folder) {
         Project_Folder = Project_Folder + "/q_files/";
         FileOutputStream fileOutSt = null;
         String data =   "# -------------------------------------------------------------------------- #\n" +
@@ -629,7 +636,7 @@ public class Write_Hardware_Files {
         }
     }
     
-    private void generate_toplevel_vhd_file(String Project_Folder) {
+    private void generate_toplevel_vhd_file_sw(String Project_Folder) {
         Project_Folder = Project_Folder + "/q_files/hdl_code/";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - SoC design for the Arty FPGA board\n" +
@@ -827,6 +834,11 @@ public class Write_Hardware_Files {
                         "	\n" +
                         "	-- HOSSAM \n" +
                         "	signal not_reset_n : std_logic;\n" +
+                        "	\n" +
+                        "	-- Output Signal From Register\n" +
+                        "	signal GPIO_IN_O	: STD_LOGIC_VECTOR(17 DOWNTO 0);\n" +
+                        "	signal SW_O			: STD_LOGIC_VECTOR(9 DOWNTO 0);\n" +
+                        "	signal KEY_O		: STD_LOGIC_VECTOR(3 DOWNTO 0);\n" +
                         "begin\n" +
                         "\n" +
                         "	not_reset_n <= not(reset_n);\n" +
@@ -1122,7 +1134,10 @@ public class Write_Hardware_Files {
                         "			LEDG			=> LEDG,\n" +
                         "			SW				=> SW,\n" +
                         "			GPIO_OUT		=> GPIO_OUT,\n" +
-                        "			GPIO_IN		=> GPIO_IN\n" +
+                        "			GPIO_IN		=> GPIO_IN,\n" +
+                        "			GPIO_IN_O	=> GPIO_IN_O,\n" +
+                        "			SW_O			=> SW_O,\n" +
+                        "			KEY_O			=> KEY_O\n" +
                         "		);\n" +
                         "	io_peripheral_adr_in <= processor_adr_out(io_peripheral_adr_in'range);\n" +
                         "	io_peripheral_dat_in <= processor_dat_out;\n" +
@@ -1171,6 +1186,597 @@ public class Write_Hardware_Files {
                 Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    private void generate_toplevel_vhd_file_hw(String Project_Folder_File) {
+        String data =   "-- The Potato Processor - SoC design for the Arty FPGA board\n" +
+                        "-- (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
+                        "-- Report bugs and issues on <https://github.com/skordal/potato/issues>\n" +
+                        "\n" +
+                        "library ieee;\n" +
+                        "use ieee.std_logic_1164.all;\n" +
+                        "\n" +
+                        "-- This is a SoC design for the Arty development board. It has the following memory layout:\n" +
+                        "--\n" +
+                        "-- 0x00001000: UART0 (for host communication)\n" +
+                        "-- 0x00002000: Timer0\n" +
+                        "-- 0x00003000: Timer1\n" +
+                        "-- 0x00004000: IO Peripheral\n" +
+                        "-- 0x00005000: Time Measurement\n";
+                        for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
+                            data += "-- 0x000"+num_2_spaces(6 + i)+"000: TON "+Data.Name_of_Timers[i]+"\n";
+                        }
+                data += "-- 0x10000000: Interconnect control/error module\n" +
+                        "-- 0xffff8000: Application execution environment ROM (16 kB)\n" +
+                        "-- 0xffffc000: Application execution environment RAM (16 kB)\n" +
+                        "entity toplevel is\n" +
+                        "	port(\n" +
+                        "		clk     : in  std_logic;\n" +
+                        "		reset_n : in  std_logic;\n" +
+                        "\n" +
+                        "		-- UART0 signals:\n" +
+                        "		uart0_txd : out std_logic;\n" +
+                        "		uart0_rxd : in  std_logic;\n" +
+                        "		\n" +
+                        "		-- KEY signals\n" +
+                        "      KEY			: in std_logic_vector(3 DOWNTO 0);\n" +
+                        "		\n" +
+                        "		-- SW signals\n" +
+                        "      SW				: in std_logic_vector(9 DOWNTO 0);\n" +
+                        "		\n" +
+                        "		-- LEDG signals\n" +
+                        "      LEDG			: out std_logic_vector(7 DOWNTO 0);\n" +
+                        "		\n" +
+                        "		-- LEDR signals\n" +
+                        "      LEDR			: out std_logic_vector(9 DOWNTO 0);\n" +
+                        "		\n" +
+                        "		-- GPIO signals\n" +
+                        "      GPIO_IN		: in std_logic_vector(17 DOWNTO 0);\n" +
+                        "      GPIO_OUT		: out std_logic_vector(17 DOWNTO 0);\n" +
+                        "		\n" +
+                        "		--------- HEX0 ---------\n" +
+                        "		HEX0			: out std_logic_vector(6 DOWNTO 0);\n" +
+                        "\n" +
+                        "		--------- HEX1 ---------\n" +
+                        "		HEX1			: out std_logic_vector(6 DOWNTO 0);\n" +
+                        "		\n" +
+                        "		--------- HEX2 ---------\n" +
+                        "		HEX2			: out std_logic_vector(6 DOWNTO 0);\n" +
+                        "		\n" +
+                        "		--------- HEX3 ---------\n" +
+                        "		HEX3			: out std_logic_vector(6 DOWNTO 0)\n" +
+                        "	);\n" +
+                        "end entity toplevel;\n" +
+                        "\n" +
+                        "architecture behaviour of toplevel is\n" +
+                        "\n" +
+                        "	component clock_generator is\n" +
+                        "		port (\n" +
+                        "			refclk   : in  std_logic := '0'; --  refclk.clk\n" +
+                        "			rst      : in  std_logic := '0'; --   reset.reset\n" +
+                        "			outclk_0 : out std_logic;        -- outclk0.clk\n" +
+                        "			outclk_1 : out std_logic;        -- outclk1.clk\n" +
+                        "			locked   : out std_logic         --  locked.export\n" +
+                        "		);\n" +
+                        "	end component;\n" +
+                        "	\n" +
+                        "	-- Reset signals:\n" +
+                        "	signal reset : std_logic;\n" +
+                        "\n" +
+                        "	-- Internal clock signals:\n" +
+                        "	signal system_clk : std_logic;\n" +
+                        "	signal timer_clk  : std_logic;\n" +
+                        "	signal system_clk_locked : std_logic;\n" +
+                        "\n" +
+                        "	-- Interrupt indices:\n" +
+                        "	constant IRQ_TIMER0_INDEX    : natural := 0;\n" +
+                        "	constant IRQ_TIMER1_INDEX    : natural := 1;\n" +
+                        "	constant IRQ_UART0_INDEX     : natural := 2;\n" +
+                        "	constant IRQ_UART1_INDEX     : natural := 3;\n" +
+                        "	constant IRQ_BUS_ERROR_INDEX : natural := 4;\n" +
+                        "\n" +
+                        "	-- Interrupt signals:\n" +
+                        "	signal irq_array : std_logic_vector(7 downto 0);\n" +
+                        "	signal timer0_irq, timer1_irq : std_logic;\n" +
+                        "	signal uart0_irq, uart1_irq   : std_logic;\n" +
+                        "	signal intercon_irq_bus_error : std_logic;\n" +
+                        "\n" +
+                        "	-- Processor signals:\n" +
+                        "	signal processor_adr_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal processor_sel_out : std_logic_vector(3 downto 0);\n" +
+                        "	signal processor_cyc_out : std_logic;\n" +
+                        "	signal processor_stb_out : std_logic;\n" +
+                        "	signal processor_we_out  : std_logic;\n" +
+                        "	signal processor_dat_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal processor_dat_in  : std_logic_vector(31 downto 0);\n" +
+                        "	signal processor_ack_in  : std_logic;\n" +
+                        "\n" +
+                        "	-- Timer0 signals:\n" +
+                        "	signal timer0_adr_in : std_logic_vector(11 downto 0);\n" +
+                        "	signal timer0_dat_in : std_logic_vector(31 downto 0);\n" +
+                        "	signal timer0_dat_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal timer0_cyc_in : std_logic;\n" +
+                        "	signal timer0_stb_in : std_logic;\n" +
+                        "	signal timer0_we_in : std_logic;\n" +
+                        "	signal timer0_ack_out : std_logic;\n" +
+                        "\n" +
+                        "	-- Timer1 signals:\n" +
+                        "	signal timer1_adr_in : std_logic_vector(11 downto 0);\n" +
+                        "	signal timer1_dat_in : std_logic_vector(31 downto 0);\n" +
+                        "	signal timer1_dat_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal timer1_cyc_in : std_logic;\n" +
+                        "	signal timer1_stb_in : std_logic;\n" +
+                        "	signal timer1_we_in : std_logic;\n" +
+                        "	signal timer1_ack_out : std_logic;\n" +
+                        "\n" +
+                        "	-- UART0 signals:\n" +
+                        "	signal uart0_adr_in  : std_logic_vector(11 downto 0);\n" +
+                        "	signal uart0_dat_in  : std_logic_vector( 7 downto 0);\n" +
+                        "	signal uart0_dat_out : std_logic_vector( 7 downto 0);\n" +
+                        "	signal uart0_cyc_in  : std_logic;\n" +
+                        "	signal uart0_stb_in  : std_logic;\n" +
+                        "	signal uart0_we_in   : std_logic;\n" +
+                        "	signal uart0_ack_out : std_logic;\n" +
+                        "\n" +
+                        "	-- Interconnect control module:\n" +
+                        "	signal intercon_adr_in  : std_logic_vector(11 downto 0);\n" +
+                        "	signal intercon_dat_in  : std_logic_vector(31 downto 0);\n" +
+                        "	signal intercon_dat_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal intercon_cyc_in  : std_logic;\n" +
+                        "	signal intercon_stb_in  : std_logic;\n" +
+                        "	signal intercon_we_in   : std_logic;\n" +
+                        "	signal intercon_ack_out : std_logic;\n" +
+                        "\n" +
+                        "	-- Interconnect error module:\n" +
+                        "	signal error_adr_in  : std_logic_vector(31 downto 0);\n" +
+                        "	signal error_dat_in  : std_logic_vector(31 downto 0);\n" +
+                        "	signal error_dat_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal error_sel_in  : std_logic_vector( 3 downto 0);\n" +
+                        "	signal error_cyc_in  : std_logic;\n" +
+                        "	signal error_stb_in  : std_logic;\n" +
+                        "	signal error_we_in   : std_logic;\n" +
+                        "	signal error_ack_out : std_logic;\n" +
+                        "\n" +
+                        "	-- AEE ROM signals:\n" +
+                        "	signal aee_rom_adr_in  : std_logic_vector(13 downto 0);\n" +
+                        "	signal aee_rom_dat_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal aee_rom_cyc_in  : std_logic;\n" +
+                        "	signal aee_rom_stb_in  : std_logic;\n" +
+                        "	signal aee_rom_sel_in  : std_logic_vector(3 downto 0);\n" +
+                        "	signal aee_rom_ack_out : std_logic;\n" +
+                        "\n" +
+                        "	-- AEE RAM signals:\n" +
+                        "	signal aee_ram_adr_in  : std_logic_vector(13 downto 0);\n" +
+                        "	signal aee_ram_dat_in  : std_logic_vector(31 downto 0);\n" +
+                        "	signal aee_ram_dat_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal aee_ram_cyc_in  : std_logic;\n" +
+                        "	signal aee_ram_stb_in  : std_logic;\n" +
+                        "	signal aee_ram_sel_in  : std_logic_vector(3 downto 0);\n" +
+                        "	signal aee_ram_we_in   : std_logic;\n" +
+                        "	signal aee_ram_ack_out : std_logic;\n" +
+                        "\n" +
+                        "	-- IO_peripheral signals:\n" +
+                        "	signal io_peripheral_adr_in  : std_logic_vector(13 downto 0);\n" +
+                        "	signal io_peripheral_dat_in  : std_logic_vector(31 downto 0);\n" +
+                        "	signal io_peripheral_dat_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal io_peripheral_cyc_in  : std_logic;\n" +
+                        "	signal io_peripheral_stb_in  : std_logic;\n" +
+                        "	signal io_peripheral_sel_in  : std_logic_vector(3 downto 0);\n" +
+                        "	signal io_peripheral_we_in   : std_logic;\n" +
+                        "	signal io_peripheral_ack_out : std_logic;\n" +
+                        "	\n" +
+                        "	-- Time_Measurement signals:\n" +
+                        "	signal time_measurement_adr_in  : std_logic_vector(13 downto 0);\n" +
+                        "	signal time_measurement_dat_in  : std_logic_vector(31 downto 0);\n" +
+                        "	signal time_measurement_dat_out : std_logic_vector(31 downto 0);\n" +
+                        "	signal time_measurement_cyc_in  : std_logic;\n" +
+                        "	signal time_measurement_stb_in  : std_logic;\n" +
+                        "	signal time_measurement_sel_in  : std_logic_vector(3 downto 0);\n" +
+                        "	signal time_measurement_we_in   : std_logic;\n" +
+                        "	signal time_measurement_ack_out : std_logic;\n" +
+                        "	\n";
+                        for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
+                            data += "	-- TON "+Data.Name_of_Timers[i]+" signals:\n" +
+                                    "	signal "+Data.Name_of_Timers[i]+"_adr_in  : std_logic_vector(13 downto 0);\n" +
+                                    "	signal "+Data.Name_of_Timers[i]+"_dat_in  : std_logic_vector(31 downto 0);\n" +
+                                    "	signal "+Data.Name_of_Timers[i]+"_dat_out : std_logic_vector(31 downto 0);\n" +
+                                    "	signal "+Data.Name_of_Timers[i]+"_cyc_in  : std_logic;\n" +
+                                    "	signal "+Data.Name_of_Timers[i]+"_stb_in  : std_logic;\n" +
+                                    "	signal "+Data.Name_of_Timers[i]+"_sel_in  : std_logic_vector(3 downto 0);\n" +
+                                    "	signal "+Data.Name_of_Timers[i]+"_we_in   : std_logic;\n" +
+                                    "	signal "+Data.Name_of_Timers[i]+"_ack_out : std_logic;\n" +
+                                    "	\n";
+                        }
+                data += "	-- Selected peripheral on the interconnect:\n" +
+                        "	type intercon_peripheral_type is (\n" +
+                        "		PERIPHERAL_TIMER0, PERIPHERAL_TIMER1, PERIPHERAL_IO, \n" +
+                        "		PERIPHERAL_UART0, PERIPHERAL_AEE_ROM, PERIPHERAL_AEE_RAM, TIME_MEASUREMENT, \n" +
+                        "		PERIPHERAL_INTERCON, PERIPHERAL_ERROR, PERIPHERAL_NONE";
+                        for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
+                            if (i == 0) data += "\n		";
+                            data += ", PERIPHERAL_"+Data.Name_of_Timers[i];
+                        }
+                data += ");\n" +
+                        "	signal intercon_peripheral : intercon_peripheral_type := PERIPHERAL_NONE;\n" +
+                        "\n" +
+                        "	-- Interconnect address decoder state:\n" +
+                        "	signal intercon_busy : boolean := false;\n" +
+                        "	\n" +
+                        "	-- HOSSAM \n" +
+                        "	signal not_reset_n : std_logic;\n" +
+                        "	\n" +
+                        "	-- Output Signal From Register\n" +
+                        "	signal GPIO_IN_O	: STD_LOGIC_VECTOR(17 DOWNTO 0);\n" +
+                        "	signal SW_O			: STD_LOGIC_VECTOR(9 DOWNTO 0);\n" +
+                        "	signal KEY_O		: STD_LOGIC_VECTOR(3 DOWNTO 0);\n" +
+                        "begin\n" +
+                        "\n" +
+                        "	not_reset_n <= not(reset_n);\n" +
+                        "	\n" +
+                        "	irq_array <= (\n" +
+                        "			IRQ_TIMER0_INDEX => timer0_irq,\n" +
+                        "			IRQ_TIMER1_INDEX => timer1_irq,\n" +
+                        "			IRQ_UART0_INDEX => uart0_irq,\n" +
+                        "			IRQ_UART1_INDEX => uart1_irq,\n" +
+                        "			IRQ_BUS_ERROR_INDEX => intercon_irq_bus_error,\n" +
+                        "			others => '0'\n" +
+                        "		);\n" +
+                        "\n" +
+                        "	address_decoder: process(system_clk)\n" +
+                        "	begin\n" +
+                        "		if rising_edge(system_clk) then\n" +
+                        "			if reset = '1' then\n" +
+                        "				intercon_peripheral <= PERIPHERAL_NONE;\n" +
+                        "				intercon_busy <= false;\n" +
+                        "			else\n" +
+                        "				if not intercon_busy then\n" +
+                        "					if processor_cyc_out = '1' then\n" +
+                        "						intercon_busy <= true;\n" +
+                        "\n" +
+                        "						if processor_adr_out(31 downto 28) = x\"0\" then -- Peripheral memory space\n" +
+                        "							case processor_adr_out(19 downto 12) is\n" +
+                        "								when x\"01\" =>\n" +
+                        "									intercon_peripheral <= PERIPHERAL_UART0;\n" +
+                        "								when x\"02\" =>\n" +
+                        "									intercon_peripheral <= PERIPHERAL_TIMER0;\n" +
+                        "								when x\"03\" =>\n" +
+                        "									intercon_peripheral <= PERIPHERAL_TIMER1;\n" +
+                        "								when x\"04\" =>\n" +
+                        "									intercon_peripheral <= PERIPHERAL_IO;\n" +
+                        "								when x\"05\" =>\n" +
+                        "									intercon_peripheral <= TIME_MEASUREMENT;\n";
+                        for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
+                            data += "								when x\""+num_2_spaces(6 + i)+"\" =>\n" +
+                                    "									intercon_peripheral <= PERIPHERAL_"+Data.Name_of_Timers[i]+";\n";
+                        }
+                data += "								when others => -- Invalid address - delegated to the error peripheral\n" +
+                        "									intercon_peripheral <= PERIPHERAL_ERROR;\n" +
+                        "							end case;\n" +
+                        "						elsif processor_adr_out(31 downto 28) = x\"1\" then\n" +
+                        "							intercon_peripheral <= PERIPHERAL_INTERCON;\n" +
+                        "						elsif processor_adr_out(31 downto 28) = x\"F\" then -- Firmware memory space\n" +
+                        "							if processor_adr_out(15 downto 14) = b\"10\" then    -- AEE ROM\n" +
+                        "								intercon_peripheral <= PERIPHERAL_AEE_ROM;\n" +
+                        "							elsif processor_adr_out(15 downto 14) = b\"11\" then -- AEE RAM\n" +
+                        "								intercon_peripheral <= PERIPHERAL_AEE_RAM;\n" +
+                        "							end if;\n" +
+                        "						else\n" +
+                        "							intercon_peripheral <= PERIPHERAL_ERROR;\n" +
+                        "						end if;\n" +
+                        "					else\n" +
+                        "						intercon_peripheral <= PERIPHERAL_NONE;\n" +
+                        "					end if;\n" +
+                        "				else\n" +
+                        "					if processor_cyc_out = '0' then\n" +
+                        "						intercon_busy <= false;\n" +
+                        "						intercon_peripheral <= PERIPHERAL_NONE;\n" +
+                        "					end if;\n" +
+                        "				end if;\n" +
+                        "			end if;\n" +
+                        "		end if;\n" +
+                        "	end process address_decoder;\n" +
+                        "\n" +
+                        "	processor_intercon: process(intercon_peripheral,\n" +
+                        "		timer0_ack_out, timer0_dat_out, timer1_ack_out, timer1_dat_out,\n" +
+                        "		uart0_ack_out, uart0_dat_out,\n" +
+                        "		intercon_ack_out, intercon_dat_out, error_ack_out,\n" +
+                        "		aee_rom_ack_out, aee_rom_dat_out, aee_ram_ack_out, aee_ram_dat_out,\n" +
+                        "		time_measurement_ack_out, time_measurement_dat_out,\n" +
+                        "		io_peripheral_ack_out, io_peripheral_dat_out";
+                        for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
+                            if (i == 0) data += ",\n";
+                            if (i != (Data.Number_Of_Timers_In_Program - 1)) data += "		"+Data.Name_of_Timers[i]+"_ack_out, "+Data.Name_of_Timers[i]+"_ack_out,\n";
+                            else data += "		"+Data.Name_of_Timers[i]+"_ack_out, "+Data.Name_of_Timers[i]+"_dat_out)\n";
+                        }
+                data += "	begin\n" +
+                        "		case intercon_peripheral is\n" +
+                        "			when PERIPHERAL_TIMER0 =>\n" +
+                        "				processor_ack_in <= timer0_ack_out;\n" +
+                        "				processor_dat_in <= timer0_dat_out;\n" +
+                        "			when PERIPHERAL_TIMER1 =>\n" +
+                        "				processor_ack_in <= timer1_ack_out;\n" +
+                        "				processor_dat_in <= timer1_dat_out;\n" +
+                        "			when PERIPHERAL_UART0 =>\n" +
+                        "				processor_ack_in <= uart0_ack_out;\n" +
+                        "				processor_dat_in <= x\"000000\" & uart0_dat_out;\n" +
+                        "			when PERIPHERAL_INTERCON =>\n" +
+                        "				processor_ack_in <= intercon_ack_out;\n" +
+                        "				processor_dat_in <= intercon_dat_out;\n" +
+                        "			when PERIPHERAL_AEE_ROM =>\n" +
+                        "				processor_ack_in <= aee_rom_ack_out;\n" +
+                        "				processor_dat_in <= aee_rom_dat_out;\n" +
+                        "			when PERIPHERAL_AEE_RAM =>\n" +
+                        "				processor_ack_in <= aee_ram_ack_out;\n" +
+                        "				processor_dat_in <= aee_ram_dat_out;\n" +
+                        "			when PERIPHERAL_IO =>\n" +
+                        "				processor_ack_in <= io_peripheral_ack_out;\n" +
+                        "				processor_dat_in <= io_peripheral_dat_out;\n" +
+                        "			when TIME_MEASUREMENT =>\n" +
+                        "				processor_ack_in <= time_measurement_ack_out;\n" +
+                        "				processor_dat_in <= time_measurement_dat_out;\n";
+                        for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
+                            data += "			when PERIPHERAL_"+Data.Name_of_Timers[i]+" =>\n" +
+                                    "				processor_ack_in <= "+Data.Name_of_Timers[i]+"_ack_out;\n" +
+                                    "				processor_dat_in <= "+Data.Name_of_Timers[i]+"_dat_out;\n";
+                        }
+                data += "			when PERIPHERAL_ERROR =>\n" +
+                        "				processor_ack_in <= error_ack_out;\n" +
+                        "				processor_dat_in <= (others => '0');\n" +
+                        "			when PERIPHERAL_NONE =>\n" +
+                        "				processor_ack_in <= '0';\n" +
+                        "				processor_dat_in <= (others => '0');\n" +
+                        "		end case;\n" +
+                        "	end process processor_intercon;\n" +
+                        "\n" +
+                        "	reset_controller: entity work.pp_soc_reset\n" +
+                        "		port map(\n" +
+                        "			clk => clk,\n" +
+                        "			reset_n => reset_n,\n" +
+                        "			reset_out => reset,\n" +
+                        "			system_clk => system_clk,\n" +
+                        "			system_clk_locked => system_clk_locked\n" +
+                        "		);\n" +
+                        "	\n" +
+                        "	clkgen: clock_generator\n" +
+                        "		port map(\n" +
+                        "			refclk => clk,\n" +
+                        "			rst => not_reset_n,\n" +
+                        "			outclk_0 => system_clk,\n" +
+                        "			outclk_1 => timer_clk,\n" +
+                        "			locked => system_clk_locked\n" +
+                        "		);\n" +
+                        "\n" +
+                        "	processor: entity work.pp_potato\n" +
+                        "		generic map(\n" +
+                        "			RESET_ADDRESS => x\"ffff8000\",\n" +
+                        "			ICACHE_ENABLE => false,\n" +
+                        "			ICACHE_LINE_SIZE => 128,\n" +
+                        "			ICACHE_NUM_LINES => 128\n" +
+                        "		) port map(\n" +
+                        "			clk => system_clk,\n" +
+                        "			timer_clk => timer_clk,\n" +
+                        "			reset => reset,\n" +
+                        "			irq => irq_array,\n" +
+                        "			test_context_out => open,\n" +
+                        "			wb_adr_out => processor_adr_out,\n" +
+                        "			wb_dat_out => processor_dat_out,\n" +
+                        "			wb_dat_in => processor_dat_in,\n" +
+                        "			wb_sel_out => processor_sel_out,\n" +
+                        "			wb_cyc_out => processor_cyc_out,\n" +
+                        "			wb_stb_out => processor_stb_out,\n" +
+                        "			wb_we_out => processor_we_out,\n" +
+                        "			wb_ack_in => processor_ack_in\n" +
+                        "		);\n" +
+                        "\n" +
+                        "	timer0: entity work.pp_soc_timer\n" +
+                        "		port map(\n" +
+                        "			clk => system_clk,\n" +
+                        "			reset => reset,\n" +
+                        "			irq => timer0_irq,\n" +
+                        "			wb_adr_in => timer0_adr_in,\n" +
+                        "			wb_dat_in => timer0_dat_in,\n" +
+                        "			wb_dat_out => timer0_dat_out,\n" +
+                        "			wb_cyc_in => timer0_cyc_in,\n" +
+                        "			wb_stb_in => timer0_stb_in,\n" +
+                        "			wb_we_in => timer0_we_in,\n" +
+                        "			wb_ack_out => timer0_ack_out\n" +
+                        "		);\n" +
+                        "	timer0_adr_in <= processor_adr_out(timer0_adr_in'range);\n" +
+                        "	timer0_dat_in <= processor_dat_out;\n" +
+                        "	timer0_we_in <= processor_we_out;\n" +
+                        "	timer0_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_TIMER0 else '0';\n" +
+                        "	timer0_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_TIMER0 else '0';\n" +
+                        "\n" +
+                        "	timer1: entity work.pp_soc_timer\n" +
+                        "		port map(\n" +
+                        "			clk => system_clk,\n" +
+                        "			reset => reset,\n" +
+                        "			irq => timer1_irq,\n" +
+                        "			wb_adr_in => timer1_adr_in,\n" +
+                        "			wb_dat_in => timer1_dat_in,\n" +
+                        "			wb_dat_out => timer1_dat_out,\n" +
+                        "			wb_cyc_in => timer1_cyc_in,\n" +
+                        "			wb_stb_in => timer1_stb_in,\n" +
+                        "			wb_we_in => timer1_we_in,\n" +
+                        "			wb_ack_out => timer1_ack_out\n" +
+                        "		);\n" +
+                        "	timer1_adr_in <= processor_adr_out(timer1_adr_in'range);\n" +
+                        "	timer1_dat_in <= processor_dat_out;\n" +
+                        "	timer1_we_in  <= processor_we_out;\n" +
+                        "	timer1_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_TIMER1 else '0';\n" +
+                        "	timer1_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_TIMER1 else '0';\n" +
+                        "	\n" +
+                        "	uart0: entity work.pp_soc_uart\n" +
+                        "		generic map(\n" +
+                        "			FIFO_DEPTH => 32\n" +
+                        "		) port map(\n" +
+                        "			clk => system_clk,\n" +
+                        "			reset => reset,\n" +
+                        "			txd => uart0_txd,\n" +
+                        "			rxd => uart0_rxd,\n" +
+                        "			irq => uart0_irq,\n" +
+                        "			wb_adr_in => uart0_adr_in,\n" +
+                        "			wb_dat_in => uart0_dat_in,\n" +
+                        "			wb_dat_out => uart0_dat_out,\n" +
+                        "			wb_cyc_in => uart0_cyc_in,\n" +
+                        "			wb_stb_in => uart0_stb_in,\n" +
+                        "			wb_we_in => uart0_we_in,\n" +
+                        "			wb_ack_out => uart0_ack_out\n" +
+                        "		);\n" +
+                        "	uart0_adr_in <= processor_adr_out(uart0_adr_in'range);\n" +
+                        "	uart0_dat_in <= processor_dat_out(7 downto 0);\n" +
+                        "	uart0_we_in  <= processor_we_out;\n" +
+                        "	uart0_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_UART0 else '0';\n" +
+                        "	uart0_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_UART0 else '0';\n" +
+                        "\n" +
+                        "	intercon_error: entity work.pp_soc_intercon\n" +
+                        "		port map(\n" +
+                        "			clk => system_clk,\n" +
+                        "			reset => reset,\n" +
+                        "			error_irq => intercon_irq_bus_error,\n" +
+                        "			wb_adr_in => intercon_adr_in,\n" +
+                        "			wb_dat_in => intercon_dat_in,\n" +
+                        "			wb_dat_out => intercon_dat_out,\n" +
+                        "			wb_cyc_in => intercon_cyc_in,\n" +
+                        "			wb_stb_in => intercon_stb_in,\n" +
+                        "			wb_we_in => intercon_we_in,\n" +
+                        "			wb_ack_out => intercon_ack_out,\n" +
+                        "			err_adr_in => error_adr_in,\n" +
+                        "			err_dat_in => error_dat_in,\n" +
+                        "			err_sel_in => error_sel_in,\n" +
+                        "			err_cyc_in => error_cyc_in,\n" +
+                        "			err_stb_in => error_stb_in,\n" +
+                        "			err_we_in => error_we_in,\n" +
+                        "			err_ack_out => error_ack_out\n" +
+                        "		);\n" +
+                        "	intercon_adr_in <= processor_adr_out(intercon_adr_in'range);\n" +
+                        "	intercon_dat_in <= processor_dat_out;\n" +
+                        "	intercon_we_in  <= processor_we_out;\n" +
+                        "	intercon_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_INTERCON else '0';\n" +
+                        "	intercon_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_INTERCON else '0';\n" +
+                        "	error_adr_in <= processor_adr_out;\n" +
+                        "	error_dat_in <= processor_dat_out;\n" +
+                        "	error_sel_in <= processor_sel_out;\n" +
+                        "	error_we_in  <= processor_we_out;\n" +
+                        "	error_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_ERROR else '0';\n" +
+                        "	error_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_ERROR else '0';\n" +
+                        "\n" +
+                        "	aee_rom: entity work.aee_rom_wrapper\n" +
+                        "		generic map(\n" +
+                        "			MEMORY_SIZE => 16384\n" +
+                        "		) port map(\n" +
+                        "			clk => system_clk,\n" +
+                        "			reset => reset,\n" +
+                        "			wb_adr_in => aee_rom_adr_in,\n" +
+                        "			wb_dat_out => aee_rom_dat_out,\n" +
+                        "			wb_cyc_in => aee_rom_cyc_in,\n" +
+                        "			wb_stb_in => aee_rom_stb_in,\n" +
+                        "			wb_sel_in => aee_rom_sel_in,\n" +
+                        "			wb_ack_out => aee_rom_ack_out\n" +
+                        "		);\n" +
+                        "	aee_rom_adr_in <= processor_adr_out(aee_rom_adr_in'range);\n" +
+                        "	aee_rom_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_AEE_ROM else '0';\n" +
+                        "	aee_rom_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_AEE_ROM else '0';\n" +
+                        "	aee_rom_sel_in <= processor_sel_out;\n" +
+                        "\n" +
+                        "	aee_ram: entity work.pp_soc_memory\n" +
+                        "		generic map(\n" +
+                        "			MEMORY_SIZE => 128 --16384\n" +
+                        "		) port map(\n" +
+                        "			clk => system_clk,\n" +
+                        "			reset => reset,\n" +
+                        "			wb_adr_in => aee_ram_adr_in(6 downto 0),\n" +
+                        "			wb_dat_in => aee_ram_dat_in,\n" +
+                        "			wb_dat_out => aee_ram_dat_out,\n" +
+                        "			wb_cyc_in => aee_ram_cyc_in,\n" +
+                        "			wb_stb_in => aee_ram_stb_in,\n" +
+                        "			wb_sel_in => aee_ram_sel_in,\n" +
+                        "			wb_we_in => aee_ram_we_in,\n" +
+                        "			wb_ack_out => aee_ram_ack_out\n" +
+                        "		);\n" +
+                        "	aee_ram_adr_in <= processor_adr_out(aee_ram_adr_in'range);\n" +
+                        "	aee_ram_dat_in <= processor_dat_out;\n" +
+                        "	aee_ram_we_in  <= processor_we_out;\n" +
+                        "	aee_ram_sel_in <= processor_sel_out;\n" +
+                        "	aee_ram_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_AEE_RAM else '0';\n" +
+                        "	aee_ram_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_AEE_RAM else '0';\n" +
+                        "	\n" +
+                        "	io_periphral: entity work.In_Out_Peripheral\n" +
+                        "		port map(\n" +
+                        "			clk 			=> system_clk,\n" +
+                        "			reset 		=> reset,\n" +
+                        "			wb_adr_in 	=> io_peripheral_adr_in(8 downto 2),\n" +
+                        "			wb_dat_in 	=> io_peripheral_dat_in,\n" +
+                        "			wb_dat_out 	=> io_peripheral_dat_out,\n" +
+                        "			wb_cyc_in 	=> io_peripheral_cyc_in,\n" +
+                        "			wb_stb_in 	=> io_peripheral_stb_in,\n" +
+                        "			wb_sel_in 	=> io_peripheral_sel_in,\n" +
+                        "			wb_we_in 	=> io_peripheral_we_in,\n" +
+                        "			wb_ack_out 	=> io_peripheral_ack_out,\n" +
+                        "			KEY			=> KEY,\n" +
+                        "			LEDR			=> LEDR,\n" +
+                        "			LEDG			=> LEDG,\n" +
+                        "			SW				=> SW,\n" +
+                        "			GPIO_OUT		=> GPIO_OUT,\n" +
+                        "			GPIO_IN		=> GPIO_IN,\n" +
+                        "			GPIO_IN_O	=> GPIO_IN_O,\n" +
+                        "			SW_O			=> SW_O,\n" +
+                        "			KEY_O			=> KEY_O\n" +
+                        "		);\n" +
+                        "	io_peripheral_adr_in <= processor_adr_out(io_peripheral_adr_in'range);\n" +
+                        "	io_peripheral_dat_in <= processor_dat_out;\n" +
+                        "	io_peripheral_we_in  <= processor_we_out;\n" +
+                        "	io_peripheral_sel_in <= processor_sel_out;\n" +
+                        "	io_peripheral_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_IO else '0';\n" +
+                        "	io_peripheral_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_IO else '0';\n" +
+                        "	\n" +
+                        "	time_measurement_p: entity work.Time_Measurement_Peripheral\n" +
+                        "		port map(\n" +
+                        "			clk 			=> system_clk,\n" +
+                        "			reset 		=> reset,\n" +
+                        "			wb_adr_in 	=> time_measurement_adr_in(3 downto 2),\n" +
+                        "			wb_dat_in 	=> time_measurement_dat_in,\n" +
+                        "			wb_dat_out 	=> time_measurement_dat_out,\n" +
+                        "			wb_cyc_in 	=> time_measurement_cyc_in,\n" +
+                        "			wb_stb_in 	=> time_measurement_stb_in,\n" +
+                        "			wb_sel_in 	=> time_measurement_sel_in,\n" +
+                        "			wb_we_in 	=> time_measurement_we_in,\n" +
+                        "			wb_ack_out 	=> time_measurement_ack_out,\n" +
+                        "			HEX0			=> HEX0,\n" +
+                        "			HEX1			=> HEX1,\n" +
+                        "			HEX2			=> HEX2,\n" +
+                        "			HEX3			=> HEX3\n" +
+                        "		);\n" +
+                        "	time_measurement_adr_in <= processor_adr_out(time_measurement_adr_in'range);\n" +
+                        "	time_measurement_dat_in <= processor_dat_out;\n" +
+                        "	time_measurement_we_in  <= processor_we_out;\n" +
+                        "	time_measurement_sel_in <= processor_sel_out;\n" +
+                        "	time_measurement_cyc_in <= processor_cyc_out when intercon_peripheral = TIME_MEASUREMENT else '0';\n" +
+                        "	time_measurement_stb_in <= processor_stb_out when intercon_peripheral = TIME_MEASUREMENT else '0';\n" +
+                        "	\n";
+                        for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
+                            data += "	"+Data.Name_of_Timers[i]+": entity work.TON_Peripheral\n" +
+                                    "		port map(\n" +
+                                    "			clk 		=> system_clk,\n" +
+                                    "			reset		=> reset,\n" +
+                                    "			wb_adr_in	=> "+Data.Name_of_Timers[i]+"_adr_in(3 downto 2),\n" +
+                                    "			wb_dat_in	=> "+Data.Name_of_Timers[i]+"_dat_in,\n" +
+                                    "			wb_dat_out	=> "+Data.Name_of_Timers[i]+"_dat_out,\n" +
+                                    "			wb_cyc_in	=> "+Data.Name_of_Timers[i]+"_cyc_in,\n" +
+                                    "			wb_stb_in	=> "+Data.Name_of_Timers[i]+"_stb_in,\n" +
+                                    "			wb_sel_in	=> "+Data.Name_of_Timers[i]+"_sel_in,\n" +
+                                    "			wb_we_in	=> "+Data.Name_of_Timers[i]+"_we_in,\n" +
+                                    "			wb_ack_out	=> "+Data.Name_of_Timers[i]+"_ack_out\n" +
+                                    "		);\n" +
+                                    "	"+Data.Name_of_Timers[i]+"_adr_in <= processor_adr_out("+Data.Name_of_Timers[i]+"_adr_in'range);\n" +
+                                    "	"+Data.Name_of_Timers[i]+"_dat_in <= processor_dat_out;\n" +
+                                    "	"+Data.Name_of_Timers[i]+"_we_in  <= processor_we_out;\n" +
+                                    "	"+Data.Name_of_Timers[i]+"_sel_in <= processor_sel_out;\n" +
+                                    "	"+Data.Name_of_Timers[i]+"_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_"+Data.Name_of_Timers[i]+" else '0';\n" +
+                                    "	"+Data.Name_of_Timers[i]+"_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_"+Data.Name_of_Timers[i]+" else '0';\n\n";
+                        }
+                data += "end architecture behaviour;";
+        write_file(Project_Folder_File + "/q_files/hdl_code/toplevel.vhd", data);
     }
     
     private void generate_pp_soc_reset_vhd_file(String Project_Folder_File) {
@@ -2727,7 +3333,12 @@ public class Write_Hardware_Files {
                         "		LEDG			: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);\n" +
                         "		SW				: IN STD_LOGIC_VECTOR(9 DOWNTO 0);\n" +
                         "		GPIO_OUT		: OUT STD_LOGIC_VECTOR(17 DOWNTO 0);\n" +
-                        "		GPIO_IN		: IN STD_LOGIC_VECTOR(17 DOWNTO 0)\n" +
+                        "		GPIO_IN		: IN STD_LOGIC_VECTOR(17 DOWNTO 0);\n" +
+                        "		\n" +
+                        "		-- Output Signal From Register\n" +
+                        "		GPIO_IN_O	: OUT STD_LOGIC_VECTOR(17 DOWNTO 0);\n" +
+                        "		SW_O			: OUT STD_LOGIC_VECTOR(9 DOWNTO 0);\n" +
+                        "		KEY_O			: OUT STD_LOGIC_VECTOR(3 DOWNTO 0)\n" +
                         "	);\n" +
                         "end entity In_Out_Peripheral;\n" +
                         "\n" +
@@ -2749,6 +3360,11 @@ public class Write_Hardware_Files {
                         "	process(clk, reset, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in)\n" +
                         "	begin\n" +
                         "		if rising_edge(clk) then\n" +
+                        "		\n" +
+                        "			GPIO_IN_O 	<= register_in(17 DOWNTO 0);\n" +
+                        "			SW_O			<= register_in(27 DOWNTO 18);\n" +
+                        "			KEY_O			<= register_in(31 DOWNTO 28);\n" +
+                        "			\n" +
                         "			if reset = '1' then\n" +
                         "				register_in  <= (OTHERS => '0');\n" +
                         "				register_out <= (OTHERS => '0');\n" +
@@ -6828,10 +7444,10 @@ public class Write_Hardware_Files {
                         "		.reference_clock_frequency(\"125.0 MHz\"),\n" +
                         "		.operation_mode(\"direct\"),\n" +
                         "		.number_of_clocks(2),\n" +
-                        "		.output_clock_frequency0(\""+Data.CPU_Freq_I+".000000 MHz\"),\n" +
+                        "		.output_clock_frequency0(\""+(Data.CPU_Freq_I/1000000)+".000000 MHz\"),\n" +
                         "		.phase_shift0(\"0 ps\"),\n" +
                         "		.duty_cycle0(50),\n" +
-                        "		.output_clock_frequency1(\""+Data.CPU_Timer_Freq_I+".000000 MHz\"),\n" +
+                        "		.output_clock_frequency1(\""+(Data.CPU_Timer_Freq_I/1000000)+".000000 MHz\"),\n" +
                         "		.phase_shift1(\"0 ps\"),\n" +
                         "		.duty_cycle1(50),\n" +
                         "		.output_clock_frequency2(\"0 MHz\"),\n" +
@@ -7915,6 +8531,14 @@ public class Write_Hardware_Files {
             } catch (IOException ex) {
                 Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    private String num_2_spaces(int i) {
+        if (i < 9) {
+            return "0"+i;
+        } else {
+            return i+"";
         }
     }
 }

@@ -48,8 +48,7 @@ public class Data {
     
     public static int Max_Number_Of_Instructions = 256;
     
-    public static int Number_Of_Timers_SW_C = 0;
-    public static final int Max_Number_Of_Timers_SW_C = 2;
+    public static final int Max_Number_Of_Timers_SW = 2;
     
     // Compill il to c
     public static String C_code;
@@ -59,14 +58,20 @@ public class Data {
     public static String    CPU_Timer_Freq_S ="100000000";
     public static int       CPU_Timer_Freq_I = 100000000;
     
-    // Comile vhdl (software branch)
+    public static JTextArea jTextArea_Output_Tab;
+    public static boolean RequistDownload = false;
+    
+    // Comile hdl
     public static final int NO_COMPILATION = 0;
     public static final int ANALYSIS_SYNTHESIS = 1;
     public static final int FITTER = 2;
     public static final int ASSEMBLER = 3;
     public static final int UPDATED = 4;
-    public static int vhdl_compilation_state = NO_COMPILATION;
-    
-    public static JTextArea jTextArea_Output_Tab;
-    public static boolean RequistDownload = false;
+    public static final int SW_COMPILATION = 1;
+    public static final int HW_COMPILATION = 2;
+    public static int hdl_compilation_state = NO_COMPILATION;
+    public static int hdl_compilation_type = NO_COMPILATION;
+    public static int Number_Of_Timers_Compiled = 0;
+    public static int Number_Of_Timers_In_Program = 0;
+    public static String[] Name_of_Timers = new String[50];
 }

@@ -9,6 +9,7 @@ import rv_fpga_plc_ide.helper.Write_Software_Files;
 import rv_fpga_plc_ide.helper.Write_Hardware_Files;
 import com.alee.laf.WebLookAndFeel;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -2182,11 +2183,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton14KeyPressed
 
     private void jMenuItem_Download_Program_to_SoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Download_Program_to_SoCActionPerformed
+        int sel;
         if (Data.is_Saved_Project) {
-            if (Data.vhdl_compilation_state == Data.UPDATED) {
+            if (Data.hdl_compilation_state == Data.UPDATED) {
                 download_software_to_SoC(Data.Project_Folder.getPath());
             } else {
-                int sel = JOptionPane.showConfirmDialog(this, "This project is not compiled.\nDo you want to compile it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                sel = JOptionPane.showConfirmDialog(this, "This project is not compiled.\nDo you want to compile it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (sel == JOptionPane.YES_OPTION){
                     //TODO need to add which compilation you need
                     jMenuItem_Compile_SoftwareActionPerformed(evt);
@@ -2197,7 +2199,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 }
             }
         } else {
-            int sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (sel == JOptionPane.YES_OPTION){
                 saveProject();
                 jMenuItem_Download_Program_to_SoCActionPerformed(evt);
@@ -2209,7 +2211,19 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Download_Program_to_SoCActionPerformed
 
     private void jMenuItem_Compile_HardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_HardwareActionPerformed
-        // TODO add your handling code here:
+        int sel;
+        if (Data.is_Saved_Project) {
+            compile_hardware(Data.Project_Folder.getPath(), evt);
+        } else {
+            sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save is?", "Compile As Hardware", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (sel == JOptionPane.YES_OPTION){
+                saveProject();
+                jMenuItem_Compile_HardwareActionPerformed(evt);
+            } else {
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(this, "Program is not saved!", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
+            }
+        }
     }//GEN-LAST:event_jMenuItem_Compile_HardwareActionPerformed
 
     private void jMenuItem_And1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_And1ActionPerformed
@@ -2247,8 +2261,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         if (isEditing) {
             Data.is_Saved_Project = false;
             this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
-            if (Data.vhdl_compilation_state == Data.UPDATED) {
-                Data.vhdl_compilation_state = Data.ASSEMBLER;
+            if (Data.hdl_compilation_state == Data.UPDATED) {
+                Data.hdl_compilation_state = Data.ASSEMBLER;
             }
         }
     }
@@ -2264,8 +2278,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         if (isEditing) {
             Data.is_Saved_Project = false;
             this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
-            if (Data.vhdl_compilation_state == Data.UPDATED) {
-                Data.vhdl_compilation_state = Data.ASSEMBLER;
+            if (Data.hdl_compilation_state == Data.UPDATED) {
+                Data.hdl_compilation_state = Data.ASSEMBLER;
             }
         }
     }
@@ -2726,7 +2740,10 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                           "Number of Rungs        = "+Data.size_Rung+"\n"+
                           Size_of_Programs+
                           "Number of Variables    = "+(Data.size_Vaiables - 2)+"\n"+
-                          "VHDL Compilation State = "+Data.vhdl_compilation_state;
+                          "HDL Compilation State  = "+Data.hdl_compilation_state+"\n"+
+                          "HDL Compilation Type   = "+Data.hdl_compilation_type+"\n"+
+                          "Compiled Timers        = "+Data.Number_Of_Timers_Compiled+"\n"+
+                          "Timers in Program      = "+Data.Number_Of_Timers_In_Program;
             project_info.write(data.getBytes(), 0, data.length());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
@@ -2781,10 +2798,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 Data.size_Program_in_rung[i] = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             }
             Data.size_Vaiables = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1])+2;
-            Data.vhdl_compilation_state = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            Data.hdl_compilation_state = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            Data.hdl_compilation_type = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            Data.Number_Of_Timers_Compiled = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            Data.Number_Of_Timers_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             File q_files = new File(Project_Folder+"/q_files");
             if (!q_files.exists()) {
-                Data.vhdl_compilation_state = Data.NO_COMPILATION;
+                Data.hdl_compilation_state = Data.NO_COMPILATION;
+                Data.hdl_compilation_type = Data.NO_COMPILATION;
                 write_info_file(Project_Folder);
             }
         } catch (FileNotFoundException ex) {
@@ -2904,7 +2925,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         if (compile_all_project) q_files.mkdirs();
         
         new Output_Tap().println("  Start Compiling \"instruction list\".");
-        success &= compill_il_file();
+        success &= compill_il_file_sw();
         if (success) {
             new Output_Tap().println("  Start Compiling \"c files\".");
             success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
@@ -2914,7 +2935,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             new Write_Hardware_Files().generate_q_files(Project_Folder);
             new Output_Tap().println("  Start Compiling \"Quartus Project\".");
             copy_mif_to_q_files(Project_Folder);
-            compile_vhdl(Project_Folder, evt);
+            compile_hdl(Project_Folder, evt, Data.SW_COMPILATION);
         }
         
         if (success) {
@@ -2925,8 +2946,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         } else {
             Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+            jDialog_Loading.hide();
             JOptionPane.showMessageDialog(this, "Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
-                new Output_Tap().println("Compilling did not Finished Successfully");
+            new Output_Tap().println("Compilling did not Finished Successfully");
         }
     }
     
@@ -3044,11 +3066,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }
 
-    private boolean compill_il_file() {
-        boolean sucsess = true;
+    private boolean compill_il_file_sw() {
+        boolean success = true;
+        Data.Number_Of_Timers_In_Program = 0;
         new Write_Software_Files().write_software_files();
         Data.C_code =   "#include <stdint.h>\n" +
-                        "//#include <string.h>\n" +
                         "#include \"platform.h\"\n" +
                         "//#include \"uart.h\"\n" +
                         "#include \"timer.h\"\n" +
@@ -3086,7 +3108,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         Data.Load_index = 0;
         for (int rung_i = 0; rung_i < Data.size_Rung; rung_i++) {
             Data.C_code += "\n\t\t// Rung " + rung_i + " :" + Data.Rung_Name[rung_i].replaceAll(":", "") + "\n";
-            sucsess &= compile_rung(rung_i);
+            success &= compile_rung_sw(rung_i);
         }
         
         Data.C_code += "        stop_time(&time_measurement_d);\n" +
@@ -3094,10 +3116,10 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                        "\n" +
                        "	return 0;\n}";
         write_c_file(Data.Project_Folder.getPath()+"/c_files");
-        return sucsess;
+        return success;
     }
 
-    private boolean compile_rung(int rung_i) {
+    private boolean compile_rung_sw(int rung_i) {
         boolean success = true;
         String il_inst;
         for (int program_i = 0; program_i < Data.size_Program_in_rung[rung_i]; program_i++) {
@@ -3196,9 +3218,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     }
                 }
                 if (typeOfVariable.contains("TON")) {
-                    if (Data.Number_Of_Timers_SW_C <= Data.Max_Number_Of_Timers_SW_C) {
-                        Data.Number_Of_Timers_SW_C++;
-                        switch (Data.Number_Of_Timers_SW_C) {
+                    if (Data.Number_Of_Timers_In_Program < Data.Max_Number_Of_Timers_SW) {
+                        Data.Number_Of_Timers_In_Program++;
+                        switch (Data.Number_Of_Timers_In_Program) {
                             case 1:
                                 Data.C_code = insertStringAfter("static struct io_per io_per_d;\n", "\nstatic struct timer timer0;\n", Data.C_code);
                                 Data.C_code = insertStringAfter("io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n", "\n\ttimer_initialize(&timer0, (volatile void *) PLATFORM_TIMER0_BASE);\n\ttimer_reset(&timer0);\n\tuint64_t timer0_count;\n\tint timer0_is_enabled = TIMER_DISABLED;\n\tint timer0_output = 0;\n", Data.C_code);
@@ -3209,13 +3231,17 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                                 Data.C_code = insertStringAfter("uint64_t timer0_count;\n", "\tuint64_t timer1_count;\n", Data.C_code);
                                 Data.C_code = insertStringAfter("int timer0_is_enabled = TIMER_DISABLED;\n", "\tint timer1_is_enabled = TIMER_DISABLED;\n", Data.C_code);
                                 Data.C_code = insertStringAfter("int timer0_output = 0;\n", "\tint timer1_output = 0;\n", Data.C_code);
+                                Data.C_code = insertStringAfter("timer_reset(&timer0);\n", "\ttimer_reset(&timer1);\n", Data.C_code);
                                 break;
+                                
                             default:
+                                jDialog_Loading.hide();
+                                program_i = program_i + 3;
                                 JOptionPane.showMessageDialog(this, "This CPU has only two timers.\nPlease compile as hardware or use optimaization algorithm.", "Compile il", JOptionPane.OK_OPTION);
                                 success = false;
                                 break;
                         }
-                        int timer_number = (Data.Number_Of_Timers_SW_C-1);
+                        int timer_number = (Data.Number_Of_Timers_In_Program-1);
                         
                         Data.C_code += "\n\t\t// TON "+Operand+"\n";
                         Operand = il_inst.split(":=")[1];
@@ -3314,7 +3340,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         il_inst = il_inst.replaceAll("\\)", "");
                         Operand = il_inst.split("=>")[1];
                         
-                        String Output_Timer = "ERROR_OUTPUT_TIMER";
+                        String Output_Timer = "ERROR_OUTPUT_TIMER\n";
                         if (Operand.contains("%")){
                             Operand = Operand.replaceAll("%", "");
                             String offc = Operand.split("\\.")[1];
@@ -3338,7 +3364,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                                 }
                                 
                                 if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
-                                    Output_Timer = "\t\t"+nameOfVariable+" = timer"+timer_number+"_output";
+                                    Output_Timer = "\t\t"+nameOfVariable+" = timer"+timer_number+"_output;\n";
                                 } else {
                                     JOptionPane.showMessageDialog(this, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
                                     success = false;
@@ -3371,6 +3397,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         
                         Data.Load_index++;
                     } else {
+                        jDialog_Loading.hide();
+                        program_i = program_i + 3;
                         JOptionPane.showMessageDialog(this, "There is only two timers in the core.", "Compile il", JOptionPane.OK_OPTION);
                         success = false;
                     }
@@ -3792,32 +3820,37 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }
 
-    private boolean compile_vhdl(String Project_Folder, java.awt.event.ActionEvent evt) {
+    private void compile_hdl(String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type) {
         Project_Folder = Project_Folder + "/q_files/";
-        boolean success = false;
-        switch (Data.vhdl_compilation_state) {
-            case Data.NO_COMPILATION:
-                compile_analysis_synthesis cas = new compile_analysis_synthesis(Project_Folder, evt);
-                cas.start();
-                break;
-            case Data.ANALYSIS_SYNTHESIS:
-                compile_fitter cf = new compile_fitter(Project_Folder, evt);
-                cf.start();
-                break;
-            case Data.FITTER:
-                compile_assembler ca = new compile_assembler(Project_Folder, evt);
-                ca.start();
-                break;
-            case Data.ASSEMBLER:
-                compile_update_mif cum = new compile_update_mif(Project_Folder, evt);
-                cum.start();
-                break;
-            case Data.UPDATED:
-                new Output_Tap().println("No Need for Compilling");
-                jDialog_Loading.hide();
-                JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "No Need for Compilling");
+        boolean no_hardware_change = check_hardware_change();
+        if (((hdl_compilation_type == Data.SW_COMPILATION) || (hdl_compilation_type == Data.HW_COMPILATION && no_hardware_change)) &&
+                Data.hdl_compilation_type == hdl_compilation_type) {
+            switch (Data.hdl_compilation_state) {
+                case Data.NO_COMPILATION:
+                    compile_analysis_synthesis cas = new compile_analysis_synthesis(Project_Folder, evt, hdl_compilation_type);
+                    cas.start();
+                    break;
+                case Data.ANALYSIS_SYNTHESIS:
+                    compile_fitter cf = new compile_fitter(Project_Folder, evt, hdl_compilation_type);
+                    cf.start();
+                    break;
+                case Data.FITTER:
+                    compile_assembler ca = new compile_assembler(Project_Folder, evt, hdl_compilation_type);
+                    ca.start();
+                    break;
+                case Data.ASSEMBLER:
+                    compile_update_mif cum = new compile_update_mif(Project_Folder, evt, hdl_compilation_type);
+                    cum.start();
+                    break;
+                case Data.UPDATED:
+                    new Output_Tap().println("No Need for Compilling");
+                    jDialog_Loading.hide();
+                    JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "No Need for Compilling");
+            }
+        } else {
+            compile_analysis_synthesis cas = new compile_analysis_synthesis(Project_Folder, evt, hdl_compilation_type);
+            cas.start();
         }
-        return success;
     }
 
     private void download_software_to_SoC(String Project_Folder) {
@@ -3827,6 +3860,347 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         new Output_Tap().println("Start Downloading Software to SoC.");
         download_to_SoC_thread dtst = new download_to_SoC_thread(Project_Folder+"/q_files");
         dtst.start();
+    }
+
+    private void compile_hardware(String Project_Folder, ActionEvent evt) {
+        LoadingDialoge loading = new LoadingDialoge("Compiling ...");
+        loading.start();
+        new Output_Tap().removeText();
+        new Output_Tap().println("Start Compiling As Hardware.");
+        boolean success = true;
+        File c_files = new File(Project_Folder+"/c_files");
+        File q_files = new File(Project_Folder+"/q_files");
+        
+        c_files.mkdirs();
+        q_files.mkdirs();
+        
+        new Output_Tap().println("  Start Compiling \"instruction list\".");
+        success &= compill_il_file_hw();
+        /*if (success) {
+            new Output_Tap().println("  Start Compiling \"c files\".");
+            success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
+        }*/
+        if (success) {
+            new Output_Tap().println("  Start Writting Hardware Files.");
+            new Write_Hardware_Files().generate_q_files_variables(Project_Folder);
+            new Output_Tap().println("  Start Compiling \"Quartus Project\".");
+            copy_mif_to_q_files(Project_Folder);
+            compile_hdl(Project_Folder, evt, Data.HW_COMPILATION);
+        }
+        
+        if (!success) {
+            Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+            jDialog_Loading.hide();
+            JOptionPane.showMessageDialog(this, "Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
+            new Output_Tap().println("Compilling did not Finished Successfully");
+        }
+    }
+    
+    private boolean compill_il_file_hw() {
+        boolean success = true;
+        Data.Number_Of_Timers_In_Program = 0;
+        new Write_Software_Files().write_software_files();
+        Data.C_code =   "#include <stdint.h>\n" +
+                        "#include \"platform.h\"\n" +
+                        "//#include \"uart.h\"\n" +
+                        "#include \"time_measurement.h\"\n" +
+                        "#include \"i_o_peripheral.h\"\n" +
+                        "\n" +
+                        "//static struct uart uart0;\n" +
+                        "static struct time_measurement time_measurement_d;\n" +
+                        "static struct io_per io_per_d;\n" +
+                        "\n" +
+                        "void exception_handler(uint32_t cause, void * epc, void * regbase)\n" +
+                        "{\n" +
+                        "	//while(uart_tx_fifo_full(&uart0));\n" +
+                        "	//uart_tx(&uart0, 'E');\n" +
+                        "}\n" +
+                        "\n" +
+                        "int main(void)\n" +
+                        "{\n" +
+                        "	//uart_initialize(&uart0, (volatile void *) PLATFORM_UART0_BASE);\n" +
+                        "	//uart_set_divisor(&uart0, uart_baud2divisor(115200, PLATFORM_SYSCLK_FREQ));\n" +
+                        "	time_measurement_per_initialize(&time_measurement_d, (volatile void *) PLATFORM_TIME_MEASUREMENT);\n" +
+                        "	set_micro(&time_measurement_d);\n" +
+                        "	io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n" +
+                        "\n" +
+                        "	//uart_tx_string(&uart0, \"Hi ...\\n\\rRun \\\""+Data.Project_Name+"/\\\" ...\\n\\r\");\n" +
+                        "\n";
+        new Write_Software_Files().declareAndInitializeVariables();
+        Data.C_code +=  "\n	while(1){\n" +
+                        "		start_time(&time_measurement_d);\n" +
+                        "		io_per_set_output(&io_per_d, RWD, 0, 0);\n";
+        
+        Data.Load_index = 0;
+        for (int rung_i = 0; rung_i < Data.size_Rung; rung_i++) {
+            Data.C_code += "\n\t\t// Rung " + rung_i + " :" + Data.Rung_Name[rung_i].replaceAll(":", "") + "\n";
+            success &= compile_rung_hw(rung_i);
+        }
+        
+        Data.C_code += "        stop_time(&time_measurement_d);\n" +
+                       "    }\n" +
+                       "\n" +
+                       "	return 0;\n}";
+        write_c_file(Data.Project_Folder.getPath()+"/c_files");
+        return success;
+    }
+    
+    private boolean compile_rung_hw(int rung_i) {
+        boolean success = true;
+        String il_inst;
+        for (int program_i = 0; program_i < Data.size_Program_in_rung[rung_i]; program_i++) {
+            il_inst = Data.Program_2D[rung_i][program_i];
+            String[] il_inst_Arr = new String[1];
+            il_inst_Arr[0] = il_inst;
+            remove_Spaces_Before_Strings(il_inst_Arr, 1);
+            il_inst = il_inst_Arr[0];
+            if (il_inst.split(" ")[0].contains("LDN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("LDN", "");
+                success = success && add_basic_load_command(Operand, "~");
+            } else if (il_inst.split(" ")[0].contains("STN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("STN", "");
+                success = success && add_basic_store_command(Operand, "~");
+            } else if (il_inst.split(" ")[0].contains("LD")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("LD", "");
+                success = success && add_basic_load_command(Operand, "");
+            } else if (il_inst.split(" ")[0].contains("ST")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("ST", "");
+                success = success && add_basic_store_command(Operand, "");
+            } else if (il_inst.split(" ")[0].contains("ANDN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("ANDN", "");
+                add_basic_c_command(Operand, "&", "~");
+            } else if (il_inst.split(" ")[0].contains("XORN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("XOR", "");
+                add_basic_c_command(Operand, "^", "~");
+            } else if (il_inst.split(" ")[0].contains("ORN")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("OR", "");
+                add_basic_c_command(Operand, "|", "~");
+            } else if (il_inst.split(" ")[0].contains("ANDB")) {
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" &= var"+(Data.Load_index - 2)+";\n";
+            } else if (il_inst.split(" ")[0].contains("XORB")) {
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" ^= var"+(Data.Load_index - 2)+";\n";
+            } else if (il_inst.split(" ")[0].contains("ORB")) {
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" |= var"+(Data.Load_index - 2)+";\n";
+            } else if (il_inst.split(" ")[0].contains("AND")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("AND", "");
+                add_basic_c_command(Operand, "&", "");
+            } else if (il_inst.split(" ")[0].contains("XOR")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("XOR", "");
+                add_basic_c_command(Operand, "^", "");
+            } else if (il_inst.split(" ")[0].contains("OR")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("OR", "");
+                add_basic_c_command(Operand, "|", "");
+            } else if (il_inst.split(" ")[0].contains("ADD")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("ADD", "");
+                add_basic_c_command(Operand, "+", "");
+            } else if (il_inst.split(" ")[0].contains("SUB")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("SUB", "");
+                add_basic_c_command(Operand, "-", "");
+            } else if (il_inst.split(" ")[0].contains("MUL")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("MUL", "");
+                add_basic_c_command(Operand, "*", "");
+            } else if (il_inst.split(" ")[0].contains("DIV")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("DIV", "");
+                add_basic_c_command(Operand, "/", "");
+            } else if (il_inst.split(" ")[0].contains("MOD")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("MOD", "");
+                add_basic_c_command(Operand, "%", "");
+            } else if (il_inst.split(" ")[0].contains("NOT")) {
+                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" = ~var"+(Data.Load_index - 1)+";\n";
+            } else if (il_inst.split(" ")[0].contains("GT")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("GT", "");
+                add_comparison_c_command(Operand, ">");
+            } else if (il_inst.split(" ")[0].contains("GE")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("GE", "");
+                add_comparison_c_command(Operand, ">=");
+            } else if (il_inst.split(" ")[0].contains("EQ")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("EQ", "");
+                add_comparison_c_command(Operand, "==");
+            } else if (il_inst.split(" ")[0].contains("NE")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("NE", "");
+                add_comparison_c_command(Operand, "!=");
+            } else if (il_inst.split(" ")[0].contains("LT")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("LT", "");
+                add_comparison_c_command(Operand, "<");
+            } else if (il_inst.split(" ")[0].contains("LE")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("LE", "");
+                add_comparison_c_command(Operand, "<=");
+            } else if (il_inst.split(" ")[0].contains("CAL")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("CAL", "").replaceAll("\\(", "");
+                String Timer_Name = Operand;
+                Data.Name_of_Timers[Data.Number_Of_Timers_In_Program] = Timer_Name;
+                Data.Number_Of_Timers_In_Program++;
+                
+                program_i++; // IN
+                il_inst = Data.Program_2D[rung_i][program_i];
+                il_inst_Arr[0] = il_inst;
+                remove_Spaces_Before_Strings(il_inst_Arr, 1);
+                il_inst = il_inst_Arr[0].replaceAll(" ", "");
+                il_inst = il_inst.replaceAll(",", "");
+                
+                String typeOfVariable = "No Type";
+                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                    String Variable_temp = Data.Vaiables[i].replace(" ", "");
+                    if (Variable_temp.contains(Operand)) {
+                        typeOfVariable = Variable_temp.split(":")[1];
+                        break;
+                    }
+                }
+                if (typeOfVariable.contains("TON")) {
+                    Data.C_code += "\n\t\t// TON "+Timer_Name+"\n";
+                    Operand = il_inst.split(":=")[1];
+                    int Instant_Operand;
+                    if (Operand.contains("%")){
+                        Operand = Operand.replaceAll("%", "");
+                        String offc = Operand.split("\\.")[1];
+                        Operand = Operand.split("\\.")[0];
+                        Data.C_code += "\t\tint var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                    } else {
+                        try {
+                            Instant_Operand = Integer.parseInt(Operand);
+                            Data.C_code += "\t\tint var"+Data.Load_index+" = "+Instant_Operand+";\n";
+                        } catch (NumberFormatException ex) {
+                            String Variable_temp;
+                            typeOfVariable = "Not Supported Type";
+                            String nameOfVariable = "Variabe Not Found";
+                            for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                                Variable_temp = Data.Vaiables[i].replace(" ", "");
+                                if (Variable_temp.contains(Operand)) {
+                                    nameOfVariable = Variable_temp.split(":")[0];
+                                    typeOfVariable = Variable_temp.split(":")[1];
+                                    break;
+                                }
+                            }
+                            if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                                Data.C_code += "\t\tint var"+Data.Load_index+" = "+nameOfVariable+";\n";
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
+                                success = false;
+                            }
+                        }
+                    }
+                   
+                    program_i++; // Preset Time (PT)
+                    il_inst = Data.Program_2D[rung_i][program_i];
+                    il_inst_Arr[0] = il_inst;
+                    remove_Spaces_Before_Strings(il_inst_Arr, 1);
+                    il_inst = il_inst_Arr[0].replaceAll(" ", "");
+                    il_inst = il_inst.replaceAll(",", "");
+                    Operand = il_inst.split(":=")[1];
+                    
+                    typeOfVariable = "No Type";
+                    for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                        String Variable_temp = Data.Vaiables[i].replace(" ", "");
+                        if (Variable_temp.contains(Operand)) {
+                            typeOfVariable = Variable_temp.split(":")[1];
+                            break;
+                        }
+                    }
+                    
+                    String Preset_Time = "ERROR_PRESET_TIME";
+                   
+                    if (typeOfVariable.contains("TIME")) {
+                        Preset_Time = Operand;
+                    } else if (Operand.contains("T#")) {
+                        double time_sec = getSecFromTimeFormat(Operand);
+                        long Number_of_Clocks = (long) time_sec*Data.CPU_Timer_Freq_I;
+                        Preset_Time = "(uint64_t)"+Number_of_Clocks;
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Preset time should be variable with type \"TIME\" or instant begins with T#.", "Compile il", JOptionPane.OK_OPTION);
+                        success = false;
+                    }
+                    
+                    program_i++; // Elapsed Time (ET)
+                    il_inst = Data.Program_2D[rung_i][program_i];
+                    il_inst_Arr[0] = il_inst;
+                    remove_Spaces_Before_Strings(il_inst_Arr, 1);
+                    il_inst = il_inst_Arr[0].replaceAll(" ", "");
+                    il_inst = il_inst.replaceAll(",", "");
+                    Operand = il_inst.split("=>")[1];
+                    
+                    String Elapsed_Time = "ERROR_ELAPSED_TIME";
+                    
+                    typeOfVariable = "No Type";
+                    for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                        String Variable_temp = Data.Vaiables[i].replace(" ", "");
+                        if (Variable_temp.contains(Operand)) {
+                            typeOfVariable = Variable_temp.split(":")[1];
+                            break;
+                        }
+                    }
+                    
+                    if (typeOfVariable.contains("TIME")) {
+                            Elapsed_Time = Operand;
+                        } else {
+                        JOptionPane.showMessageDialog(this, "Elapsed time should be variable with type \"TIME\".", "Compile il", JOptionPane.OK_OPTION);
+                        success = false;
+                    }
+                    
+                    program_i++; // Q
+                    il_inst = Data.Program_2D[rung_i][program_i];
+                    il_inst_Arr[0] = il_inst;
+                    remove_Spaces_Before_Strings(il_inst_Arr, 1);
+                    il_inst = il_inst_Arr[0].replaceAll(" ", "");
+                    il_inst = il_inst.replaceAll("\\)", "");
+                    Operand = il_inst.split("=>")[1];
+                    
+                    String Output_Timer = "ERROR_OUTPUT_TIMER\n";
+                    if (Operand.contains("%")){
+                        Operand = Operand.replaceAll("%", "");
+                        String offc = Operand.split("\\.")[1];
+                        Operand = Operand.split("\\.")[0];
+                        Output_Timer = "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", recieve_Q(&"+Timer_Name+"));\n";
+                    } else {
+                        try {
+                            JOptionPane.showMessageDialog(this, "Tho output of the timer shouldn't be instant value.", "Compile il", JOptionPane.OK_OPTION);
+                            success = false;
+                        } catch (NumberFormatException ex) {
+                            String Variable_temp;
+                            typeOfVariable = "Not Supported Type";
+                            String nameOfVariable = "Variabe Not Found";
+                            for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                                Variable_temp = Data.Vaiables[i].replace(" ", "");
+                                if (Variable_temp.contains(Operand)) {
+                                    nameOfVariable = Variable_temp.split(":")[0];
+                                    typeOfVariable = Variable_temp.split(":")[1];
+                                    break;
+                                }
+                            }
+                            
+                            if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                                Output_Timer = "\t\t"+nameOfVariable+" = recieve_Q(&"+Timer_Name+");\n";
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
+                                success = false;
+                            }
+                        }
+                    }
+                   
+                    Data.C_code +="\t\tsend_in(&"+Timer_Name+", var"+Data.Load_index+");\n"
+                                + "\t\tsend_preset_time(&"+Timer_Name+", "+Preset_Time+");\n"
+                                + "\t\t"+Elapsed_Time+" = recieve_elapsed_time(&"+Timer_Name+");\n"
+                                + Output_Timer
+                                + "\n";
+                    
+                    Data.Load_index++;
+                } else {
+                    JOptionPane.showMessageDialog(this, "\""+typeOfVariable+"\"not supported yet", "Compile il", JOptionPane.OK_OPTION);
+                    success = false;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "\""+il_inst+"\"not supported yet", "Compile il", JOptionPane.OK_OPTION);
+                success = false;
+            }
+        }
+        return success;
+    }
+
+    private boolean check_hardware_change() {
+        boolean no_hardware_change = true;
+        if (Data.Number_Of_Timers_Compiled != Data.Number_Of_Timers_In_Program) {
+            no_hardware_change = false;
+        }
+        return no_hardware_change;
     }
     
     private class download_to_SoC_thread extends Thread {
@@ -3858,10 +4232,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private class compile_analysis_synthesis extends Thread {
         private final String Project_Folder;
         private final java.awt.event.ActionEvent evt;
+        private final int hdl_compilation_type;
         
-        compile_analysis_synthesis(String Project_Folder, java.awt.event.ActionEvent evt) {
+        compile_analysis_synthesis(String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
+            this.hdl_compilation_type = hdl_compilation_type;
         }
         
         @Override
@@ -3878,12 +4254,16 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 outputMessage.start();
                 proc.waitFor();
                 if (proc.exitValue() == 0) {
-                    compile_fitter cf = new compile_fitter(Project_Folder, evt);
-                    Data.vhdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
+                    compile_fitter cf = new compile_fitter(Project_Folder, evt, hdl_compilation_type);
+                    Data.hdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
+                    Data.hdl_compilation_type = hdl_compilation_type;
+                    Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
                     cf.start();
                 } else {
                     jDialog_Loading.hide();
-                    Data.vhdl_compilation_state = Data.NO_COMPILATION;
+                    Data.hdl_compilation_state = Data.NO_COMPILATION;
+                    Data.hdl_compilation_type = Data.NO_COMPILATION;
+                    Data.Number_Of_Timers_Compiled = 0;
                     Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                     JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Analysis Synthesis Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
                 }
@@ -3897,10 +4277,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private class compile_fitter extends Thread {
         private final String Project_Folder;
         private final java.awt.event.ActionEvent evt;
+        private final int hdl_compilation_type;
         
-        compile_fitter(String Project_Folder, java.awt.event.ActionEvent evt) {
+        compile_fitter(String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
+            this.hdl_compilation_type = hdl_compilation_type;
         }
         
         @Override
@@ -3916,13 +4298,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 errorReported.start();
                 outputMessage.start();
                 proc.waitFor();
+                Data.hdl_compilation_type = hdl_compilation_type;
+                Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
                 if (proc.exitValue() == 0) {
-                    compile_assembler ca = new compile_assembler(Project_Folder, evt);
-                    Data.vhdl_compilation_state = Data.FITTER;
+                    compile_assembler ca = new compile_assembler(Project_Folder, evt, hdl_compilation_type);
+                    Data.hdl_compilation_state = Data.FITTER;
                     ca.start();
                 } else {
                     jDialog_Loading.hide();
-                    Data.vhdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
+                    Data.hdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
                     Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                     JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Fitter Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
                 }
@@ -3936,10 +4320,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private class compile_assembler extends Thread {
         private final String Project_Folder;
         private final java.awt.event.ActionEvent evt;
+        private final int hdl_compilation_type;
         
-        compile_assembler(String Project_Folder, java.awt.event.ActionEvent evt) {
+        compile_assembler(String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
+            this.hdl_compilation_type = hdl_compilation_type;
         }
         
         @Override
@@ -3955,8 +4341,10 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 errorReported.start();
                 outputMessage.start();
                 proc.waitFor();
+                Data.hdl_compilation_type = hdl_compilation_type;
+                Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
                 if (proc.exitValue() == 0) {
-                    Data.vhdl_compilation_state = Data.UPDATED;
+                    Data.hdl_compilation_state = Data.UPDATED;
                     jDialog_Loading.hide();
                     new Output_Tap().println("  Compiling Finished Successfully");
                     JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Compiling Finished Successfully");
@@ -3966,7 +4354,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     }
                 } else {
                     jDialog_Loading.hide();
-                    Data.vhdl_compilation_state = Data.FITTER;
+                    Data.hdl_compilation_state = Data.FITTER;
                     Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                     JOptionPane.showMessageDialog(RV_FPGA_PLC_IDE.this, "Compiling did not Finished Successfully", "Compile As Software", JOptionPane.OK_OPTION, icon);
                     new Output_Tap().println("  Compiling did not Finished Successfully");
@@ -3985,10 +4373,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private class compile_update_mif extends Thread {
         private final String Project_Folder;
         private final java.awt.event.ActionEvent evt;
+        private final int hdl_compilation_type;
         
-        compile_update_mif(String Project_Folder, java.awt.event.ActionEvent evt) {
+        compile_update_mif(String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
+            this.hdl_compilation_type = hdl_compilation_type;
         }
 
         @Override
@@ -4005,7 +4395,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 outputMessage.start();
                 proc.waitFor();
                 if (proc.exitValue() == 0) {
-                    compile_assembler ca = new compile_assembler(Project_Folder, evt);
+                    compile_assembler ca = new compile_assembler(Project_Folder, evt, hdl_compilation_type);
                     ca.start();
                 } else {
                     jDialog_Loading.hide();

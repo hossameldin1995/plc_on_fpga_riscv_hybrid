@@ -61,6 +61,9 @@ begin
 	
 	WriteToHexa: entity work.Write_To_Hexa
 		port map(
+			clk					=> clk,
+			reset					=> reset,
+			
 			-- Time Signals
 			Time_micro_Nano	=> Time_Micro_Nano_S_std,
 			write_data			=> write_data,

@@ -55,21 +55,22 @@ begin
 
 	wb_dat_out <= read_data and data_mask;
 
-	wb_ack_out <= ack and wb_cyc_in and wb_stb_in;
+	--wb_ack_out <= ack and wb_cyc_in and wb_stb_in;
+	wb_ack_out <= wb_cyc_in and wb_stb_in;
 
-	wishbone: process(clk)
-	begin
-		if rising_edge(clk) then
-			if reset = '1' then
-				ack <= '0';
-			else
-				if wb_cyc_in = '1' and wb_stb_in = '1' then
-					ack <= '1';
-				else
-					ack <= '0';
-				end if;
-			end if;
-		end if;
-	end process wishbone;
+	--wishbone: process(clk)
+	--begin
+	--	if rising_edge(clk) then
+	--		if reset = '1' then
+	--			ack <= '0';
+	--		else
+	--			if wb_cyc_in = '1' and wb_stb_in = '1' then
+	--				ack <= '1';
+	--			else
+	--				ack <= '0';
+	--			end if;
+	--		end if;
+	--	end if;
+	--end process wishbone;
 
 end architecture behaviour;

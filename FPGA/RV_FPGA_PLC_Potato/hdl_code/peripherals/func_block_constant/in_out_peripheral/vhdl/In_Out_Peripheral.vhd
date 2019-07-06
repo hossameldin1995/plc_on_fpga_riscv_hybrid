@@ -49,9 +49,9 @@ begin
 	wb_dat_out <= "0000000000000000000000000000000" & OUT_Data_1;
 	wb_ack_out <= read_ack and wb_stb_in;
 
-	process(clk, reset, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in)
+	process(reset, wb_we_in, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in, wb_cyc_in, wb_dat_in, wb_sel_in)
 	begin
-		if rising_edge(clk) then
+		--if rising_edge(clk) then add clk in  process
 		
 			GPIO_IN_O 	<= register_in(17 DOWNTO 0);
 			SW_O			<= register_in(27 DOWNTO 18);
@@ -102,7 +102,7 @@ begin
 					read_ack <= '0';
 				end if;
 			end if;
-		end if;
+		--end if;
 	end process;
 
 end architecture behaviour;

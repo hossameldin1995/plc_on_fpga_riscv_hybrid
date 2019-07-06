@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
 
 /**
@@ -32,6 +31,7 @@ public class Write_Software_Files {
         write_uart_file(Folder);
         write_time_measurement_file(Folder);
         write_timer_file(Folder);
+        write_timer_hw_file(Folder);
     }
     
     private void write_i_o_peripheral_file(String Folder) {
@@ -119,8 +119,11 @@ public class Write_Software_Files {
                         "#define PLATFORM_TIMER0_BASE		0x00002000\n" +
                         "#define PLATFORM_TIMER1_BASE		0x00003000\n" +
                         "#define PLATFORM_IO_BASE			0x00004000\n" +
-                        "#define PLATFORM_TIME_MEASUREMENT	0x00005000\n" +
-                        "#define PLATFORM_ICERROR_BASE		0x10000000\n" +
+                        "#define PLATFORM_TIME_MEASUREMENT	0x00005000\n";
+                        for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
+                            data += "#define PLATFORM_TON_"+Data.Name_of_Timers[i]+"			0x000"+new Write_Hardware_Files().num_2_spaces(6 + i)+"000\n";
+                        }
+                data += "#define PLATFORM_ICERROR_BASE		0x10000000\n" +
                         "#define PLATFORM_PAEE_ROM_BASE		0xffff8000\n" +
                         "#define PLATFORM_PAEE_RAM_BASE		0xffffc000\n" +
                         "\n" +
@@ -683,6 +686,76 @@ public class Write_Software_Files {
         try {
             new File(Folder+"/timer.h").delete();
             timer_file = new FileOutputStream(Folder+"/timer.h");
+            timer_file.write(data.getBytes(), 0, data.length());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                timer_file.close();
+            } catch (IOException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void write_timer_hw_file(String Folder) {
+        FileOutputStream timer_file = null;
+        String data =   "// The Potato SoC Library add from hossameldin\n" +
+                        "// (c) Hossameldin Bayoummy Eassa 2019 <hossameassa@gmail.com>\n" +
+                        "\n" +
+                        "#ifndef LIBSOC_TIMER_HW_H\n" +
+                        "#define LIBSOC_TIMER_HW_H\n" +
+                        "\n" +
+                        "#include <stdint.h>\n" +
+                        "\n" +
+                        "// Timer register offsets:\n" +
+                        "#define Elapsed_Time_L	0x00\n" +
+                        "#define Elapsed_Time_H	0x04\n" +
+                        "#define Q           	0x08\n" +
+                        "#define Preset_Time_L	0x00\n" +
+                        "#define Preset_Time_H	0x04\n" +
+                        "#define IN           	0x08\n" +
+                        "\n" +
+                        "struct timer_hw\n" +
+                        "{\n" +
+                        "	volatile uint32_t * registers;\n" +
+                        "};\n" +
+                        "\n" +
+                        "static inline void timer_hw_initialize(struct timer_hw * module, volatile void * base_address)\n" +
+                        "{\n" +
+                        "	module->registers = base_address;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline void timer_hw_send_in(struct timer_hw * module, uint32_t in_data)\n" +
+                        "{\n" +
+                        "	module->registers[IN >> 2] = (uint32_t) in_data;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline void timer_hw_send_preset_time(struct timer_hw * module, uint64_t preset_time)\n" +
+                        "{\n" +
+                        "	module->registers[Preset_Time_L >> 2] = (uint32_t) preset_time;\n" +
+                        "    module->registers[Preset_Time_H >> 2] = (uint32_t) (preset_time >> 32);\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline uint64_t timer_hw_recieve_elapsed_time(struct timer_hw  * module)\n" +
+                        "{\n" +
+                        "    uint64_t ret = module->registers[Elapsed_Time_H >> 2];\n" +
+                        "    ret = ret << 32;\n" +
+                        "    ret = ret | (module->registers[Elapsed_Time_L >> 2]);\n" +
+                        "	return ret;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline uint32_t timer_hw_recieve_Q(struct timer_hw  * module)\n" +
+                        "{\n" +
+                        "	return module->registers[Q >> 2];\n" +
+                        "}\n" +
+                        "\n" +
+                        "#endif";
+        try {
+            new File(Folder+"/timer_hw.h").delete();
+            timer_file = new FileOutputStream(Folder+"/timer_hw.h");
             timer_file.write(data.getBytes(), 0, data.length());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);

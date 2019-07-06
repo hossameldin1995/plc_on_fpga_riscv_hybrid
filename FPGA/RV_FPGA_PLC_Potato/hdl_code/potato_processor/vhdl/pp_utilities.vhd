@@ -1,4 +1,3 @@
-
 -- The Potato Processor - A simple processor for FPGAs
 -- (c) Kristian Klomsten Skordal 2014 <kristian.skordal@wafflemail.net>
 -- Report bugs and issues on <https://github.com/skordal/potato/issues>

@@ -61,12 +61,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                                       (int) jDialog_Timer_Command.getPreferredSize().getHeight()+Hight_addition);
         jDialog_Loading.setSize((int) jDialog_Loading.getPreferredSize().getWidth()+Width_addition, 
                                       (int) jDialog_Loading.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_Choose_Compiler.setSize((int) jDialog_Choose_Compiler.getPreferredSize().getWidth()+Width_addition, 
+                                      (int) jDialog_Choose_Compiler.getPreferredSize().getHeight()+Hight_addition);
         
         jDialog_Basic_Commands.setLocationRelativeTo(null);
         jDialog_Add_Variable.setLocationRelativeTo(null);
         jDialog_Bistable_Command.setLocationRelativeTo(null);
         jDialog_Timer_Command.setLocationRelativeTo(null);
         jDialog_Loading.setLocationRelativeTo(null);
+        jDialog_Choose_Compiler.setLocationRelativeTo(null);
     }
 
     /**
@@ -144,6 +147,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jDialog_Loading = new javax.swing.JDialog();
         jPanel9 = new javax.swing.JPanel();
         JTextLableLoading = new javax.swing.JLabel();
+        jDialog_Choose_Compiler = new javax.swing.JDialog();
+        jLabel14 = new javax.swing.JLabel();
+        jComboBox_Choose_Compiler = new javax.swing.JComboBox<>();
+        jButton_Add_V_Cancel1 = new javax.swing.JButton();
+        jButton_Add_V_Ok1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea_Output_Tab = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -247,6 +255,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
         jLabel5.setText("Variable Type:");
 
+        jTextFieldVariable_Name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldVariable_NameActionPerformed(evt);
+            }
+        });
         jTextFieldVariable_Name.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextFieldVariable_NameKeyReleased(evt);
@@ -999,6 +1012,70 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jDialog_Choose_Compiler.setTitle("Choose Compiler");
+        jDialog_Choose_Compiler.setModal(true);
+        jDialog_Choose_Compiler.setResizable(false);
+
+        jLabel14.setText("Choose Compiler");
+
+        jComboBox_Choose_Compiler.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Compiler", "Software Compilation", "Hardware Compilation", "Optimized Compilation" }));
+        jComboBox_Choose_Compiler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_Choose_CompilerActionPerformed(evt);
+            }
+        });
+        jComboBox_Choose_Compiler.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jComboBox_Choose_CompilerKeyReleased(evt);
+            }
+        });
+
+        jButton_Add_V_Cancel1.setText("Cancel");
+        jButton_Add_V_Cancel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_Add_V_Cancel1ActionPerformed(evt);
+            }
+        });
+
+        jButton_Add_V_Ok1.setText("OK");
+        jButton_Add_V_Ok1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_Add_V_Ok1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDialog_Choose_CompilerLayout = new javax.swing.GroupLayout(jDialog_Choose_Compiler.getContentPane());
+        jDialog_Choose_Compiler.getContentPane().setLayout(jDialog_Choose_CompilerLayout);
+        jDialog_Choose_CompilerLayout.setHorizontalGroup(
+            jDialog_Choose_CompilerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog_Choose_CompilerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog_Choose_CompilerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog_Choose_CompilerLayout.createSequentialGroup()
+                        .addGap(0, 308, Short.MAX_VALUE)
+                        .addComponent(jButton_Add_V_Cancel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_Add_V_Ok1))
+                    .addGroup(jDialog_Choose_CompilerLayout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_Choose_Compiler, 0, 288, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jDialog_Choose_CompilerLayout.setVerticalGroup(
+            jDialog_Choose_CompilerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog_Choose_CompilerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog_Choose_CompilerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jComboBox_Choose_Compiler, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jDialog_Choose_CompilerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_Add_V_Ok1)
+                    .addComponent(jButton_Add_V_Cancel1))
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -1509,6 +1586,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
         jMenuItem_Compile_All.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem_Compile_All.setText("Compile Using Optimization Algorithm");
+        jMenuItem_Compile_All.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Compile_AllActionPerformed(evt);
+            }
+        });
         jMenu_Compile.add(jMenuItem_Compile_All);
         jMenu_Compile.add(jSeparator2);
 
@@ -2190,9 +2272,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             } else {
                 sel = JOptionPane.showConfirmDialog(this, "This project is not compiled.\nDo you want to compile it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (sel == JOptionPane.YES_OPTION){
-                    //TODO need to add which compilation you need
-                    jMenuItem_Compile_SoftwareActionPerformed(evt);
-                    Data.RequistDownload = true;
+                    jDialog_Choose_Compiler.show();
                 } else {
                     Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                     JOptionPane.showMessageDialog(this, "Program is not saved!", "Downloading to SoC", JOptionPane.OK_OPTION, icon);
@@ -2249,6 +2329,51 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private void jMenuItem_Xor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Xor2ActionPerformed
         add_to_2d_program(1, new String[] {"        XORB"});
     }//GEN-LAST:event_jMenuItem_Xor2ActionPerformed
+
+    private void jComboBox_Choose_CompilerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_Choose_CompilerKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_Choose_CompilerKeyReleased
+
+    private void jButton_Add_V_Cancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_Cancel1ActionPerformed
+        jComboBox_Choose_Compiler.setSelectedIndex(0);
+        jDialog_Choose_Compiler.hide();
+    }//GEN-LAST:event_jButton_Add_V_Cancel1ActionPerformed
+
+    private void jButton_Add_V_Ok1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_Ok1ActionPerformed
+        int sel = jComboBox_Choose_Compiler.getSelectedIndex();
+        switch (sel) {
+            case 0:
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(this, "Please choose copilation type", "Downloading to SoC", JOptionPane.OK_OPTION, icon);
+            case 1:
+                jMenuItem_Compile_SoftwareActionPerformed(evt);
+                Data.RequistDownload = true;
+                break;
+            case 2:
+                jMenuItem_Compile_HardwareActionPerformed(evt);
+                Data.RequistDownload = true;
+                break;
+            case 3:
+                jMenuItem_Compile_AllActionPerformed(evt);
+                Data.RequistDownload = true;
+                break;
+        }
+        jDialog_Choose_Compiler.hide();
+    }//GEN-LAST:event_jButton_Add_V_Ok1ActionPerformed
+
+    private void jTextFieldVariable_NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldVariable_NameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldVariable_NameActionPerformed
+
+    private void jComboBox_Choose_CompilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_Choose_CompilerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_Choose_CompilerActionPerformed
+
+    private void jMenuItem_Compile_AllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_AllActionPerformed
+        Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+        JOptionPane.showMessageDialog(this, "Not supported yet!", "Compile Using Optimization Algorithm", JOptionPane.OK_OPTION, icon);
+        Data.RequistDownload = false;
+    }//GEN-LAST:event_jMenuItem_Compile_AllActionPerformed
 
     private void FillListProgram(boolean isEditing) {
         jList_Program.setModel(new javax.swing.AbstractListModel() {
@@ -2379,7 +2504,10 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JButton jButton_Add_V_Cancel;
+    private javax.swing.JButton jButton_Add_V_Cancel1;
     private javax.swing.JButton jButton_Add_V_Ok;
+    private javax.swing.JButton jButton_Add_V_Ok1;
+    private javax.swing.JComboBox<String> jComboBox_Choose_Compiler;
     private javax.swing.JComboBox<String> jComboBox_Inputs;
     private javax.swing.JComboBox<String> jComboBox_Keys;
     private javax.swing.JComboBox<String> jComboBox_Leds;
@@ -2391,6 +2519,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog_Add_Variable;
     private javax.swing.JDialog jDialog_Basic_Commands;
     private javax.swing.JDialog jDialog_Bistable_Command;
+    private javax.swing.JDialog jDialog_Choose_Compiler;
     private javax.swing.JDialog jDialog_Loading;
     private javax.swing.JDialog jDialog_Timer_Command;
     private javax.swing.JFileChooser jFileChooser1;
@@ -2399,6 +2528,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2913,6 +3043,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }
 
     private void compile_software(String Project_Folder, java.awt.event.ActionEvent evt, boolean compile_all_project) {
+        if (Data.hdl_compilation_state == Data.UPDATED) {
+            Data.hdl_compilation_state = Data.ASSEMBLER;
+        }
         LoadingDialoge loading = new LoadingDialoge("Compiling ...");
         loading.start();
         new Output_Tap().removeText();
@@ -3299,7 +3432,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                             Preset_Time = Operand;
                         } else if (Operand.contains("T#")) {
                             double time_sec = getSecFromTimeFormat(Operand);
-                            long Number_of_Clocks = (long) time_sec*Data.CPU_Timer_Freq_I;
+                            long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_Timer_Freq_I);
                             Preset_Time = "(uint64_t)"+Number_of_Clocks;
                         } else {
                             JOptionPane.showMessageDialog(this, "Preset time should be variable with type \"TIME\" or instant begins with T#.", "Compile il", JOptionPane.OK_OPTION);
@@ -3376,7 +3509,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                                     + "\t\t\ttimer_set_compare(&timer"+timer_number+", "+Preset_Time+");\n"
                                     + "\t\t\tif (timer"+timer_number+"_is_enabled) {\n"
                                     + "\t\t\t\ttimer"+timer_number+"_count = timer_get_count(&timer"+timer_number+");\n"
-                                    + "\t\t\t\t"+Elapset_Time+" = timer"+timer_number+"_count;\n"
+                                    + "\t\t\t\t"+Elapset_Time+" = "+Preset_Time+" - timer"+timer_number+"_count;\n"
                                     + "\t\t\t\tif (timer"+timer_number+"_count == "+Preset_Time+") {\n"
                                     + "\t\t\t\t\ttimer"+timer_number+"_output = 1;\n\t\t\t\t}\n"
                                     + "\t\t\t} else {\n"
@@ -3620,7 +3753,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         } else if (Operand.contains("T#")) {
             if (not.equals("")) {
                 double time_sec = getSecFromTimeFormat(Operand);
-                long Number_of_Clocks = (long) time_sec*Data.CPU_Timer_Freq_I;
+                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_Timer_Freq_I);
                 Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
             } else {
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
@@ -3876,10 +4009,10 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         
         new Output_Tap().println("  Start Compiling \"instruction list\".");
         success &= compill_il_file_hw();
-        /*if (success) {
+        if (success) {
             new Output_Tap().println("  Start Compiling \"c files\".");
             success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
-        }*/
+        }
         if (success) {
             new Output_Tap().println("  Start Writting Hardware Files.");
             new Write_Hardware_Files().generate_q_files_variables(Project_Folder);
@@ -3899,10 +4032,10 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private boolean compill_il_file_hw() {
         boolean success = true;
         Data.Number_Of_Timers_In_Program = 0;
-        new Write_Software_Files().write_software_files();
         Data.C_code =   "#include <stdint.h>\n" +
                         "#include \"platform.h\"\n" +
                         "//#include \"uart.h\"\n" +
+                        "#include \"timer_hw.h\"\n" +
                         "#include \"time_measurement.h\"\n" +
                         "#include \"i_o_peripheral.h\"\n" +
                         "\n" +
@@ -3941,6 +4074,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                        "    }\n" +
                        "\n" +
                        "	return 0;\n}";
+        
+        new Write_Software_Files().write_software_files();
         write_c_file(Data.Project_Folder.getPath()+"/c_files");
         return success;
     }
@@ -4031,6 +4166,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 Data.Name_of_Timers[Data.Number_Of_Timers_In_Program] = Timer_Name;
                 Data.Number_Of_Timers_In_Program++;
                 
+                Data.C_code = insertStringAfter("static struct io_per io_per_d;\n", "static struct timer_hw "+Timer_Name+";\n", Data.C_code);
+                Data.C_code = insertStringAfter("io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n", "\ttimer_hw_initialize(&"+Timer_Name+", (volatile void *) PLATFORM_TON_"+Timer_Name+");\n", Data.C_code);
+                
                 program_i++; // IN
                 il_inst = Data.Program_2D[rung_i][program_i];
                 il_inst_Arr[0] = il_inst;
@@ -4103,7 +4241,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         Preset_Time = Operand;
                     } else if (Operand.contains("T#")) {
                         double time_sec = getSecFromTimeFormat(Operand);
-                        long Number_of_Clocks = (long) time_sec*Data.CPU_Timer_Freq_I;
+                        long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_Timer_Freq_I);
                         Preset_Time = "(uint64_t)"+Number_of_Clocks;
                     } else {
                         JOptionPane.showMessageDialog(this, "Preset time should be variable with type \"TIME\" or instant begins with T#.", "Compile il", JOptionPane.OK_OPTION);
@@ -4149,7 +4287,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         Operand = Operand.replaceAll("%", "");
                         String offc = Operand.split("\\.")[1];
                         Operand = Operand.split("\\.")[0];
-                        Output_Timer = "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", recieve_Q(&"+Timer_Name+"));\n";
+                        Output_Timer = "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", timer_hw_recieve_Q(&"+Timer_Name+"));\n";
                     } else {
                         try {
                             JOptionPane.showMessageDialog(this, "Tho output of the timer shouldn't be instant value.", "Compile il", JOptionPane.OK_OPTION);
@@ -4168,7 +4306,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                             }
                             
                             if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
-                                Output_Timer = "\t\t"+nameOfVariable+" = recieve_Q(&"+Timer_Name+");\n";
+                                Output_Timer = "\t\t"+nameOfVariable+" = timer_hw_recieve_Q(&"+Timer_Name+");\n";
                             } else {
                                 JOptionPane.showMessageDialog(this, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
                                 success = false;
@@ -4176,9 +4314,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         }
                     }
                    
-                    Data.C_code +="\t\tsend_in(&"+Timer_Name+", var"+Data.Load_index+");\n"
-                                + "\t\tsend_preset_time(&"+Timer_Name+", "+Preset_Time+");\n"
-                                + "\t\t"+Elapsed_Time+" = recieve_elapsed_time(&"+Timer_Name+");\n"
+                    Data.C_code +="\t\ttimer_hw_send_preset_time(&"+Timer_Name+", "+Preset_Time+");\n"
+                                + "\t\ttimer_hw_send_in(&"+Timer_Name+", var"+Data.Load_index+");\n"
+                                + "\t\t"+Elapsed_Time+" = timer_hw_recieve_elapsed_time(&"+Timer_Name+");\n"
                                 + Output_Timer
                                 + "\n";
                     

@@ -87,4 +87,3 @@ module  clock_generator_0002(
 		.refclk	(refclk)
 	);
 endmodule
-

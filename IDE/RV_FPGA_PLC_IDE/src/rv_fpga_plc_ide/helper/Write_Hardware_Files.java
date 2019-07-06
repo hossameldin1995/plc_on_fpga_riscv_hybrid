@@ -93,6 +93,7 @@ public class Write_Hardware_Files {
         generate_Time_Calculation_vhd_file(Project_Folder);
         generate_Write_To_Hexa_vhd_file(Project_Folder);
         generate_clock_generator_vhd_file(Project_Folder);
+        generate_clock_generator_vho_file(Project_Folder);
         generate_clock_generator_002_v_file(Project_Folder);
         generate_clock_generator_002_qip_file(Project_Folder);
         generate_clock_generator_sip_file(Project_Folder);
@@ -101,7 +102,7 @@ public class Write_Hardware_Files {
         generate_SEG7_LUT_4_v_file(Project_Folder);
         generate_SEG7_LUT_v_file(Project_Folder);
         generate_TON_Peripheral_vhd_file(Project_Folder);
-        generate_Timer_on_64_Controller_vhd_file(Project_Folder);
+        //generate_Timer_on_64_Controller_vhd_file(Project_Folder);
         generate_Counter_Down_64_bit_Cin_vhd_file(Project_Folder);
         generate_RV_FPGA_PLC_Potato_sdc_file(Project_Folder);
         generate_aee_rom_qip_file(Project_Folder);
@@ -3162,22 +3163,23 @@ public class Write_Hardware_Files {
                         "\n" +
                         "	wb_dat_out <= read_data and data_mask;\n" +
                         "\n" +
-                        "	wb_ack_out <= ack and wb_cyc_in and wb_stb_in;\n" +
+                        "	--wb_ack_out <= ack and wb_cyc_in and wb_stb_in;\n" +
+                        "	wb_ack_out <= wb_cyc_in and wb_stb_in;\n" +
                         "\n" +
-                        "	wishbone: process(clk)\n" +
-                        "	begin\n" +
-                        "		if rising_edge(clk) then\n" +
-                        "			if reset = '1' then\n" +
-                        "				ack <= '0';\n" +
-                        "			else\n" +
-                        "				if wb_cyc_in = '1' and wb_stb_in = '1' then\n" +
-                        "					ack <= '1';\n" +
-                        "				else\n" +
-                        "					ack <= '0';\n" +
-                        "				end if;\n" +
-                        "			end if;\n" +
-                        "		end if;\n" +
-                        "	end process wishbone;\n" +
+                        "	--wishbone: process(clk)\n" +
+                        "	--begin\n" +
+                        "	--	if rising_edge(clk) then\n" +
+                        "	--		if reset = '1' then\n" +
+                        "	--			ack <= '0';\n" +
+                        "	--		else\n" +
+                        "	--			if wb_cyc_in = '1' and wb_stb_in = '1' then\n" +
+                        "	--				ack <= '1';\n" +
+                        "	--			else\n" +
+                        "	--				ack <= '0';\n" +
+                        "	--			end if;\n" +
+                        "	--		end if;\n" +
+                        "	--	end if;\n" +
+                        "	--end process wishbone;\n" +
                         "\n" +
                         "end architecture behaviour;";
         try {
@@ -3357,9 +3359,9 @@ public class Write_Hardware_Files {
                         "	wb_dat_out <= \"0000000000000000000000000000000\" & OUT_Data_1;\n" +
                         "	wb_ack_out <= read_ack and wb_stb_in;\n" +
                         "\n" +
-                        "	process(clk, reset, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in)\n" +
+                        "	process(reset, wb_we_in, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in, wb_cyc_in, wb_dat_in, wb_sel_in)\n" +
                         "	begin\n" +
-                        "		if rising_edge(clk) then\n" +
+                        "		--if rising_edge(clk) then add clk in  process\n" +
                         "		\n" +
                         "			GPIO_IN_O 	<= register_in(17 DOWNTO 0);\n" +
                         "			SW_O			<= register_in(27 DOWNTO 18);\n" +
@@ -3410,7 +3412,7 @@ public class Write_Hardware_Files {
                         "					read_ack <= '0';\n" +
                         "				end if;\n" +
                         "			end if;\n" +
-                        "		end if;\n" +
+                        "		--end if;\n" +
                         "	end process;\n" +
                         "\n" +
                         "end architecture behaviour;";
@@ -7028,6 +7030,9 @@ public class Write_Hardware_Files {
                         "	\n" +
                         "	WriteToHexa: entity work.Write_To_Hexa\n" +
                         "		port map(\n" +
+                        "			clk					=> clk,\n" +
+                        "			reset					=> reset,\n" +
+                        "			\n" +
                         "			-- Time Signals\n" +
                         "			Time_micro_Nano	=> Time_Micro_Nano_S_std,\n" +
                         "			write_data			=> write_data,\n" +
@@ -7066,6 +7071,9 @@ public class Write_Hardware_Files {
                         "\n" +
                         "entity Write_To_Hexa is\n" +
                         "	port(\n" +
+                        "		clk					: in std_logic;\n" +
+                        "		reset					: in std_logic;\n" +
+                        "		\n" +
                         "		-- Time Signals\n" +
                         "		Time_micro_Nano	: in std_logic_vector(31 downto 0);\n" +
                         "		write_data			: in std_logic;\n" +
@@ -7091,10 +7099,32 @@ public class Write_Hardware_Files {
                         "		);\n" +
                         "	end component;\n" +
                         "	\n" +
-                        "signal Time_micro_Nano_S : std_logic_vector(31 downto 0);\n" +
+                        "signal Time_micro_Nano_S	: std_logic_vector(31 downto 0);\n" +
+                        "signal count					: unsigned(31 downto 0) := (others => '0');\n" +
+                        "signal ovf						: std_logic;\n" +
                         "\n" +
                         "begin\n" +
-                        "	Time_micro_Nano_S <= Time_micro_Nano when write_data = '1';\n" +
+                        "	process(clk, reset)\n" +
+                        "	begin\n" +
+                        "		if rising_edge(clk) then\n" +
+                        "			if reset = '1' then\n" +
+                        "				Time_micro_Nano_S <= (others => '0');\n" +
+                        "			else\n" +
+                        "				if ((write_data = '1') and (ovf = '1')) then\n" +
+                        "					Time_micro_Nano_S <= Time_micro_Nano;\n" +
+                        "				end if;\n" +
+                        "				if (count >= 10000000) then\n" +
+                        "					ovf <= '1';\n" +
+                        "					if write_data = '1' then\n" +
+                        "						count <= (others => '0');\n" +
+                        "					end if;\n" +
+                        "				else\n" +
+                        "					count <= count + 1;\n" +
+                        "					ovf <= '0';\n" +
+                        "				end if;\n" +
+                        "			end if;\n" +
+                        "		end if;\n" +
+                        "	end process;\n" +
                         "	\n" +
                         "	lut_4: SEG7_LUT_4\n" +
                         "		port map(\n" +
@@ -7400,6 +7430,334 @@ public class Write_Hardware_Files {
                         "-- Retrieval info: </instance>\n" +
                         "-- IPFS_FILES : clock_generator.vho\n" +
                         "-- RELATED_FILES: clock_generator.vhd, clock_generator_0002.v";
+        try {
+            new File(Project_Folder_File).delete();
+            fileOutSt = new FileOutputStream(Project_Folder_File);
+            fileOutSt.write(data.getBytes(), 0, data.length());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                fileOutSt.close();
+            } catch (IOException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void generate_clock_generator_vho_file(String Project_Folder_File) {
+        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.vho";
+        FileOutputStream fileOutSt = null;
+        String data =   "--IP Functional Simulation Model\n" +
+                        "--VERSION_BEGIN 18.0 cbx_mgl 2018:04:18:07:37:08:SJ cbx_simgen 2018:04:18:06:50:44:SJ  VERSION_END\n" +
+                        "\n" +
+                        "\n" +
+                        "-- Copyright (C) 2018  Intel Corporation. All rights reserved.\n" +
+                        "-- Your use of Intel Corporation's design tools, logic functions \n" +
+                        "-- and other software and tools, and its AMPP partner logic \n" +
+                        "-- functions, and any output files from any of the foregoing \n" +
+                        "-- (including device programming or simulation files), and any \n" +
+                        "-- associated documentation or information are expressly subject \n" +
+                        "-- to the terms and conditions of the Intel Program License \n" +
+                        "-- Subscription Agreement, the Intel Quartus Prime License Agreement,\n" +
+                        "-- the Intel FPGA IP License Agreement, or other applicable license\n" +
+                        "-- agreement, including, without limitation, that your use is for\n" +
+                        "-- the sole purpose of programming logic devices manufactured by\n" +
+                        "-- Intel and sold by Intel or its authorized distributors.  Please\n" +
+                        "-- refer to the applicable agreement for further details.\n" +
+                        "\n" +
+                        "-- You may only use these simulation model output files for simulation\n" +
+                        "-- purposes and expressly not for synthesis or any other purposes (in which\n" +
+                        "-- event Intel disclaims all warranties of any kind).\n" +
+                        "\n" +
+                        "\n" +
+                        "--synopsys translate_off\n" +
+                        "\n" +
+                        " LIBRARY altera_lnsim;\n" +
+                        " USE altera_lnsim.altera_lnsim_components.all;\n" +
+                        "\n" +
+                        "--synthesis_resources = altera_pll 1 \n" +
+                        " LIBRARY ieee;\n" +
+                        " USE ieee.std_logic_1164.all;\n" +
+                        "\n" +
+                        " ENTITY  clock_generator IS \n" +
+                        "	 PORT \n" +
+                        "	 ( \n" +
+                        "		 locked	:	OUT  STD_LOGIC;\n" +
+                        "		 outclk_0	:	OUT  STD_LOGIC;\n" +
+                        "		 outclk_1	:	OUT  STD_LOGIC;\n" +
+                        "		 refclk	:	IN  STD_LOGIC;\n" +
+                        "		 rst	:	IN  STD_LOGIC\n" +
+                        "	 ); \n" +
+                        " END clock_generator;\n" +
+                        "\n" +
+                        " ARCHITECTURE RTL OF clock_generator IS\n" +
+                        "\n" +
+                        "	 ATTRIBUTE synthesis_clearbox : natural;\n" +
+                        "	 ATTRIBUTE synthesis_clearbox OF RTL : ARCHITECTURE IS 1;\n" +
+                        "	 SIGNAL  wire_gnd	:	STD_LOGIC;\n" +
+                        "	 SIGNAL  wire_clock_generator_altera_pll_altera_pll_i_1098_locked	:	STD_LOGIC;\n" +
+                        "	 SIGNAL  wire_clock_generator_altera_pll_altera_pll_i_1098_outclk	:	STD_LOGIC_VECTOR (1 DOWNTO 0);\n" +
+                        " BEGIN\n" +
+                        "\n" +
+                        "	wire_gnd <= '0';\n" +
+                        "	locked <= wire_clock_generator_altera_pll_altera_pll_i_1098_locked;\n" +
+                        "	outclk_0 <= wire_clock_generator_altera_pll_altera_pll_i_1098_outclk(0);\n" +
+                        "	outclk_1 <= wire_clock_generator_altera_pll_altera_pll_i_1098_outclk(1);\n" +
+                        "	clock_generator_altera_pll_altera_pll_i_1098 :  altera_pll\n" +
+                        "	  GENERIC MAP (\n" +
+                        "		c_cnt_bypass_en0 => \"false\",\n" +
+                        "		c_cnt_bypass_en1 => \"false\",\n" +
+                        "		c_cnt_bypass_en10 => \"false\",\n" +
+                        "		c_cnt_bypass_en11 => \"false\",\n" +
+                        "		c_cnt_bypass_en12 => \"false\",\n" +
+                        "		c_cnt_bypass_en13 => \"false\",\n" +
+                        "		c_cnt_bypass_en14 => \"false\",\n" +
+                        "		c_cnt_bypass_en15 => \"false\",\n" +
+                        "		c_cnt_bypass_en16 => \"false\",\n" +
+                        "		c_cnt_bypass_en17 => \"false\",\n" +
+                        "		c_cnt_bypass_en2 => \"false\",\n" +
+                        "		c_cnt_bypass_en3 => \"false\",\n" +
+                        "		c_cnt_bypass_en4 => \"false\",\n" +
+                        "		c_cnt_bypass_en5 => \"false\",\n" +
+                        "		c_cnt_bypass_en6 => \"false\",\n" +
+                        "		c_cnt_bypass_en7 => \"false\",\n" +
+                        "		c_cnt_bypass_en8 => \"false\",\n" +
+                        "		c_cnt_bypass_en9 => \"false\",\n" +
+                        "		c_cnt_hi_div0 => 1,\n" +
+                        "		c_cnt_hi_div1 => 1,\n" +
+                        "		c_cnt_hi_div10 => 1,\n" +
+                        "		c_cnt_hi_div11 => 1,\n" +
+                        "		c_cnt_hi_div12 => 1,\n" +
+                        "		c_cnt_hi_div13 => 1,\n" +
+                        "		c_cnt_hi_div14 => 1,\n" +
+                        "		c_cnt_hi_div15 => 1,\n" +
+                        "		c_cnt_hi_div16 => 1,\n" +
+                        "		c_cnt_hi_div17 => 1,\n" +
+                        "		c_cnt_hi_div2 => 1,\n" +
+                        "		c_cnt_hi_div3 => 1,\n" +
+                        "		c_cnt_hi_div4 => 1,\n" +
+                        "		c_cnt_hi_div5 => 1,\n" +
+                        "		c_cnt_hi_div6 => 1,\n" +
+                        "		c_cnt_hi_div7 => 1,\n" +
+                        "		c_cnt_hi_div8 => 1,\n" +
+                        "		c_cnt_hi_div9 => 1,\n" +
+                        "		c_cnt_in_src0 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src1 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src10 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src11 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src12 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src13 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src14 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src15 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src16 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src17 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src2 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src3 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src4 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src5 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src6 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src7 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src8 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_in_src9 => \"ph_mux_clk\",\n" +
+                        "		c_cnt_lo_div0 => 1,\n" +
+                        "		c_cnt_lo_div1 => 1,\n" +
+                        "		c_cnt_lo_div10 => 1,\n" +
+                        "		c_cnt_lo_div11 => 1,\n" +
+                        "		c_cnt_lo_div12 => 1,\n" +
+                        "		c_cnt_lo_div13 => 1,\n" +
+                        "		c_cnt_lo_div14 => 1,\n" +
+                        "		c_cnt_lo_div15 => 1,\n" +
+                        "		c_cnt_lo_div16 => 1,\n" +
+                        "		c_cnt_lo_div17 => 1,\n" +
+                        "		c_cnt_lo_div2 => 1,\n" +
+                        "		c_cnt_lo_div3 => 1,\n" +
+                        "		c_cnt_lo_div4 => 1,\n" +
+                        "		c_cnt_lo_div5 => 1,\n" +
+                        "		c_cnt_lo_div6 => 1,\n" +
+                        "		c_cnt_lo_div7 => 1,\n" +
+                        "		c_cnt_lo_div8 => 1,\n" +
+                        "		c_cnt_lo_div9 => 1,\n" +
+                        "		c_cnt_odd_div_duty_en0 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en1 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en10 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en11 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en12 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en13 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en14 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en15 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en16 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en17 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en2 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en3 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en4 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en5 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en6 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en7 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en8 => \"false\",\n" +
+                        "		c_cnt_odd_div_duty_en9 => \"false\",\n" +
+                        "		c_cnt_ph_mux_prst0 => 0,\n" +
+                        "		c_cnt_ph_mux_prst1 => 0,\n" +
+                        "		c_cnt_ph_mux_prst10 => 0,\n" +
+                        "		c_cnt_ph_mux_prst11 => 0,\n" +
+                        "		c_cnt_ph_mux_prst12 => 0,\n" +
+                        "		c_cnt_ph_mux_prst13 => 0,\n" +
+                        "		c_cnt_ph_mux_prst14 => 0,\n" +
+                        "		c_cnt_ph_mux_prst15 => 0,\n" +
+                        "		c_cnt_ph_mux_prst16 => 0,\n" +
+                        "		c_cnt_ph_mux_prst17 => 0,\n" +
+                        "		c_cnt_ph_mux_prst2 => 0,\n" +
+                        "		c_cnt_ph_mux_prst3 => 0,\n" +
+                        "		c_cnt_ph_mux_prst4 => 0,\n" +
+                        "		c_cnt_ph_mux_prst5 => 0,\n" +
+                        "		c_cnt_ph_mux_prst6 => 0,\n" +
+                        "		c_cnt_ph_mux_prst7 => 0,\n" +
+                        "		c_cnt_ph_mux_prst8 => 0,\n" +
+                        "		c_cnt_ph_mux_prst9 => 0,\n" +
+                        "		c_cnt_prst0 => 1,\n" +
+                        "		c_cnt_prst1 => 1,\n" +
+                        "		c_cnt_prst10 => 1,\n" +
+                        "		c_cnt_prst11 => 1,\n" +
+                        "		c_cnt_prst12 => 1,\n" +
+                        "		c_cnt_prst13 => 1,\n" +
+                        "		c_cnt_prst14 => 1,\n" +
+                        "		c_cnt_prst15 => 1,\n" +
+                        "		c_cnt_prst16 => 1,\n" +
+                        "		c_cnt_prst17 => 1,\n" +
+                        "		c_cnt_prst2 => 1,\n" +
+                        "		c_cnt_prst3 => 1,\n" +
+                        "		c_cnt_prst4 => 1,\n" +
+                        "		c_cnt_prst5 => 1,\n" +
+                        "		c_cnt_prst6 => 1,\n" +
+                        "		c_cnt_prst7 => 1,\n" +
+                        "		c_cnt_prst8 => 1,\n" +
+                        "		c_cnt_prst9 => 1,\n" +
+                        "		clock_name_0 => \"UNUSED\",\n" +
+                        "		clock_name_1 => \"UNUSED\",\n" +
+                        "		clock_name_2 => \"UNUSED\",\n" +
+                        "		clock_name_3 => \"UNUSED\",\n" +
+                        "		clock_name_4 => \"UNUSED\",\n" +
+                        "		clock_name_5 => \"UNUSED\",\n" +
+                        "		clock_name_6 => \"UNUSED\",\n" +
+                        "		clock_name_7 => \"UNUSED\",\n" +
+                        "		clock_name_8 => \"UNUSED\",\n" +
+                        "		clock_name_global_0 => \"false\",\n" +
+                        "		clock_name_global_1 => \"false\",\n" +
+                        "		clock_name_global_2 => \"false\",\n" +
+                        "		clock_name_global_3 => \"false\",\n" +
+                        "		clock_name_global_4 => \"false\",\n" +
+                        "		clock_name_global_5 => \"false\",\n" +
+                        "		clock_name_global_6 => \"false\",\n" +
+                        "		clock_name_global_7 => \"false\",\n" +
+                        "		clock_name_global_8 => \"false\",\n" +
+                        "		data_rate => 0,\n" +
+                        "		deserialization_factor => 4,\n" +
+                        "		duty_cycle0 => 50,\n" +
+                        "		duty_cycle1 => 50,\n" +
+                        "		duty_cycle10 => 50,\n" +
+                        "		duty_cycle11 => 50,\n" +
+                        "		duty_cycle12 => 50,\n" +
+                        "		duty_cycle13 => 50,\n" +
+                        "		duty_cycle14 => 50,\n" +
+                        "		duty_cycle15 => 50,\n" +
+                        "		duty_cycle16 => 50,\n" +
+                        "		duty_cycle17 => 50,\n" +
+                        "		duty_cycle2 => 50,\n" +
+                        "		duty_cycle3 => 50,\n" +
+                        "		duty_cycle4 => 50,\n" +
+                        "		duty_cycle5 => 50,\n" +
+                        "		duty_cycle6 => 50,\n" +
+                        "		duty_cycle7 => 50,\n" +
+                        "		duty_cycle8 => 50,\n" +
+                        "		duty_cycle9 => 50,\n" +
+                        "		fractional_vco_multiplier => \"false\",\n" +
+                        "		m_cnt_bypass_en => \"false\",\n" +
+                        "		m_cnt_hi_div => 1,\n" +
+                        "		m_cnt_lo_div => 1,\n" +
+                        "		m_cnt_odd_div_duty_en => \"false\",\n" +
+                        "		mimic_fbclk_type => \"gclk\",\n" +
+                        "		n_cnt_bypass_en => \"false\",\n" +
+                        "		n_cnt_hi_div => 1,\n" +
+                        "		n_cnt_lo_div => 1,\n" +
+                        "		n_cnt_odd_div_duty_en => \"false\",\n" +
+                        "		number_of_clocks => 2,\n" +
+                        "		operation_mode => \"direct\",\n" +
+                        "		output_clock_frequency0 => \"100.000000 MHz\",\n" +
+                        "		output_clock_frequency1 => \"100.000000 MHz\",\n" +
+                        "		output_clock_frequency10 => \"0 MHz\",\n" +
+                        "		output_clock_frequency11 => \"0 MHz\",\n" +
+                        "		output_clock_frequency12 => \"0 MHz\",\n" +
+                        "		output_clock_frequency13 => \"0 MHz\",\n" +
+                        "		output_clock_frequency14 => \"0 MHz\",\n" +
+                        "		output_clock_frequency15 => \"0 MHz\",\n" +
+                        "		output_clock_frequency16 => \"0 MHz\",\n" +
+                        "		output_clock_frequency17 => \"0 MHz\",\n" +
+                        "		output_clock_frequency2 => \"0 MHz\",\n" +
+                        "		output_clock_frequency3 => \"0 MHz\",\n" +
+                        "		output_clock_frequency4 => \"0 MHz\",\n" +
+                        "		output_clock_frequency5 => \"0 MHz\",\n" +
+                        "		output_clock_frequency6 => \"0 MHz\",\n" +
+                        "		output_clock_frequency7 => \"0 MHz\",\n" +
+                        "		output_clock_frequency8 => \"0 MHz\",\n" +
+                        "		output_clock_frequency9 => \"0 MHz\",\n" +
+                        "		phase_shift0 => \"0 ps\",\n" +
+                        "		phase_shift1 => \"0 ps\",\n" +
+                        "		phase_shift10 => \"0 ps\",\n" +
+                        "		phase_shift11 => \"0 ps\",\n" +
+                        "		phase_shift12 => \"0 ps\",\n" +
+                        "		phase_shift13 => \"0 ps\",\n" +
+                        "		phase_shift14 => \"0 ps\",\n" +
+                        "		phase_shift15 => \"0 ps\",\n" +
+                        "		phase_shift16 => \"0 ps\",\n" +
+                        "		phase_shift17 => \"0 ps\",\n" +
+                        "		phase_shift2 => \"0 ps\",\n" +
+                        "		phase_shift3 => \"0 ps\",\n" +
+                        "		phase_shift4 => \"0 ps\",\n" +
+                        "		phase_shift5 => \"0 ps\",\n" +
+                        "		phase_shift6 => \"0 ps\",\n" +
+                        "		phase_shift7 => \"0 ps\",\n" +
+                        "		phase_shift8 => \"0 ps\",\n" +
+                        "		phase_shift9 => \"0 ps\",\n" +
+                        "		pll_auto_clk_sw_en => \"false\",\n" +
+                        "		pll_bw_sel => \"low\",\n" +
+                        "		pll_bwctrl => 0,\n" +
+                        "		pll_clk_loss_sw_en => \"false\",\n" +
+                        "		pll_clk_sw_dly => 0,\n" +
+                        "		pll_clkin_0_src => \"clk_0\",\n" +
+                        "		pll_clkin_1_src => \"clk_0\",\n" +
+                        "		pll_cp_current => 0,\n" +
+                        "		pll_dsm_out_sel => \"1st_order\",\n" +
+                        "		pll_extclk_0_cnt_src => \"pll_extclk_cnt_src_vss\",\n" +
+                        "		pll_extclk_1_cnt_src => \"pll_extclk_cnt_src_vss\",\n" +
+                        "		pll_fbclk_mux_1 => \"glb\",\n" +
+                        "		pll_fbclk_mux_2 => \"fb_1\",\n" +
+                        "		pll_fractional_cout => 24,\n" +
+                        "		pll_fractional_division => 1,\n" +
+                        "		pll_m_cnt_in_src => \"ph_mux_clk\",\n" +
+                        "		pll_manu_clk_sw_en => \"false\",\n" +
+                        "		pll_output_clk_frequency => \"0 MHz\",\n" +
+                        "		pll_slf_rst => \"false\",\n" +
+                        "		pll_subtype => \"General\",\n" +
+                        "		pll_type => \"General\",\n" +
+                        "		pll_vco_div => 1,\n" +
+                        "		pll_vcoph_div => 1,\n" +
+                        "		refclk1_frequency => \"0 MHz\",\n" +
+                        "		reference_clock_frequency => \"125.0 MHz\",\n" +
+                        "		sim_additional_refclk_cycles_to_lock => 0\n" +
+                        "	  )\n" +
+                        "	  PORT MAP ( \n" +
+                        "		fbclk => wire_gnd,\n" +
+                        "		locked => wire_clock_generator_altera_pll_altera_pll_i_1098_locked,\n" +
+                        "		outclk => wire_clock_generator_altera_pll_altera_pll_i_1098_outclk,\n" +
+                        "		refclk => refclk,\n" +
+                        "		rst => rst\n" +
+                        "	  );\n" +
+                        "\n" +
+                        " END RTL; --clock_generator\n" +
+                        "--synopsys translate_on\n" +
+                        "--VALID FILE";
         try {
             new File(Project_Folder_File).delete();
             fileOutSt = new FileOutputStream(Project_Folder_File);
@@ -8184,9 +8542,20 @@ public class Write_Hardware_Files {
                         "use ieee.std_logic_1164.all;\n" +
                         "use ieee.numeric_std.all;\n" +
                         "\n" +
-                        "use work.pp_utilities.all;\n" +
-                        "\n" +
                         "--! @brief Simple memory module for use in Wishbone-based systems.\n" +
+                        "--!\n" +
+                        "--! The following registers are defined:\n" +
+                        "--! |---------|-------------------|\n" +
+                        "--! | Address | Description       |\n" +
+                        "--! |---------|-------------------|\n" +
+                        "--! | 0x00 r  | Elapsed Time L    |\n" +
+                        "--! | 0x04 r  | Elapsed Time H    |\n" +
+                        "--! | 0x08 r  | Q                 |\n" +
+                        "--! | 0x00 w  | Preset  Time L    |\n" +
+                        "--! | 0x04 w  | Preset  Time H    |\n" +
+                        "--! | 0x08 w  | IN                |\n" +
+                        "--! |---------|-------------------|\n" +
+                        "\n" +
                         "entity TON_Peripheral is\n" +
                         "	port(\n" +
                         "		clk : in std_logic;\n" +
@@ -8219,9 +8588,9 @@ public class Write_Hardware_Files {
                         "	\n" +
                         "	wb_ack_out <= read_ack and wb_stb_in;\n" +
                         "\n" +
-                        "	process(clk)\n" +
+                        "	process(reset, wb_adr_in, wb_dat_in, wb_cyc_in, wb_stb_in, wb_sel_in, wb_we_in)\n" +
                         "	begin\n" +
-                        "		if rising_edge(clk) then\n" +
+                        "		--if rising_edge(clk) then add clk in  process and remove others\n" +
                         "			if reset = '1' then\n" +
                         "				read_ack <= '0';\n" +
                         "				state <= IDLE;\n" +
@@ -8266,7 +8635,7 @@ public class Write_Hardware_Files {
                         "					read_ack <= '0';\n" +
                         "				end if;\n" +
                         "			end if;\n" +
-                        "		end if;\n" +
+                        "		--end if;\n" +
                         "	end process;\n" +
                         "\n" +
                         "end architecture behaviour;";
@@ -8534,7 +8903,7 @@ public class Write_Hardware_Files {
         }
     }
 
-    private String num_2_spaces(int i) {
+    public String num_2_spaces(int i) {
         if (i < 9) {
             return "0"+i;
         } else {

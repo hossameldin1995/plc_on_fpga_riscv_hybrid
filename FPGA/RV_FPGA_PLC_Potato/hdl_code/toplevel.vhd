@@ -12,6 +12,8 @@ use ieee.std_logic_1164.all;
 -- 0x00003000: Timer1
 -- 0x00004000: IO Peripheral
 -- 0x00005000: Time Measurement
+-- 0x00006000: TON TON_1
+-- 0x00007000: PWM PWM_1
 -- 0x10000000: Interconnect control/error module
 -- 0xffff8000: Application execution environment ROM (16 kB)
 -- 0xffffc000: Application execution environment RAM (16 kB)
@@ -181,11 +183,32 @@ architecture behaviour of toplevel is
 	signal time_measurement_we_in   : std_logic;
 	signal time_measurement_ack_out : std_logic;
 	
+	-- TON TON_1 signals:
+	signal TON_1_adr_in  : std_logic_vector(13 downto 0);
+	signal TON_1_dat_in  : std_logic_vector(31 downto 0);
+	signal TON_1_dat_out : std_logic_vector(31 downto 0);
+	signal TON_1_cyc_in  : std_logic;
+	signal TON_1_stb_in  : std_logic;
+	signal TON_1_sel_in  : std_logic_vector(3 downto 0);
+	signal TON_1_we_in   : std_logic;
+	signal TON_1_ack_out : std_logic;
+	
+	-- PWM PWM_1 signals:
+	signal PWM_1_adr_in  : std_logic_vector(13 downto 0);
+	signal PWM_1_dat_in  : std_logic_vector(31 downto 0);
+	signal PWM_1_dat_out : std_logic_vector(31 downto 0);
+	signal PWM_1_cyc_in  : std_logic;
+	signal PWM_1_stb_in  : std_logic;
+	signal PWM_1_sel_in  : std_logic_vector(3 downto 0);
+	signal PWM_1_we_in   : std_logic;
+	signal PWM_1_ack_out : std_logic;
+	
 	-- Selected peripheral on the interconnect:
 	type intercon_peripheral_type is (
 		PERIPHERAL_TIMER0, PERIPHERAL_TIMER1, PERIPHERAL_IO, 
 		PERIPHERAL_UART0, PERIPHERAL_AEE_ROM, PERIPHERAL_AEE_RAM, TIME_MEASUREMENT, 
-		PERIPHERAL_INTERCON, PERIPHERAL_ERROR, PERIPHERAL_NONE);
+		PERIPHERAL_INTERCON, PERIPHERAL_ERROR, PERIPHERAL_NONE
+		, PERIPHERAL_TON_1, PERIPHERAL_PWM_1);
 	signal intercon_peripheral : intercon_peripheral_type := PERIPHERAL_NONE;
 
 	-- Interconnect address decoder state:
@@ -234,6 +257,10 @@ begin
 									intercon_peripheral <= PERIPHERAL_IO;
 								when x"05" =>
 									intercon_peripheral <= TIME_MEASUREMENT;
+								when x"06" =>
+									intercon_peripheral <= PERIPHERAL_TON_1;
+								when x"07" =>
+									intercon_peripheral <= PERIPHERAL_PWM_1;
 								when others => -- Invalid address - delegated to the error peripheral
 									intercon_peripheral <= PERIPHERAL_ERROR;
 							end case;
@@ -267,7 +294,8 @@ begin
 		intercon_ack_out, intercon_dat_out, error_ack_out,
 		aee_rom_ack_out, aee_rom_dat_out, aee_ram_ack_out, aee_ram_dat_out,
 		time_measurement_ack_out, time_measurement_dat_out,
-		io_peripheral_ack_out, io_peripheral_dat_out)
+		io_peripheral_ack_out, io_peripheral_dat_out,
+		TON_1_ack_out, TON_1_dat_out, PWM_1_ack_out, PWM_1_dat_out)
 	begin
 		case intercon_peripheral is
 			when PERIPHERAL_TIMER0 =>
@@ -294,6 +322,12 @@ begin
 			when TIME_MEASUREMENT =>
 				processor_ack_in <= time_measurement_ack_out;
 				processor_dat_in <= time_measurement_dat_out;
+			when PERIPHERAL_TON_1 =>
+				processor_ack_in <= TON_1_ack_out;
+				processor_dat_in <= TON_1_dat_out;
+			when PERIPHERAL_PWM_1 =>
+				processor_ack_in <= PWM_1_ack_out;
+				processor_dat_in <= PWM_1_dat_out;
 			when PERIPHERAL_ERROR =>
 				processor_ack_in <= error_ack_out;
 				processor_dat_in <= (others => '0');
@@ -529,4 +563,44 @@ begin
 	time_measurement_cyc_in <= processor_cyc_out when intercon_peripheral = TIME_MEASUREMENT else '0';
 	time_measurement_stb_in <= processor_stb_out when intercon_peripheral = TIME_MEASUREMENT else '0';
 	
+	TON_1: entity work.TON_Peripheral
+		port map(
+			clk 		=> system_clk,
+			reset		=> reset,
+			wb_adr_in	=> TON_1_adr_in(3 downto 2),
+			wb_dat_in	=> TON_1_dat_in,
+			wb_dat_out	=> TON_1_dat_out,
+			wb_cyc_in	=> TON_1_cyc_in,
+			wb_stb_in	=> TON_1_stb_in,
+			wb_sel_in	=> TON_1_sel_in,
+			wb_we_in	=> TON_1_we_in,
+			wb_ack_out	=> TON_1_ack_out
+		);
+	TON_1_adr_in <= processor_adr_out(TON_1_adr_in'range);
+	TON_1_dat_in <= processor_dat_out;
+	TON_1_we_in  <= processor_we_out;
+	TON_1_sel_in <= processor_sel_out;
+	TON_1_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_TON_1 else '0';
+	TON_1_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_TON_1 else '0';
+	
+	PWM_1: entity work.PWM_Peripheral
+		port map(
+			clk 		=> system_clk,
+			reset		=> reset,
+			wb_adr_in	=> PWM_1_adr_in(3 downto 2),
+			wb_dat_in	=> PWM_1_dat_in,
+			wb_dat_out	=> PWM_1_dat_out,
+			wb_cyc_in	=> PWM_1_cyc_in,
+			wb_stb_in	=> PWM_1_stb_in,
+			wb_sel_in	=> PWM_1_sel_in,
+			wb_we_in	=> PWM_1_we_in,
+			wb_ack_out	=> PWM_1_ack_out
+		);
+	PWM_1_adr_in <= processor_adr_out(PWM_1_adr_in'range);
+	PWM_1_dat_in <= processor_dat_out;
+	PWM_1_we_in  <= processor_we_out;
+	PWM_1_sel_in <= processor_sel_out;
+	PWM_1_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_PWM_1 else '0';
+	PWM_1_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_PWM_1 else '0';
+
 end architecture behaviour;

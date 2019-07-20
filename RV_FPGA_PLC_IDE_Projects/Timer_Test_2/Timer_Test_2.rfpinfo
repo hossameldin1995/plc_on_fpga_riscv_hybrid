@@ -8,3 +8,5 @@ HDL Compilation State  = 0
 HDL Compilation Type   = 0
 Compiled Timers        = 0
 Timers in Program      = 0
+Compiled PWMs          = 0
+PWMs in Program        = 0

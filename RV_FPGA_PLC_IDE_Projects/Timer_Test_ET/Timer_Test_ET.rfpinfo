@@ -1,0 +1,14 @@
+Project Name           = Timer_Test_ET
+Size of Program        = 45
+Max Size of Program    = 15
+Number of Rungs        = 3
+    Rung (1) Size      = 10
+    Rung (2) Size      = 15
+    Rung (3) Size      = 15
+Number of Variables    = 4
+HDL Compilation State  = 4
+HDL Compilation Type   = 2
+Compiled Timers        = 2
+Timers in Program      = 2
+Compiled PWMs          = 0
+PWMs in Program        = 0

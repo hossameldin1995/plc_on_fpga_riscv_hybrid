@@ -42,6 +42,9 @@ public class Write_Hardware_Files {
         file = new File(Project_Folder+"peripherals/func_block_constant/aee_rom/vhdl"); file.mkdirs();
         file = new File(Project_Folder+"peripherals/func_block_constant/clock_generator/clock_generator"); file.mkdirs();
         file = new File(Project_Folder+"peripherals/func_block_variable/TON/vhdl"); file.mkdirs();
+        file = new File(Project_Folder+"peripherals/func_block_variable/PWM/vhdl"); file.mkdirs();
+        file = new File(Project_Folder+"peripherals/multi_blocks/DIV"); file.mkdirs();
+        file = new File(Project_Folder+"peripherals/multi_blocks/MULT"); file.mkdirs();
     }
     
     private void generate_q_hdl_toplevel_for_sw_comp_files(String Project_Folder){
@@ -107,6 +110,12 @@ public class Write_Hardware_Files {
         generate_RV_FPGA_PLC_Potato_sdc_file(Project_Folder);
         generate_aee_rom_qip_file(Project_Folder);
         generate_aee_rom_cmp_file(Project_Folder);
+        generate_PWM_Peripheral_vhd_file(Project_Folder);
+        generate_PWM_32_bit_vhd_file(Project_Folder);
+        generate_Div_32_bit_vhd_file(Project_Folder);
+        generate_Div_32_bit_qip_file(Project_Folder);
+        generate_Mult_32_bit_vhd_file(Project_Folder);
+        generate_Mult_32_bit_qip_file(Project_Folder);
     }
 
     private void generate_qpf_file(String Project_Folder) {
@@ -418,6 +427,7 @@ public class Write_Hardware_Files {
                         "set_location_assignment PIN_AC24 -to HEX3[4]\n" +
                         "set_location_assignment PIN_AC23 -to HEX3[5]\n" +
                         "set_location_assignment PIN_AC22 -to HEX3[6]\n" +
+                        "set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_Peripheral.vhd\n" +
                         "set_global_assignment -name VHDL_FILE hdl_code/toplevel.vhd\n" +
                         "set_global_assignment -name VHDL_FILE hdl_code/potato_processor/vhdl/pp_writeback.vhd\n" +
                         "set_global_assignment -name VHDL_FILE hdl_code/potato_processor/vhdl/pp_wb_arbiter.vhd\n" +
@@ -463,6 +473,9 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name QIP_FILE hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.qip\n" +
                         "set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.vhd\n" +
                         "set_global_assignment -name QIP_FILE hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.qip\n" +
+                        "set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_32_bit.vhd\n" +
+                        "set_global_assignment -name QIP_FILE hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.qip\n" +
+                        "set_global_assignment -name QIP_FILE hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.qip\n" +
                         "set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top";
         try {
             new File(Project_Folder+"RV_FPGA_PLC_Potato.qsf").delete();
@@ -1205,7 +1218,10 @@ public class Write_Hardware_Files {
                         "-- 0x00004000: IO Peripheral\n" +
                         "-- 0x00005000: Time Measurement\n";
                         for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
-                            data += "-- 0x000"+num_2_spaces(6 + i)+"000: TON "+Data.Name_of_Timers[i]+"\n";
+                            data += "-- 0x000"+num_hex_2_spaces(6 + i)+"000: TON "+Data.Name_of_Timers[i]+"\n";
+                        }
+                        for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
+                            data += "-- 0x000"+num_hex_2_spaces(Data.Number_Of_Timers_In_Program + 6 + i)+"000: PWM "+Data.Name_of_PWMs[i]+"\n";
                         }
                 data += "-- 0x10000000: Interconnect control/error module\n" +
                         "-- 0xffff8000: Application execution environment ROM (16 kB)\n" +
@@ -1388,6 +1404,18 @@ public class Write_Hardware_Files {
                                     "	signal "+Data.Name_of_Timers[i]+"_ack_out : std_logic;\n" +
                                     "	\n";
                         }
+                        for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
+                            data += "	-- PWM "+Data.Name_of_PWMs[i]+" signals:\n" +
+                                    "	signal "+Data.Name_of_PWMs[i]+"_adr_in  : std_logic_vector(13 downto 0);\n" +
+                                    "	signal "+Data.Name_of_PWMs[i]+"_dat_in  : std_logic_vector(31 downto 0);\n" +
+                                    "	signal "+Data.Name_of_PWMs[i]+"_dat_out : std_logic_vector(31 downto 0);\n" +
+                                    "	signal "+Data.Name_of_PWMs[i]+"_cyc_in  : std_logic;\n" +
+                                    "	signal "+Data.Name_of_PWMs[i]+"_stb_in  : std_logic;\n" +
+                                    "	signal "+Data.Name_of_PWMs[i]+"_sel_in  : std_logic_vector(3 downto 0);\n" +
+                                    "	signal "+Data.Name_of_PWMs[i]+"_we_in   : std_logic;\n" +
+                                    "	signal "+Data.Name_of_PWMs[i]+"_ack_out : std_logic;\n" +
+                                    "	\n";
+                        }
                 data += "	-- Selected peripheral on the interconnect:\n" +
                         "	type intercon_peripheral_type is (\n" +
                         "		PERIPHERAL_TIMER0, PERIPHERAL_TIMER1, PERIPHERAL_IO, \n" +
@@ -1396,6 +1424,10 @@ public class Write_Hardware_Files {
                         for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
                             if (i == 0) data += "\n		";
                             data += ", PERIPHERAL_"+Data.Name_of_Timers[i];
+                        }
+                        for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
+                            if (i == 0) data += "\n		";
+                            data += ", PERIPHERAL_"+Data.Name_of_PWMs[i];
                         }
                 data += ");\n" +
                         "	signal intercon_peripheral : intercon_peripheral_type := PERIPHERAL_NONE;\n" +
@@ -1447,8 +1479,12 @@ public class Write_Hardware_Files {
                         "								when x\"05\" =>\n" +
                         "									intercon_peripheral <= TIME_MEASUREMENT;\n";
                         for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
-                            data += "								when x\""+num_2_spaces(6 + i)+"\" =>\n" +
+                            data += "								when x\""+num_hex_2_spaces(6 + i)+"\" =>\n" +
                                     "									intercon_peripheral <= PERIPHERAL_"+Data.Name_of_Timers[i]+";\n";
+                        }
+                        for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
+                            data += "								when x\""+num_hex_2_spaces(Data.Number_Of_Timers_In_Program + 6 + i)+"\" =>\n" +
+                                    "									intercon_peripheral <= PERIPHERAL_"+Data.Name_of_PWMs[i]+";\n";
                         }
                 data += "								when others => -- Invalid address - delegated to the error peripheral\n" +
                         "									intercon_peripheral <= PERIPHERAL_ERROR;\n" +
@@ -1487,9 +1523,15 @@ public class Write_Hardware_Files {
                         for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
                             if (i == 0) data += ",\n";
                             if (i != (Data.Number_Of_Timers_In_Program - 1)) data += "		"+Data.Name_of_Timers[i]+"_ack_out, "+Data.Name_of_Timers[i]+"_ack_out,\n";
-                            else data += "		"+Data.Name_of_Timers[i]+"_ack_out, "+Data.Name_of_Timers[i]+"_dat_out)\n";
+                            else data += "		"+Data.Name_of_Timers[i]+"_ack_out, "+Data.Name_of_Timers[i]+"_dat_out";
                         }
-                data += "	begin\n" +
+                        for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
+                            if (i == 0) data += ",\n";
+                            if (i != (Data.Number_Of_PWMs_In_Program - 1)) data += "		"+Data.Name_of_PWMs[i]+"_ack_out, "+Data.Name_of_PWMs[i]+"_ack_out,\n";
+                            else data += "		"+Data.Name_of_PWMs[i]+"_ack_out, "+Data.Name_of_PWMs[i]+"_dat_out";
+                        }
+                data += ")\n" +
+                        "	begin\n" +
                         "		case intercon_peripheral is\n" +
                         "			when PERIPHERAL_TIMER0 =>\n" +
                         "				processor_ack_in <= timer0_ack_out;\n" +
@@ -1519,6 +1561,11 @@ public class Write_Hardware_Files {
                             data += "			when PERIPHERAL_"+Data.Name_of_Timers[i]+" =>\n" +
                                     "				processor_ack_in <= "+Data.Name_of_Timers[i]+"_ack_out;\n" +
                                     "				processor_dat_in <= "+Data.Name_of_Timers[i]+"_dat_out;\n";
+                        }
+                        for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
+                            data += "			when PERIPHERAL_"+Data.Name_of_PWMs[i]+" =>\n" +
+                                    "				processor_ack_in <= "+Data.Name_of_PWMs[i]+"_ack_out;\n" +
+                                    "				processor_dat_in <= "+Data.Name_of_PWMs[i]+"_dat_out;\n";
                         }
                 data += "			when PERIPHERAL_ERROR =>\n" +
                         "				processor_ack_in <= error_ack_out;\n" +
@@ -1775,6 +1822,27 @@ public class Write_Hardware_Files {
                                     "	"+Data.Name_of_Timers[i]+"_sel_in <= processor_sel_out;\n" +
                                     "	"+Data.Name_of_Timers[i]+"_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_"+Data.Name_of_Timers[i]+" else '0';\n" +
                                     "	"+Data.Name_of_Timers[i]+"_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_"+Data.Name_of_Timers[i]+" else '0';\n\n";
+                        }
+                        for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
+                            data += "	"+Data.Name_of_PWMs[i]+": entity work.PWM_Peripheral\n" +
+                                    "		port map(\n" +
+                                    "			clk 		=> system_clk,\n" +
+                                    "			reset		=> reset,\n" +
+                                    "			wb_adr_in	=> "+Data.Name_of_PWMs[i]+"_adr_in(3 downto 2),\n" +
+                                    "			wb_dat_in	=> "+Data.Name_of_PWMs[i]+"_dat_in,\n" +
+                                    "			wb_dat_out	=> "+Data.Name_of_PWMs[i]+"_dat_out,\n" +
+                                    "			wb_cyc_in	=> "+Data.Name_of_PWMs[i]+"_cyc_in,\n" +
+                                    "			wb_stb_in	=> "+Data.Name_of_PWMs[i]+"_stb_in,\n" +
+                                    "			wb_sel_in	=> "+Data.Name_of_PWMs[i]+"_sel_in,\n" +
+                                    "			wb_we_in	=> "+Data.Name_of_PWMs[i]+"_we_in,\n" +
+                                    "			wb_ack_out	=> "+Data.Name_of_PWMs[i]+"_ack_out\n" +
+                                    "		);\n" +
+                                    "	"+Data.Name_of_PWMs[i]+"_adr_in <= processor_adr_out("+Data.Name_of_PWMs[i]+"_adr_in'range);\n" +
+                                    "	"+Data.Name_of_PWMs[i]+"_dat_in <= processor_dat_out;\n" +
+                                    "	"+Data.Name_of_PWMs[i]+"_we_in  <= processor_we_out;\n" +
+                                    "	"+Data.Name_of_PWMs[i]+"_sel_in <= processor_sel_out;\n" +
+                                    "	"+Data.Name_of_PWMs[i]+"_cyc_in <= processor_cyc_out when intercon_peripheral = PERIPHERAL_"+Data.Name_of_PWMs[i]+" else '0';\n" +
+                                    "	"+Data.Name_of_PWMs[i]+"_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_"+Data.Name_of_PWMs[i]+" else '0';\n\n";
                         }
                 data += "end architecture behaviour;";
         write_file(Project_Folder_File + "/q_files/hdl_code/toplevel.vhd", data);
@@ -3249,9 +3317,9 @@ public class Write_Hardware_Files {
                         "\n" +
                         "	wb_ack_out <= read_ack and wb_stb_in;\n" +
                         "\n" +
-                        "	process(clk)\n" +
+                        "	process(reset, wb_adr_in, wb_dat_in, wb_cyc_in, wb_stb_in, wb_sel_in, wb_we_in)\n" +
                         "	begin\n" +
-                        "		if rising_edge(clk) then\n" +
+                        "		--if rising_edge(clk) then add clk and remove others in process\n" +
                         "			if reset = '1' then\n" +
                         "				read_ack <= '0';\n" +
                         "				state <= IDLE;\n" +
@@ -3284,7 +3352,7 @@ public class Write_Hardware_Files {
                         "					read_ack <= '0';\n" +
                         "				end if;\n" +
                         "			end if;\n" +
-                        "		end if;\n" +
+                        "		--end if;\n" +
                         "	end process;\n" +
                         "\n" +
                         "end architecture behaviour;";
@@ -3359,9 +3427,9 @@ public class Write_Hardware_Files {
                         "	wb_dat_out <= \"0000000000000000000000000000000\" & OUT_Data_1;\n" +
                         "	wb_ack_out <= read_ack and wb_stb_in;\n" +
                         "\n" +
-                        "	process(reset, wb_we_in, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in, wb_cyc_in, wb_dat_in, wb_sel_in)\n" +
+                        "	process(clk, reset, wb_we_in, wb_adr_in, KEY, SW, GPIO_IN, wb_stb_in, wb_we_in, wb_cyc_in, wb_dat_in, wb_sel_in)\n" +
                         "	begin\n" +
-                        "		--if rising_edge(clk) then add clk in  process\n" +
+                        "		if rising_edge(clk) then\n" +
                         "		\n" +
                         "			GPIO_IN_O 	<= register_in(17 DOWNTO 0);\n" +
                         "			SW_O			<= register_in(27 DOWNTO 18);\n" +
@@ -3412,7 +3480,7 @@ public class Write_Hardware_Files {
                         "					read_ack <= '0';\n" +
                         "				end if;\n" +
                         "			end if;\n" +
-                        "		--end if;\n" +
+                        "		end if;\n" +
                         "	end process;\n" +
                         "\n" +
                         "end architecture behaviour;";
@@ -8738,14 +8806,14 @@ public class Write_Hardware_Files {
                         "			C_O_Tmp <= (others => '0'); \n" +
                         "			ov <='0';\n" +
                         "		elsif rising_edge(clk) then\n" +
-                        "		if C_Tmp < 1 then \n" +
-                        "			C_Tmp   <= (others => '0'); \n" +
-                        "			ov <='1';\n" +
-                        "		else \n" +
-                        "			C_Tmp   <= C_Tmp - 1;\n" +
-                        "			C_O_Tmp <= C_O_Tmp + 1;\n" +
-                        "			ov <='0';\n" +
-                        "		end if;\n" +
+                        "			if C_Tmp < 1 then \n" +
+                        "				C_Tmp   <= (others => '0'); \n" +
+                        "				ov <='1';\n" +
+                        "			else \n" +
+                        "				C_Tmp   <= C_Tmp - 1;\n" +
+                        "				C_O_Tmp <= C_O_Tmp + 1;\n" +
+                        "				ov <='0';\n" +
+                        "			end if;\n" +
                         "		end if;\n" +
                         "	end process;\n" +
                         "	C_Out <= std_logic_vector(C_O_Tmp);\n" +
@@ -8878,6 +8946,446 @@ public class Write_Hardware_Files {
         write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.cmp", data);
     }
     
+    private void generate_PWM_Peripheral_vhd_file(String Project_Folder_File) {
+        String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
+                        "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
+                        "-- Report bugs and issues on <https://github.com/skordal/potato/issues>\n" +
+                        "\n" +
+                        "library ieee;\n" +
+                        "use ieee.std_logic_1164.all;\n" +
+                        "use ieee.numeric_std.all;\n" +
+                        "\n" +
+                        "--! @brief Simple memory module for use in Wishbone-based systems.\n" +
+                        "--!\n" +
+                        "--! The following registers are defined:\n" +
+                        "--! |---------|-------------------|\n" +
+                        "--! | Address | Description       |\n" +
+                        "--! |---------|-------------------|\n" +
+                        "--! | 0x00 r  | Q                 |\n" +
+                        "--! | 0x04 w  | Frequency    L    |\n" +
+                        "--! | 0x08 w  | Duty Cycle        |\n" +
+                        "--! |---------|-------------------|\n" +
+                        "\n" +
+                        "entity PWM_Peripheral is\n" +
+                        "	port(\n" +
+                        "		clk : in std_logic;\n" +
+                        "		reset : in std_logic;\n" +
+                        "\n" +
+                        "		-- Wishbone interface:\n" +
+                        "		wb_adr_in  : in  std_logic_vector(1 downto 0);\n" +
+                        "		wb_dat_in  : in  std_logic_vector(31 downto 0);\n" +
+                        "		wb_dat_out : out std_logic_vector(31 downto 0);\n" +
+                        "		wb_cyc_in  : in  std_logic;\n" +
+                        "		wb_stb_in  : in  std_logic;\n" +
+                        "		wb_sel_in  : in  std_logic_vector( 3 downto 0);\n" +
+                        "		wb_we_in   : in  std_logic;\n" +
+                        "		wb_ack_out : out std_logic\n" +
+                        "	);\n" +
+                        "end entity PWM_Peripheral;\n" +
+                        "\n" +
+                        "architecture behaviour of PWM_Peripheral is\n" +
+                        "	type state_type is (IDLE, ACK);\n" +
+                        "	signal state : state_type;\n" +
+                        "\n" +
+                        "	signal read_ack : std_logic;\n" +
+                        "	\n" +
+                        "	SIGNAL Q, EN				: std_logic;\n" +
+                        "	SIGNAL Frq, DC, Frq_T	: std_logic_vector(31 DOWNTO 0);\n" +
+                        "	\n" +
+                        "	SIGNAL T_Count, Comp_Count, Comp_Count_T	: STD_LOGIC_VECTOR(31 downto 0);\n" +
+                        "	SIGNAL Comp_Count_64								: STD_LOGIC_VECTOR(63 downto 0);\n" +
+                        "begin\n" +
+                        "\n" +
+                        "	PWM : entity work.PWM_32_bit	PORT MAP(clk, reset, EN, T_Count, Comp_Count, Q);\n" +
+                        "	Div1: entity work.Div_32_bit	PORT MAP(Frq_T, X\""+Data.CPU_Freq_H_S+"\", T_Count, open);\n" +
+                        "	Div2: entity work.Div_32_bit	PORT MAP(X\"00000064\", T_Count, Comp_Count_T, open);\n" +
+                        "	Mult: entity work.Mult_32_bit	PORT MAP(Comp_Count_T, DC, Comp_Count_64);\n" +
+                        "	\n" +
+                        "	Comp_Count <= Comp_Count_64(31 DOWNTO 0);\n" +
+                        "	EN			<= '1';\n" +
+                        "	wb_ack_out <= read_ack and wb_stb_in;\n" +
+                        "	\n" +
+                        "	process(Frq)\n" +
+                        "	begin\n" +
+                        "		if( Frq = X\"00000000\") or (reset = '1') then\n" +
+                        "			Frq_T <= X\""+Data.CPU_Freq_H_S+"\";\n" +
+                        "		else\n" +
+                        "			Frq_T <= Frq;\n" +
+                        "		end if;\n" +
+                        "	end process;\n" +
+                        "	\n" +
+                        "	process(clk, reset, wb_adr_in, wb_dat_in, wb_cyc_in, wb_stb_in, wb_sel_in, wb_we_in)\n" +
+                        "	begin\n" +
+                        "		if rising_edge(clk) then\n" +
+                        "			if reset = '1' then\n" +
+                        "				read_ack <= '0';\n" +
+                        "				state <= IDLE;\n" +
+                        "				wb_dat_out	<= (OTHERS => '0');\n" +
+                        "				Frq			<= (OTHERS => '0');\n" +
+                        "				DC				<= (OTHERS => '0');\n" +
+                        "			else\n" +
+                        "				if wb_cyc_in = '1' then\n" +
+                        "					case state is\n" +
+                        "						when IDLE =>\n" +
+                        "							if wb_stb_in = '1' and wb_we_in = '1' then --write\n" +
+                        "								IF (wb_adr_in = \"01\") THEN\n" +
+                        "									Frq	<= wb_dat_in;\n" +
+                        "								ELSIF (wb_adr_in = \"10\") THEN\n" +
+                        "									DC		<= wb_dat_in;\n" +
+                        "								END IF;\n" +
+                        "								read_ack <= '1';\n" +
+                        "								state <= ACK;\n" +
+                        "							elsif wb_stb_in = '1' then -- read\n" +
+                        "								IF (wb_adr_in = \"00\") THEN\n" +
+                        "									wb_dat_out(0) <= Q;\n" +
+                        "								ELSE\n" +
+                        "									wb_dat_out <= (others => '0');\n" +
+                        "								END IF;\n" +
+                        "								read_ack <= '1';\n" +
+                        "								state <= ACK;\n" +
+                        "							end if;\n" +
+                        "						when ACK =>\n" +
+                        "							if wb_stb_in = '0' then\n" +
+                        "								read_ack <= '0';\n" +
+                        "								state <= IDLE;\n" +
+                        "							end if;\n" +
+                        "					end case;\n" +
+                        "				else\n" +
+                        "					state <= IDLE;\n" +
+                        "					read_ack <= '0';\n" +
+                        "				end if;\n" +
+                        "			end if;\n" +
+                        "		end if;\n" +
+                        "	end process;\n" +
+                        "\n" +
+                        "end architecture behaviour;";
+        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_Peripheral.vhd", data);
+    }
+    
+    private void generate_PWM_32_bit_vhd_file(String Project_Folder_File) {
+        String data =   "library IEEE;\n" +
+                        "USE IEEE.STD_LOGIC_1164.ALL;\n" +
+                        "USE IEEE.STD_LOGIC_SIGNED.ALL;\n" +
+                        "\n" +
+                        "entity PWM_32_bit is\n" +
+                        "port( clk, reset	: in STD_LOGIC;\n" +
+                        "		EN				: in STD_LOGIC;\n" +
+                        "		T_Count		: in STD_LOGIC_VECTOR(31 downto 0);\n" +
+                        "		Comp_Count	: in STD_LOGIC_VECTOR(31 downto 0);\n" +
+                        "		Y_OUT			: out STD_LOGIC\n" +
+                        "		);\n" +
+                        "end;\n" +
+                        "\n" +
+                        "architecture RTL of PWM_32_bit is\n" +
+                        "	SIGNAL T_Count_T, Comp_Count_T	: STD_LOGIC_VECTOR(31 downto 0);\n" +
+                        "	\n" +
+                        "	begin\n" +
+                        "	\n" +
+                        "	process(clk, reset)\n" +
+                        "		begin\n" +
+                        "		if (rising_edge(clk) and EN = '1') then\n" +
+                        "			if reset = '1' then \n" +
+                        "				T_Count_T		<= (others => '0');\n" +
+                        "				Comp_Count_T	<= (others => '0');\n" +
+                        "				Y_OUT				<= '0';\n" +
+                        "			elsif T_Count_T = X\"00000000\" then\n" +
+                        "				T_Count_T		<= T_Count;\n" +
+                        "				Comp_Count_T	<= Comp_Count;\n" +
+                        "				Y_OUT				<= '0';\n" +
+                        "			else\n" +
+                        "				T_Count_T	<= T_Count_T - X\"00000001\";\n" +
+                        "				if T_Count_T < Comp_Count_T then\n" +
+                        "					Y_OUT <= '1';\n" +
+                        "				else\n" +
+                        "					Y_OUT <= '0';\n" +
+                        "				end if;\n" +
+                        "			end if;\n" +
+                        "		end if;\n" +
+                        "	end process;\n" +
+                        "	\n" +
+                        "end RTL;";
+        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_32_bit.vhd", data);
+    }
+    
+    private void generate_Div_32_bit_vhd_file(String Project_Folder_File) {
+        String data =   "-- megafunction wizard: %LPM_DIVIDE%\n" +
+                        "-- GENERATION: STANDARD\n" +
+                        "-- VERSION: WM1.0\n" +
+                        "-- MODULE: LPM_DIVIDE \n" +
+                        "\n" +
+                        "-- ============================================================\n" +
+                        "-- File Name: Div_32_bit.vhd\n" +
+                        "-- Megafunction Name(s):\n" +
+                        "-- 			LPM_DIVIDE\n" +
+                        "--\n" +
+                        "-- Simulation Library Files(s):\n" +
+                        "-- 			lpm\n" +
+                        "-- ============================================================\n" +
+                        "-- ************************************************************\n" +
+                        "-- THIS IS A WIZARD-GENERATED FILE. DO NOT EDIT THIS FILE!\n" +
+                        "--\n" +
+                        "-- 18.0.0 Build 614 04/24/2018 SJ Lite Edition\n" +
+                        "-- ************************************************************\n" +
+                        "\n" +
+                        "\n" +
+                        "--Copyright (C) 2018  Intel Corporation. All rights reserved.\n" +
+                        "--Your use of Intel Corporation's design tools, logic functions \n" +
+                        "--and other software and tools, and its AMPP partner logic \n" +
+                        "--functions, and any output files from any of the foregoing \n" +
+                        "--(including device programming or simulation files), and any \n" +
+                        "--associated documentation or information are expressly subject \n" +
+                        "--to the terms and conditions of the Intel Program License \n" +
+                        "--Subscription Agreement, the Intel Quartus Prime License Agreement,\n" +
+                        "--the Intel FPGA IP License Agreement, or other applicable license\n" +
+                        "--agreement, including, without limitation, that your use is for\n" +
+                        "--the sole purpose of programming logic devices manufactured by\n" +
+                        "--Intel and sold by Intel or its authorized distributors.  Please\n" +
+                        "--refer to the applicable agreement for further details.\n" +
+                        "\n" +
+                        "\n" +
+                        "LIBRARY ieee;\n" +
+                        "USE ieee.std_logic_1164.all;\n" +
+                        "\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.all;\n" +
+                        "\n" +
+                        "ENTITY Div_32_bit IS\n" +
+                        "	PORT\n" +
+                        "	(\n" +
+                        "		denom		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "		numer		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "		quotient		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "		remain		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)\n" +
+                        "	);\n" +
+                        "END Div_32_bit;\n" +
+                        "\n" +
+                        "\n" +
+                        "ARCHITECTURE SYN OF div_32_bit IS\n" +
+                        "\n" +
+                        "	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "\n" +
+                        "\n" +
+                        "\n" +
+                        "	COMPONENT lpm_divide\n" +
+                        "	GENERIC (\n" +
+                        "		lpm_drepresentation		: STRING;\n" +
+                        "		lpm_hint		: STRING;\n" +
+                        "		lpm_nrepresentation		: STRING;\n" +
+                        "		lpm_type		: STRING;\n" +
+                        "		lpm_widthd		: NATURAL;\n" +
+                        "		lpm_widthn		: NATURAL\n" +
+                        "	);\n" +
+                        "	PORT (\n" +
+                        "			denom	: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "			numer	: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "			quotient	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "			remain	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)\n" +
+                        "	);\n" +
+                        "	END COMPONENT;\n" +
+                        "\n" +
+                        "BEGIN\n" +
+                        "	quotient    <= sub_wire0(31 DOWNTO 0);\n" +
+                        "	remain    <= sub_wire1(31 DOWNTO 0);\n" +
+                        "\n" +
+                        "	LPM_DIVIDE_component : LPM_DIVIDE\n" +
+                        "	GENERIC MAP (\n" +
+                        "		lpm_drepresentation => \"UNSIGNED\",\n" +
+                        "		lpm_hint => \"MAXIMIZE_SPEED=6,LPM_REMAINDERPOSITIVE=TRUE\",\n" +
+                        "		lpm_nrepresentation => \"UNSIGNED\",\n" +
+                        "		lpm_type => \"LPM_DIVIDE\",\n" +
+                        "		lpm_widthd => 32,\n" +
+                        "		lpm_widthn => 32\n" +
+                        "	)\n" +
+                        "	PORT MAP (\n" +
+                        "		denom => denom,\n" +
+                        "		numer => numer,\n" +
+                        "		quotient => sub_wire0,\n" +
+                        "		remain => sub_wire1\n" +
+                        "	);\n" +
+                        "\n" +
+                        "\n" +
+                        "\n" +
+                        "END SYN;\n" +
+                        "\n" +
+                        "-- ============================================================\n" +
+                        "-- CNX file retrieval info\n" +
+                        "-- ============================================================\n" +
+                        "-- Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING \"Cyclone V\"\n" +
+                        "-- Retrieval info: PRIVATE: PRIVATE_LPM_REMAINDERPOSITIVE STRING \"TRUE\"\n" +
+                        "-- Retrieval info: PRIVATE: PRIVATE_MAXIMIZE_SPEED NUMERIC \"6\"\n" +
+                        "-- Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: USING_PIPELINE NUMERIC \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: VERSION_NUMBER NUMERIC \"2\"\n" +
+                        "-- Retrieval info: PRIVATE: new_diagram STRING \"1\"\n" +
+                        "-- Retrieval info: LIBRARY: lpm lpm.lpm_components.all\n" +
+                        "-- Retrieval info: CONSTANT: LPM_DREPRESENTATION STRING \"UNSIGNED\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_HINT STRING \"MAXIMIZE_SPEED=6,LPM_REMAINDERPOSITIVE=TRUE\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_NREPRESENTATION STRING \"UNSIGNED\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_TYPE STRING \"LPM_DIVIDE\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHD NUMERIC \"32\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHN NUMERIC \"32\"\n" +
+                        "-- Retrieval info: USED_PORT: denom 0 0 32 0 INPUT NODEFVAL \"denom[31..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: numer 0 0 32 0 INPUT NODEFVAL \"numer[31..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: quotient 0 0 32 0 OUTPUT NODEFVAL \"quotient[31..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: remain 0 0 32 0 OUTPUT NODEFVAL \"remain[31..0]\"\n" +
+                        "-- Retrieval info: CONNECT: @denom 0 0 32 0 denom 0 0 32 0\n" +
+                        "-- Retrieval info: CONNECT: @numer 0 0 32 0 numer 0 0 32 0\n" +
+                        "-- Retrieval info: CONNECT: quotient 0 0 32 0 @quotient 0 0 32 0\n" +
+                        "-- Retrieval info: CONNECT: remain 0 0 32 0 @remain 0 0 32 0\n" +
+                        "-- Retrieval info: LIB_FILE: lpm";
+        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.vhd", data);
+    }
+    
+    private void generate_Div_32_bit_qip_file(String Project_Folder_File) {
+        String data =   "set_global_assignment -name IP_TOOL_NAME \"LPM_DIVIDE\"\n" +
+                        "set_global_assignment -name IP_TOOL_VERSION \"18.0\"\n" +
+                        "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
+                        "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"Div_32_bit.vhd\"]";
+        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.qip", data);
+    }
+    
+    private void generate_Mult_32_bit_vhd_file(String Project_Folder_File) {
+        String data =   "-- megafunction wizard: %LPM_MULT%\n" +
+                        "-- GENERATION: STANDARD\n" +
+                        "-- VERSION: WM1.0\n" +
+                        "-- MODULE: lpm_mult \n" +
+                        "\n" +
+                        "-- ============================================================\n" +
+                        "-- File Name: Mult_32_bit.vhd\n" +
+                        "-- Megafunction Name(s):\n" +
+                        "-- 			lpm_mult\n" +
+                        "--\n" +
+                        "-- Simulation Library Files(s):\n" +
+                        "-- 			lpm\n" +
+                        "-- ============================================================\n" +
+                        "-- ************************************************************\n" +
+                        "-- THIS IS A WIZARD-GENERATED FILE. DO NOT EDIT THIS FILE!\n" +
+                        "--\n" +
+                        "-- 18.0.0 Build 614 04/24/2018 SJ Lite Edition\n" +
+                        "-- ************************************************************\n" +
+                        "\n" +
+                        "\n" +
+                        "--Copyright (C) 2018  Intel Corporation. All rights reserved.\n" +
+                        "--Your use of Intel Corporation's design tools, logic functions \n" +
+                        "--and other software and tools, and its AMPP partner logic \n" +
+                        "--functions, and any output files from any of the foregoing \n" +
+                        "--(including device programming or simulation files), and any \n" +
+                        "--associated documentation or information are expressly subject \n" +
+                        "--to the terms and conditions of the Intel Program License \n" +
+                        "--Subscription Agreement, the Intel Quartus Prime License Agreement,\n" +
+                        "--the Intel FPGA IP License Agreement, or other applicable license\n" +
+                        "--agreement, including, without limitation, that your use is for\n" +
+                        "--the sole purpose of programming logic devices manufactured by\n" +
+                        "--Intel and sold by Intel or its authorized distributors.  Please\n" +
+                        "--refer to the applicable agreement for further details.\n" +
+                        "\n" +
+                        "\n" +
+                        "LIBRARY ieee;\n" +
+                        "USE ieee.std_logic_1164.all;\n" +
+                        "\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.all;\n" +
+                        "\n" +
+                        "ENTITY Mult_32_bit IS\n" +
+                        "	PORT\n" +
+                        "	(\n" +
+                        "		dataa		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "		datab		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "		result		: OUT STD_LOGIC_VECTOR (63 DOWNTO 0)\n" +
+                        "	);\n" +
+                        "END Mult_32_bit;\n" +
+                        "\n" +
+                        "\n" +
+                        "ARCHITECTURE SYN OF mult_32_bit IS\n" +
+                        "\n" +
+                        "	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (63 DOWNTO 0);\n" +
+                        "\n" +
+                        "\n" +
+                        "\n" +
+                        "	COMPONENT lpm_mult\n" +
+                        "	GENERIC (\n" +
+                        "		lpm_hint		: STRING;\n" +
+                        "		lpm_representation		: STRING;\n" +
+                        "		lpm_type		: STRING;\n" +
+                        "		lpm_widtha		: NATURAL;\n" +
+                        "		lpm_widthb		: NATURAL;\n" +
+                        "		lpm_widthp		: NATURAL\n" +
+                        "	);\n" +
+                        "	PORT (\n" +
+                        "			dataa	: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "			datab	: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "			result	: OUT STD_LOGIC_VECTOR (63 DOWNTO 0)\n" +
+                        "	);\n" +
+                        "	END COMPONENT;\n" +
+                        "\n" +
+                        "BEGIN\n" +
+                        "	result    <= sub_wire0(63 DOWNTO 0);\n" +
+                        "\n" +
+                        "	lpm_mult_component : lpm_mult\n" +
+                        "	GENERIC MAP (\n" +
+                        "		lpm_hint => \"DEDICATED_MULTIPLIER_CIRCUITRY=YES,MAXIMIZE_SPEED=9\",\n" +
+                        "		lpm_representation => \"UNSIGNED\",\n" +
+                        "		lpm_type => \"LPM_MULT\",\n" +
+                        "		lpm_widtha => 32,\n" +
+                        "		lpm_widthb => 32,\n" +
+                        "		lpm_widthp => 64\n" +
+                        "	)\n" +
+                        "	PORT MAP (\n" +
+                        "		dataa => dataa,\n" +
+                        "		datab => datab,\n" +
+                        "		result => sub_wire0\n" +
+                        "	);\n" +
+                        "\n" +
+                        "\n" +
+                        "\n" +
+                        "END SYN;\n" +
+                        "\n" +
+                        "-- ============================================================\n" +
+                        "-- CNX file retrieval info\n" +
+                        "-- ============================================================\n" +
+                        "-- Retrieval info: PRIVATE: AutoSizeResult NUMERIC \"1\"\n" +
+                        "-- Retrieval info: PRIVATE: B_isConstant NUMERIC \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: ConstantB NUMERIC \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING \"Cyclone V\"\n" +
+                        "-- Retrieval info: PRIVATE: LPM_PIPELINE NUMERIC \"5\"\n" +
+                        "-- Retrieval info: PRIVATE: Latency NUMERIC \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: SignedMult NUMERIC \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: USE_MULT NUMERIC \"1\"\n" +
+                        "-- Retrieval info: PRIVATE: ValidConstant NUMERIC \"1\"\n" +
+                        "-- Retrieval info: PRIVATE: WidthA NUMERIC \"32\"\n" +
+                        "-- Retrieval info: PRIVATE: WidthB NUMERIC \"32\"\n" +
+                        "-- Retrieval info: PRIVATE: WidthP NUMERIC \"64\"\n" +
+                        "-- Retrieval info: PRIVATE: aclr NUMERIC \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: clken NUMERIC \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: new_diagram STRING \"1\"\n" +
+                        "-- Retrieval info: PRIVATE: optimize NUMERIC \"1\"\n" +
+                        "-- Retrieval info: LIBRARY: lpm lpm.lpm_components.all\n" +
+                        "-- Retrieval info: CONSTANT: LPM_HINT STRING \"DEDICATED_MULTIPLIER_CIRCUITRY=YES,MAXIMIZE_SPEED=9\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_REPRESENTATION STRING \"UNSIGNED\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_TYPE STRING \"LPM_MULT\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHA NUMERIC \"32\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC \"32\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC \"64\"\n" +
+                        "-- Retrieval info: USED_PORT: dataa 0 0 32 0 INPUT NODEFVAL \"dataa[31..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: datab 0 0 32 0 INPUT NODEFVAL \"datab[31..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: result 0 0 64 0 OUTPUT NODEFVAL \"result[63..0]\"\n" +
+                        "-- Retrieval info: CONNECT: @dataa 0 0 32 0 dataa 0 0 32 0\n" +
+                        "-- Retrieval info: CONNECT: @datab 0 0 32 0 datab 0 0 32 0\n" +
+                        "-- Retrieval info: CONNECT: result 0 0 64 0 @result 0 0 64 0\n" +
+                        "-- Retrieval info: LIB_FILE: lpm";
+        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.vhd", data);
+    }
+    
+    private void generate_Mult_32_bit_qip_file(String Project_Folder_File) {
+        String data =   "set_global_assignment -name IP_TOOL_NAME \"LPM_MULT\"\n" +
+                        "set_global_assignment -name IP_TOOL_VERSION \"18.0\"\n" +
+                        "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
+                        "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"Mult_32_bit.vhd\"]";
+        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.qip", data);
+    }
+    
     private void generate_test_vhd_file(String Project_Folder_File) {
         String data =   "";
         write_file(Project_Folder_File + "/q_files/hdl_code", data);
@@ -8903,11 +9411,11 @@ public class Write_Hardware_Files {
         }
     }
 
-    public String num_2_spaces(int i) {
-        if (i < 9) {
-            return "0"+i;
+    public String num_hex_2_spaces(int i) {
+        if (i < 16) {
+            return "0"+Integer.toHexString(i);
         } else {
-            return i+"";
+            return Integer.toHexString(i);
         }
     }
 }

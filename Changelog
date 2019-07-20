@@ -10,7 +10,6 @@ Version 0.10
 ==========================================================================================================================
 1 - Making output ports in "In_Out_Peripheral.vhd" preparing to compile as hardware (Need Test)(No HW)
 
-
 Version 0.11
 ==========================================================================================================================
 1 - Add "Timer_Test_3" project on "RV_FPGA_PLC_IDE_Projects" (Need Test)(No HW)
@@ -20,3 +19,32 @@ Version 0.11
 5 - Modify ".rfpinfo" file to hold which compiler is used (SW or HW) and number of timers
 6 - Adding check_hardware_change() function
 7 - Compile the program as hardware is finished initially
+
+Version 0.12
+==========================================================================================================================
+1  - Fix reading T# type (small digits)
+2  - Adding clock_generator.vho for simulation to work
+3  - Fix TON (timer1) write Elapsed_Time_2 instead of Preset_Time_2 in initialization (after testing "Timer_Test_3")
+4  - Adding folder timer_test_3 in software
+5  - Adding liberary timer_hw.h (initial version)
+6  - Adding comment in TON_Peripheral.vhd to describe register adress
+7  - Remove "Timer_on_64_Controller.vhd" (no need for it)
+8  - Finish writing c file and compile it successfully
+12 - Add "Timer_Test_4_1" project on "RV_FPGA_PLC_IDE_Projects"
+10 - Adding option to choose compiler type when downloading it to SoC if not compiled.
+11 - (TON, IO, ROM) now take two cycles instead of three cycles.
+12 - Make time calculation more stable.
+13 - Hardware compilation with TON is now working.
+
+Version 0.13
+==========================================================================================================================
+1 - Add "Timer_Test_ET" project on "RV_FPGA_PLC_IDE_Projects"
+2 - Solve ET in SW compiling (minuse)
+3 - Make timer in function
+4 - Add PWM support SW compilation
+5 - In PWM REAL type can only work in instanse SW compilation
+6 - change int to uint32_t
+7 - Add PWM support HW compilation
+8 - Add Div and Mult 32 bit to hdl files
+9 - Add PWM_32_bit to hdl files
+

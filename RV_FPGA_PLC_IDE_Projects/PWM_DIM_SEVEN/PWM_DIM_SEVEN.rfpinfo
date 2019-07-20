@@ -1,0 +1,13 @@
+Project Name           = PWM_DIM_SEVEN
+Size of Program        = 60
+Max Size of Program    = 28
+Number of Rungs        = 2
+    Rung (1) Size      = 28
+    Rung (2) Size      = 28
+Number of Variables    = 14
+HDL Compilation State  = 4
+HDL Compilation Type   = 2
+Compiled Timers        = 0
+Timers in Program      = 0
+Compiled PWMs          = 7
+PWMs in Program        = 7

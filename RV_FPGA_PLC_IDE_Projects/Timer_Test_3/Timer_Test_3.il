@@ -18,4 +18,9 @@ PROGRAM Timer_Test_3
             PT := T#1s,
             ET => Elapsed_Time_2,
             Q  => %LEDG.1)
+    R3 :
+        LD     Elapsed_Time_1
+        ST     %LEDR.0
+        LD     Elapsed_Time_2
+        ST     %LEDR.1
 END_PROGRAM

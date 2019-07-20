@@ -254,6 +254,7 @@ set_location_assignment PIN_AA22 -to HEX3[3]
 set_location_assignment PIN_AC24 -to HEX3[4]
 set_location_assignment PIN_AC23 -to HEX3[5]
 set_location_assignment PIN_AC22 -to HEX3[6]
+set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_Peripheral.vhd
 set_global_assignment -name VHDL_FILE hdl_code/toplevel.vhd
 set_global_assignment -name VHDL_FILE hdl_code/potato_processor/vhdl/pp_writeback.vhd
 set_global_assignment -name VHDL_FILE hdl_code/potato_processor/vhdl/pp_wb_arbiter.vhd
@@ -299,4 +300,7 @@ set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_constant/c
 set_global_assignment -name QIP_FILE hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.qip
 set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.vhd
 set_global_assignment -name QIP_FILE hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.qip
+set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_32_bit.vhd
+set_global_assignment -name QIP_FILE hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.qip
+set_global_assignment -name QIP_FILE hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.qip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

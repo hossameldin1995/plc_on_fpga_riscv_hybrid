@@ -31,14 +31,14 @@ BEGIN
 			C_O_Tmp <= (others => '0'); 
 			ov <='0';
 		elsif rising_edge(clk) then
-		if C_Tmp < 1 then 
-			C_Tmp   <= (others => '0'); 
-			ov <='1';
-		else 
-			C_Tmp   <= C_Tmp - 1;
-			C_O_Tmp <= C_O_Tmp + 1;
-			ov <='0';
-		end if;
+			if C_Tmp < 1 then 
+				C_Tmp   <= (others => '0'); 
+				ov <='1';
+			else 
+				C_Tmp   <= C_Tmp - 1;
+				C_O_Tmp <= C_O_Tmp + 1;
+				ov <='0';
+			end if;
 		end if;
 	end process;
 	C_Out <= std_logic_vector(C_O_Tmp);

@@ -41,7 +41,9 @@ public class Data {
     public static boolean is_TON;
     public static boolean is_bistable;
     public static boolean is_timer;
+    public static boolean is_PWM;
     public static boolean is_newVariable_timer;
+    public static boolean is_newVariable_PWM;
     public static String Function_Name;
     
     public static File Project_Folder;
@@ -55,6 +57,7 @@ public class Data {
     public static int Load_index = 0;
     public static String    CPU_Freq_S = "100000000";
     public static int       CPU_Freq_I = 100000000;
+    public static String    CPU_Freq_H_S = "05F5E100";   //05F5E100   02FAF080
     public static String    CPU_Timer_Freq_S ="100000000";
     public static int       CPU_Timer_Freq_I = 100000000;
     
@@ -67,11 +70,17 @@ public class Data {
     public static final int FITTER = 2;
     public static final int ASSEMBLER = 3;
     public static final int UPDATED = 4;
+    public static int hdl_compilation_type = NO_COMPILATION;
+    public static int hdl_compilation_state = NO_COMPILATION;
+    
     public static final int SW_COMPILATION = 1;
     public static final int HW_COMPILATION = 2;
-    public static int hdl_compilation_state = NO_COMPILATION;
-    public static int hdl_compilation_type = NO_COMPILATION;
+    
     public static int Number_Of_Timers_Compiled = 0;
     public static int Number_Of_Timers_In_Program = 0;
     public static String[] Name_of_Timers = new String[50];
+    
+    public static int Number_Of_PWMs_Compiled = 0;
+    public static int Number_Of_PWMs_In_Program = 0;
+    public static String[] Name_of_PWMs = new String[50];
 }

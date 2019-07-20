@@ -1,0 +1,12 @@
+Project Name           = PWM_Test_2
+Size of Program        = 11
+Max Size of Program    = 8
+Number of Rungs        = 1
+    Rung (1) Size      = 8
+Number of Variables    = 2
+HDL Compilation State  = 4
+HDL Compilation Type   = 1
+Compiled Timers        = 2
+Timers in Program      = 2
+Compiled PWMs          = 0
+PWMs in Program        = 0

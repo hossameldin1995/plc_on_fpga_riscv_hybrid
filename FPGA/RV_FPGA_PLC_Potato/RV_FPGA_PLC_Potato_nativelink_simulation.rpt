@@ -1,5 +1,5 @@
 Info: Start Nativelink Simulation process
-executing command line: ip-make-simscript --nativelink-mode --output-directory=RV_FPGA_PLC_Potato_iputf_input --spd=/home/hossameldin/Documents/RV_FPGA_PLC_Project/Try_Only_Core/FPGA/RV_FPGA_PLC_Potato/vhdl/clock_generator.spd 
+executing command line: ip-make-simscript --nativelink-mode --output-directory=RV_FPGA_PLC_Potato_iputf_input --spd=/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/FPGA/RV_FPGA_PLC_Potato/vhdl/clock_generator.spd 
 
 ========= EDA Simulation Settings =====================
 

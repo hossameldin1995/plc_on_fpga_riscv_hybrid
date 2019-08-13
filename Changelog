@@ -54,3 +54,8 @@ Version 0.14
 2 - resolve some warinig in QSF file
 3 - stop compilation when error occured in (compile_c_file_.c)
  
+Version 0.15
+==========================================================================================================================
+1 - Update liberaries in Software folder with the latest (timer_hw and pwm_hw)
+2 - Add support for Set and Reset commands
+3 - Add project "Timer_PWM_MUL_DIV" to start changing memory arch and making Memory Controle Unit

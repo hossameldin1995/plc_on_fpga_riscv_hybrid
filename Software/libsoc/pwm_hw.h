@@ -7,9 +7,9 @@
 #include <stdint.h>
 
 // PWM register offsets:
-#define Q				0x00
-#define Frequency		0x04
-#define Duty_Cycle		0x08
+#define Q_PWM			0x00
+#define Frequency_Address      0x04
+#define Duty_Cycle_Address	0x08
 
 struct pwm_hw
 {
@@ -23,18 +23,17 @@ static inline void pwm_hw_initialize(struct pwm_hw * module, volatile void * bas
 
 static inline void pwm_hw_send_frequency(struct pwm_hw * module, uint32_t frequency)
 {
-	module->registers[Frequency >> 2] = (uint32_t) frequency;
+	module->registers[Frequency_Address >> 2] = (uint32_t) frequency;
 }
 
 static inline void pwm_hw_send_duty_cycle(struct pwm_hw * module, uint32_t duty_cycle)
 {
-	module->registers[Duty_Cycle >> 2] = (uint32_t) duty_cycle;
+	module->registers[Duty_Cycle_Address >> 2] = (uint32_t) duty_cycle;
 }
 
 static inline uint32_t pwm_hw_recieve_Q(struct pwm_hw  * module)
 {
-	return module->registers[Q >> 2];
+	return module->registers[Q_PWM >> 2];
 }
 
 #endif
-

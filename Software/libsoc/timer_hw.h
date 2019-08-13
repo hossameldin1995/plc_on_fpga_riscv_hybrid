@@ -9,10 +9,10 @@
 // Timer register offsets:
 #define Elapsed_Time_L	0x00
 #define Elapsed_Time_H	0x04
-#define Q           	0x08
+#define Q_TON         	0x08
 #define Preset_Time_L	0x00
 #define Preset_Time_H	0x04
-#define IN           	0x08
+#define IN_TON        	0x08
 
 struct timer_hw
 {
@@ -26,7 +26,7 @@ static inline void timer_hw_initialize(struct timer_hw * module, volatile void *
 
 static inline void timer_hw_send_in(struct timer_hw * module, uint32_t in_data)
 {
-	module->registers[IN >> 2] = (uint32_t) in_data;
+	module->registers[Q_TON >> 2] = (uint32_t) in_data;
 }
 
 static inline void timer_hw_send_preset_time(struct timer_hw * module, uint64_t preset_time)
@@ -45,8 +45,7 @@ static inline uint64_t timer_hw_recieve_elapsed_time(struct timer_hw  * module)
 
 static inline uint32_t timer_hw_recieve_Q(struct timer_hw  * module)
 {
-	return module->registers[Q >> 2];
+	return module->registers[Q_TON >> 2];
 }
 
 #endif
-

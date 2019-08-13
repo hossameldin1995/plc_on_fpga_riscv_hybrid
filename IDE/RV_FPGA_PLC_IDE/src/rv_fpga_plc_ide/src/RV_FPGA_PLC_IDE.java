@@ -2101,11 +2101,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_StoreActionPerformed
 
     private void jMenuItem_SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_SetActionPerformed
-        Basic_commands_button("Add Set Command", "S  ");
+        Basic_commands_button("Add Set Command", "SET");
     }//GEN-LAST:event_jMenuItem_SetActionPerformed
 
     private void jMenuItem_ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_ResetActionPerformed
-        Basic_commands_button("Add Reset Command", "R  ");
+        Basic_commands_button("Add Reset Command", "RST");
     }//GEN-LAST:event_jMenuItem_ResetActionPerformed
 
     private void jRadioButton_InstantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_InstantActionPerformed
@@ -3606,6 +3606,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             } else if (il_inst.split(" ")[0].contains("STN")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("STN", "");
                 success = success && add_basic_store_command(Operand, "~");
+            } else if (il_inst.split(" ")[0].contains("SET")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("SET", "");
+                add_set_reset_c_command(Operand, 1);
+            } else if (il_inst.split(" ")[0].contains("RST")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("RST", "");
+                add_set_reset_c_command(Operand, 0);
             } else if (il_inst.split(" ")[0].contains("LD")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("LD", "");
                 success = success && add_basic_load_command(Operand, "");
@@ -3793,6 +3799,35 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         }
     }
+    
+    private boolean add_set_reset_c_command(String Operand, int set_reset) {
+        boolean success = true;
+        if (Operand.contains("%")){
+            Operand = Operand.replaceAll("%", "");
+            String offc = Operand.split("\\.")[1];
+            Operand = Operand.split("\\.")[0];
+            Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" != 0) io_per_set_output(&io_per_d, "+Operand+", "+offc+", "+set_reset+");\n";
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(this, "Can not add instanse in store command", "Compile As Software", JOptionPane.OK_OPTION, icon);
+                success = false;
+            } catch (NumberFormatException ex) {
+                String Variable_temp;
+                String nameOfVariable = "Variabe Not Found";
+                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                    Variable_temp = Data.Vaiables[i].replace(" ", "");
+                    if (Variable_temp.contains(Operand)) {
+                        nameOfVariable = Variable_temp.split(":")[0];
+                        break;
+                    }
+                }
+                Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" != 0) "+nameOfVariable+" = "+set_reset+";\n";
+            }
+        }
+        return success;
+    }
 
     private void add_comparison_c_command(String Operand, String compare) {
         int Instant_Operand;
@@ -3979,32 +4014,13 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 success = false;
             } catch (NumberFormatException ex) {
                 String Variable_temp;
-                String typeOfVariable = "Variabe Not Found";
                 String nameOfVariable = "Variabe Not Found";
-                String Type = "NotSupported";
                 for (int i = 1; i < Data.size_Vaiables-1; i++) {
                     Variable_temp = Data.Vaiables[i].replace(" ", "");
                     if (Variable_temp.contains(Operand)) {
                         nameOfVariable = Variable_temp.split(":")[0];
-                        typeOfVariable = Variable_temp.split(":")[1];
                         break;
                     }
-                }
-                switch (typeOfVariable) {
-                    case "INT":
-                        Type = "uint32_t";
-                        break;
-                    case "BOOL":
-                        Type = "uint32_t";
-                        break;
-                    case "REAL":
-                        Type = "float";
-                        break;
-                    case "TIME":
-                        Type = "uint64_t";
-                        break;
-                    default:
-                        break;
                 }
                 Data.C_code += "\t\t"+nameOfVariable+" = "+not+"var"+(Data.Load_index-1)+";\n";
             }
@@ -4273,6 +4289,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             } else if (il_inst.split(" ")[0].contains("STN")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("STN", "");
                 success = success && add_basic_store_command(Operand, "~");
+            } else if (il_inst.split(" ")[0].contains("SET")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("SET", "");
+                add_set_reset_c_command(Operand, 1);
+            } else if (il_inst.split(" ")[0].contains("RST")) {
+                String Operand = il_inst.replaceAll(" ", "").replaceAll("RST", "");
+                add_set_reset_c_command(Operand, 0);
             } else if (il_inst.split(" ")[0].contains("LD")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("LD", "");
                 success = success && add_basic_load_command(Operand, "");

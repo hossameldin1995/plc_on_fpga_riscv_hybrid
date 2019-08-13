@@ -16,6 +16,9 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     char command[1000];
     char hex_file[500];
     char mif_file[500];
+    char arch_s[500];
+    
+    strcpy(arch_s, "-march=rv32i -mabi=ilp32");
     
     FILE *fp_in;
     FILE *fp_out;
@@ -40,7 +43,9 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     
     strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -c -o \"");
     strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".o\" -march=rv32i -Wall -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
+    strcat(command, ".o\" ");
+    strcat(command, arch_s);
+    strcat(command, " -Wall -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
     strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
     strcat(command, " -std=gnu99 -Werror=implicit-function-declaration -ffunction-sections -fdata-sections \"");
     strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
@@ -50,67 +55,85 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     res = system(command);
     
     // ASM
-    strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -march=rv32i -Wall -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
-    strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, " -std=gnu99 -Werror=implicit-function-declaration -ffunction-sections -fdata-sections -S -o \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".asm\" \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".c\" ");
-    printf("%s\n", command);
-    fflush(stdout);
-    res = system(command);
+    if (!res) {
+        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc ");
+        strcat(command, arch_s);
+        strcat(command, " -Wall -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
+        strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+        strcat(command, " -std=gnu99 -Werror=implicit-function-declaration -ffunction-sections -fdata-sections -S -o \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+        strcat(command, ".asm\" \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+        strcat(command, ".c\" ");
+        printf("%s\n", command);
+        fflush(stdout);
+        res += system(command);
+    }
     
-    strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -DCOPY_DATA_TO_RAM -c -o \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, "/start.o\" -march=rv32i -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
-    strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, " -std=gnu99 -Wall -Werror=implicit-function-declaration -ffunction-sections -fdata-sections \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, "/start.S\" ");
-    printf("%s\n", command);
-    fflush(stdout);
-    res += system(command);
+    if (!res) {
+        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -DCOPY_DATA_TO_RAM -c -o \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+        strcat(command, "/start.o\" ");
+        strcat(command, arch_s);
+        strcat(command, " -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
+        strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+        strcat(command, " -std=gnu99 -Wall -Werror=implicit-function-declaration -ffunction-sections -fdata-sections \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+        strcat(command, "/start.S\" ");
+        printf("%s\n", command);
+        fflush(stdout);
+        res += system(command);
+    }
     
-    strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -o \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".elf\" -march=rv32i -nostartfiles -L");
-    strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, " -Wl,-m,elf32lriscv --specs=nosys.specs -Wl,--no-relax -Wl,--gc-sections -Wl,-T\"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, "/load.ld\" -Wl,--Map,");
-    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".map \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".o\" \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
-    strcat(command, "/start.o\"");
-    printf("%s\n", command);
-    fflush(stdout);
-    res += system(command);
+    if (!res) {
+        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -o \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+        strcat(command, ".elf\" ");
+        strcat(command, arch_s);
+        strcat(command, " -nostartfiles -L");
+        strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+        strcat(command, " -Wl,-m,elf32lriscv --specs=nosys.specs -Wl,--no-relax -Wl,--gc-sections -Wl,-T\"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+        strcat(command, "/load.ld\" -Wl,--Map,");
+        strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+        strcat(command, ".map \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+        strcat(command, ".o\" \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
+        strcat(command, "/start.o\"");
+        printf("%s\n", command);
+        fflush(stdout);
+        res += system(command);
+    }
     
-    strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-size \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".elf\"");
-    printf("%s\n", command);
-    fflush(stdout);
-    res += system(command);
+    if (!res) {
+        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-size \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+        strcat(command, ".elf\"");
+        printf("%s\n", command);
+        fflush(stdout);
+        res += system(command);
+    }
     
-    strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-objcopy -j .text -j .data -j .rodata -O binary \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".elf\" \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".bin\"");
-    printf("%s\n", command);
-    fflush(stdout);
-    res += system(command);
+    if (!res) {
+        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-objcopy -j .text -j .data -j .rodata -O binary \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+        strcat(command, ".elf\" \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+        strcat(command, ".bin\"");
+        printf("%s\n", command);
+        fflush(stdout);
+        res += system(command);
+    }
     
-    strcpy(command, "hexdump -v -e '1/4 \"%08x\\n\"' \"");
-    strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
-    strcat(command, ".bin\" >>");
-    strcat(command, hex_file);
-    printf("%s\n", command);
-    res += system(command);
+    if (!res) {
+        strcpy(command, "hexdump -v -e '1/4 \"%08x\\n\"' \"");
+        strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
+        strcat(command, ".bin\" >>");
+        strcat(command, hex_file);
+        printf("%s\n", command);
+        res += system(command);
+    }
     fflush(stdout);
     
     fp_in = fopen(hex_file, "r");

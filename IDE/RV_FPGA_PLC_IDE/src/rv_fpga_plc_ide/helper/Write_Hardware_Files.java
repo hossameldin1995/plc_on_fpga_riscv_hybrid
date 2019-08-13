@@ -223,6 +223,7 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation\n" +
                         "set_global_assignment -name POWER_PRESET_COOLING_SOLUTION \"23 MM HEAT SINK WITH 200 LFPM AIRFLOW\"\n" +
                         "set_global_assignment -name POWER_BOARD_THERMAL_MODEL \"NONE (CONSERVATIVE)\"\n" +
+                        "set_global_assignment -name NUM_PARALLEL_PROCESSORS \"2\"" +
                         "\n" +
                         "set_location_assignment PIN_L9 -to UART_TX\n" +
                         "set_location_assignment PIN_M9 -to UART_RX\n" +
@@ -461,7 +462,6 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name VHDL_FILE hdl_code/peripherals/processor/vhdl/pp_soc_intercon.vhd\n" +
                         "set_global_assignment -name VHDL_FILE hdl_code/peripherals/processor/vhdl/aee_rom_wrapper.vhd\n" +
                         "set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_variable/TON/vhdl/TON_Peripheral.vhd\n" +
-                        "set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_variable/TON/vhdl/Timer_on_64_Controller.vhd\n" +
                         "set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_variable/TON/vhdl/Counter_Down_64_bit_Cin.vhd\n" +
                         "set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_constant/time_measurement/vhdl/Write_To_Hexa.vhd\n" +
                         "set_global_assignment -name VHDL_FILE hdl_code/peripherals/func_block_constant/time_measurement/vhdl/Time_Measurement_Peripheral.vhd\n" +

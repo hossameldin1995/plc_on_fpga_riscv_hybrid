@@ -48,3 +48,9 @@ Version 0.13
 8 - Add Div and Mult 32 bit to hdl files
 9 - Add PWM_32_bit to hdl files
 
+Version 0.14
+==========================================================================================================================
+1 - Update riscv-gnu-toolchain commands to the latest (add -march=rv32i -mabi=ilp32 instead of -march=rv32i)
+2 - resolve some warinig in QSF file
+3 - stop compilation when error occured in (compile_c_file_.c)
+ 

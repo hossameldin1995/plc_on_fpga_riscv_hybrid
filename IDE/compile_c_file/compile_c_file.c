@@ -1,7 +1,7 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include<string.h>
-#include<unistd.h>     // access function
+#include <string.h>
+#include <unistd.h>     // access function
 
 #include"compile_c_file.h"
 
@@ -17,8 +17,10 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     char hex_file[500];
     char mif_file[500];
     char arch_s[500];
+    char compiler_path_s[500];
     
     strcpy(arch_s, "-march=rv32i -mabi=ilp32");
+    strcpy(compiler_path_s, "/opt/riscv32/bin/");
     
     FILE *fp_in;
     FILE *fp_out;
@@ -41,7 +43,8 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     }
     fclose(fp_out);
     
-    strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -c -o \"");
+    strcpy(command, compiler_path_s);
+    strcat(command, "riscv32-unknown-elf-gcc -c -o \"");
     strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
     strcat(command, ".o\" ");
     strcat(command, arch_s);
@@ -56,7 +59,8 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     
     // ASM
     if (!res) {
-        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc ");
+        strcpy(command, compiler_path_s);
+        strcat(command, "riscv32-unknown-elf-gcc ");
         strcat(command, arch_s);
         strcat(command, " -Wall -Os -fomit-frame-pointer -ffreestanding -fno-builtin -I");
         strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
@@ -71,7 +75,8 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     }
     
     if (!res) {
-        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -DCOPY_DATA_TO_RAM -c -o \"");
+        strcpy(command, compiler_path_s);
+        strcat(command, "riscv32-unknown-elf-gcc -DCOPY_DATA_TO_RAM -c -o \"");
         strcat(command, (*env)->GetStringUTFChars(env, c_Folder_path, 0));
         strcat(command, "/start.o\" ");
         strcat(command, arch_s);
@@ -86,7 +91,8 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     }
     
     if (!res) {
-        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-gcc -o \"");
+        strcpy(command, compiler_path_s);
+        strcat(command, "riscv32-unknown-elf-gcc -o \"");
         strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
         strcat(command, ".elf\" ");
         strcat(command, arch_s);
@@ -107,7 +113,8 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     }
     
     if (!res) {
-        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-size \"");
+        strcpy(command, compiler_path_s);
+        strcat(command, "riscv32-unknown-elf-size \"");
         strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
         strcat(command, ".elf\"");
         printf("%s\n", command);
@@ -116,7 +123,8 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     }
     
     if (!res) {
-        strcpy(command, "/opt/riscv/bin/riscv32-unknown-elf-objcopy -j .text -j .data -j .rodata -O binary \"");
+        strcpy(command, compiler_path_s);
+        strcat(command, "riscv32-unknown-elf-objcopy -j .text -j .data -j .rodata -O binary \"");
         strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));
         strcat(command, ".elf\" \"");
         strcat(command, (*env)->GetStringUTFChars(env, c_File_path, 0));

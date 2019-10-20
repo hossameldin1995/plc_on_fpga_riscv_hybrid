@@ -38,8 +38,8 @@
       <compileType>
         <cTool>
           <incDir>
-            <pElem>/usr/lib/jvm/java-1.8.0-openjdk-amd64/include</pElem>
-            <pElem>/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux</pElem>
+            <pElem>/usr/lib/jvm/java-11-openjdk-amd64/include</pElem>
+            <pElem>/usr/lib/jvm/java-11-openjdk-amd64/include/linux</pElem>
           </incDir>
           <commandLine>-shared</commandLine>
         </cTool>

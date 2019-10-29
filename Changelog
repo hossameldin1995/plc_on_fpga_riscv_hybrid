@@ -52,10 +52,16 @@ Version 0.14
 ==========================================================================================================================
 1 - Update riscv-gnu-toolchain commands to the latest (add -march=rv32i -mabi=ilp32 instead of -march=rv32i)
 2 - resolve some warinig in QSF file
-3 - stop compilation when error occured in (compile_c_file_.c)
- 
+3 - stop compilation when error occured in (compile_c_file_.c) 
+
 Version 0.15
 ==========================================================================================================================
 1 - Update liberaries in Software folder with the latest (timer_hw and pwm_hw)
 2 - Add support for Set and Reset commands
 3 - Add project "Timer_PWM_MUL_DIV" to start changing memory arch and making Memory Controle Unit
+
+Version 0.16
+==========================================================================================================================
+1 - Update compiler path in "compile_c_file.c" to be variable in case of changing compiler path
+2 - Upadte project files to be compatable with netbeans 11.1 instead of 10.0
+3 - Update java files to jvm 11 instead of 1.8.0

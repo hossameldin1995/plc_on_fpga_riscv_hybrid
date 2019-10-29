@@ -65,7 +65,7 @@ LDLIBSOPTIONS=
 ${OBJECTDIR}/compile_c_file.o: compile_c_file.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g -I/usr/lib/jvm/java-1.8.0-openjdk-amd64/include -I/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/compile_c_file.o compile_c_file.c
+	$(COMPILE.c) -g -I/usr/lib/jvm/java-11-openjdk-amd64/include -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/compile_c_file.o compile_c_file.c
 
 # Subprojects
 .build-subprojects:

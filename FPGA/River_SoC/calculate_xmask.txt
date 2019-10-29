@@ -1,0 +1,9 @@
+abits = log2(size)
+xmask = 1048576 - 2^(abits - 12)
+
+size	abits	xmask(dec)		xmask(hex)
+32KB	15		1048568			FFFF8
+64KB	16		1048560			FFFF0
+128KB	17		1048544			FFFE0
+256KB	18		1048512			FFFC0
+512KB	19		1048448			FFF80

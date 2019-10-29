@@ -1,0 +1,370 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2018  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
+# Date created = 18:37:11  September 05, 2019
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		River_SoC_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CGXFC5C6F27C7
+set_global_assignment -name TOP_LEVEL_ENTITY RV_FPGA_PLC_River
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.0.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "18:37:11  SEPTEMBER 05, 2019"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.0.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_location_assignment PIN_L9 -to UART_TX
+set_location_assignment PIN_M9 -to UART_RX
+set_location_assignment PIN_AC9 -to SW[0]
+set_location_assignment PIN_AE10 -to SW[1]
+set_location_assignment PIN_AD13 -to SW[2]
+set_location_assignment PIN_AC8 -to SW[3]
+set_location_assignment PIN_W11 -to SW[4]
+set_location_assignment PIN_AB10 -to SW[5]
+set_location_assignment PIN_V10 -to SW[6]
+set_location_assignment PIN_AC10 -to SW[7]
+set_location_assignment PIN_Y11 -to SW[8]
+set_location_assignment PIN_AE19 -to SW[9]
+set_location_assignment PIN_F7 -to LEDR[0]
+set_location_assignment PIN_F6 -to LEDR[1]
+set_location_assignment PIN_G6 -to LEDR[2]
+set_location_assignment PIN_G7 -to LEDR[3]
+set_location_assignment PIN_J8 -to LEDR[4]
+set_location_assignment PIN_J7 -to LEDR[5]
+set_location_assignment PIN_K10 -to LEDR[6]
+set_location_assignment PIN_K8 -to LEDR[7]
+set_location_assignment PIN_H7 -to LEDR[8]
+set_location_assignment PIN_J10 -to LEDR[9]
+set_location_assignment PIN_L7 -to LEDG[0]
+set_location_assignment PIN_K6 -to LEDG[1]
+set_location_assignment PIN_D8 -to LEDG[2]
+set_location_assignment PIN_E9 -to LEDG[3]
+set_location_assignment PIN_A5 -to LEDG[4]
+set_location_assignment PIN_B6 -to LEDG[5]
+set_location_assignment PIN_H8 -to LEDG[6]
+set_location_assignment PIN_H9 -to LEDG[7]
+set_location_assignment PIN_P11 -to KEY_n[0]
+set_location_assignment PIN_P12 -to KEY_n[1]
+set_location_assignment PIN_Y15 -to KEY_n[2]
+set_location_assignment PIN_Y16 -to KEY_n[3]
+set_location_assignment PIN_AA18 -to HEX1[0]
+set_location_assignment PIN_AD26 -to HEX1[1]
+set_location_assignment PIN_AB19 -to HEX1[2]
+set_location_assignment PIN_AE26 -to HEX1[3]
+set_location_assignment PIN_AE25 -to HEX1[4]
+set_location_assignment PIN_AC19 -to HEX1[5]
+set_location_assignment PIN_AF24 -to HEX1[6]
+set_location_assignment PIN_V19 -to HEX0[0]
+set_location_assignment PIN_V18 -to HEX0[1]
+set_location_assignment PIN_V17 -to HEX0[2]
+set_location_assignment PIN_W18 -to HEX0[3]
+set_location_assignment PIN_Y20 -to HEX0[4]
+set_location_assignment PIN_Y19 -to HEX0[5]
+set_location_assignment PIN_Y18 -to HEX0[6]
+set_location_assignment PIN_T13 -to CLOCK_50_B3B
+set_location_assignment PIN_R20 -to CLOCK_50_B5B
+set_location_assignment PIN_N20 -to CLOCK_50_B6A
+set_location_assignment PIN_H12 -to CLOCK_50_B7A
+set_location_assignment PIN_M10 -to CLOCK_50_B8A
+set_location_assignment PIN_U12 -to CLOCK_125_p
+set_location_assignment PIN_AB24 -to CPU_RESET_n
+set_location_assignment PIN_V12 -to "CLOCK_125_p(n)"
+set_location_assignment PIN_T21 -to GPIO_IN[0]
+set_location_assignment PIN_D26 -to GPIO_IN[1]
+set_location_assignment PIN_Y9 -to GPIO_IN[17]
+set_location_assignment PIN_F26 -to GPIO_IN[16]
+set_location_assignment PIN_R10 -to GPIO_IN[15]
+set_location_assignment PIN_R9 -to GPIO_IN[14]
+set_location_assignment PIN_R8 -to GPIO_IN[13]
+set_location_assignment PIN_P8 -to GPIO_IN[12]
+set_location_assignment PIN_U22 -to GPIO_IN[11]
+set_location_assignment PIN_U19 -to GPIO_IN[10]
+set_location_assignment PIN_K25 -to GPIO_IN[2]
+set_location_assignment PIN_K26 -to GPIO_IN[4]
+set_location_assignment PIN_E26 -to GPIO_IN[3]
+set_location_assignment PIN_M26 -to GPIO_IN[5]
+set_location_assignment PIN_M21 -to GPIO_IN[6]
+set_location_assignment PIN_P20 -to GPIO_IN[7]
+set_location_assignment PIN_T22 -to GPIO_IN[8]
+set_location_assignment PIN_T19 -to GPIO_IN[9]
+set_location_assignment PIN_Y8 -to GPIO_OUT[1]
+set_location_assignment PIN_AA7 -to GPIO_OUT[2]
+set_location_assignment PIN_G26 -to GPIO_OUT[0]
+set_location_assignment PIN_AA6 -to GPIO_OUT[3]
+
+set_instance_assignment -name IO_STANDARD "1.2 V" -to CLOCK_50_B3B
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50_B5B
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50_B6A
+set_instance_assignment -name IO_STANDARD "2.5 V" -to CLOCK_50_B7A
+set_instance_assignment -name IO_STANDARD "2.5 V" -to CLOCK_50_B8A
+set_instance_assignment -name IO_STANDARD LVDS -to CLOCK_125_p
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CPU_RESET_n
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX0[0]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX0[1]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX0[2]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX0[3]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX0[4]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX0[5]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX0[6]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX1[0]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX1[1]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX1[2]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX1[3]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX1[4]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX1[5]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to HEX1[6]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to KEY_n[3]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to KEY_n[2]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to KEY_n[1]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to KEY_n[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[9]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[8]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[7]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[6]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[5]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[4]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[3]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[2]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[1]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDG[7]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDG[6]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDG[5]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDG[4]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDG[3]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDG[2]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDG[1]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDG[0]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[9]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[8]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[7]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[6]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[5]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[4]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[3]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[2]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[1]
+set_instance_assignment -name IO_STANDARD "1.2 V" -to SW[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to UART_TX
+set_instance_assignment -name IO_STANDARD "2.5 V" -to UART_RX
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[17]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[16]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_IN[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[16]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GPIO_OUT[17]
+set_location_assignment PIN_AD7 -to HEX2[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[0]
+set_location_assignment PIN_AD6 -to HEX2[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[6]
+set_location_assignment PIN_U20 -to HEX2[2]
+set_location_assignment PIN_V22 -to HEX2[3]
+set_location_assignment PIN_V20 -to HEX2[4]
+set_location_assignment PIN_W21 -to HEX2[5]
+set_location_assignment PIN_W20 -to HEX2[6]
+set_location_assignment PIN_Y24 -to HEX3[0]
+set_location_assignment PIN_Y23 -to HEX3[1]
+set_location_assignment PIN_AA23 -to HEX3[2]
+set_location_assignment PIN_AA22 -to HEX3[3]
+set_location_assignment PIN_AC24 -to HEX3[4]
+set_location_assignment PIN_AC23 -to HEX3[5]
+set_location_assignment PIN_AC22 -to HEX3[6]
+
+set_global_assignment -name VHDL_FILE rtl/funcblocklib/TON/Counter_Down_64_bit_Cin.vhd
+set_global_assignment -name QIP_FILE rtl/arithlib/mul_int_64.qip
+set_global_assignment -name QIP_FILE rtl/arithlib/mul_int_32.qip
+set_global_assignment -name QIP_FILE rtl/arithlib/div_int_64.qip
+set_global_assignment -name QIP_FILE rtl/arithlib/div_int_32.qip
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/int_div_cyclone_v.vhd
+set_global_assignment -name MIF_FILE helloworld_gpio.mif
+set_global_assignment -name MIF_FILE bootimage.mif
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/int_mul_cyclone_v.vhd
+set_global_assignment -name HEX_FILE helloworld_gpio.hex
+set_global_assignment -name HEX_FILE dhrystone21.hex
+set_global_assignment -name HEX_FILE bootimage.hex
+set_global_assignment -name VHDL_FILE rtl/prj/cyclone_v/config_cyclone_v.vhd
+set_global_assignment -name VHDL_FILE rtl/ethlib/types_eth.vhd
+set_global_assignment -name VHDL_FILE rtl/ethlib/grethc64.vhd
+set_global_assignment -name VHDL_FILE rtl/ethlib/grethaxi.vhd
+set_global_assignment -name VHDL_FILE rtl/ethlib/greth_tx.vhd
+set_global_assignment -name VHDL_FILE rtl/ethlib/greth_rx.vhd
+set_global_assignment -name VHDL_FILE rtl/ethlib/eth_rstgen.vhd
+set_global_assignment -name VHDL_FILE rtl/ethlib/eth_axi_mst.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/types_misc.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/tap_uart.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/tap_jtag.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/reset_glb.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/dcom_uart.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/dcom_jtag.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/axi4_uart.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/axi4_sram.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/axi4_rom.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/axi4_pnp.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/axi4_irqctrl.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/axi4_gptimers.vhd
+set_global_assignment -name VHDL_FILE rtl/misclib/axi4_gpio.vhd
+set_global_assignment -name VHDL_FILE rtl/work/riscv_soc.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/types_buf.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/obuf_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/obuf_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/iobuf_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/iobuf_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/iobuf_cyclone_5.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/igdsbuf_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/idsbuf_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/ibufg_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/ibuf_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/ibuf_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/bufg/bufgmux_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/ambalib/types_bus0.vhd
+set_global_assignment -name VHDL_FILE rtl/ambalib/types_amba4.vhd
+set_global_assignment -name VHDL_FILE rtl/ambalib/axislv.vhd
+set_global_assignment -name VHDL_FILE rtl/ambalib/axictrl_bus0.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/types_mem.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/syncram_2p_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/syncram_2p_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/srambytes_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/sram8_inferred_init.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/sram8_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/romprn_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/romprn_micron180.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/romprn_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/rom_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/rom_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/ram_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/ram_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/ram32x2_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/ram32_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/ram32_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/dpram_tech.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/mem/dpram_inferred.vhd
+set_global_assignment -name VHDL_FILE rtl/techmap/gencomp/gencomp.vhd
+set_global_assignment -name VHDL_FILE rtl/commonlib/types_util.vhd
+set_global_assignment -name VHDL_FILE rtl/commonlib/types_common.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/cache/types_cache.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/cache/iwaymem.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/cache/ilru.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/cache/icache_lru.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/cache/icache.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/cache/dcache.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/cache/cache_top.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/l2d_d.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/imul53.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/idiv53.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/fpu_top.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/fmul_d.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/fdiv_d.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/fadd_d.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/divstage53.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/d2l_d.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/shift.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/int_mul.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/int_div.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/divstage64.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/stacktrbuf.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/regibank.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/regfbank.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/proc.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/memaccess.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/fetch.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/execute.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/decoder.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/dbg_port.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/csr.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/core/bp_predic.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/dsu/axi_dsu.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/types_river.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/river_top.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/river_cfg.vhd
+set_global_assignment -name VHDL_FILE rtl/riverlib/river_amba.vhd
+set_global_assignment -name VHDL_FILE rtl/toplevel.vhd
+set_global_assignment -name QIP_FILE rtl/clock_generator/clock_generator.qip
+set_global_assignment -name SIP_FILE rtl/clock_generator/clock_generator.sip
+set_global_assignment -name VHDL_FILE RV_FPGA_PLC_River.vhd
+set_global_assignment -name VHDL_FILE rtl/axi4_ton.vhd
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

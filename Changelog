@@ -65,3 +65,11 @@ Version 0.16
 1 - Update compiler path in "compile_c_file.c" to be variable in case of changing compiler path
 2 - Upadte project files to be compatable with netbeans 11.1 instead of 10.0
 3 - Update java files to jvm 11 instead of 1.8.0
+
+Version 0.20
+==========================================================================================================================
+1 - Adding River Soc project in FPGA folder.
+2 - Copy River files from the repo (TAG ver. 9.0) https://github.com/sergeykhbr/riscv_vhdl
+3 - Modefy files to be compatable with cyclone_v FPGA (Previous: xilinx)
+4 - Making FPU, MUL and DIV configurable in confg design file.
+5 - IO-Perepheral and TON are working on axi4.

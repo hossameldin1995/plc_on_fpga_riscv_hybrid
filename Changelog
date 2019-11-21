@@ -73,3 +73,12 @@ Version 0.20
 3 - Modefy files to be compatable with cyclone_v FPGA (Previous: xilinx)
 4 - Making FPU, MUL and DIV configurable in confg design file.
 5 - IO-Perepheral and TON are working on axi4.
+
+Version 1.00
+==========================================================================================================================
+1 - Adding new option for project to be RV32(Potato) or RV64(River)
+2 - Modify ".rfpinfo" files to hold which core is used (RV32 or RV64)
+3 - Adding new folder "Software_River" that contaiins software programes for R64 core
+4 - Adding SDC file in FPGA project for timing constrains in River_SoC
+5 - PWM, TON, Time Measurements now working on River_SoC
+6 - Adding 10MH for PWM peripheral

@@ -47,6 +47,7 @@ architecture behaviour of toplevel is
 			refclk   : in  std_logic := '0'; --  refclk.clk
 			rst      : in  std_logic := '0'; --   reset.reset
 			outclk_0 : out std_logic;        -- outclk0.clk
+			outclk_1 : out std_logic;        -- outclk0.clk
 			locked   : out std_logic         --  locked.export
 		);
 	end component;
@@ -55,6 +56,7 @@ architecture behaviour of toplevel is
 		port ( 
 			i_rst    : in std_logic;
 			i_clk  	: in std_logic;
+			i_clk_50	: in std_logic;
 			--! GPIO.
 			--i_gpio     : in std_logic_vector(11 downto 0);
 			--o_gpio     : out std_logic_vector(11 downto 0);
@@ -110,6 +112,7 @@ architecture behaviour of toplevel is
 	
 	signal system_rst				: std_logic;
 	signal system_clk				: std_logic;
+	signal clk_50					: std_logic;
 	signal system_clk_locked	: std_logic;
 	signal system_gnd				: std_logic;
 	
@@ -123,6 +126,7 @@ begin
 			refclk	=> clk,
 			rst 		=> reset,
 			outclk_0	=> system_clk,
+			outclk_1	=> clk_50,
 			locked 	=> system_clk_locked
 		);
 	
@@ -130,6 +134,7 @@ begin
 		port map(
 			i_rst				=> system_rst,
 			i_clk				=> system_clk,
+			i_clk_50			=> clk_50,
 			i_uart1_ctsn	=> system_gnd,
 			i_uart1_rd		=> uart0_rxd,
 			o_uart1_td		=>	uart0_txd,

@@ -3,7 +3,7 @@ USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_SIGNED.ALL;
 
 entity PWM_32_bit is
-port( clk, reset	: in STD_LOGIC;
+port( clk, nrst	: in STD_LOGIC;
 		EN				: in STD_LOGIC;
 		T_Count		: in STD_LOGIC_VECTOR(31 downto 0);
 		Comp_Count	: in STD_LOGIC_VECTOR(31 downto 0);
@@ -16,14 +16,14 @@ architecture RTL of PWM_32_bit is
 	
 	begin
 	
-	process(clk, reset)
+	process(clk, nrst)
 		begin
-		if (rising_edge(clk) and EN = '1') then
-			if reset = '1' then 
-				T_Count_T		<= (others => '0');
-				Comp_Count_T	<= (others => '0');
-				Y_OUT				<= '0';
-			elsif T_Count_T = X"00000000" then
+		if nrst = '0' then 
+			T_Count_T		<= (others => '0');
+			Comp_Count_T	<= (others => '0');
+			Y_OUT				<= '0';
+		elsif (rising_edge(clk) and EN = '1') then
+			if T_Count_T = X"00000000" then
 				T_Count_T		<= T_Count;
 				Comp_Count_T	<= Comp_Count;
 				Y_OUT				<= '0';

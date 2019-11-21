@@ -53,7 +53,7 @@ package config_target is
   constant CFG_DSU_ENABLE : boolean := false;
   
   constant CFG_FPU_ENABLE : boolean := false;
-  constant CFG_MUL_ENABLE : boolean := false;
-  constant CFG_DIV_ENABLE : boolean := false;
+  constant CFG_MUL_ENABLE : boolean := true;
+  constant CFG_DIV_ENABLE : boolean := true;
 
 end;

@@ -22,7 +22,9 @@
 -- 0x80001000		4  KB		UART1
 -- 0x80002000		4  KB		IRQ Controller
 -- 0x80003000		4  KB		GP Timers				Two general purpose timers with RTC
--- 0x80004000		4  KB		TON0
+-- 0x80004000		4	KB		Time Measurement
+-- 0x80005000		4  KB		TON0
+-- 0x80006000		4  KB		PWM0
 
 --! Standard library
 library IEEE;
@@ -65,7 +67,8 @@ use work.config_target.all;
 entity riscv_soc is port 
 ( 
   i_rst     : in std_logic;
-  i_clk  : in std_logic;
+  i_clk  	: in std_logic;
+  i_clk_50	: in std_logic;
   --! GPIO.
   --i_gpio     : in std_logic_vector(11 downto 0);
   --o_gpio     : out std_logic_vector(11 downto 0);
@@ -536,10 +539,26 @@ begin
   --  o      => axiso(CFG_BUS0_XSLV_PNP)
   --);
 
-
-  TON : entity work.axi4_ton generic map (
+  time_measurement : entity work.axi4_time_measurement generic map (
     async_reset => CFG_ASYNC_RESET,
     xaddr    => 16#80004#,
+    xmask    => 16#fffff#,
+    xirq     => 0
+  ) port map (
+    clk   	=> i_clk,
+    nrst  	=> w_glob_nrst,
+    cfg   	=> slv_cfg(CFG_BUS0_XSLV_TIME_MEASUREMENT),
+    i			=> axisi(CFG_BUS0_XSLV_TIME_MEASUREMENT),
+    o			=> axiso(CFG_BUS0_XSLV_TIME_MEASUREMENT),
+	 HEX0			=> HEX0,
+	 HEX1			=> HEX1,
+	 HEX2			=> HEX2,
+	 HEX3			=> HEX3
+  );
+
+  TON0 : entity work.axi4_ton generic map (
+    async_reset => CFG_ASYNC_RESET,
+    xaddr    => 16#80005#,
     xmask    => 16#fffff#,
     xirq     => 0
   ) port map (
@@ -548,5 +567,19 @@ begin
     cfg   	=> slv_cfg(CFG_BUS0_XSLV_TON0),
     i			=> axisi(CFG_BUS0_XSLV_TON0),
     o			=> axiso(CFG_BUS0_XSLV_TON0)
+  );
+  
+  PWM0 : entity work.axi4_pwm generic map (
+    async_reset => CFG_ASYNC_RESET,
+    xaddr    => 16#80006#,
+    xmask    => 16#fffff#,
+    xirq     => 0
+  ) port map (
+    clk   	=> i_clk,
+    clk_50 	=> i_clk_50,
+    nrst  	=> w_glob_nrst,
+    cfg   	=> slv_cfg(CFG_BUS0_XSLV_PWM0),
+    i			=> axisi(CFG_BUS0_XSLV_PWM0),
+    o			=> axiso(CFG_BUS0_XSLV_PWM0)
   );
 end arch_riscv_soc;

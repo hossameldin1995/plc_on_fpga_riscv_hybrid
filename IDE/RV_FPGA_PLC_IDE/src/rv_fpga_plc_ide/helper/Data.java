@@ -27,6 +27,7 @@ public class Data {
     public static boolean Compile_Enabeled = false;
     
     public static String Project_Name = "No Project";
+    public static String Project_Name_temp = "No Project";
     public static String[][] Program_2D;
     public static String[] Program_1D;
     public static String[] Vaiables;
@@ -83,4 +84,9 @@ public class Data {
     public static int Number_Of_PWMs_Compiled = 0;
     public static int Number_Of_PWMs_In_Program = 0;
     public static String[] Name_of_PWMs = new String[50];
+    
+    
+    public static final int R32 = 0;
+    public static final int R64 = 1;
+    public static int core = R32;
 }

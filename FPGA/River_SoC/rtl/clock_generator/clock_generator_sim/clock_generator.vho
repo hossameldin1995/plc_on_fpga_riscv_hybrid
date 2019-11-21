@@ -35,6 +35,7 @@
 	 ( 
 		 locked	:	OUT  STD_LOGIC;
 		 outclk_0	:	OUT  STD_LOGIC;
+		 outclk_1	:	OUT  STD_LOGIC;
 		 refclk	:	IN  STD_LOGIC;
 		 rst	:	IN  STD_LOGIC
 	 ); 
@@ -45,14 +46,15 @@
 	 ATTRIBUTE synthesis_clearbox : natural;
 	 ATTRIBUTE synthesis_clearbox OF RTL : ARCHITECTURE IS 1;
 	 SIGNAL  wire_gnd	:	STD_LOGIC;
-	 SIGNAL  wire_clock_generator_altera_pll_altera_pll_i_639_locked	:	STD_LOGIC;
-	 SIGNAL  wire_clock_generator_altera_pll_altera_pll_i_639_outclk	:	STD_LOGIC_VECTOR (0 DOWNTO 0);
+	 SIGNAL  wire_clock_generator_altera_pll_altera_pll_i_1098_locked	:	STD_LOGIC;
+	 SIGNAL  wire_clock_generator_altera_pll_altera_pll_i_1098_outclk	:	STD_LOGIC_VECTOR (1 DOWNTO 0);
  BEGIN
 
 	wire_gnd <= '0';
-	locked <= wire_clock_generator_altera_pll_altera_pll_i_639_locked;
-	outclk_0 <= wire_clock_generator_altera_pll_altera_pll_i_639_outclk(0);
-	clock_generator_altera_pll_altera_pll_i_639 :  altera_pll
+	locked <= wire_clock_generator_altera_pll_altera_pll_i_1098_locked;
+	outclk_0 <= wire_clock_generator_altera_pll_altera_pll_i_1098_outclk(0);
+	outclk_1 <= wire_clock_generator_altera_pll_altera_pll_i_1098_outclk(1);
+	clock_generator_altera_pll_altera_pll_i_1098 :  altera_pll
 	  GENERIC MAP (
 		c_cnt_bypass_en0 => "false",
 		c_cnt_bypass_en1 => "false",
@@ -228,10 +230,10 @@
 		n_cnt_hi_div => 1,
 		n_cnt_lo_div => 1,
 		n_cnt_odd_div_duty_en => "false",
-		number_of_clocks => 1,
+		number_of_clocks => 2,
 		operation_mode => "direct",
-		output_clock_frequency0 => "40.000000 MHz",
-		output_clock_frequency1 => "0 MHz",
+		output_clock_frequency0 => "75.000000 MHz",
+		output_clock_frequency1 => "50.000000 MHz",
 		output_clock_frequency10 => "0 MHz",
 		output_clock_frequency11 => "0 MHz",
 		output_clock_frequency12 => "0 MHz",
@@ -290,13 +292,13 @@
 		pll_vco_div => 1,
 		pll_vcoph_div => 1,
 		refclk1_frequency => "0 MHz",
-		reference_clock_frequency => "125.0 MHz",
+		reference_clock_frequency => "100.0 MHz",
 		sim_additional_refclk_cycles_to_lock => 0
 	  )
 	  PORT MAP ( 
 		fbclk => wire_gnd,
-		locked => wire_clock_generator_altera_pll_altera_pll_i_639_locked,
-		outclk => wire_clock_generator_altera_pll_altera_pll_i_639_outclk,
+		locked => wire_clock_generator_altera_pll_altera_pll_i_1098_locked,
+		outclk => wire_clock_generator_altera_pll_altera_pll_i_1098_outclk,
 		refclk => refclk,
 		rst => rst
 	  );

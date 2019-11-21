@@ -1,0 +1,10 @@
+riscv64-unknown-elf-gcc -c -fPIC -g -O0 -I../../common -I../../helloworld_gpio/src ../../helloworld_gpio/src/main.c -o ../../helloworld_gpio/makefiles/obj/main.o
+riscv64-unknown-elf-gcc -c -fPIC -g -O0 -I../../common -I../../helloworld_gpio/src ../../helloworld_gpio/src/helloworld.c -o ../../helloworld_gpio/makefiles/obj/helloworld.o
+riscv64-unknown-elf-gcc -static -T app.ld -nostartfiles ../../helloworld_gpio/makefiles/obj/main.o ../../helloworld_gpio/makefiles/obj/helloworld.o -o ../../helloworld_gpio/makefiles/bin/helloworld_gpio -lgcc -lstdc++ -lc -lm
+
+  helloworld_gpio has been built successfully.
+
+elf2rawx ../../helloworld_gpio/makefiles/bin/helloworld_gpio -h -f 65536 -l 8 -o ../../helloworld_gpio/makefiles/bin/helloworld_gpio.hex
+elf2rawx: Loaded: 53860 B
+elf2rawx: HexRom was generated: 8192x64 lines
+hex2mif ../../helloworld_gpio/makefiles/bin/helloworld_gpio.hex ../../helloworld_gpio/makefiles/bin/helloworld_gpio.mif 8192

@@ -255,11 +255,18 @@ set_location_assignment PIN_AC24 -to HEX3[4]
 set_location_assignment PIN_AC23 -to HEX3[5]
 set_location_assignment PIN_AC22 -to HEX3[6]
 
+set_global_assignment -name SDC_FILE River_SoC.sdc
+set_global_assignment -name VHDL_FILE rtl/funcblocklib/time_measurement/Write_To_Hexa.vhd
+set_global_assignment -name VHDL_FILE rtl/funcblocklib/time_measurement/Time_Calculation.vhd
+set_global_assignment -name VERILOG_FILE rtl/funcblocklib/time_measurement/SEG7_LUT_4.v
+set_global_assignment -name VERILOG_FILE rtl/funcblocklib/time_measurement/SEG7_LUT.v
+set_global_assignment -name VHDL_FILE rtl/CAS.vhd
+set_global_assignment -name QIP_FILE rtl/arithlib/MULT/mul_int_64.qip
+set_global_assignment -name QIP_FILE rtl/arithlib/MULT/mul_int_32.qip
+set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_64.qip
+set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_32.qip
+set_global_assignment -name VHDL_FILE rtl/funcblocklib/PWM/PWM_32_bit.vhd
 set_global_assignment -name VHDL_FILE rtl/funcblocklib/TON/Counter_Down_64_bit_Cin.vhd
-set_global_assignment -name QIP_FILE rtl/arithlib/mul_int_64.qip
-set_global_assignment -name QIP_FILE rtl/arithlib/mul_int_32.qip
-set_global_assignment -name QIP_FILE rtl/arithlib/div_int_64.qip
-set_global_assignment -name QIP_FILE rtl/arithlib/div_int_32.qip
 set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/int_div_cyclone_v.vhd
 set_global_assignment -name MIF_FILE helloworld_gpio.mif
 set_global_assignment -name MIF_FILE bootimage.mif
@@ -367,4 +374,8 @@ set_global_assignment -name QIP_FILE rtl/clock_generator/clock_generator.qip
 set_global_assignment -name SIP_FILE rtl/clock_generator/clock_generator.sip
 set_global_assignment -name VHDL_FILE RV_FPGA_PLC_River.vhd
 set_global_assignment -name VHDL_FILE rtl/axi4_ton.vhd
+set_global_assignment -name VHDL_FILE rtl/axi4_pwm.vhd
+set_global_assignment -name VHDL_FILE rtl/funcblocklib/PWM/PWM_Signal.vhd
+set_global_assignment -name VHDL_FILE rtl/axi4_time_measurement.vhd
+set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_32_speed.qip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

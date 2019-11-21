@@ -86,6 +86,7 @@ begin
   regs : process(clk, nrst)
   begin 
      if async_reset and nrst = '0' then
+			wb_dev_rdata<= (OTHERS => '0');
 			PT       <= (OTHERS => '0');
 			IN_T     <= '0';
      elsif rising_edge(clk) then 

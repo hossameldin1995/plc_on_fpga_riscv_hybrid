@@ -4,6 +4,7 @@ Max Size of Program    = 12
 Number of Rungs        = 1
     Rung (1) Size      = 12
 Number of Variables    = 3
+Core                   = 0
 HDL Compilation State  = 0
 HDL Compilation Type   = 0
 Compiled Timers        = 0

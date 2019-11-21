@@ -59,10 +59,21 @@ constant CFG_BUS0_XSLV_IRQCTRL  : integer := 5;
 --! Configuration index of the Debug Support Unit module.
 constant CFG_BUS0_XSLV_GPTIMERS : integer := 6;
 --! Configuration index of the Plug-n-Play module.
-constant CFG_BUS0_XSLV_PNP      : integer := 7;
-constant CFG_BUS0_XSLV_TON0     : integer := 8;
+--constant CFG_BUS0_XSLV_PNP      : integer := 7;
+constant CFG_BUS0_XSLV_TIME_MEASUREMENT : integer := 7;
+constant CFG_BUS0_XSLV_PWM0     : integer := 8;
+constant CFG_BUS0_XSLV_TON0     : integer := 9;
+--constant CFG_BUS0_XSLV_TON1     : integer := 9;
+--constant CFG_BUS0_XSLV_TON2     : integer := 10;
+--constant CFG_BUS0_XSLV_TON3     : integer := 11;
+--constant CFG_BUS0_XSLV_TON4     : integer := 12;
+--constant CFG_BUS0_XSLV_TON5     : integer := 13;
+--constant CFG_BUS0_XSLV_TON6     : integer := 14;
+--constant CFG_BUS0_XSLV_TON7     : integer := 15;
+--constant CFG_BUS0_XSLV_TON8     : integer := 16;
+--constant CFG_BUS0_XSLV_TON9     : integer := 17;
 --! Total number of the slaves devices.
-constant CFG_BUS0_XSLV_TOTAL   : integer := 9;  
+constant CFG_BUS0_XSLV_TOTAL   : integer := 10;  
 --! @}
 
 --! @defgroup master_id_group AXI4 masters generic IDs.

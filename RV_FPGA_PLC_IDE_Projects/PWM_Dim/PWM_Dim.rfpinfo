@@ -5,6 +5,7 @@ Number of Rungs        = 2
     Rung (1) Size      = 12
     Rung (2) Size      = 4
 Number of Variables    = 2
+Core                   = 0
 HDL Compilation State  = 4
 HDL Compilation Type   = 2
 Compiled Timers        = 0

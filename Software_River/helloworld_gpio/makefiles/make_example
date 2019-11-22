@@ -4,8 +4,23 @@ CC=riscv64-unknown-elf-gcc
 CPP=riscv64-unknown-elf-gcc
 OBJDUMP=riscv64-unknown-elf-objdump
 
-CFLAGS= -c -fPIC -g -O0
+FPU_ENABLED=0
+
+CFLAGS= -c -g -static -std=gnu99 -Ofast -fno-common -fno-builtin-printf
+ifeq ($(FPU_ENABLED), 1)
+  CFLAGS += -march=rv64imafd -DFPU_ENABLED
+else
+  CFLAGS += -march=rv64imac -mabi=lp64
+endif
+
+
 LDFLAGS=-static -T app.ld -nostartfiles
+ifeq ($(FPU_ENABLED), 1)
+else
+  LDFLAGS += -march=rv64imac -mabi=lp64
+endif
+
+
 INCL_KEY=-I
 DIR_KEY=-B
 
@@ -29,7 +44,7 @@ VPATH = $(SRC_PATH)
 
 SOURCES = \
 	main \
-	helloworld
+	helloworld_gpio
 
 OBJ_FILES = $(addsuffix .o,$(SOURCES))
 EXECUTABLE = helloworld_gpio
@@ -63,10 +78,12 @@ $(EXECUTABLE): $(OBJ_FILES)
 	$(CPP) $(LDFLAGS) $(addprefix $(OBJ_DIR)/,$(OBJ_FILES)) -o $(addprefix $(ELF_DIR)/,$@) $(addprefix -l,$(LIB_NAMES))
 	$(ECHO) "\n  helloworld_gpio has been built successfully.\n"
 
+#.cpp.o:
 %.o: %.cpp
 	echo $(CPP) $(CFLAGS) $(addprefix $(INCL_KEY),$(INCL_PATH)) $< -o $(addprefix $(OBJ_DIR)/,$@)
 	$(CPP) $(CFLAGS) $(addprefix $(INCL_KEY),$(INCL_PATH)) $< -o $(addprefix $(OBJ_DIR)/,$@)
 
+#.c.o:
 %.o: %.c
 	echo $(CC) $(CFLAGS) $(addprefix $(INCL_KEY),$(INCL_PATH)) $< -o $(addprefix $(OBJ_DIR)/,$@)
 	$(CC) $(CFLAGS) $(addprefix $(INCL_KEY),$(INCL_PATH)) $< -o $(addprefix $(OBJ_DIR)/,$@)

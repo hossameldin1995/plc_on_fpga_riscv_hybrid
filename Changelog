@@ -82,3 +82,10 @@ Version 1.00
 4 - Adding SDC file in FPGA project for timing constrains in River_SoC
 5 - PWM, TON, Time Measurements now working on River_SoC
 6 - Adding 10MH for PWM peripheral
+
+Version 1.01
+==========================================================================================================================
+1 - Adding optimaization flags to makefile of helloworld_gpio.
+2 - Accessing the memory two times instead of three times in PWM.
+3 - Removing unused files from FPGA\River_SoC.
+3 - Modify the driver fo PWM and TON.

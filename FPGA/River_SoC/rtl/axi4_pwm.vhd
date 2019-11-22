@@ -12,9 +12,9 @@ use work.types_amba4.all;
 --! |---------|-------------------|
 --! | Address | Description       |
 --! |---------|-------------------|
---! | 0x10 r  | Q                 |
+--! | 0x00 r  | Q                 |
 --! | 0x00 w  | Frequency         |
---! | 0x08 w  | Duty Cycle        |
+--! | 0x04 w  | Duty Cycle        |
 --! |---------|-------------------|
 
 entity axi4_pwm is
@@ -54,9 +54,8 @@ architecture arch_axi4_pwm  of axi4_pwm is
   signal wb_bus_wstrb : std_logic_vector(CFG_SYSBUS_DATA_BYTES-1 downto 0);
   signal wb_bus_wdata : std_logic_vector(CFG_SYSBUS_DATA_BITS-1 downto 0);
   
-  SIGNAL EN				: std_logic;
+  SIGNAL EN, Q		: std_logic;
   SIGNAL Frq, DC	: std_logic_vector(31 DOWNTO 0);
-  SIGNAL Q 			: std_logic_vector(31 DOWNTO 0);
 	
   SIGNAL T_Count, Comp_Count	: STD_LOGIC_VECTOR(31 downto 0);
 
@@ -81,7 +80,7 @@ begin
     o_wdata => wb_bus_wdata
   );
   
-  PWM			: entity work.PWM_32_bit	PORT MAP(clk_50, nrst, EN, T_Count, Comp_Count, Q(0));
+  PWM			: entity work.PWM_32_bit	PORT MAP(clk_50, nrst, EN, T_Count, Comp_Count, Q);
   PWM_Sig	: entity work.PWM_Signal	PORT MAP(nrst, Frq, DC, T_Count, Comp_Count);
 
   EN			<= '1';
@@ -92,25 +91,14 @@ begin
   begin 
      if async_reset and nrst = '0' then
 			wb_dev_rdata<= (OTHERS => '0');
-			Frq			<= (OTHERS => '0');
+			Frq			<= (OTHERS => '1');
 			DC				<= (OTHERS => '0');
      elsif rising_edge(clk) then 
 			if w_bus_we = '1' then --write
-				IF (wb_bus_waddr(0)(3 downto 2) = "00") THEN
-					Frq	<= wb_bus_wdata(31 downto 0);
-				ELSIF (wb_bus_waddr(0)(3 downto 2) = "10") THEN
-					DC		<= wb_bus_wdata(31 downto 0);
-				END IF;
+				Frq	<= wb_bus_wdata(31 downto 0);
+				DC		<= wb_bus_wdata(63 downto 32);
 			elsif w_bus_re = '1' then -- read
-				IF (wb_bus_raddr(0)(4 downto 2) = "000") THEN
-					wb_dev_rdata(31 downto 0) <= Frq;
-				ELSIF (wb_bus_raddr(0)(4 downto 2) = "010") THEN
-					wb_dev_rdata(31 downto 0) <= DC;
-				ELSIF (wb_bus_raddr(0)(4 downto 2) = "100") THEN
-					wb_dev_rdata(31 downto 0) <= Q;
-				ELSE
-					wb_dev_rdata <= (others => '0');
-				END IF;
+				wb_dev_rdata(0) <= Q;
 			end if;
      end if;
   end process;

@@ -17,11 +17,6 @@ typedef struct timer_hw
 	volatile uint64_t * registers;
 } timer_hw;
 
-static inline void timer_hw_initialize(struct timer_hw * module, volatile void * base_address)
-{
-	module->registers = base_address;
-}
-
 static inline void timer_hw_send_in(struct timer_hw * module, uint32_t in_data)
 {
 	module->registers[Q_TON >> 3] = in_data;

@@ -60,12 +60,13 @@ architecture arch_axi4_gptimers of axi4_gptimers is
   type timer_type is record
       count_ena : std_logic;
       irq_ena   : std_logic;
+		overflow  : std_logic;
       value : std_logic_vector(63 downto 0);
       init_value : std_logic_vector(63 downto 0);
   end record;
   
   constant timer_type_reset : timer_type := 
-     ('0', '0', (others => '0'), (others => '0'));
+     ('0', '0', '0', (others => '0'), (others => '0'));
 
   type vector_timer_type is array (0 to tmr_total-1) of timer_type;
 
@@ -135,6 +136,7 @@ begin
                irq_ena := irq_ena or r.tmr(n).irq_ena;
                v.pending(n) := r.tmr(n).irq_ena;
                v.tmr(n).value := r.tmr(n).init_value;
+					v.tmr(n).overflow := '1';
            else
                v.tmr(n).value := r.tmr(n).value - 1;
            end if;
@@ -159,6 +161,7 @@ begin
                    if raddr = (16 + 8*k) then
                       tmp(0) := r.tmr(k).count_ena;
                       tmp(1) := r.tmr(k).irq_ena;
+                      tmp(2) := r.tmr(k).overflow;
                    elsif raddr = (16 + 8*k + 2) then
                       tmp := r.tmr(k).value(31 downto 0);
                    elsif raddr = (16 + 8*k + 3) then
@@ -188,6 +191,7 @@ begin
                    if waddr = (16 + 8*k) then
                       v.tmr(k).count_ena := tmp(0);
                       v.tmr(k).irq_ena := tmp(1);
+                      v.tmr(k).overflow := tmp(2);
                    elsif waddr = (16 + 8*k + 2) then
                       v.tmr(k).value(31 downto 0) := tmp;
                    elsif waddr = (16 + 8*k + 3) then

@@ -89,3 +89,11 @@ Version 1.01
 2 - Accessing the memory two times instead of three times in PWM.
 3 - Removing unused files from FPGA\River_SoC.
 3 - Modify the driver fo PWM and TON.
+
+Version 1.02
+==========================================================================================================================
+1 - Add control constant to gptimer header file for easy control.
+2 - Add test code for gpttimer.
+3 - Add overflow bit in control regester in gptimer in River_SoC to easy control it.
+4 - Remove PWM_Peripheral.vhd(unused).
+5 - Update hex and mif in River_SoC to be compatable with software.

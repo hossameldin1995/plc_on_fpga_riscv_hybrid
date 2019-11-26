@@ -9,8 +9,14 @@
 
 #include <inttypes.h>
 
-#define TIMER_CONTROL_ENA      (1 << 0)
-#define TIMER_CONTROL_IRQ_ENA  (1 << 1)
+#define TIMER_CONTROL_ENT_DISIRQ_NOOV	0x01	// 0b001
+#define TIMER_CONTROL_ENT_ENIRQ_NOOV	0x03	// 0b011
+#define TIMER_CONTROL_DIST_ENIRQ_NOOV	0x02	// 0b010
+#define TIMER_CONTROL_DIST_DISIRQ_NOOV	0x00	// 0b000
+#define TIMER_CONTROL_ENT_DISIRQ_OV		0x05	// 0b101
+#define TIMER_CONTROL_ENT_ENIRQ_OV		0x07	// 0b111
+#define TIMER_CONTROL_DIST_ENIRQ_OV		0x06	// 0b110
+#define TIMER_CONTROL_DIST_DISIRQ_OV	0x04	// 0b100
 
 typedef struct gptimer_type {
     volatile uint32_t control;

@@ -52,6 +52,7 @@ void helloWorld_gpio() {
     int x, y;
     io_per io_per_d;
     time_measurement time_measurement_d;
+    gptimers_map *p_timer;
     timer_hw TON0;
     pwm_hw PWM0;
 
@@ -59,35 +60,85 @@ void helloWorld_gpio() {
     io_per_d.registers = (volatile void *)ADDR_NASTI_SLAVE_GPIO;
     TON0.registers = (volatile void *)ADDR_NASTI_SLAVE_TON0;
     PWM0.registers = (volatile void *)ADDR_NASTI_SLAVE_PWM0;
+    p_timer = (gptimers_map *)ADDR_NASTI_SLAVE_GPTIMERS;
 
-    //ss_len = sprintf(ss, "Hellow World - %d!!!!\n\r", 1);
-    //print_uart(ss, ss_len);
+    p_timer->timer[0].control = TIMER_CONTROL_DIST_DISIRQ_OV;
+    p_timer->timer[0].cur_value = 0;
+    p_timer->timer[0].init_value = (uint64_t)(2 * SYS_HZ);
 
-    io_per_set_output(&io_per_d, LEDG, 3, LED_ON);
-    io_per_set_output(&io_per_d, LEDG, 4, LED_ON);
+    ss_len = sprintf(ss, "Hellow World - %d!!!!\n\r", 1);
+    print_uart(ss, ss_len);
+
+    io_per_set_output(&io_per_d, LEDG, 0, LED_ON);
+    io_per_set_output(&io_per_d, LEDG, 7, LED_ON);
 
     while(1) {
         start_time(&time_measurement_d);
         io_per_set_output(&io_per_d, RWD, 0, 0);
 
+        // PWM PWM0
         pwm_hw_send_frequency_duty_cycle(&PWM0, 1, 50);
-        //pwm_hw_send_frequency(&PWM0, 1);
-        //pwm_hw_send_duty_cycle(&PWM0, 50);
-        io_per_set_output(&io_per_d, LEDR, 1, pwm_hw_recieve_Q(&PWM0));
+        io_per_set_output(&io_per_d, LEDR, 2, pwm_hw_recieve_Q(&PWM0));
 
-        // Rung 1 :    R1 
-
-		// TON TON_1
+		// TON TON0
 		int var0 = io_per_get_input(&io_per_d, SW, 0);
 		timer_hw_send_preset_time(&TON0, (uint64_t)SYS_HZ);
 		timer_hw_send_in(&TON0, var0);
 		uint64_t E_T = timer_hw_recieve_elapsed_time(&TON0);
-		io_per_set_output(&io_per_d, LEDR, 0, timer_hw_recieve_Q(&TON0));
+		io_per_set_output(&io_per_d, LEDR, 1, timer_hw_recieve_Q(&TON0));
+		io_per_set_output(&io_per_d, LEDR, 0, E_T);
 
+        // CPU Timer
+        if ((p_timer->timer[0].control >> 2) == 1) {
+            io_per_set_output(&io_per_d, LEDG, 1, LED_OFF);
+            p_timer->timer[0].cur_value = 0;
+            if (io_per_get_input(&io_per_d, KEY, 0)) {
+                p_timer->timer[0].control = TIMER_CONTROL_ENT_DISIRQ_NOOV;
+            }
+        } else {
+            io_per_set_output(&io_per_d, LEDG, 1, LED_ON);
+        }
 
-		// Rung 2 :    R2 
-		uint64_t var1 = E_T;
-		io_per_set_output(&io_per_d, LEDR, 6, var1);
+        // CPU PWM
+        /*
+        uint64_t var1 = (uint64_t)1000000;
+		uint64_t Duty_Cycle_0 = (uint64_t) ((var1/100)*Duty_Cycle);
+		timer_set_compare(&timer0, var1);
+		if (timer0_is_enabled) {
+			timer0_count = timer_get_count(&timer0);
+			if (timer0_count == var1) {
+				timer_reset(&timer0);
+				timer_start(&timer0);
+			} else if (timer0_count < Duty_Cycle_0) {
+				pwm0_output = 1;
+			} else {
+				pwm0_output = 0;
+			}
+		} else {
+			timer_reset(&timer0);
+			timer_start(&timer0);
+			timer0_is_enabled = TIMER_ENABLED;
+		}
+		io_per_set_output(&io_per_d, LEDR, 0, pwm0_output);
+        */
+
+        // MUL and DIV
+        int var8 =  io_per_get_input(&io_per_d, SW, 1)+
+                    io_per_get_input(&io_per_d, SW, 2)+
+                    io_per_get_input(&io_per_d, SW, 3)+
+                    io_per_get_input(&io_per_d, SW, 4)+
+                    io_per_get_input(&io_per_d, SW, 5)+
+                    io_per_get_input(&io_per_d, SW, 6)+
+                    io_per_get_input(&io_per_d, SW, 7)+
+                    io_per_get_input(&io_per_d, SW, 8)+
+                    io_per_get_input(&io_per_d, SW, 9);
+        int mul = var8 * 3; 
+        int div = var8 / 3;
+        print_uart("mul=", 4);
+        print_uart_hex(mul);
+        print_uart(" - div=", 7);
+        print_uart_hex(div);
+        print_uart("\n\r", 2);
 
         stop_time(&time_measurement_d);
     }

@@ -70,6 +70,7 @@ public class ProjectManagement {
                           Size_of_Programs+
                           "Number of Variables    = "+(Data.size_Vaiables - 2)+"\n"+
                           "Core                   = "+Data.core+"\n"+
+                          "Compiled Core          = "+Data.core+"\n"+
                           "HDL Compilation State  = "+Data.hdl_compilation_state+"\n"+
                           "HDL Compilation Type   = "+Data.hdl_compilation_type+"\n"+
                           "Compiled Timers        = "+Data.Number_Of_Timers_Compiled+"\n"+
@@ -131,6 +132,7 @@ public class ProjectManagement {
             }
             Data.size_Vaiables = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1])+2;
             Data.core = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            Data.compiled_core = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.hdl_compilation_state = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.hdl_compilation_type = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.Number_Of_Timers_Compiled = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);

@@ -88,7 +88,9 @@ public class Data {
     
     public static final int RV32 = 0;
     public static final int RV64 = 1;
-    public static int core = RV32;
+    public static final int NO_CORE = 2;
+    public static int core = NO_CORE;
+    public static int compiled_core = NO_CORE;
     
     // Type of output from executing commands
     public static final int COMMAND_WINDOW = 0;

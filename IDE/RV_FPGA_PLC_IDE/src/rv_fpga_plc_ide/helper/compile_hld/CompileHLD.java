@@ -62,6 +62,9 @@ public class CompileHLD {
         if (Data.Number_Of_PWMs_Compiled != Data.Number_Of_PWMs_In_Program) {
             return false;
         }
+        if (Data.compiled_core != Data.core) {
+            return false;
+        }
         return true;
     }
 }

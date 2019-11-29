@@ -46,6 +46,7 @@ public class compile_assembler extends Thread {
             Data.hdl_compilation_type = hdl_compilation_type;
             Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
             Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
+            Data.compiled_core = Data.core;
             if (exitValue == 0) {
                 Data.hdl_compilation_state = Data.UPDATED;
                 jDialog_Loading.hide();

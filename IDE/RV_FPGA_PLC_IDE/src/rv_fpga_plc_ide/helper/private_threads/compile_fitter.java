@@ -45,6 +45,7 @@ public class compile_fitter extends Thread {
             Data.hdl_compilation_type = hdl_compilation_type;
             Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
             Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
+            Data.compiled_core = Data.core;
             if (exitValue == 0) {
                 compile_assembler ca = new compile_assembler(parentComponent, Project_Folder, evt, hdl_compilation_type, jDialog_Loading, jFileChooser1);
                 Data.hdl_compilation_state = Data.FITTER;

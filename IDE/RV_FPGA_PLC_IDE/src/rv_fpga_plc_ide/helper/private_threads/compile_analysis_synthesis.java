@@ -48,6 +48,7 @@ public class compile_analysis_synthesis extends Thread {
                 Data.hdl_compilation_type = hdl_compilation_type;
                 Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
                 Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
+                Data.compiled_core = Data.core;
                 cf.start();
             } else {
                 jDialog_Loading.hide();

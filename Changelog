@@ -107,3 +107,8 @@ Version 1.04
 1 - Removing module print output.
 2 - Adding module executting_command.
 3 - Modefy all threads to use module executting_command.
+
+Version 1.05
+==========================================================================================================================
+1 - Adding compiled_core to innformation.
+2 - Modify ".rfpinfo" files to hold which core is compiled (RV32, RV64 or NO_CORE)

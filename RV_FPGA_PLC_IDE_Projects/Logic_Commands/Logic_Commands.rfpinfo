@@ -8,6 +8,7 @@ Number of Rungs        = 4
     Rung (4) Size      = 2
 Number of Variables    = 0
 Core                   = 0
+Compiled Core          = 2
 HDL Compilation State  = 0
 HDL Compilation Type   = 0
 Compiled Timers        = 0

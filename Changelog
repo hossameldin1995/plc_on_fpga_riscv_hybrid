@@ -97,3 +97,7 @@ Version 1.02
 3 - Add overflow bit in control regester in gptimer in River_SoC to easy control it.
 4 - Remove PWM_Peripheral.vhd(unused).
 5 - Update hex and mif in River_SoC to be compatable with software.
+
+Version 1.03
+==========================================================================================================================
+1 - Breaking the IDE into modules to allow integrating new RV64

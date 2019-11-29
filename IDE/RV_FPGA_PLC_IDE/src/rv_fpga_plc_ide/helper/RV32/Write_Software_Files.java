@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rv_fpga_plc_ide.helper;
+package rv_fpga_plc_ide.helper.RV32;
 
+import rv_fpga_plc_ide.helper.RV32.Write_Hardware_Files;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
 
 /**
@@ -938,6 +940,25 @@ public class Write_Software_Files {
                     break;
             }
             if (!Type.equals("Timer")) Data.C_code += "\t"+Type+" "+nameOfVariable+" = 0;\n";
+        }
+    }
+    
+    public void write_c_file(String Folder) {
+        FileOutputStream c_file = null;
+        try {
+            new File(Folder+"/"+Data.Project_Name+".c").delete();
+            c_file = new FileOutputStream(Folder+"/"+Data.Project_Name+".c");
+            c_file.write(Data.C_code.getBytes(), 0, Data.C_code.length());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                c_file.close();
+            } catch (IOException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

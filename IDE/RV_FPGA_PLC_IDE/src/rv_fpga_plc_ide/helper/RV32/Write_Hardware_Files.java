@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rv_fpga_plc_ide.helper;
+package rv_fpga_plc_ide.helper.RV32;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
 
 /**

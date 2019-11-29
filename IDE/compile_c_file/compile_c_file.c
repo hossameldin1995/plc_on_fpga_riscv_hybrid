@@ -9,7 +9,7 @@
 
 void removeAll(char* word, char x); // remove all char x in word
 
-JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compile_1c_1to_1mif
+JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_RV32_compile_1c_1file_compile_1c_1to_1mif
   (JNIEnv * env, jobject obj, jstring c_Folder_path, jstring c_File_path){
     
     int res = 0;
@@ -173,7 +173,7 @@ JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compi
     else return 1;
 }
 
-JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_compile_1c_1file_compile_1download_1to_1soc
+JNIEXPORT jboolean JNICALL Java_rv_1fpga_1plc_1ide_helper_RV32_compile_1c_1file_compile_1download_1to_1soc
   (JNIEnv * env, jobject obj, jstring c_Folder_path) {
     int res = 0;
     char command[1000];

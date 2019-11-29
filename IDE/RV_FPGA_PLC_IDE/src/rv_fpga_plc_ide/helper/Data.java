@@ -86,7 +86,15 @@ public class Data {
     public static String[] Name_of_PWMs = new String[50];
     
     
-    public static final int R32 = 0;
-    public static final int R64 = 1;
-    public static int core = R32;
+    public static final int RV32 = 0;
+    public static final int RV64 = 1;
+    public static int core = RV32;
+    
+    // Type of output from executing commands
+    public static final int COMMAND_WINDOW = 0;
+    public static final int OUTPUT_TAP_WINDOW = 1;
+    public static final int COMMAND_OUTPUT_TAP_WINDOW = 2;
+    public static final int NO_WINDOW = 3;
+    public static int out_window = NO_WINDOW;
+    
 }

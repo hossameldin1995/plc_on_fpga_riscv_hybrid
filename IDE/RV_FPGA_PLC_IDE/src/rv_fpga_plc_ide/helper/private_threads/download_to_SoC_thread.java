@@ -14,8 +14,6 @@ import javax.swing.UIManager;
 import rv_fpga_plc_ide.helper.Output_Tap;
 import rv_fpga_plc_ide.helper.ProjectManagement;
 import rv_fpga_plc_ide.helper.RV32.compile_c_file;
-import rv_fpga_plc_ide.helper.printOutput;
-import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
 
 /**
  *
@@ -36,8 +34,6 @@ public class download_to_SoC_thread extends Thread {
         
         @Override
         public void run() {
-            Runtime rt = Runtime.getRuntime();
-            printOutput errorReported, outputMessage;
             boolean success = new compile_c_file().compile_download_to_soc_p(Project_Folder);
             if (success) {
                 jDialog_Loading.hide();

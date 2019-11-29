@@ -5,8 +5,6 @@
  */
 package rv_fpga_plc_ide.src;
 
-import rv_fpga_plc_ide.helper.RV32.Write_Software_Files;
-import rv_fpga_plc_ide.helper.RV32.Write_Hardware_Files;
 import com.alee.laf.WebLookAndFeel;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -29,11 +27,8 @@ import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.helper.GeneralFunctions;
 import rv_fpga_plc_ide.helper.Output_Tap;
 import rv_fpga_plc_ide.helper.ProjectManagement;
-import rv_fpga_plc_ide.helper.RV32.compile_c_file;
 import rv_fpga_plc_ide.helper.RV32.compile_il.Hardware;
 import rv_fpga_plc_ide.helper.RV32.compile_il.Software;
-import rv_fpga_plc_ide.helper.compile_hld.CompileHLD;
-import rv_fpga_plc_ide.helper.printOutput;
 import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
 import rv_fpga_plc_ide.helper.private_threads.download_to_SoC_thread;
 //import rv_fpga_plc_ide.helper.compile_c_file;
@@ -2789,12 +2784,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_Add_V_Ok2ActionPerformed
 
     private void jRadioButton_R32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_R32ActionPerformed
-        Data.core = Data.R32;
+        Data.core = Data.RV32;
         set_core_in_jmenu();
     }//GEN-LAST:event_jRadioButton_R32ActionPerformed
 
     private void jRadioButton_R64ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_R64ActionPerformed
-        Data.core = Data.R64;
+        Data.core = Data.RV64;
         set_core_in_jmenu();
     }//GEN-LAST:event_jRadioButton_R64ActionPerformed
 

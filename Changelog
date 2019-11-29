@@ -101,3 +101,9 @@ Version 1.02
 Version 1.03
 ==========================================================================================================================
 1 - Breaking the IDE into modules to allow integrating new RV64
+
+Version 1.04
+==========================================================================================================================
+1 - Removing module print output.
+2 - Adding module executting_command.
+3 - Modefy all threads to use module executting_command.

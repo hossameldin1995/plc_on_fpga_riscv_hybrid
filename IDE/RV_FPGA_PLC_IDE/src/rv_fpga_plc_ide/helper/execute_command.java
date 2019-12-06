@@ -54,7 +54,7 @@ public class execute_command {
             }
             
 
-            //exitCode = process.waitFor();
+            exitCode = process.waitFor();
             //System.out.println(before+exitCode);
 
         } catch (IOException | InterruptedException e) {

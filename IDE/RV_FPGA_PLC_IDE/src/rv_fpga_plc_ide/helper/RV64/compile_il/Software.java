@@ -3,23 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rv_fpga_plc_ide.helper.RV32.compile_il;
+package rv_fpga_plc_ide.helper.RV64.compile_il;
 
 import java.awt.Component;
 import java.io.File;
 import javax.swing.Icon;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.helper.GeneralFunctions;
-import rv_fpga_plc_ide.helper.RV32.Write_Generated_Files.Write_Hardware_Files;
-import rv_fpga_plc_ide.helper.RV32.Write_Generated_Files.Write_Software_Files;
-import rv_fpga_plc_ide.helper.RV32.compile_c.compile_c_file;
-import rv_fpga_plc_ide.helper.compile_hld.CompileHLD;
+import rv_fpga_plc_ide.helper.RV64.Write_Generated_Files.Write_Software_Files;
+import rv_fpga_plc_ide.helper.RV64.compile_c.compile_c_file;
 import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
 
 /**
@@ -36,8 +34,8 @@ public class Software {
         jTextArea_Output_Tab.setText("");
         jTextArea_Output_Tab.append("Start Compiling As Software.\n");
         boolean success = true;
-        File c_files = new File(Project_Folder+"/c_files");
-        File q_files = new File(Project_Folder+"/q_files");
+        File c_files = new File(Project_Folder+"/c_files_64");
+        File q_files = new File(Project_Folder+"/q_files_64");
         
         c_files.mkdirs();
         if (compile_all_project) q_files.mkdirs();
@@ -45,16 +43,28 @@ public class Software {
         jTextArea_Output_Tab.append("  Start Compiling \"instruction list\".\n");
         success &= compill_il_file_sw(parentComponent, jDialog_Loading);
         if (success) {
-            jTextArea_Output_Tab.append("  Start Compiling \"c files\".\n");
-            success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
+            jTextArea_Output_Tab.append("  Start Compiling \"hex2mifc\".\n");
+            success &= new compile_c_file().compile_hex2mif(jTextArea_Output_Tab);
         }
-        if (success && compile_all_project) {
-            jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
-            new Write_Hardware_Files().generate_q_files(Project_Folder);
-            jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
+        if (success) {
+            jTextArea_Output_Tab.append("  Start Compiling \"elf2rawx\".\n");
+            success &= new compile_c_file().compile_elf2rawx(jTextArea_Output_Tab);
+        }
+        if (success) {
+            jTextArea_Output_Tab.append("  Start Compiling \"Application\".\n");
+            success &= new compile_c_file().compile_application(jTextArea_Output_Tab);
+        }
+        if (success) {
+            jTextArea_Output_Tab.append("  Start Compiling \"Boot\".\n");
+            success &= new compile_c_file().compile_boot(jTextArea_Output_Tab);
+        }
+        /*if (success && compile_all_project) {
+            new Output_Tap().println("  Start Writting Hardware Files.");
+            new rv_fpga_plc_ide.helper.RV64.Write_Hardware_Files().generate_q_files(Project_Folder);
+            new Output_Tap().println("  Start Compiling \"Quartus Project\".");
             new GeneralFunctions().copy_mif_to_q_files(Project_Folder);
-            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.SW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
-        }
+            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.SW_COMPILATION, jDialog_Loading, jFileChooser1);
+        }*/
         
         if (success) {
             if (!compile_all_project) {
@@ -75,38 +85,74 @@ public class Software {
         Data.Number_Of_Timers_In_Program = 0;
         Data.Number_Of_PWMs_In_Program = 0;
         new Write_Software_Files().write_library_files();
-        Data.C_code =   "#include <stdint.h>\n" +
-                        "#include \"platform.h\"\n" +
-                        "//#include \"uart.h\"\n" +
-                        "#include \"timer.h\"\n" +
-                        "#include \"time_measurement.h\"\n" +
-                        "#include \"i_o_peripheral.h\"\n" +
+        Data.C_code =   "/*****************************************************************************\n" +
+                        " * @file\n" +
+                        " * @author   Sergey Khabarov\n" +
+                        " * @editor   Hossameldin Eassa\n" +
+                        " * @brief    Generated file for RV64 Application for PLC\n" +
+                        " ****************************************************************************/\n" +
                         "\n" +
-                        "#define TIMER_ENABLED 1\n" +
-                        "#define TIMER_DISABLED 0\n" +
+                        "/*****************************************************************************\n" +
+                        " * Includes\n" +
+                        " ****************************************************************************/\n" +
                         "\n" +
-                        "//static struct uart uart0;\n" +
-                        "static struct time_measurement time_measurement_d;\n" +
-                        "static struct io_per io_per_d;\n" +
+                        "#include <inttypes.h>\n" +
+                        "#include <string.h>\n" +
+                        "#include <stdio.h>\n" +
+                        "#include \"axi_maps.h\"\n" +
                         "\n" +
-                        "void exception_handler(uint32_t cause, void * epc, void * regbase)\n" +
-                        "{\n" +
-                        "	//while(uart_tx_fifo_full(&uart0));\n" +
-                        "	//uart_tx(&uart0, 'E');\n" +
+                        "/*****************************************************************************\n" +
+                        " * Static Functions\n" +
+                        " ****************************************************************************/\n" +
+                        "\n" +
+                        "extern char _end;\n" +
+                        "\n" +
+                        "/**\n" +
+                        " * @name sbrk\n" +
+                        " * @brief Increase program data space.\n" +
+                        " * @details Malloc and related functions depend on this.\n" +
+                        " */\n" +
+                        "char *sbrk(int incr) {\n" +
+                        "    return &_end;\n" +
                         "}\n" +
                         "\n" +
-                        "int main(void)\n" +
-                        "{\n" +
-                        "	//uart_initialize(&uart0, (volatile void *) PLATFORM_UART0_BASE);\n" +
-                        "	//uart_set_divisor(&uart0, uart_baud2divisor(115200, PLATFORM_SYSCLK_FREQ));\n" +
-                        "	time_measurement_per_initialize(&time_measurement_d, (volatile void *) PLATFORM_TIME_MEASUREMENT);\n" +
-                        "	set_micro(&time_measurement_d);\n" +
-                        "	io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n" +
+                        "void print_uart_hex(long val) {\n" +
+                        "    unsigned char t, s;\n" +
+                        "    uart_map *uart = (uart_map *)ADDR_NASTI_SLAVE_UART1;\n" +
+                        "    for (int i = 0; i < 16; i++) {\n" +
+                        "        while (uart->status & UART_STATUS_TX_FULL) {}\n" +
+                        "        \n" +
+                        "        t = (unsigned char)((val >> ((15 - i) * 4)) & 0xf);\n" +
+                        "        if (t < 10) {\n" +
+                        "            s = t + '0';\n" +
+                        "        } else {\n" +
+                        "            s = (t - 10) + 'a';\n" +
+                        "        }\n" +
+                        "        uart->data = s;\n" +
+                        "    }\n" +
+                        "}\n" +
                         "\n" +
-                        "	//uart_tx_string(&uart0, \"Hi ...\\n\\rRun \\\""+Data.Project_Name+"/\\\" ...\\n\\r\");\n" +
-                        "\n";
+                        "void print_uart(const char *buf, int sz) {\n" +
+                        "    uart_map *uart = (uart_map *)ADDR_NASTI_SLAVE_UART1;\n" +
+                        "    for (int i = 0; i < sz; i++) {\n" +
+                        "        while (uart->status & UART_STATUS_TX_FULL) {}\n" +
+                        "        uart->data = buf[i];\n" +
+                        "    }\n" +
+                        "}\n" +
+                        "\n" +
+                        "/*****************************************************************************\n" +
+                        " * Global Variables\n" +
+                        " ****************************************************************************/\n\n";
         new Write_Software_Files().declareAndInitializeVariables();
-        Data.C_code +=  "\n	while(1){\n" +
+        Data.C_code +=  "void "+Data.Project_Name+"() {\n\n" +
+                        "	/*************** Local Variables ****************/\n\n" +
+                        "	io_per io_per_d;\n" +
+                        "	time_measurement time_measurement_d;\n\n" +
+                        "	/********** Initialize Local Variables **********/\n\n" +
+                        "	io_per_d.registers = (volatile void *)ADDR_NASTI_SLAVE_GPIO;\n" +
+                        "	time_measurement_d.registers = (volatile void *)ADDR_NASTI_SLAVE_MEASUREMENT;\n\n" +
+                        "	while(1){\n" +
+                        "\n" +
                         "		start_time(&time_measurement_d);\n" +
                         "		io_per_set_output(&io_per_d, RWD, 0, 0);\n";
         
@@ -119,8 +165,8 @@ public class Software {
         Data.C_code += "        stop_time(&time_measurement_d);\n" +
                        "    }\n" +
                        "\n" +
-                       "	return 0;\n}";
-        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files", Data.C_code);
+                       "}";
+        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files_64/"+Data.Project_Name+"_application/src/"+Data.Project_Name+".c", Data.C_code);
         return success;
     }
     

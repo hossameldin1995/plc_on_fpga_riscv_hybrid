@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rv_fpga_plc_ide.helper.RV32;
+package rv_fpga_plc_ide.helper.RV32.Write_Generated_Files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rv_fpga_plc_ide.helper.Data;
-import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
+import rv_fpga_plc_ide.helper.GeneralFunctions;
+import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
 
 /**
  *
@@ -1219,10 +1220,10 @@ public class Write_Hardware_Files {
                         "-- 0x00004000: IO Peripheral\n" +
                         "-- 0x00005000: Time Measurement\n";
                         for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
-                            data += "-- 0x000"+num_hex_2_spaces(6 + i)+"000: TON "+Data.Name_of_Timers[i]+"\n";
+                            data += "-- 0x000"+new GeneralFunctions().dec2hex_str(6 + i, 2)+"000: TON "+Data.Name_of_Timers[i]+"\n";
                         }
                         for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
-                            data += "-- 0x000"+num_hex_2_spaces(Data.Number_Of_Timers_In_Program + 6 + i)+"000: PWM "+Data.Name_of_PWMs[i]+"\n";
+                            data += "-- 0x000"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 6 + i, 2)+"000: PWM "+Data.Name_of_PWMs[i]+"\n";
                         }
                 data += "-- 0x10000000: Interconnect control/error module\n" +
                         "-- 0xffff8000: Application execution environment ROM (16 kB)\n" +
@@ -1480,11 +1481,11 @@ public class Write_Hardware_Files {
                         "								when x\"05\" =>\n" +
                         "									intercon_peripheral <= TIME_MEASUREMENT;\n";
                         for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
-                            data += "								when x\""+num_hex_2_spaces(6 + i)+"\" =>\n" +
+                            data += "								when x\""+new GeneralFunctions().dec2hex_str(6 + i, 2)+"\" =>\n" +
                                     "									intercon_peripheral <= PERIPHERAL_"+Data.Name_of_Timers[i]+";\n";
                         }
                         for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
-                            data += "								when x\""+num_hex_2_spaces(Data.Number_Of_Timers_In_Program + 6 + i)+"\" =>\n" +
+                            data += "								when x\""+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 6 + i, 2)+"\" =>\n" +
                                     "									intercon_peripheral <= PERIPHERAL_"+Data.Name_of_PWMs[i]+";\n";
                         }
                 data += "								when others => -- Invalid address - delegated to the error peripheral\n" +
@@ -7871,10 +7872,10 @@ public class Write_Hardware_Files {
                         "		.reference_clock_frequency(\"125.0 MHz\"),\n" +
                         "		.operation_mode(\"direct\"),\n" +
                         "		.number_of_clocks(2),\n" +
-                        "		.output_clock_frequency0(\""+(Data.CPU_Freq_I/1000000)+".000000 MHz\"),\n" +
+                        "		.output_clock_frequency0(\""+(Data.CPU_RV32_Freq/1000000)+".000000 MHz\"),\n" +
                         "		.phase_shift0(\"0 ps\"),\n" +
                         "		.duty_cycle0(50),\n" +
-                        "		.output_clock_frequency1(\""+(Data.CPU_Timer_Freq_I/1000000)+".000000 MHz\"),\n" +
+                        "		.output_clock_frequency1(\""+(Data.CPU_RV32_Timer_Freq/1000000)+".000000 MHz\"),\n" +
                         "		.phase_shift1(\"0 ps\"),\n" +
                         "		.duty_cycle1(50),\n" +
                         "		.output_clock_frequency2(\"0 MHz\"),\n" +
@@ -8998,7 +8999,7 @@ public class Write_Hardware_Files {
                         "begin\n" +
                         "\n" +
                         "	PWM : entity work.PWM_32_bit	PORT MAP(clk, reset, EN, T_Count, Comp_Count, Q);\n" +
-                        "	Div1: entity work.Div_32_bit	PORT MAP(Frq_T, X\""+Data.CPU_Freq_H_S+"\", T_Count, open);\n" +
+                        "	Div1: entity work.Div_32_bit	PORT MAP(Frq_T, X\""+new GeneralFunctions().dec2hex_str(Data.CPU_RV32_Freq, 8)+"\", T_Count, open);\n" +
                         "	Div2: entity work.Div_32_bit	PORT MAP(X\"00000064\", T_Count, Comp_Count_T, open);\n" +
                         "	Mult: entity work.Mult_32_bit	PORT MAP(Comp_Count_T, DC, Comp_Count_64);\n" +
                         "	\n" +
@@ -9009,7 +9010,7 @@ public class Write_Hardware_Files {
                         "	process(Frq)\n" +
                         "	begin\n" +
                         "		if( Frq = X\"00000000\") or (reset = '1') then\n" +
-                        "			Frq_T <= X\""+Data.CPU_Freq_H_S+"\";\n" +
+                        "			Frq_T <= X\""+new GeneralFunctions().dec2hex_str(Data.CPU_RV32_Freq, 8)+"\";\n" +
                         "		else\n" +
                         "			Frq_T <= Frq;\n" +
                         "		end if;\n" +
@@ -9409,14 +9410,6 @@ public class Write_Hardware_Files {
             } catch (IOException ex) {
                 Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-    }
-
-    public String num_hex_2_spaces(int i) {
-        if (i < 16) {
-            return "0"+Integer.toHexString(i);
-        } else {
-            return Integer.toHexString(i);
         }
     }
 }

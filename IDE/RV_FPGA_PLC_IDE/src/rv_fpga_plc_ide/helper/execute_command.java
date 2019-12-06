@@ -8,17 +8,19 @@ package rv_fpga_plc_ide.helper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import javax.swing.JTextArea;
 
 /**
  *
  * @author hossameldin
  */
 public class execute_command {
-    
-    
-    public int execute_command(String cmd, String before, int type) {
+    public int execute_command(String cmd, String before, int type, JTextArea jTextArea_Output_Tab) {
         ProcessBuilder processBuilder = new ProcessBuilder();
         int exitCode = -777;
+        
+        //System.out.println(before+cmd);
+        
         // Windows
         //processBuilder.command("cmd.exe", "/c", cmd);
         // Linux
@@ -40,24 +42,22 @@ public class execute_command {
                     break;
                 case Data.OUTPUT_TAP_WINDOW:
                     while ((line = reader.readLine()) != null) {
-                        new Output_Tap().println(before+line);
+                        jTextArea_Output_Tab.append(before+line);
                     }
                     break;
                 case Data.COMMAND_OUTPUT_TAP_WINDOW:
                     while ((line = reader.readLine()) != null) {
                         System.out.println(before+line);
-                        new Output_Tap().println(before+line);
+                        jTextArea_Output_Tab.append(before+line);
                     }
                     break;
             }
             
 
-            exitCode = process.waitFor();
+            //exitCode = process.waitFor();
+            //System.out.println(before+exitCode);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException | InterruptedException e) {
         }
         return exitCode;
     }

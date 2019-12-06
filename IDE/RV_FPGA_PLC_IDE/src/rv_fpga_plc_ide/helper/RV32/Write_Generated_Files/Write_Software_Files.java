@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rv_fpga_plc_ide.helper.RV32;
+package rv_fpga_plc_ide.helper.RV32.Write_Generated_Files;
 
-import rv_fpga_plc_ide.helper.RV32.Write_Hardware_Files;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,7 +12,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rv_fpga_plc_ide.helper.Data;
-import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
+import rv_fpga_plc_ide.helper.GeneralFunctions;
+import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
 
 /**
  *
@@ -21,7 +21,7 @@ import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
  */
 public class Write_Software_Files {
     
-    public void write_software_files() {
+    public void write_library_files() {
         write_header_files(Data.Project_Folder.getPath()+"/c_files");
         write_start_S_file(Data.Project_Folder.getPath()+"/c_files");
         write_load_file(Data.Project_Folder.getPath()+"/c_files");
@@ -115,7 +115,7 @@ public class Write_Software_Files {
                         "// based \"official\" Potato SoC.\n" +
                         "\n" +
                         "// System clock frequency:\n" +
-                        "#define PLATFORM_SYSCLK_FREQ	"+Data.CPU_Freq_S+"U\n" +
+                        "#define PLATFORM_SYSCLK_FREQ	"+Data.CPU_RV32_Freq+"U\n" +
                         "\n" +
                         "// Base addresses for peripherals:\n" +
                         "#define PLATFORM_UART0_BASE			0x00001000\n" +
@@ -124,10 +124,10 @@ public class Write_Software_Files {
                         "#define PLATFORM_IO_BASE			0x00004000\n" +
                         "#define PLATFORM_TIME_MEASUREMENT	0x00005000\n";
                         for (int i = 0; i < Data.Number_Of_Timers_In_Program; i++) {
-                            data += "#define PLATFORM_TON_"+Data.Name_of_Timers[i]+"			0x000"+new Write_Hardware_Files().num_hex_2_spaces(6 + i)+"000\n";
+                            data += "#define PLATFORM_TON_"+Data.Name_of_Timers[i]+"			0x000"+new GeneralFunctions().dec2hex_str(6 + i, 2)+"000\n";
                         }
                         for (int i = 0; i < Data.Number_Of_PWMs_In_Program; i++) {
-                            data += "#define PLATFORM_PWM_"+Data.Name_of_PWMs[i]+"			0x000"+new Write_Hardware_Files().num_hex_2_spaces(Data.Number_Of_Timers_In_Program + 6 + i)+"000\n";
+                            data += "#define PLATFORM_PWM_"+Data.Name_of_PWMs[i]+"			0x000"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 6 + i, 2)+"000\n";
                         }
                 data += "#define PLATFORM_ICERROR_BASE		0x10000000\n" +
                         "#define PLATFORM_PAEE_ROM_BASE		0xffff8000\n" +
@@ -940,25 +940,6 @@ public class Write_Software_Files {
                     break;
             }
             if (!Type.equals("Timer")) Data.C_code += "\t"+Type+" "+nameOfVariable+" = 0;\n";
-        }
-    }
-    
-    public void write_c_file(String Folder) {
-        FileOutputStream c_file = null;
-        try {
-            new File(Folder+"/"+Data.Project_Name+".c").delete();
-            c_file = new FileOutputStream(Folder+"/"+Data.Project_Name+".c");
-            c_file.write(Data.C_code.getBytes(), 0, Data.C_code.length());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                c_file.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 }

@@ -15,7 +15,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
+import javax.swing.JOptionPane;
+import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
 
 /**
  *
@@ -52,6 +53,76 @@ public class ProjectManagement {
             return true;
         }
         return false;
+    }
+    
+    public void close_project(Component parentComponent, JFileChooser jFileChooser1) {
+        int Option;
+        if (Data.is_There_is_a_project) {
+            if (Data.is_New_Project) {
+                Option = JOptionPane.showConfirmDialog(null, "The project \""+Data.Project_Name+"\" is not saved. Do you want to save it?", "Close Project", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (Option == JOptionPane.YES_OPTION) {
+                    new ProjectManagement().saveProject_As(parentComponent, jFileChooser1);
+                    new RV_FPGA_PLC_IDE().close_project_procedure();
+                } else if (Option == JOptionPane.NO_OPTION) {
+                    new RV_FPGA_PLC_IDE().close_project_procedure();
+                }
+            } else {
+                if (Data.is_Saved_Project) {
+                    
+                } else {
+                    Option = JOptionPane.showConfirmDialog(null, "The project \""+Data.Project_Name+"\" is not saved. Do you want to save it?", "Close Project", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if (Option == JOptionPane.YES_OPTION) {
+                        new ProjectManagement().saveProject(parentComponent, jFileChooser1);
+                        new RV_FPGA_PLC_IDE().close_project_procedure();
+                    } else if (Option == JOptionPane.NO_OPTION) {
+                        new RV_FPGA_PLC_IDE().close_project_procedure();
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(parentComponent, "There is no opend project to close.", "Close Project", JOptionPane.OK_OPTION);
+        }
+    }
+    
+    public void read_il_file(String Project_Folder) {
+        BufferedReader il_file = null;
+        Data.Vaiables = new String[Data.size_Vaiables];
+        try {
+            il_file = new BufferedReader(new FileReader(Project_Folder+"/"+Data.Project_Name+".il"));
+            for(int i = 0; i < Data.size_Vaiables ; i++) {
+                Data.Vaiables[i] = il_file.readLine();
+            }
+            il_file.readLine(); // empty line
+            Data.Program_2D = new String[Data.size_Rung][Data.max_size_program_in_rung];
+            Data.Rung_Name = new String[Data.size_Rung];
+            il_file.readLine(); // PROGRAM
+            String line;
+            int rung_i = 0, program_i;
+            for(int i = 1; i < Data.size_Program-1; i++) {
+                line = il_file.readLine();
+                if (!line.contains("     ")) {
+                    Data.Rung_Name[rung_i] = line;
+                    for (program_i = 0; program_i < Data.size_Program_in_rung[rung_i]; program_i++) {
+                        line = il_file.readLine();
+                        Data.Program_2D[rung_i][program_i] = line;
+                    }
+                }
+                i = i + Data.size_Program_in_rung[rung_i];
+                rung_i++;
+            }
+            new RV_FPGA_PLC_IDE().convert_program_2D_to_1D();
+            new RV_FPGA_PLC_IDE().setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                il_file.close();
+            } catch (IOException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     private void write_info_file(String Project_Folder) {

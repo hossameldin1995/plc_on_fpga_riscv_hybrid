@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rv_fpga_plc_ide.helper.RV32;
+package rv_fpga_plc_ide.helper.RV32.compile_c;
 
 /**
  *

@@ -10,12 +10,12 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import rv_fpga_plc_ide.helper.Data;
-import rv_fpga_plc_ide.helper.Output_Tap;
 import rv_fpga_plc_ide.helper.ProjectManagement;
 import rv_fpga_plc_ide.helper.execute_command;
-import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
+import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
 
 /**
  *
@@ -28,21 +28,23 @@ public class compile_assembler extends Thread {
         private final JDialog jDialog_Loading;
         private final Component parentComponent;
         private final JFileChooser jFileChooser1;
+        private final JTextArea jTextArea_Output_Tab;
         
-        public compile_assembler(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type, JDialog jDialog_Loading, JFileChooser jFileChooser1) {
+        public compile_assembler(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
             this.hdl_compilation_type = hdl_compilation_type;
             this.jDialog_Loading = jDialog_Loading;
             this.parentComponent = parentComponent;
             this.jFileChooser1 = jFileChooser1;
+            this.jTextArea_Output_Tab = jTextArea_Output_Tab;
         }
         
         @Override
         public void run() {
-            new Output_Tap().println("      Starting Assembler");
+            jTextArea_Output_Tab.append("      Starting Assembler\n");
             String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_asm --read_settings_files=on --write_settings_files=off "+Project_Folder+"RV_FPGA_PLC_Potato -c "+Project_Folder+"RV_FPGA_PLC_Potato";
-            int exitValue = new execute_command().execute_command(cmd, "        ", Data.out_window);
+            int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
             Data.hdl_compilation_type = hdl_compilation_type;
             Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
             Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
@@ -50,7 +52,7 @@ public class compile_assembler extends Thread {
             if (exitValue == 0) {
                 Data.hdl_compilation_state = Data.UPDATED;
                 jDialog_Loading.hide();
-                new Output_Tap().println("  Compiling Finished Successfully");
+                jTextArea_Output_Tab.append("  Compiling Finished Successfully\n");
                 JOptionPane.showMessageDialog(parentComponent, "Compiling Finished Successfully");
                 if (Data.RequistDownload) {
                     Data.RequistDownload = false;
@@ -61,7 +63,7 @@ public class compile_assembler extends Thread {
                 Data.hdl_compilation_state = Data.FITTER;
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Compiling did not Finished Successfully", "Compile As Software", JOptionPane.OK_OPTION, icon);
-                new Output_Tap().println("  Compiling did not Finished Successfully");
+                jTextArea_Output_Tab.append("  Compiling did not Finished Successfully\n");
                 if (Data.RequistDownload) {
                     Data.RequistDownload = false;
                     JOptionPane.showMessageDialog(parentComponent, "Downloading did not Finished Successfully.", "Downloading to SoC", JOptionPane.OK_OPTION, icon);

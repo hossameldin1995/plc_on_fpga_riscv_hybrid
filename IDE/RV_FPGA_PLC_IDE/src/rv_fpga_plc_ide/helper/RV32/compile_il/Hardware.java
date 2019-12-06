@@ -13,13 +13,13 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.helper.GeneralFunctions;
-import rv_fpga_plc_ide.helper.Output_Tap;
-import rv_fpga_plc_ide.helper.RV32.Write_Hardware_Files;
-import rv_fpga_plc_ide.helper.RV32.Write_Software_Files;
-import rv_fpga_plc_ide.helper.RV32.compile_c_file;
+import rv_fpga_plc_ide.helper.RV32.Write_Generated_Files.Write_Hardware_Files;
+import rv_fpga_plc_ide.helper.RV32.Write_Generated_Files.Write_Software_Files;
+import rv_fpga_plc_ide.helper.RV32.compile_c.compile_c_file;
 import rv_fpga_plc_ide.helper.compile_hld.CompileHLD;
 import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
 
@@ -28,14 +28,14 @@ import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
  * @author hossameldin
  */
 public class Hardware {
-    public void compile_hardware(Component parentComponent, String Project_Folder, ActionEvent evt, JLabel JTextLableLoading, JDialog jDialog_Loading, JFileChooser jFileChooser1) {
+    public void compile_hardware(Component parentComponent, String Project_Folder, ActionEvent evt, JLabel JTextLableLoading, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
         if (Data.hdl_compilation_state == Data.UPDATED) {
             Data.hdl_compilation_state = Data.ASSEMBLER;
         }
         LoadingDialoge loading = new LoadingDialoge("Compiling ...", JTextLableLoading, jDialog_Loading);
         loading.start();
-        new Output_Tap().removeText();
-        new Output_Tap().println("Start Compiling As Hardware.");
+        jTextArea_Output_Tab.setText("");
+        jTextArea_Output_Tab.append("Start Compiling As Hardware.\n");
         boolean success = true;
         File c_files = new File(Project_Folder+"/c_files");
         File q_files = new File(Project_Folder+"/q_files");
@@ -43,25 +43,25 @@ public class Hardware {
         c_files.mkdirs();
         q_files.mkdirs();
         
-        new Output_Tap().println("  Start Compiling \"instruction list\".");
+        jTextArea_Output_Tab.append("  Start Compiling \"instruction list\".\n");
         success &= compill_il_file_hw(parentComponent);
         if (success) {
-            new Output_Tap().println("  Start Compiling \"c files\".");
+            jTextArea_Output_Tab.append("  Start Compiling \"c files\".\n");
             success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
         }
         if (success) {
-            new Output_Tap().println("  Start Writting Hardware Files.");
+            jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
             new Write_Hardware_Files().generate_q_files_variables(Project_Folder);
-            new Output_Tap().println("  Start Compiling \"Quartus Project\".");
+            jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
             new GeneralFunctions().copy_mif_to_q_files(Project_Folder);
-            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.HW_COMPILATION, jDialog_Loading, jFileChooser1);
+            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.HW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         }
         
         if (!success) {
             Icon icon = UIManager.getIcon("OptionPane.errorIcon");
             jDialog_Loading.hide();
             JOptionPane.showMessageDialog(parentComponent, "Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
-            new Output_Tap().println("Compilling did not Finished Successfully");
+            jTextArea_Output_Tab.append("Compilling did not Finished Successfully\n");
         }
     }
     
@@ -113,8 +113,8 @@ public class Hardware {
                        "\n" +
                        "	return 0;\n}";
         
-        new Write_Software_Files().write_software_files();
-        new Write_Software_Files().write_c_file(Data.Project_Folder.getPath()+"/c_files");
+        new Write_Software_Files().write_library_files();
+        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files", Data.C_code);
         return success;
     }
     
@@ -252,7 +252,7 @@ public class Hardware {
         } else if (Operand.contains("T#")) {
             if (not.equals("")) {
                 double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
-                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_Timer_Freq_I);
+                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV32_Timer_Freq);
                 Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
             } else {
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
@@ -382,7 +382,7 @@ public class Hardware {
             Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" io_per_get_input(&io_per_d, "+Operand+", "+offc+")) var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
             } else if (Operand.contains("T#")) {
                 double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
-                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_Timer_Freq_I);
+                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV32_Timer_Freq);
                 Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" "+Number_of_Clocks+") var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
             } else {
             try {
@@ -499,7 +499,7 @@ public class Hardware {
             Preset_Time = Operand;
         } else if (Operand.contains("T#")) {
             double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
-            long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_Timer_Freq_I);
+            long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV32_Timer_Freq);
             Preset_Time = "(uint64_t)"+Number_of_Clocks;
         } else {
             JOptionPane.showMessageDialog(parentComponent, "Preset time should be variable with type \"TIME\" or instant begins with T#.", "Compile il HW", JOptionPane.OK_OPTION);

@@ -5,13 +5,16 @@
  */
 package rv_fpga_plc_ide.helper;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rv_fpga_plc_ide.src.RV_FPGA_PLC_IDE;
+import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
 
 /**
  *
@@ -117,5 +120,28 @@ public class GeneralFunctions {
   
         // return the modified String 
         return newString;
+    }
+    
+    public String dec2hex_str(int number_dec, int number_of_digits) {
+        return String.format("%0"+number_of_digits+"X", number_dec);
+    }
+    
+    public void write_file(String File_Name_Path, String data) {
+        FileOutputStream fileOutSt = null;
+        try {
+            new File(File_Name_Path).delete();
+            fileOutSt = new FileOutputStream(File_Name_Path);
+            fileOutSt.write(data.getBytes(), 0, data.length());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                fileOutSt.close();
+            } catch (IOException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

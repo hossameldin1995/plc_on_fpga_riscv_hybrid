@@ -112,3 +112,10 @@ Version 1.05
 ==========================================================================================================================
 1 - Adding compiled_core to innformation.
 2 - Modify ".rfpinfo" files to hold which core is compiled (RV32, RV64 or NO_CORE)
+
+Version 1.10
+==========================================================================================================================
+1 - Change the package path in compile_c_files in c project for only RV32
+2 - Removing Output Tap module in the IDE and using JTextArea directly.
+3 - Adding Modules for compiling software for RV64.
+4 - Compiling software is working but no HDL files yet.

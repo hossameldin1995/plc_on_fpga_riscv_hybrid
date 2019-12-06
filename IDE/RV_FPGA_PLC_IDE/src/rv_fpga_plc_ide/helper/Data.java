@@ -6,7 +6,6 @@
 package rv_fpga_plc_ide.helper;
 
 import java.io.File;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -56,13 +55,18 @@ public class Data {
     // Compill il to c
     public static String C_code;
     public static int Load_index = 0;
-    public static String    CPU_Freq_S = "100000000";
-    public static int       CPU_Freq_I = 100000000;
-    public static String    CPU_Freq_H_S = "05F5E100";   //05F5E100   02FAF080
-    public static String    CPU_Timer_Freq_S ="100000000";
-    public static int       CPU_Timer_Freq_I = 100000000;
+    public static final int F_100M = 100000000;
+    public static final int F_75M  = 75000000;
+    public static final int F_50M  = 50000000;
+    public static final int F_10M  = 10000000;
     
-    public static JTextArea jTextArea_Output_Tab;
+    public static int       CPU_RV32_Freq = F_100M;
+    public static int       CPU_RV32_Timer_Freq = F_100M;
+    
+    public static int       CPU_RV64_Freq = F_75M;
+    public static int       CPU_RV64_Timer_Freq = F_75M;
+    public static int       PWM_RV64_HW_Freq = F_10M;
+    
     public static boolean RequistDownload = false;
     
     // Comile hdl
@@ -97,6 +101,11 @@ public class Data {
     public static final int OUTPUT_TAP_WINDOW = 1;
     public static final int COMMAND_OUTPUT_TAP_WINDOW = 2;
     public static final int NO_WINDOW = 3;
-    public static int out_window = NO_WINDOW;
+    public static int deafult_out_window = COMMAND_WINDOW;
     
+    // Path to compilers
+    public static final String R32_COMPILER_PATH = "/opt/riscv32/bin/";
+    public static final String R64_COMPILER_PATH = "/opt/riscv64/bin/";
+    
+    public static final int isFPU_RV64_enabeled = 0;
 }

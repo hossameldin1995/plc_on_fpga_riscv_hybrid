@@ -3,7 +3,7 @@
  * To change this template fileOutSt, choose Tools | Templates
  * and open the template in the editor.
  */
-package rv_fpga_plc_ide.src;
+package rv_fpga_plc_ide.main;
 
 import com.alee.laf.WebLookAndFeel;
 import java.awt.HeadlessException;
@@ -20,18 +20,15 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
 import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.helper.GeneralFunctions;
-import rv_fpga_plc_ide.helper.Output_Tap;
 import rv_fpga_plc_ide.helper.ProjectManagement;
-import rv_fpga_plc_ide.helper.RV32.compile_il.Hardware;
-import rv_fpga_plc_ide.helper.RV32.compile_il.Software;
 import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
 import rv_fpga_plc_ide.helper.private_threads.download_to_SoC_thread;
-//import rv_fpga_plc_ide.helper.compile_c_file;
 
 /**
  *
@@ -46,8 +43,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setTitle("RV FPGA PLC IDE - No Project");
         initComponents();
-        
-        Data.jTextArea_Output_Tab = jTextArea_Output_Tab;
         
         int Width_addition = 30, Hight_addition = 30;
         jDialog_Basic_Commands.setSize((int) jDialog_Basic_Commands.getPreferredSize().getWidth()+Width_addition, 
@@ -2361,7 +2356,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
     private void jMenuItem_Open_ProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Open_ProjectActionPerformed
         if (Data.is_There_is_a_project) {
-            close_project();
+            new ProjectManagement().close_project(this, jFileChooser1);
         }
         jFileChooser1.setDialogTitle("Choose directory for openning project");
         jFileChooser1.setCurrentDirectory(new File("/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/RV_FPGA_PLC_IDE_Projects"));
@@ -2377,7 +2372,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     Data.is_New_Project = false;
                     Data.is_There_is_a_project = true;
                     new ProjectManagement().read_info_file(Project_Folder_Path);
-                    read_il_file(Project_Folder_Path);
+                    new ProjectManagement().read_il_file(Project_Folder_Path);
                     FillListProgram(false);
                     FillListVariables(false);
                     Data.is_Saved_Project = true;
@@ -2388,8 +2383,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     jMenuItem_Save_As.setEnabled(true);
                     jMenuItem_Close_Project.setEnabled(true);
                     set_core_in_jmenu();
-                    new Output_Tap().removeText();
-                    new Output_Tap().println("Project \""+Data.Project_Name+"\" opened.");
+                    jTextArea_Output_Tab.setText("");
+                    jTextArea_Output_Tab.append("Project \""+Data.Project_Name+"\" opened.\n");
                 } else {
                     JOptionPane.showMessageDialog(this, "Instruction List file dose not exists.", "Open Preoject", JOptionPane.OK_OPTION);
                 }
@@ -2400,7 +2395,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Open_ProjectActionPerformed
 
     private void jMenuItem_Close_ProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Close_ProjectActionPerformed
-        close_project();
+        new ProjectManagement().close_project(this, jFileChooser1);
     }//GEN-LAST:event_jMenuItem_Close_ProjectActionPerformed
 
     private void jMenuItem_Compile_SoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_SoftwareActionPerformed
@@ -2409,7 +2404,11 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         if (Data.is_Saved_Project) {
             sel = JOptionPane.showConfirmDialog(this, "Do you want to compile all project (C and VHDL)?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             compile_all_project = (sel == JOptionPane.YES_OPTION);
-            new Software().compile_software(this, Data.Project_Folder.getPath(), evt, compile_all_project, jDialog_Loading, JTextLableLoading, jFileChooser1);
+            if (Data.core == Data.RV32) {
+                new rv_fpga_plc_ide.helper.RV32.compile_il.Software().compile_software(this, Data.Project_Folder.getPath(), evt, compile_all_project, jDialog_Loading, JTextLableLoading, jFileChooser1, jTextArea_Output_Tab);
+            } else if (Data.core == Data.RV64) {
+                new rv_fpga_plc_ide.helper.RV64.compile_il.Software().compile_software(this, Data.Project_Folder.getPath(), evt, compile_all_project, jDialog_Loading, JTextLableLoading, jFileChooser1, jTextArea_Output_Tab);
+            }
         } else {
             sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save is?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (sel == JOptionPane.YES_OPTION){
@@ -2607,7 +2606,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private void jMenuItem_Compile_HardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_HardwareActionPerformed
         int sel;
         if (Data.is_Saved_Project) {
-            new Hardware().compile_hardware(this, Data.Project_Folder.getPath(), evt, JTextLableLoading, jDialog_Loading, jFileChooser1);
+            new rv_fpga_plc_ide.helper.RV32.compile_il.Hardware().compile_hardware(this, Data.Project_Folder.getPath(), evt, JTextLableLoading, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         } else {
             sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save is?", "Compile As Hardware", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (sel == JOptionPane.YES_OPTION){
@@ -2785,11 +2784,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
     private void jRadioButton_R32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_R32ActionPerformed
         Data.core = Data.RV32;
+        Data.is_Saved_Project = false;
+        this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
         set_core_in_jmenu();
     }//GEN-LAST:event_jRadioButton_R32ActionPerformed
 
     private void jRadioButton_R64ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_R64ActionPerformed
         Data.core = Data.RV64;
+        Data.is_Saved_Project = false;
+        this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
         set_core_in_jmenu();
     }//GEN-LAST:event_jRadioButton_R64ActionPerformed
 
@@ -2827,7 +2830,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }
     
-    private void convert_program_2D_to_1D() {
+    public void convert_program_2D_to_1D() {
         int Rung_i = 0, Programs_i, program_i = 0;
         if (Data.size_Rung != 0) Data.size_Program = (Data.size_Rung * Data.max_size_program_in_rung) + Data.size_Rung + 2;
         else Data.size_Program = 2;
@@ -3276,78 +3279,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void read_il_file(String Project_Folder) {
-        BufferedReader il_file = null;
-        Data.Vaiables = new String[Data.size_Vaiables];
-        try {
-            il_file = new BufferedReader(new FileReader(Project_Folder+"/"+Data.Project_Name+".il"));
-            for(int i = 0; i < Data.size_Vaiables ; i++) {
-                Data.Vaiables[i] = il_file.readLine();
-            }
-            il_file.readLine(); // empty line
-            Data.Program_2D = new String[Data.size_Rung][Data.max_size_program_in_rung];
-            Data.Rung_Name = new String[Data.size_Rung];
-            il_file.readLine(); // PROGRAM
-            String line;
-            int rung_i = 0, program_i;
-            for(int i = 1; i < Data.size_Program-1; i++) {
-                line = il_file.readLine();
-                if (!line.contains("     ")) {
-                    Data.Rung_Name[rung_i] = line;
-                    for (program_i = 0; program_i < Data.size_Program_in_rung[rung_i]; program_i++) {
-                        line = il_file.readLine();
-                        Data.Program_2D[rung_i][program_i] = line;
-                    }
-                }
-                i = i + Data.size_Program_in_rung[rung_i];
-                rung_i++;
-            }
-            convert_program_2D_to_1D();
-            this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                il_file.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
 
-    private void close_project() {
-        int Option;
-        if (Data.is_There_is_a_project) {
-            if (Data.is_New_Project) {
-                Option = JOptionPane.showConfirmDialog(null, "The project \""+Data.Project_Name+"\" is not saved. Do you want to save it?", "Close Project", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                if (Option == JOptionPane.YES_OPTION) {
-                    new ProjectManagement().saveProject_As(this, jFileChooser1);
-                    close_project_procedure();
-                } else if (Option == JOptionPane.NO_OPTION) {
-                    close_project_procedure();
-                }
-            } else {
-                if (Data.is_Saved_Project) {
-                    
-                } else {
-                    Option = JOptionPane.showConfirmDialog(null, "The project \""+Data.Project_Name+"\" is not saved. Do you want to save it?", "Close Project", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                    if (Option == JOptionPane.YES_OPTION) {
-                        new ProjectManagement().saveProject(this, jFileChooser1);
-                        close_project_procedure();
-                    } else if (Option == JOptionPane.NO_OPTION) {
-                        close_project_procedure();
-                    }
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "There is no opend project to close.", "Close Project", JOptionPane.OK_OPTION);
-        }
-    }
-
-    private void close_project_procedure() {
+    public void close_project_procedure() {
         Data.size_Program = 0;
         Data.size_Rung = 0;
         Data.size_Vaiables = 0;
@@ -3365,7 +3298,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         FillListProgram(false);
         Data.Project_Name = "No Project";
         this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
-        new Output_Tap().removeText();
+        jTextArea_Output_Tab.setText("");
     }
     
     private boolean convert_hex_to_mif(String Folder, int max_number_of_inst) {
@@ -3591,9 +3524,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private void download_software_to_SoC(String Project_Folder) {
         LoadingDialoge loading = new LoadingDialoge("Downloading ...", JTextLableLoading, jDialog_Loading);
         loading.start();
-        new Output_Tap().removeText();
-        new Output_Tap().println("Start Downloading Software to SoC.");
-        download_to_SoC_thread dtst = new download_to_SoC_thread(this, Project_Folder+"/q_files", jDialog_Loading, jFileChooser1);
+        jTextArea_Output_Tab.setText("");
+        jTextArea_Output_Tab.append("Start Downloading Software to SoC.\n");
+        download_to_SoC_thread dtst = new download_to_SoC_thread(this, Project_Folder+"/q_files", jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         dtst.start();
     }
     
@@ -3689,4 +3622,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }
     
+    public void jTextArea_Output_TabSetText(String text) {
+        jTextArea_Output_Tab.setText(text);
+    }
 }

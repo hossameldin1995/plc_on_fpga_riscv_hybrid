@@ -14,7 +14,6 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.helper.ProjectManagement;
-import rv_fpga_plc_ide.helper.RV32.compile_c.compile_c_file;
 import rv_fpga_plc_ide.helper.execute_command;
 
 /**
@@ -27,13 +26,15 @@ public class download_to_SoC_thread extends Thread {
         private final Component parentComponent;
         private final JFileChooser jFileChooser1;
         private final JTextArea jTextArea_Output_Tab;
+        private final int hdl_compilation_type;
         
-        public download_to_SoC_thread(Component parentComponent, String Project_Folder, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
+        public download_to_SoC_thread(Component parentComponent, String Project_Folder, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab, int hdl_compilation_type) {
             this.Project_Folder = Project_Folder;
             this.jDialog_Loading = jDialog_Loading;
             this.parentComponent = parentComponent;
             this.jFileChooser1 = jFileChooser1;
             this.jTextArea_Output_Tab = jTextArea_Output_Tab;
+            this.hdl_compilation_type = hdl_compilation_type;
         }
         
         @Override
@@ -43,10 +44,18 @@ public class download_to_SoC_thread extends Thread {
             String Project_Name;
             if (Data.core == Data.RV32) {
                 Project_Name = "RV_FPGA_PLC_Potato";
-                Project_Folder = Project_Folder + "/q_files";
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Project_Folder = Project_Folder + "/q_files_RV32_SW";
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Project_Folder = Project_Folder + "/q_files_RV32_HW";
+                }
             } else {
                 Project_Name = "River_SoC";
-                Project_Folder = Project_Folder + "/q_files_64";
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Project_Folder = Project_Folder + "/q_files_RV64_SW";
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Project_Folder = Project_Folder + "/q_files_RV64_HW";
+                }
             }
             String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_pgm -m jtag -c 1 -o \"p;"+Project_Folder+"/output_files/"+Project_Name+".sof\"";
             int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);

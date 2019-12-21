@@ -28,16 +28,16 @@ import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
  */
 public class Software {
     public void compile_software(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, boolean compile_all_project, JDialog jDialog_Loading, JLabel JTextLableLoading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
-        if (Data.hdl_compilation_state == Data.UPDATED) {
-            Data.hdl_compilation_state = Data.ASSEMBLER;
+        if (Data.hdl_compilation_state_RV64_SW == Data.UPDATED) {
+            Data.hdl_compilation_state_RV64_SW = Data.ASSEMBLER;
         }
         LoadingDialoge loading = new LoadingDialoge("Compiling ...", JTextLableLoading, jDialog_Loading);
         loading.start();
         jTextArea_Output_Tab.setText("");
         jTextArea_Output_Tab.append("Start Compiling As Software.\n");
         boolean success = true;
-        File c_files = new File(Project_Folder+"/c_files_64");
-        File q_files = new File(Project_Folder+"/q_files_64");
+        File c_files = new File(Project_Folder+"/c_files_RV64_SW");
+        File q_files = new File(Project_Folder+"/q_files_RV64_SW");
         
         c_files.mkdirs();
         if (compile_all_project) q_files.mkdirs();
@@ -46,26 +46,26 @@ public class Software {
         success &= compill_il_file_sw(parentComponent, jDialog_Loading);
         if (success) {
             jTextArea_Output_Tab.append("  Start Compiling \"hex2mifc\".\n");
-            success &= new compile_c_file().compile_hex2mif(jTextArea_Output_Tab);
+            success &= new compile_c_file().compile_hex2mif(jTextArea_Output_Tab, Data.SW_COMPILATION);
         }
         if (success) {
             jTextArea_Output_Tab.append("  Start Compiling \"elf2rawx\".\n");
-            success &= new compile_c_file().compile_elf2rawx(jTextArea_Output_Tab);
+            success &= new compile_c_file().compile_elf2rawx(jTextArea_Output_Tab, Data.SW_COMPILATION);
         }
         if (success) {
             jTextArea_Output_Tab.append("  Start Compiling \"Application\".\n");
-            success &= new compile_c_file().compile_application(jTextArea_Output_Tab);
+            success &= new compile_c_file().compile_application(jTextArea_Output_Tab, Data.SW_COMPILATION);
         }
         if (success) {
             jTextArea_Output_Tab.append("  Start Compiling \"Boot\".\n");
-            success &= new compile_c_file().compile_boot(jTextArea_Output_Tab);
+            success &= new compile_c_file().compile_boot(jTextArea_Output_Tab, Data.SW_COMPILATION);
         }
         if (success && compile_all_project) {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
-            new Write_Hardware_Files().generate_q_files(Project_Folder);
+            new Write_Hardware_Files().generate_q_files(Project_Folder+"/q_files_RV64_SW/");
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
-            new GeneralFunctions().copy_file(Project_Folder+"/c_files_64/"+Data.Project_Name+"_application/bin/"+Data.Project_Name+".mif", Project_Folder+"/q_files_64/"+Data.Project_Name+".mif");
-            new GeneralFunctions().copy_file(Project_Folder+"/c_files_64/boot/bin/bootimage.mif", Project_Folder+"/q_files_64/bootimage.mif");
+            new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV64_SW/"+Data.Project_Name+"_application/bin/"+Data.Project_Name+".mif", Project_Folder+"/q_files_RV64_SW/"+Data.Project_Name+".mif");
+            new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV64_SW/boot/bin/bootimage.mif", Project_Folder+"/q_files_RV64_SW/bootimage.mif");
             new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.SW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         }
         
@@ -87,7 +87,6 @@ public class Software {
         boolean success = true;
         Data.Number_Of_Timers_In_Program = 0;
         Data.Number_Of_PWMs_In_Program = 0;
-        new Write_Software_Files().write_library_files();
         Data.C_code =   "/*****************************************************************************\n" +
                         " * @file\n" +
                         " * @author   Sergey Khabarov\n" +
@@ -169,7 +168,8 @@ public class Software {
                        "    }\n" +
                        "\n" +
                        "}";
-        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files_64/"+Data.Project_Name+"_application/src/"+Data.Project_Name+".c", Data.C_code);
+        new Write_Software_Files().write_library_files(Data.Project_Folder.getPath()+"/c_files_RV64_SW", Data.SW_COMPILATION);
+        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files_RV64_SW/"+Data.Project_Name+"_application/src/"+Data.Project_Name+".c", Data.C_code);
         return success;
     }
     

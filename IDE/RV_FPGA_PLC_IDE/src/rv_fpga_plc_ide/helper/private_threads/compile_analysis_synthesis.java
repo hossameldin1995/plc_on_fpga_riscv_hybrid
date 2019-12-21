@@ -29,6 +29,8 @@ public class compile_analysis_synthesis extends Thread {
         private final JFileChooser jFileChooser1;
         private final JTextArea jTextArea_Output_Tab;
         
+        int hdl_compilation_state;
+        
         public compile_analysis_synthesis(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
@@ -52,21 +54,34 @@ public class compile_analysis_synthesis extends Thread {
             int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
             if (exitValue == 0) {
                 compile_fitter cf = new compile_fitter(parentComponent, Project_Folder, evt, hdl_compilation_type, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
-                Data.hdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
-                Data.hdl_compilation_type = hdl_compilation_type;
+                hdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
                 Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
                 Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
                 Data.compiled_core = Data.core;
                 cf.start();
             } else {
                 jDialog_Loading.hide();
-                Data.hdl_compilation_state = Data.NO_COMPILATION;
-                Data.hdl_compilation_type = Data.NO_COMPILATION;
+                hdl_compilation_state = Data.NO_COMPILATION;
                 Data.Number_Of_Timers_Compiled = 0;
                 Data.Number_Of_PWMs_Compiled = 0;
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Analysis Synthesis Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
             }
+            
+            if (Data.core == Data.RV32) {
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Data.hdl_compilation_state_RV32_SW = hdl_compilation_state;
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.hdl_compilation_state_RV32_HW = hdl_compilation_state;
+                }
+            } else {
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Data.hdl_compilation_state_RV64_SW = hdl_compilation_state;
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.hdl_compilation_state_RV64_HW = hdl_compilation_state;
+                }
+            }
+            
             new ProjectManagement().saveProject(parentComponent, jFileChooser1);
         }
     }

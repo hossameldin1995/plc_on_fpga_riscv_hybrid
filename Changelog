@@ -146,24 +146,8 @@ Version 1.12
 8 - Modyfy Duty_Cycle_ to be I_Duty_Cycle_ >> internal_duty_cycle because of duplication in variables names.
 9 - Modify write hardware module in 64-bit core to be name of project instead of fixed project (Arithmatic). 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Version 1.13
+==========================================================================================================================
+1 - Modify the project to separate between folders (RV32_SW, RV32_HW, RV64_SW, RV64_HW) to make availability of compilation files.
+2 - Modify projects to be able to store compilation state of four types.
+3 - Allow downloading to FPGA to sellect between four types.

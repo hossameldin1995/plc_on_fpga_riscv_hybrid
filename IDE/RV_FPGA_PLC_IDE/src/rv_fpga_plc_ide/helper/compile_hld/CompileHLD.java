@@ -23,15 +23,29 @@ import rv_fpga_plc_ide.helper.private_threads.compile_update_mif;
 public class CompileHLD {
     
     public void compile_hdl(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
-        if (Data.core == Data.RV32) {
-            Project_Folder = Project_Folder + "/q_files/";
-        } else {
-            Project_Folder = Project_Folder + "/q_files_64/";
+        int hdl_compilation_state = Data.NO_COMPILATION;
+        
+        if (hdl_compilation_type == Data.SW_COMPILATION) {
+            if (Data.core == Data.RV32) {
+                Project_Folder = Project_Folder + "/q_files_RV32_SW/";
+                hdl_compilation_state = Data.hdl_compilation_state_RV32_SW;
+            } else {
+                Project_Folder = Project_Folder + "/q_files_RV64_SW/";
+                hdl_compilation_state = Data.hdl_compilation_state_RV64_SW;
+            }
+        } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+            if (Data.core == Data.RV32) {
+                Project_Folder = Project_Folder + "/q_files_RV32_HW/";
+                hdl_compilation_state = Data.hdl_compilation_state_RV32_HW;
+            } else {
+                Project_Folder = Project_Folder + "/q_files_RV64_HW/";
+                hdl_compilation_state = Data.hdl_compilation_state_RV64_HW;
+            }
         }
         
         boolean no_hardware_change = check_hardware_change(hdl_compilation_type);
         if (no_hardware_change) {
-            switch (Data.hdl_compilation_state) {
+            switch (hdl_compilation_state) {
                 case Data.NO_COMPILATION:
                     compile_analysis_synthesis cas = new compile_analysis_synthesis(parentComponent, Project_Folder, evt, hdl_compilation_type, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
                     cas.start();
@@ -60,12 +74,6 @@ public class CompileHLD {
     }
     
     private boolean check_hardware_change(int hdl_compilation_type) {
-        if (hdl_compilation_type != Data.hdl_compilation_type) {
-            return false;
-        }
-        if (Data.compiled_core != Data.core) {
-            return false;
-        }
         if (hdl_compilation_type == Data.HW_COMPILATION) {
             if (Data.Number_Of_Timers_Compiled != Data.Number_Of_Timers_In_Program) {
                 return false;

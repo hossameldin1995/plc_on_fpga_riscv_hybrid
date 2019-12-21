@@ -30,6 +30,8 @@ public class compile_assembler extends Thread {
         private final JFileChooser jFileChooser1;
         private final JTextArea jTextArea_Output_Tab;
         
+        int hdl_compilation_state;
+        
         public compile_assembler(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
@@ -51,30 +53,44 @@ public class compile_assembler extends Thread {
             }
             String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_asm --read_settings_files=on --write_settings_files=off "+Project_Folder+Project_Name+" -c "+Project_Folder+Project_Name;
             int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
-            Data.hdl_compilation_type = hdl_compilation_type;
             Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
             Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
             Data.compiled_core = Data.core;
             if (exitValue == 0) {
-                Data.hdl_compilation_state = Data.UPDATED;
+                hdl_compilation_state = Data.UPDATED;
                 jDialog_Loading.hide();
                 jTextArea_Output_Tab.append("  Compiling Finished Successfully\n");
                 JOptionPane.showMessageDialog(parentComponent, "Compiling Finished Successfully");
-                if (Data.RequistDownload) {
-                    Data.RequistDownload = false;
-                    new RV_FPGA_PLC_IDE().Download_Prog_to_SoC(evt);
+                if (Data.RequestDownload) {
+                    Data.RequestDownload = false;
+                    new RV_FPGA_PLC_IDE().Download_Prog_to_SoC(evt, hdl_compilation_type);
                 }
             } else {
                 jDialog_Loading.hide();
-                Data.hdl_compilation_state = Data.FITTER;
+                hdl_compilation_state = Data.FITTER;
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Compiling did not Finished Successfully", "Compile As Software", JOptionPane.OK_OPTION, icon);
                 jTextArea_Output_Tab.append("  Compiling did not Finished Successfully\n");
-                if (Data.RequistDownload) {
-                    Data.RequistDownload = false;
+                if (Data.RequestDownload) {
+                    Data.RequestDownload = false;
                     JOptionPane.showMessageDialog(parentComponent, "Downloading did not Finished Successfully.", "Downloading to SoC", JOptionPane.OK_OPTION, icon);
                 }
             }
+            
+            if (Data.core == Data.RV32) {
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Data.hdl_compilation_state_RV32_SW = hdl_compilation_state;
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.hdl_compilation_state_RV32_HW = hdl_compilation_state;
+                }
+            } else {
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Data.hdl_compilation_state_RV64_SW = hdl_compilation_state;
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.hdl_compilation_state_RV64_HW = hdl_compilation_state;
+                }
+            }
+            
             new ProjectManagement().saveProject(parentComponent, jFileChooser1);
         }
     }

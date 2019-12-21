@@ -29,6 +29,8 @@ public class compile_update_mif extends Thread {
         private final JFileChooser jFileChooser1;
         private final JTextArea jTextArea_Output_Tab;
         
+        int hdl_compilation_state;
+        
         public compile_update_mif(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
@@ -54,12 +56,27 @@ public class compile_update_mif extends Thread {
                 compile_assembler ca = new compile_assembler(parentComponent, Project_Folder, evt, hdl_compilation_type, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
                 ca.start();
             } else {
-                Data.hdl_compilation_state = Data.NO_COMPILATION;
+                hdl_compilation_state = Data.NO_COMPILATION;
                 jDialog_Loading.hide();
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Updating mif Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
                 jTextArea_Output_Tab.append("  Compiling did not Finished Successfully\n");
             }
+            
+            if (Data.core == Data.RV32) {
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Data.hdl_compilation_state_RV32_SW = hdl_compilation_state;
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.hdl_compilation_state_RV32_HW = hdl_compilation_state;
+                }
+            } else {
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Data.hdl_compilation_state_RV64_SW = hdl_compilation_state;
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.hdl_compilation_state_RV64_HW = hdl_compilation_state;
+                }
+            }
+            
             new ProjectManagement().saveProject(parentComponent, jFileChooser1);
         }
     }

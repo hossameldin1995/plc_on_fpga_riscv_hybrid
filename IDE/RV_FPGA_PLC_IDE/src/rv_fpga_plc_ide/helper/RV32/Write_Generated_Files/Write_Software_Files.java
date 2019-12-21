@@ -21,10 +21,10 @@ import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
  */
 public class Write_Software_Files {
     
-    public void write_library_files() {
-        write_header_files(Data.Project_Folder.getPath()+"/c_files");
-        write_start_S_file(Data.Project_Folder.getPath()+"/c_files");
-        write_load_file(Data.Project_Folder.getPath()+"/c_files");
+    public void write_library_files(String Project_Folder) {
+        write_header_files(Project_Folder);
+        write_start_S_file(Project_Folder);
+        write_load_file(Project_Folder);
     }
     
     private void write_header_files(String Folder) {

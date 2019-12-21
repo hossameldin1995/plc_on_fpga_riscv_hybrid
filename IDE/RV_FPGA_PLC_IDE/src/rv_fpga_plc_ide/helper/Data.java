@@ -67,7 +67,7 @@ public class Data {
     public static int       CPU_RV64_Timer_Freq = F_75M;
     public static int       PWM_RV64_HW_Freq = F_10M;
     
-    public static boolean RequistDownload = false;
+    public static boolean RequestDownload = false;
     
     // Comile hdl
     public static final int NO_COMPILATION = 0;
@@ -75,8 +75,10 @@ public class Data {
     public static final int FITTER = 2;
     public static final int ASSEMBLER = 3;
     public static final int UPDATED = 4;
-    public static int hdl_compilation_type = NO_COMPILATION;
-    public static int hdl_compilation_state = NO_COMPILATION;
+    public static int hdl_compilation_state_RV32_SW = NO_COMPILATION;
+    public static int hdl_compilation_state_RV32_HW = NO_COMPILATION;
+    public static int hdl_compilation_state_RV64_SW = NO_COMPILATION;
+    public static int hdl_compilation_state_RV64_HW = NO_COMPILATION;
     
     public static final int SW_COMPILATION = 1;
     public static final int HW_COMPILATION = 2;

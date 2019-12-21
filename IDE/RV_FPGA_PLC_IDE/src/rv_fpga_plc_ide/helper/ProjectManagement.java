@@ -146,8 +146,10 @@ public class ProjectManagement {
                           "Number of Variables    = "+(Data.size_Vaiables - 2)+"\n"+
                           "Core                   = "+Data.core+"\n"+
                           "Compiled Core          = "+Data.core+"\n"+
-                          "HDL Compilation State  = "+Data.hdl_compilation_state+"\n"+
-                          "HDL Compilation Type   = "+Data.hdl_compilation_type+"\n"+
+                          "HDL Compilation State  = "+Data.hdl_compilation_state_RV32_SW+", "+
+                                                      Data.hdl_compilation_state_RV32_HW+", "+
+                                                      Data.hdl_compilation_state_RV64_SW+", "+
+                                                      Data.hdl_compilation_state_RV64_HW+"\n"+
                           "Compiled Timers        = "+Data.Number_Of_Timers_Compiled+"\n"+
                           "Timers in Program      = "+Data.Number_Of_Timers_In_Program+"\n"+
                           "Compiled PWMs          = "+Data.Number_Of_PWMs_Compiled+"\n"+
@@ -209,22 +211,18 @@ public class ProjectManagement {
             Data.size_Vaiables = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1])+2;
             Data.core = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.compiled_core = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
-            Data.hdl_compilation_state = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
-            Data.hdl_compilation_type = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            
+            String hdl_compilation_state[] = info_file.readLine().replaceAll(" ", "").split("=")[1].split(",");
+            Data.hdl_compilation_state_RV32_SW = Integer.parseInt(hdl_compilation_state[0]);
+            Data.hdl_compilation_state_RV32_HW = Integer.parseInt(hdl_compilation_state[1]);
+            Data.hdl_compilation_state_RV64_SW = Integer.parseInt(hdl_compilation_state[2]);
+            Data.hdl_compilation_state_RV64_HW = Integer.parseInt(hdl_compilation_state[3]);
+            
             Data.Number_Of_Timers_Compiled = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.Number_Of_Timers_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.Number_Of_PWMs_Compiled = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.Number_Of_PWMs_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
-            if (Data.core == Data.RV32) {
-                q_files = new File(Project_Folder+"/q_files");
-            } else {
-                q_files = new File(Project_Folder+"/q_files_64");
-            }
-            if (!q_files.exists()) {
-                Data.hdl_compilation_state = Data.NO_COMPILATION;
-                Data.hdl_compilation_type = Data.NO_COMPILATION;
-                write_info_file(Project_Folder);
-            }
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

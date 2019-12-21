@@ -21,20 +21,19 @@ import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
  */
 public class Write_Hardware_Files {
     public void generate_q_files(String Project_Folder) {
-        generate_q_subfolders(Project_Folder);
+        generate_q_subfolders(Project_Folder+"hdl_code/");
         generate_q_hdl_toplevel_for_sw_comp_files(Project_Folder);
         generate_q_hdl_basic_files(Project_Folder);
     }
     
     public void generate_q_files_variables(String Project_Folder) {
-        generate_q_subfolders(Project_Folder);
+        generate_q_subfolders(Project_Folder+"hdl_code/");
         generate_q_hdl_toplevel_for_hw_comp_files(Project_Folder);
         generate_q_hdl_basic_files(Project_Folder);
     }
     
     private void generate_q_subfolders(String Project_Folder) {
         File file;
-        Project_Folder = Project_Folder+"/q_files/hdl_code/";
         file = new File(Project_Folder+"potato_processor/vhdl"); file.mkdirs();
         file = new File(Project_Folder+"peripherals/processor/vhdl"); file.mkdirs();
         file = new File(Project_Folder+"peripherals/func_block_constant/time_measurement/vhdl"); file.mkdirs();
@@ -50,12 +49,12 @@ public class Write_Hardware_Files {
     }
     
     private void generate_q_hdl_toplevel_for_sw_comp_files(String Project_Folder){
-        generate_toplevel_vhd_file_sw(Project_Folder);
+        generate_toplevel_vhd_file_sw(Project_Folder+"hdl_code/");
         generate_qsf_file_sw(Project_Folder);
     }
     
     private void generate_q_hdl_toplevel_for_hw_comp_files(String Project_Folder){
-        generate_toplevel_vhd_file_hw(Project_Folder);
+        generate_toplevel_vhd_file_hw(Project_Folder+"hdl_code/");
         generate_qsf_file_sw(Project_Folder); // TODO need to be converted to hw
     }
 
@@ -121,7 +120,6 @@ public class Write_Hardware_Files {
     }
 
     private void generate_qpf_file(String Project_Folder) {
-        Project_Folder = Project_Folder + "/q_files/";
         FileOutputStream fileOutSt = null;
         String data =   "# -------------------------------------------------------------------------- #\n" +
                         "#\n" +
@@ -171,7 +169,6 @@ public class Write_Hardware_Files {
     }
     
     private void generate_qsf_file_sw(String Project_Folder) {
-        Project_Folder = Project_Folder + "/q_files/";
         FileOutputStream fileOutSt = null;
         String data =   "# -------------------------------------------------------------------------- #\n" +
                         "#\n" +
@@ -225,7 +222,7 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation\n" +
                         "set_global_assignment -name POWER_PRESET_COOLING_SOLUTION \"23 MM HEAT SINK WITH 200 LFPM AIRFLOW\"\n" +
                         "set_global_assignment -name POWER_BOARD_THERMAL_MODEL \"NONE (CONSERVATIVE)\"\n" +
-                        "set_global_assignment -name NUM_PARALLEL_PROCESSORS \"2\"" +
+                        "set_global_assignment -name NUM_PARALLEL_PROCESSORS \"4\"" +
                         "\n" +
                         "set_location_assignment PIN_L9 -to UART_TX\n" +
                         "set_location_assignment PIN_M9 -to UART_RX\n" +
@@ -497,7 +494,6 @@ public class Write_Hardware_Files {
     }
     
     private void generate_RV_FPGA_PLC_Potato_vhd_file(String Project_Folder) {
-        Project_Folder = Project_Folder + "/q_files/";
         FileOutputStream fileOutSt = null;
         String data =   "library ieee;\n" +
                         "use ieee.std_logic_1164.all;\n" +
@@ -653,7 +649,6 @@ public class Write_Hardware_Files {
     }
     
     private void generate_toplevel_vhd_file_sw(String Project_Folder) {
-        Project_Folder = Project_Folder + "/q_files/hdl_code/";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - SoC design for the Arty FPGA board\n" +
                         "-- (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
@@ -1847,11 +1842,11 @@ public class Write_Hardware_Files {
                                     "	"+Data.Name_of_PWMs[i]+"_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_"+Data.Name_of_PWMs[i]+" else '0';\n\n";
                         }
                 data += "end architecture behaviour;";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/toplevel.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "toplevel.vhd", data);
     }
     
     private void generate_pp_soc_reset_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/processor/vhdl/pp_soc_reset.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/processor/vhdl/pp_soc_reset.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2018 <kristian.skordal@wafflemail.net>\n" +
@@ -1941,7 +1936,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_utilities_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_utilities.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_utilities.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 <kristian.skordal@wafflemail.net>\n" +
@@ -2055,7 +2050,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_types_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_types.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_types.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -2198,7 +2193,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_constants_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_constants.vhd";
+        Project_Folder_File = Project_Folder_File + "/hdl_code/potato_processor/vhdl/pp_constants.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 <kristian.skordal@wafflemail.net>\n" +
@@ -2233,7 +2228,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_potato_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_potato.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_potato.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -2432,7 +2427,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_soc_timer_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/processor/vhdl/pp_soc_timer.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/processor/vhdl/pp_soc_timer.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2016 <kristian.skordal@wafflemail.net>\n" +
@@ -2567,7 +2562,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_soc_uart_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/processor/vhdl/pp_soc_uart.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/processor/vhdl/pp_soc_uart.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2016 <kristian.skordal@wafflemail.net>\n" +
@@ -2972,7 +2967,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_soc_intercon_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/processor/vhdl/pp_soc_intercon.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/processor/vhdl/pp_soc_intercon.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
@@ -3174,7 +3169,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_aee_rom_wrapper_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/processor/vhdl/aee_rom_wrapper.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/processor/vhdl/aee_rom_wrapper.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - SoC design for the Arty FPGA board\n" +
                         "-- (c) Kristian Klomsten Skordal 2016 <kristian.skordal@wafflemail.net>\n" +
@@ -3270,7 +3265,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_soc_memory_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/processor/vhdl/pp_soc_memory.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/processor/vhdl/pp_soc_memory.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -3376,7 +3371,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_In_Out_Peripheral_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/in_out_peripheral/vhdl/In_Out_Peripheral.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/in_out_peripheral/vhdl/In_Out_Peripheral.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "library ieee;\n" +
                         "use ieee.std_logic_1164.all;\n" +
@@ -3504,7 +3499,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_Time_Measurement_Peripheral_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/time_measurement/vhdl/Time_Measurement_Peripheral.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/time_measurement/vhdl/Time_Measurement_Peripheral.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "library ieee;\n" +
                         "use ieee.std_logic_1164.all;\n" +
@@ -3645,7 +3640,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_fifo_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_fifo.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_fifo.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -3757,7 +3752,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_core_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_core.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_core.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -4218,7 +4213,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_csr_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_csr.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_csr.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -4354,7 +4349,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_icache_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_icache.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_icache.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -4559,7 +4554,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_wb_adapter_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_wb_adapter.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_wb_adapter.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -4705,7 +4700,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_wb_arbiter_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_wb_arbiter.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_wb_arbiter.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -4825,7 +4820,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_csr_unit_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_csr_unit.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_csr_unit.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -5130,7 +5125,7 @@ public class Write_Hardware_Files {
     }
 
     private void generate_pp_counter_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_counter.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_counter.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 -2015 <kristian.skordal@wafflemail.net>\n" +
@@ -5190,7 +5185,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_register_file_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_register_file.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_register_file.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 <kristian.skordal@wafflemail.net>\n" +
@@ -5262,7 +5257,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_fetch_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_fetch.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_fetch.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -5370,7 +5365,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_decode_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_decode.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_decode.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -5530,7 +5525,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_imm_decoder_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_imm_decoder.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_imm_decoder.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 <kristian.skordal@wafflemail.net>\n" +
@@ -5585,7 +5580,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_control_unit_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_control_unit.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_control_unit.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -5841,7 +5836,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_execute_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_execute.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_execute.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -6328,7 +6323,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_alu_mux_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_alu_mux.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_alu_mux.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 <kristian.skordal@wafflemail.net>\n" +
@@ -6397,7 +6392,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_comparator_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_comparator.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_comparator.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 <kristian.skordal@wafflemail.net>\n" +
@@ -6460,7 +6455,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_alu_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_alu.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_alu.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 <kristian.skordal@wafflemail.net>\n" +
@@ -6546,7 +6541,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_csr_alu_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_csr_alu.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_csr_alu.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 <kristian.skordal@wafflemail.net>\n" +
@@ -6609,7 +6604,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_memory_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_memory.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_memory.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -6783,7 +6778,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_writeback_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_writeback.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_writeback.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -6874,7 +6869,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_pp_alu_control_unit_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/potato_processor/vhdl/pp_alu_control_unit.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/potato_processor/vhdl/pp_alu_control_unit.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- The Potato Processor - A simple processor for FPGAs\n" +
                         "-- (c) Kristian Klomsten Skordal 2014 - 2015 <kristian.skordal@wafflemail.net>\n" +
@@ -7035,7 +7030,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_Time_Calculation_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/time_measurement/vhdl/Time_Calculation.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/time_measurement/vhdl/Time_Calculation.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "library ieee;\n" +
                         "use ieee.std_logic_1164.all;\n" +
@@ -7133,7 +7128,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_Write_To_Hexa_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/time_measurement/vhdl/Write_To_Hexa.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/time_measurement/vhdl/Write_To_Hexa.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "library ieee;\n" +
                         "use ieee.std_logic_1164.all;\n" +
@@ -7224,7 +7219,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_clock_generator_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- megafunction wizard: %PLL Intel FPGA IP v18.0%\n" +
                         "-- GENERATION: XML\n" +
@@ -7518,7 +7513,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_clock_generator_vho_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.vho";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.vho";
         FileOutputStream fileOutSt = null;
         String data =   "--IP Functional Simulation Model\n" +
                         "--VERSION_BEGIN 18.0 cbx_mgl 2018:04:18:07:37:08:SJ cbx_simgen 2018:04:18:06:50:44:SJ  VERSION_END\n" +
@@ -7846,7 +7841,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_clock_generator_002_v_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/clock_generator/clock_generator/clock_generator_0002.v";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/clock_generator/clock_generator/clock_generator_0002.v";
         FileOutputStream fileOutSt = null;
         String data =   "`timescale 1ns/10ps\n" +
                         "module  clock_generator_0002(\n" +
@@ -7955,7 +7950,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_clock_generator_002_qip_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/clock_generator/clock_generator/clock_generator_0002.qip";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/clock_generator/clock_generator/clock_generator_0002.qip";
         FileOutputStream fileOutSt = null;
         String data =   "set_instance_assignment -name PLL_COMPENSATION_MODE DIRECT -to \"*clock_generator_0002*|altera_pll:altera_pll_i*|*\"\n" +
                         " \n" +
@@ -7979,7 +7974,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_clock_generator_sip_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.sip";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.sip";
         FileOutputStream fileOutSt = null;
         String data =   "set_global_assignment -entity \"clock_generator\" -library \"lib_clock_generator\" -name IP_TOOL_NAME \"altera_pll\"\n" +
                         "set_global_assignment -entity \"clock_generator\" -library \"lib_clock_generator\" -name IP_TOOL_VERSION \"18.0\"\n" +
@@ -8005,7 +8000,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_clock_generator_qip_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.qip";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/clock_generator/clock_generator.qip";
         FileOutputStream fileOutSt = null;
         String data =   "set_global_assignment -entity \"clock_generator\" -library \"clock_generator\" -name IP_TOOL_NAME \"altera_pll\"\n" +
                         "set_global_assignment -entity \"clock_generator\" -library \"clock_generator\" -name IP_TOOL_VERSION \"18.0\"\n" +
@@ -8362,7 +8357,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_aee_rom_vhd_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.vhd";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.vhd";
         FileOutputStream fileOutSt = null;
         String data =   "-- megafunction wizard: %ROM: 1-PORT%\n" +
                         "-- GENERATION: STANDARD\n" +
@@ -8525,7 +8520,7 @@ public class Write_Hardware_Files {
     }
        
     private void generate_SEG7_LUT_4_v_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/time_measurement/verilog/SEG7_LUT_4.v";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/time_measurement/verilog/SEG7_LUT_4.v";
         FileOutputStream fileOutSt = null;
         String data =   "module SEG7_LUT_4 (	oSEG0,oSEG1,oSEG2,oSEG3,iDIG );\n" +
                         "input	[31:0]	iDIG;\n" +
@@ -8556,7 +8551,7 @@ public class Write_Hardware_Files {
     }
     
     private void generate_SEG7_LUT_v_file(String Project_Folder_File) {
-        Project_Folder_File = Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/time_measurement/verilog/SEG7_LUT.v";
+        Project_Folder_File = Project_Folder_File + "hdl_code/peripherals/func_block_constant/time_measurement/verilog/SEG7_LUT.v";
         FileOutputStream fileOutSt = null;
         String data =   "module SEG7_LUT	(	oSEG,iDIG	);\n" +
                         "input	[3:0]	iDIG;\n" +
@@ -8709,7 +8704,7 @@ public class Write_Hardware_Files {
                         "	end process;\n" +
                         "\n" +
                         "end architecture behaviour;";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/TON/vhdl/TON_Peripheral.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/func_block_variable/TON/vhdl/TON_Peripheral.vhd", data);
     }
     
     private void generate_Timer_on_64_Controller_vhd_file(String Project_Folder_File) {
@@ -8771,7 +8766,7 @@ public class Write_Hardware_Files {
                         "		END IF;\n" +
                         "	END PROCESS;\n" +
                         "END RTL;";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/TON/vhdl/Timer_on_64_Controller.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/func_block_variable/TON/vhdl/Timer_on_64_Controller.vhd", data);
     }
     
     private void generate_Counter_Down_64_bit_Cin_vhd_file(String Project_Folder_File) {
@@ -8820,7 +8815,7 @@ public class Write_Hardware_Files {
                         "	end process;\n" +
                         "	C_Out <= std_logic_vector(C_O_Tmp);\n" +
                         "END ARCHITECTURE rtl;";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/TON/vhdl/Counter_Down_64_bit_Cin.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/func_block_variable/TON/vhdl/Counter_Down_64_bit_Cin.vhd", data);
     }
     
     private void generate_RV_FPGA_PLC_Potato_sdc_file(String Project_Folder_File) {
@@ -8909,7 +8904,7 @@ public class Write_Hardware_Files {
                         "#**************************************************************\n" +
                         "# Set Load\n" +
                         "#**************************************************************";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/RV_FPGA_PLC_Potato.sdc", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "RV_FPGA_PLC_Potato.sdc", data);
     }
     
     private void generate_aee_rom_qip_file(String Project_Folder_File) {
@@ -8918,7 +8913,7 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
                         "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"aee_rom.vhd\"]\n" +
                         "set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) \"aee_rom.cmp\"]";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.qip", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.qip", data);
     }
     
     private void generate_aee_rom_cmp_file(String Project_Folder_File) {
@@ -8945,7 +8940,7 @@ public class Write_Hardware_Files {
                         "		q		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)\n" +
                         "	);\n" +
                         "end component;";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.cmp", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.cmp", data);
     }
     
     private void generate_PWM_Peripheral_vhd_file(String Project_Folder_File) {
@@ -9061,7 +9056,7 @@ public class Write_Hardware_Files {
                         "	end process;\n" +
                         "\n" +
                         "end architecture behaviour;";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_Peripheral.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_Peripheral.vhd", data);
     }
     
     private void generate_PWM_32_bit_vhd_file(String Project_Folder_File) {
@@ -9106,7 +9101,7 @@ public class Write_Hardware_Files {
                         "	end process;\n" +
                         "	\n" +
                         "end RTL;";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_32_bit.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_32_bit.vhd", data);
     }
     
     private void generate_Div_32_bit_vhd_file(String Project_Folder_File) {
@@ -9236,7 +9231,7 @@ public class Write_Hardware_Files {
                         "-- Retrieval info: CONNECT: quotient 0 0 32 0 @quotient 0 0 32 0\n" +
                         "-- Retrieval info: CONNECT: remain 0 0 32 0 @remain 0 0 32 0\n" +
                         "-- Retrieval info: LIB_FILE: lpm";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.vhd", data);
     }
     
     private void generate_Div_32_bit_qip_file(String Project_Folder_File) {
@@ -9244,7 +9239,7 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name IP_TOOL_VERSION \"18.0\"\n" +
                         "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
                         "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"Div_32_bit.vhd\"]";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.qip", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.qip", data);
     }
     
     private void generate_Mult_32_bit_vhd_file(String Project_Folder_File) {
@@ -9377,7 +9372,7 @@ public class Write_Hardware_Files {
                         "-- Retrieval info: CONNECT: @datab 0 0 32 0 datab 0 0 32 0\n" +
                         "-- Retrieval info: CONNECT: result 0 0 64 0 @result 0 0 64 0\n" +
                         "-- Retrieval info: LIB_FILE: lpm";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.vhd", data);
     }
     
     private void generate_Mult_32_bit_qip_file(String Project_Folder_File) {
@@ -9385,11 +9380,11 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name IP_TOOL_VERSION \"18.0\"\n" +
                         "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
                         "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"Mult_32_bit.vhd\"]";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.qip", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.qip", data);
     }
     
     private void generate_test_vhd_file(String Project_Folder_File) {
         String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "hdl_code", data);
     }
 }

@@ -14,14 +14,19 @@ import rv_fpga_plc_ide.helper.GeneralFunctions;
  * @author hossameldin
  */
 public class Write_Software_Files {
-    
-    public void write_library_files() {
-        generate_c_subfolders(Data.Project_Folder.getPath()+"/c_files_64");
-        write_boot_files(Data.Project_Folder.getPath()+"/c_files_64/boot");
-        write_common_files(Data.Project_Folder.getPath()+"/c_files_64/common");
-        write_elf2rawx_files(Data.Project_Folder.getPath()+"/c_files_64/elf2rawx");
-        write_hex2mif_files(Data.Project_Folder.getPath()+"/c_files_64/hex2mif");
-        write_project_main_files(Data.Project_Folder.getPath()+"/c_files_64/"+Data.Project_Name+"_application");
+    static String c_files = "NO_C_FILES";
+    public void write_library_files(String Project_Folder, int hdl_compilation_type) {
+        if (hdl_compilation_type == Data.SW_COMPILATION) {
+            c_files = "c_files_RV64_SW";
+        } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+            c_files = "c_files_RV64_HW";
+        }
+        generate_c_subfolders(Project_Folder);
+        write_boot_files(Project_Folder+"/boot");
+        write_common_files(Project_Folder+"/common");
+        write_elf2rawx_files(Project_Folder+"/elf2rawx");
+        write_hex2mif_files(Project_Folder+"/hex2mif");
+        write_project_main_files(Project_Folder+"/"+Data.Project_Name+"_application");
     }
     
     private void generate_c_subfolders(String Project_Folder) {
@@ -1328,7 +1333,7 @@ public class Write_Software_Files {
     }
     
     private void write_elf2rawx_makefile_file(String Project_Folder_File) {
-        String data =   "include "+Data.Project_Folder.getPath()+"/c_files_64/elf2rawx/makefiles/util.mak\n" +
+        String data =   "include "+Data.Project_Folder.getPath()+"/"+c_files+"/elf2rawx/makefiles/util.mak\n" +
                         "\n" +
                         "CC=gcc\n" +
                         "CFLAGS= -c -g -O2\n" +
@@ -1343,13 +1348,13 @@ public class Write_Software_Files {
                         "OBJECTS = $(SOURCES:.cpp=.o)\n" +
                         "EXECUTABLE = elf2rawx\n" +
                         "SRC_PATH = \\\n" +
-                        "	"+Data.Project_Folder.getPath()+"/c_files_64/elf2rawx/src \\\n" +
-                        "	"+Data.Project_Folder.getPath()+"/c_files_64/elf2rawx/src/common\n" +
+                        "	"+Data.Project_Folder.getPath()+"/"+c_files+"/elf2rawx/src \\\n" +
+                        "	"+Data.Project_Folder.getPath()+"/"+c_files+"/elf2rawx/src/common\n" +
                         "\n" +
                         "VPATH = $(SRC_PATH)\n" +
                         "\n" +
-                        "OBJ_DIR = "+Data.Project_Folder.getPath()+"/c_files_64/elf2rawx/obj\n" +
-                        "ELF_DIR = "+Data.Project_Folder.getPath()+"/c_files_64/elf2rawx/elf\n" +
+                        "OBJ_DIR = "+Data.Project_Folder.getPath()+"/"+c_files+"/elf2rawx/obj\n" +
+                        "ELF_DIR = "+Data.Project_Folder.getPath()+"/"+c_files+"/elf2rawx/elf\n" +
                         "\n" +
                         ".PHONY: $(EXECUTABLE)\n" +
                         "\n" +
@@ -3657,12 +3662,12 @@ public class Write_Software_Files {
     }
       
     private void write_hex2mif_makefile_file(String Project_Folder_File) {
-        String data =   "all: "+Data.Project_Folder.getPath()+"/c_files_64/hex2mif/main.c\n" +
-                        "	mkdir -pv "+Data.Project_Folder.getPath()+"/c_files_64/hex2mif/bin\n" +
-                        "	gcc "+Data.Project_Folder.getPath()+"/c_files_64/hex2mif/main.c -o "+Data.Project_Folder.getPath()+"/c_files_64/hex2mif/bin/hex2mif\n" +
+        String data =   "all: "+Data.Project_Folder.getPath()+"/"+c_files+"/hex2mif/main.c\n" +
+                        "	mkdir -pv "+Data.Project_Folder.getPath()+"/"+c_files+"/hex2mif/bin\n" +
+                        "	gcc "+Data.Project_Folder.getPath()+"/"+c_files+"/hex2mif/main.c -o "+Data.Project_Folder.getPath()+"/"+c_files+"/hex2mif/bin/hex2mif\n" +
                         "\n" +
                         "clean:\n" +
-                        "	rm -f "+Data.Project_Folder.getPath()+"/c_files_64/hex2mif/bin/hex2mif";
+                        "	rm -f "+Data.Project_Folder.getPath()+"/"+c_files+"/hex2mif/bin/hex2mif";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
       
@@ -3826,7 +3831,7 @@ public class Write_Software_Files {
                         "  . = 0x10000000;\n" +
                         "  .text : \n" +
                         "  {\n" +
-                        "    "+Data.Project_Folder.getPath()+"/c_files_64/"+Data.Project_Name+"_application/obj/main.o (.text.startup)\n" +
+                        "    "+Data.Project_Folder.getPath()+"/"+c_files+"/"+Data.Project_Name+"_application/obj/main.o (.text.startup)\n" +
                         "    *(.text)\n" +
                         "  }\n" +
                         "\n" +

@@ -29,6 +29,8 @@ public class compile_fitter extends Thread {
         private final JFileChooser jFileChooser1;
         private final JTextArea jTextArea_Output_Tab;
         
+        int hdl_compilation_state;
+        
         public compile_fitter(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
@@ -50,20 +52,34 @@ public class compile_fitter extends Thread {
             }
             String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_fit --read_settings_files=on --write_settings_files=off "+Project_Folder+Project_Name+" -c "+Project_Folder+Project_Name;
             int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
-            Data.hdl_compilation_type = hdl_compilation_type;
             Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
             Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
             Data.compiled_core = Data.core;
             if (exitValue == 0) {
                 compile_assembler ca = new compile_assembler(parentComponent, Project_Folder, evt, hdl_compilation_type, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
-                Data.hdl_compilation_state = Data.FITTER;
+                hdl_compilation_state = Data.FITTER;
                 ca.start();
             } else {
                 jDialog_Loading.hide();
-                Data.hdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
+                hdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Fitter Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
             }
+            
+            if (Data.core == Data.RV32) {
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Data.hdl_compilation_state_RV32_SW = hdl_compilation_state;
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.hdl_compilation_state_RV32_HW = hdl_compilation_state;
+                }
+            } else {
+                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                    Data.hdl_compilation_state_RV64_SW = hdl_compilation_state;
+                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.hdl_compilation_state_RV64_HW = hdl_compilation_state;
+                }
+            }
+            
             new ProjectManagement().saveProject(parentComponent, jFileChooser1);
         }
     }

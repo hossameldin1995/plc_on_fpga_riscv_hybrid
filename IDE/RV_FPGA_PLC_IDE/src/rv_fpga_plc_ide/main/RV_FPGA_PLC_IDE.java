@@ -268,7 +268,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenuItem_Compile_Software = new javax.swing.JMenuItem();
         jMenuItem_Compile_All = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenu7 = new javax.swing.JMenu();
         jMenuItem_Download_Program_to_SoC = new javax.swing.JMenuItem();
+        jMenuItem_Download_Program_to_SoC1 = new javax.swing.JMenuItem();
         jMenu_Help = new javax.swing.JMenu();
         jMenuItem_How_to_Use = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -1942,14 +1944,27 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenu_Compile.add(jMenuItem_Compile_All);
         jMenu_Compile.add(jSeparator2);
 
-        jMenuItem_Download_Program_to_SoC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem_Download_Program_to_SoC.setText("Download Program to SoC");
+        jMenu7.setText("Download Program to FPGA");
+
+        jMenuItem_Download_Program_to_SoC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem_Download_Program_to_SoC.setText("Software");
         jMenuItem_Download_Program_to_SoC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem_Download_Program_to_SoCActionPerformed(evt);
             }
         });
-        jMenu_Compile.add(jMenuItem_Download_Program_to_SoC);
+        jMenu7.add(jMenuItem_Download_Program_to_SoC);
+
+        jMenuItem_Download_Program_to_SoC1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem_Download_Program_to_SoC1.setText("Hardware");
+        jMenuItem_Download_Program_to_SoC1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_Download_Program_to_SoC1ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem_Download_Program_to_SoC1);
+
+        jMenu_Compile.add(jMenu7);
 
         jMenuBar1.add(jMenu_Compile);
 
@@ -2599,13 +2614,17 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton14KeyPressed
 
     private void jMenuItem_Download_Program_to_SoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Download_Program_to_SoCActionPerformed
-        Download_Prog_to_SoC(evt);
+        Download_Prog_to_SoC(evt, Data.SW_COMPILATION);
     }//GEN-LAST:event_jMenuItem_Download_Program_to_SoCActionPerformed
 
     private void jMenuItem_Compile_HardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_HardwareActionPerformed
         int sel;
         if (Data.is_Saved_Project) {
-            new rv_fpga_plc_ide.helper.RV32.compile_il.Hardware().compile_hardware(this, Data.Project_Folder.getPath(), evt, JTextLableLoading, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+            if (Data.core == Data.RV32) {
+                new rv_fpga_plc_ide.helper.RV32.compile_il.Hardware().compile_hardware(this, Data.Project_Folder.getPath(), evt, JTextLableLoading, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+            } else if (Data.core == Data.RV64) {
+                new rv_fpga_plc_ide.helper.RV64.compile_il.Hardware().compile_hardware(this, Data.Project_Folder.getPath(), evt, JTextLableLoading, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+            }
         } else {
             sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save is?", "Compile As Hardware", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (sel == JOptionPane.YES_OPTION){
@@ -2659,15 +2678,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Please choose copilation type", "Downloading to SoC", JOptionPane.OK_OPTION, icon);
             case 1:
                 jMenuItem_Compile_SoftwareActionPerformed(evt);
-                Data.RequistDownload = true;
+                Data.RequestDownload = true;
                 break;
             case 2:
                 jMenuItem_Compile_HardwareActionPerformed(evt);
-                Data.RequistDownload = true;
+                Data.RequestDownload = true;
                 break;
             case 3:
                 jMenuItem_Compile_AllActionPerformed(evt);
-                Data.RequistDownload = true;
+                Data.RequestDownload = true;
                 break;
         }
         jDialog_Choose_Compiler.hide();
@@ -2684,7 +2703,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private void jMenuItem_Compile_AllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_AllActionPerformed
         Icon icon = UIManager.getIcon("OptionPane.errorIcon");
         JOptionPane.showMessageDialog(this, "Not supported yet!", "Compile Using Optimization Algorithm", JOptionPane.OK_OPTION, icon);
-        Data.RequistDownload = false;
+        Data.RequestDownload = false;
     }//GEN-LAST:event_jMenuItem_Compile_AllActionPerformed
 
     private void jMenuItem_PWMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_PWMActionPerformed
@@ -2795,6 +2814,10 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         set_core_in_jmenu();
     }//GEN-LAST:event_jRadioButton_R64ActionPerformed
 
+    private void jMenuItem_Download_Program_to_SoC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Download_Program_to_SoC1ActionPerformed
+        Download_Prog_to_SoC(evt, Data.HW_COMPILATION);
+    }//GEN-LAST:event_jMenuItem_Download_Program_to_SoC1ActionPerformed
+
     private void FillListProgram(boolean isEditing) {
         jList_Program.setModel(new javax.swing.AbstractListModel() {
             @Override
@@ -2806,9 +2829,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         if (isEditing) {
             Data.is_Saved_Project = false;
             this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
-            if (Data.hdl_compilation_state == Data.UPDATED) {
-                Data.hdl_compilation_state = Data.ASSEMBLER;
-            }
+            change_compilation_state_to_assembler();
         }
     }
     
@@ -2823,9 +2844,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         if (isEditing) {
             Data.is_Saved_Project = false;
             this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
-            if (Data.hdl_compilation_state == Data.UPDATED) {
-                Data.hdl_compilation_state = Data.ASSEMBLER;
-            }
+            change_compilation_state_to_assembler();
         }
     }
     
@@ -2982,6 +3001,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -3006,6 +3026,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Counter_Up_Down;
     private javax.swing.JMenuItem jMenuItem_Div;
     private javax.swing.JMenuItem jMenuItem_Download_Program_to_SoC;
+    private javax.swing.JMenuItem jMenuItem_Download_Program_to_SoC1;
     private javax.swing.JMenuItem jMenuItem_Exit;
     private javax.swing.JMenuItem jMenuItem_Falling_Edge_Detector;
     private javax.swing.JMenuItem jMenuItem_How_to_Use;
@@ -3520,12 +3541,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }
 
-    private void download_software_to_SoC(String Project_Folder) {
+    private void download_software_to_SoC(String Project_Folder, int hdl_compilation_type) {
         LoadingDialoge loading = new LoadingDialoge("Downloading ...", JTextLableLoading, jDialog_Loading);
         loading.start();
         jTextArea_Output_Tab.setText("");
         jTextArea_Output_Tab.append("Start Downloading Software to SoC.\n");
-        download_to_SoC_thread dtst = new download_to_SoC_thread(this, Project_Folder, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+        download_to_SoC_thread dtst = new download_to_SoC_thread(this, Project_Folder, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab, hdl_compilation_type);
         dtst.start();
     }
     
@@ -3595,11 +3616,24 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
     }
 
-    public void Download_Prog_to_SoC(ActionEvent evt) {
-        int sel;
+    public void Download_Prog_to_SoC(ActionEvent evt, int hdl_compilation_type) {
+        int sel, hdl_compilation_state = Data.NO_COMPILATION;
+        if (hdl_compilation_type == Data.SW_COMPILATION) {
+            if (Data.core == Data.RV32) {
+                hdl_compilation_state = Data.hdl_compilation_state_RV32_SW;
+            } else {
+                hdl_compilation_state = Data.hdl_compilation_state_RV64_SW;
+            }
+        } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+            if (Data.core == Data.RV32) {
+                hdl_compilation_state = Data.hdl_compilation_state_RV32_HW;
+            } else {
+                hdl_compilation_state = Data.hdl_compilation_state_RV64_HW;
+            }
+        }
         if (Data.is_Saved_Project) {
-            if (Data.hdl_compilation_state == Data.UPDATED) {
-                download_software_to_SoC(Data.Project_Folder.getPath());
+            if (hdl_compilation_state == Data.UPDATED) {
+                download_software_to_SoC(Data.Project_Folder.getPath(), hdl_compilation_type);
             } else {
                 sel = JOptionPane.showConfirmDialog(this, "This project is not compiled.\nDo you want to compile it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (sel == JOptionPane.YES_OPTION){
@@ -3623,5 +3657,20 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     
     public void jTextArea_Output_TabSetText(String text) {
         jTextArea_Output_Tab.setText(text);
+    }
+
+    private void change_compilation_state_to_assembler() {
+        if (Data.hdl_compilation_state_RV32_SW == Data.UPDATED) {
+            Data.hdl_compilation_state_RV32_SW = Data.ASSEMBLER;
+        }
+        if (Data.hdl_compilation_state_RV32_HW == Data.UPDATED) {
+            Data.hdl_compilation_state_RV32_HW = Data.ASSEMBLER;
+        }
+        if (Data.hdl_compilation_state_RV64_SW == Data.UPDATED) {
+            Data.hdl_compilation_state_RV64_SW = Data.ASSEMBLER;
+        }
+        if (Data.hdl_compilation_state_RV64_HW == Data.UPDATED) {
+            Data.hdl_compilation_state_RV64_HW = Data.ASSEMBLER;
+        }
     }
 }

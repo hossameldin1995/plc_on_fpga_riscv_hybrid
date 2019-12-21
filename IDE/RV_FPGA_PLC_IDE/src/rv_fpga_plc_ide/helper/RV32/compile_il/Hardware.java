@@ -29,16 +29,16 @@ import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
  */
 public class Hardware {
     public void compile_hardware(Component parentComponent, String Project_Folder, ActionEvent evt, JLabel JTextLableLoading, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
-        if (Data.hdl_compilation_state == Data.UPDATED) {
-            Data.hdl_compilation_state = Data.ASSEMBLER;
+        if (Data.hdl_compilation_state_RV32_HW == Data.UPDATED) {
+            Data.hdl_compilation_state_RV32_HW = Data.ASSEMBLER;
         }
         LoadingDialoge loading = new LoadingDialoge("Compiling ...", JTextLableLoading, jDialog_Loading);
         loading.start();
         jTextArea_Output_Tab.setText("");
         jTextArea_Output_Tab.append("Start Compiling As Hardware.\n");
         boolean success = true;
-        File c_files = new File(Project_Folder+"/c_files");
-        File q_files = new File(Project_Folder+"/q_files");
+        File c_files = new File(Project_Folder+"/c_files_RV32_HW");
+        File q_files = new File(Project_Folder+"/q_files_RV32_HW");
         
         c_files.mkdirs();
         q_files.mkdirs();
@@ -51,9 +51,9 @@ public class Hardware {
         }
         if (success) {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
-            new Write_Hardware_Files().generate_q_files_variables(Project_Folder);
+            new Write_Hardware_Files().generate_q_files_variables(Project_Folder+"/q_files_RV32_HW/");
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
-            new GeneralFunctions().copy_file(Project_Folder+"/c_files/bootloader.mif", Project_Folder+"/q_files/bootloader.mif");
+            new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV32_HW/bootloader.mif", Project_Folder+"/q_files_RV32_HW/bootloader.mif");
             new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.HW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         }
         
@@ -113,8 +113,8 @@ public class Hardware {
                        "\n" +
                        "	return 0;\n}";
         
-        new Write_Software_Files().write_library_files();
-        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files", Data.C_code);
+        new Write_Software_Files().write_library_files(Data.Project_Folder.getPath()+"/c_files_RV32_HW");
+        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files_RV32_HW/"+Data.Project_Name+".c", Data.C_code);
         return success;
     }
     

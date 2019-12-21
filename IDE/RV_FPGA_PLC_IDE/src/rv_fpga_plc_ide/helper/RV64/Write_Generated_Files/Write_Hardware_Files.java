@@ -15,17 +15,17 @@ import rv_fpga_plc_ide.helper.GeneralFunctions;
  */
 public class Write_Hardware_Files {
     public void generate_q_files(String Project_Folder) {
-        generate_q_subfolders(Project_Folder+"/q_files_64/rtl/");
-        generate_project_files(Project_Folder+"/q_files_64/");
-        generate_top_level_files(Project_Folder+"/q_files_64/");
-        generate_ambalib_files(Project_Folder+"/q_files_64/rtl/ambalib/");
-        generate_commonlib_files(Project_Folder+"/q_files_64/rtl/commonlib/");
-        generate_misclib_files(Project_Folder+"/q_files_64/rtl/misclib/");
-        generate_funcblocklib_files(Project_Folder+"/q_files_64/rtl/funcblocklib/");
-        generate_techmap_files(Project_Folder+"/q_files_64/rtl/techmap/");
-        generate_riverlib_files(Project_Folder+"/q_files_64/rtl/riverlib/");
-        generate_arithlib_files(Project_Folder+"/q_files_64/rtl/arithlib/");
-        generate_clock_generator_files(Project_Folder+"/q_files_64/rtl/clock_generator/");
+        generate_q_subfolders(Project_Folder+"rtl/");
+        generate_project_files(Project_Folder);
+        generate_top_level_files(Project_Folder);
+        generate_ambalib_files(Project_Folder+"rtl/ambalib/");
+        generate_commonlib_files(Project_Folder+"rtl/commonlib/");
+        generate_misclib_files(Project_Folder+"rtl/misclib/");
+        generate_funcblocklib_files(Project_Folder+"rtl/funcblocklib/");
+        generate_techmap_files(Project_Folder+"rtl/techmap/");
+        generate_riverlib_files(Project_Folder+"rtl/riverlib/");
+        generate_arithlib_files(Project_Folder+"rtl/arithlib/");
+        generate_clock_generator_files(Project_Folder+"rtl/clock_generator/");
     }
     
     private void generate_q_subfolders(String Project_Folder) {

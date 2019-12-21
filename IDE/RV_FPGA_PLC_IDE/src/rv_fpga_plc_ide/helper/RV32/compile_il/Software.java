@@ -28,16 +28,16 @@ import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
  */
 public class Software {
     public void compile_software(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, boolean compile_all_project, JDialog jDialog_Loading, JLabel JTextLableLoading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
-        if (Data.hdl_compilation_state == Data.UPDATED) {
-            Data.hdl_compilation_state = Data.ASSEMBLER;
+        if (Data.hdl_compilation_state_RV32_SW == Data.UPDATED) {
+            Data.hdl_compilation_state_RV32_SW = Data.ASSEMBLER;
         }
         LoadingDialoge loading = new LoadingDialoge("Compiling ...", JTextLableLoading, jDialog_Loading);
         loading.start();
         jTextArea_Output_Tab.setText("");
         jTextArea_Output_Tab.append("Start Compiling As Software.\n");
         boolean success = true;
-        File c_files = new File(Project_Folder+"/c_files");
-        File q_files = new File(Project_Folder+"/q_files");
+        File c_files = new File(Project_Folder+"/c_files_RV32_SW");
+        File q_files = new File(Project_Folder+"/q_files_RV32_SW");
         
         c_files.mkdirs();
         if (compile_all_project) q_files.mkdirs();
@@ -50,9 +50,9 @@ public class Software {
         }
         if (success && compile_all_project) {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
-            new Write_Hardware_Files().generate_q_files(Project_Folder);
+            new Write_Hardware_Files().generate_q_files(Project_Folder+"/q_files_RV32_SW/");
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
-            new GeneralFunctions().copy_file(Project_Folder+"/c_files/bootloader.mif", Project_Folder+"/q_files/bootloader.mif");
+            new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV32_SW/bootloader.mif", Project_Folder+"/q_files_RV32_SW/bootloader.mif");
             new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.SW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         }
         
@@ -74,7 +74,6 @@ public class Software {
         boolean success = true;
         Data.Number_Of_Timers_In_Program = 0;
         Data.Number_Of_PWMs_In_Program = 0;
-        new Write_Software_Files().write_library_files();
         Data.C_code =   "#include <stdint.h>\n" +
                         "#include \"platform.h\"\n" +
                         "//#include \"uart.h\"\n" +
@@ -120,7 +119,8 @@ public class Software {
                        "    }\n" +
                        "\n" +
                        "	return 0;\n}";
-        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files/"+Data.Project_Name+".c", Data.C_code);
+        new Write_Software_Files().write_library_files(Data.Project_Folder.getPath()+"/c_files_RV32_SW");
+        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files_RV32_SW/"+Data.Project_Name+".c", Data.C_code);
         return success;
     }
     

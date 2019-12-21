@@ -85,7 +85,7 @@ constant CFG_BUS0_XSLV_TOTAL   : integer := 10;
 --! Cached TileLinkIO bus.
 constant CFG_BUS0_XMST_CPU0     : integer := 0;
 --! Uncached TileLinkIO bus.
-constant CFG_BUS0_XMST_CPU1     : integer := 1;
+--constant CFG_BUS0_XMST_CPU1     : integer := 1;
 --! Ethernet MAC master interface generic index.
 --constant CFG_BUS0_XMST_ETHMAC   : integer := 2;
 --! Tap via UART (debug port) generic index.
@@ -93,7 +93,7 @@ constant CFG_BUS0_XMST_CPU1     : integer := 1;
 --! Tap via JTAG generic index.
 --constant CFG_BUS0_XMST_JTAG     : integer := 4;
 --! Total Number of master devices on system bus.
-constant CFG_BUS0_XMST_TOTAL    : integer := 2;
+constant CFG_BUS0_XMST_TOTAL    : integer := 1;
 --! @}
 
 

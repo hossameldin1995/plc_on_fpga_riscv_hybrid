@@ -119,3 +119,16 @@ Version 1.10
 2 - Removing Output Tap module in the IDE and using JTextArea directly.
 3 - Adding Modules for compiling software for RV64.
 4 - Compiling software is working but no HDL files yet.
+
+Version 1.11
+==========================================================================================================================
+1 - Remove unwanted clock_generator from FPGA/River_SoC.
+2 - Remove master port in axi4 for core 2.
+3 - Remove unwanted files (error files).
+4 - Remove unwanted files from qsf file.
+5 - Modify files to be located in the right place according to qsf file.
+6 - Remove unwanted config in cyclone_v config file.
+7 - Modify the toplevel file for Risc_SoC to be compatible with cyclone_v config file.
+8 - Modify compilation flags to compile faster (30min to 24min)
+	a - set_global_assignment -name FITTER_EFFORT FAST_FIT
+	b - set_global_assignment -name PHYSICAL_SYNTHESIS_EFFORT FAST 

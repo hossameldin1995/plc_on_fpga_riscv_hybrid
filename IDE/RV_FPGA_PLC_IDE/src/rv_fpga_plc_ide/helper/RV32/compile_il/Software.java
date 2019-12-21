@@ -52,7 +52,7 @@ public class Software {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
             new Write_Hardware_Files().generate_q_files(Project_Folder);
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
-            new GeneralFunctions().copy_mif_to_q_files(Project_Folder);
+            new GeneralFunctions().copy_file(Project_Folder+"/c_files/bootloader.mif", Project_Folder+"/q_files/bootloader.mif");
             new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.SW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         }
         
@@ -120,7 +120,7 @@ public class Software {
                        "    }\n" +
                        "\n" +
                        "	return 0;\n}";
-        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files", Data.C_code);
+        new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files/"+Data.Project_Name+".c", Data.C_code);
         return success;
     }
     
@@ -710,12 +710,12 @@ public class Software {
             } else {
                 try {
                     Integer_Operand = Integer.parseInt(Operand);
-                    Data.C_code += "\t\tuint64_t Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Integer_Operand+");\n";
-                    Duty_Cycle = "Duty_Cycle_"+timer_number;
+                    Data.C_code += "\t\tuint64_t I_Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Integer_Operand+");\n";
+                    Duty_Cycle = "I_Duty_Cycle_"+timer_number;
                 } catch (NumberFormatException ex) {
                     if (typeOfVariable.equals("INT")) {
-                        Data.C_code += "\t\tuint64_t Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Operand+");\n";
-                        Duty_Cycle = "Duty_Cycle_"+timer_number;
+                        Data.C_code += "\t\tuint64_t I_Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Operand+");\n";
+                        Duty_Cycle = "I_Duty_Cycle_"+timer_number;
                     } else {
                         JOptionPane.showMessageDialog(parentComponent, "Duty cycle should be with type \"INT\".", "Compile il SW", JOptionPane.OK_OPTION);
                         return false;

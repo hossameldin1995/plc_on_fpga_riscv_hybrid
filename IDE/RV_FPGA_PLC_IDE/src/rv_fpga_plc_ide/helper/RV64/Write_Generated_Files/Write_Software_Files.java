@@ -107,7 +107,7 @@ public class Write_Software_Files {
                         "OBJ_DIR = $(PROJECT_FOLDER)boot/obj\n" +
                         "ELF_DIR = $(PROJECT_FOLDER)boot/bin\n" +
                         "\n" +
-                        "FPU_ENABLED="+Data.isFPU_RV64_enabeled+"\n" +
+                        "FPU_ENABLED="+new GeneralFunctions().bool2int(Data.is_fpu_RV64_enabeled)+"\n" +
                         "\n" +
                         "CFLAGS= -c -g -static -std=gnu99 -O0 -fno-common -fno-builtin-printf\n" +
                         "ifeq ($(FPU_ENABLED), 1)\n" +
@@ -1095,6 +1095,9 @@ public class Write_Software_Files {
                         "#define TIMER_CONTROL_ENT_ENIRQ_OV		0x07	// 0b111\n" +
                         "#define TIMER_CONTROL_DIST_ENIRQ_OV		0x06	// 0b110\n" +
                         "#define TIMER_CONTROL_DIST_DISIRQ_OV	0x04	// 0b100\n" +
+                        "\n" +
+                        "#define TIMER_ENABLED	1\n" +
+                        "#define TIMER_DISABLED	0\n" +
                         "\n" +
                         "typedef struct gptimer_type {\n" +
                         "    volatile uint32_t control;\n" +
@@ -3715,7 +3718,7 @@ public class Write_Software_Files {
     }
       
     private void write_project_main_makefile_file(String Project_Folder_File) {
-        String data =   "include $(PROJECT_FOLDER)Arithmatic_application/makefiles/makeutil.mak\n" +
+        String data =   "include $(PROJECT_FOLDER)"+Data.Project_Name+"_application/makefiles/makeutil.mak\n" +
                         "\n" +
                         "CC=/opt/riscv64/bin/riscv64-unknown-elf-gcc\n" +
                         "CPP=/opt/riscv64/bin/riscv64-unknown-elf-gcc\n" +
@@ -3723,10 +3726,10 @@ public class Write_Software_Files {
                         "ELF2HEX=$(PROJECT_FOLDER)elf2rawx/elf/elf2rawx\n" +
                         "HEX2MIF=$(PROJECT_FOLDER)hex2mif/bin/hex2mif\n" +
                         "\n" +
-                        "OBJ_DIR = $(PROJECT_FOLDER)Arithmatic_application/obj\n" +
-                        "ELF_DIR = $(PROJECT_FOLDER)Arithmatic_application/bin\n" +
+                        "OBJ_DIR = $(PROJECT_FOLDER)"+Data.Project_Name+"_application/obj\n" +
+                        "ELF_DIR = $(PROJECT_FOLDER)"+Data.Project_Name+"_application/bin\n" +
                         "\n" +
-                        "FPU_ENABLED="+Data.isFPU_RV64_enabeled+"\n" +
+                        "FPU_ENABLED="+new GeneralFunctions().bool2int(Data.is_fpu_RV64_enabeled)+"\n" +
                         "\n" +
                         "CFLAGS= -c -g -static -std=gnu99 -Ofast -fno-common -fno-builtin-printf\n" +
                         "ifeq ($(FPU_ENABLED), 1)\n" +
@@ -3736,7 +3739,7 @@ public class Write_Software_Files {
                         "endif\n" +
                         "\n" +
                         "\n" +
-                        "LDFLAGS=-static -T $(PROJECT_FOLDER)Arithmatic_application/makefiles/app.ld -nostartfiles\n" +
+                        "LDFLAGS=-static -T $(PROJECT_FOLDER)"+Data.Project_Name+"_application/makefiles/app.ld -nostartfiles\n" +
                         "ifeq ($(FPU_ENABLED), 1)\n" +
                         "else\n" +
                         "  LDFLAGS += -march=rv64imac -mabi=lp64\n" +
@@ -3750,11 +3753,11 @@ public class Write_Software_Files {
                         "# include sub-folders list\n" +
                         "INCL_PATH=\\\n" +
                         "	$(PROJECT_FOLDER)common \\\n" +
-                        "	$(PROJECT_FOLDER)Arithmatic_application/src\n" +
+                        "	$(PROJECT_FOLDER)"+Data.Project_Name+"_application/src\n" +
                         "\n" +
                         "# source files directories list:\n" +
                         "SRC_PATH = \\\n" +
-                        "	$(PROJECT_FOLDER)Arithmatic_application/src\n" +
+                        "	$(PROJECT_FOLDER)"+Data.Project_Name+"_application/src\n" +
                         "\n" +
                         "LIB_NAMES = \\\n" +
                         "	gcc \\\n" +
@@ -3766,10 +3769,10 @@ public class Write_Software_Files {
                         "\n" +
                         "SOURCES = \\\n" +
                         "	main \\\n" +
-                        "	Arithmatic\n" +
+                        "	"+Data.Project_Name+"\n" +
                         "\n" +
                         "OBJ_FILES = $(addsuffix .o,$(SOURCES))\n" +
-                        "EXECUTABLE = Arithmatic\n" +
+                        "EXECUTABLE = "+Data.Project_Name+"\n" +
                         "DUMPFILE = $(EXECUTABLE).dump\n" +
                         "HEXFILE = $(EXECUTABLE).hex\n" +
                         "MIFFILE = $(EXECUTABLE).mif\n" +
@@ -3792,7 +3795,7 @@ public class Write_Software_Files {
                         "$(EXECUTABLE): $(OBJ_FILES)\n" +
                         "	$(MKDIR) $(ELF_DIR)\n" +
                         "	$(CPP) $(LDFLAGS) $(addprefix $(OBJ_DIR)/,$(OBJ_FILES)) -o $(addprefix $(ELF_DIR)/,$@) $(addprefix -l,$(LIB_NAMES))\n" +
-                        "	$(ECHO) \"\\n  Arithmatic has been built successfully.\\n\"\n" +
+                        "	$(ECHO) \"\\n  "+Data.Project_Name+" has been built successfully.\\n\"\n" +
                         "\n" +
                         "#.cpp.o:\n" +
                         "%.o: %.cpp\n" +
@@ -3919,7 +3922,7 @@ public class Write_Software_Files {
                     Type = "NotSupported";
                     break;
             }
-            if (!Type.equals("Timer")) Data.C_code += "\t"+Type+" "+nameOfVariable+" = 0;\n";
+            if (!Type.equals("Timer")) Data.C_code += Type+" "+nameOfVariable+" = 0;\n";
         }
     }
 }

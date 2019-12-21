@@ -12,15 +12,17 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.helper.ProjectManagement;
 import rv_fpga_plc_ide.helper.RV32.compile_c.compile_c_file;
+import rv_fpga_plc_ide.helper.execute_command;
 
 /**
  *
  * @author hossameldin
  */
 public class download_to_SoC_thread extends Thread {
-        private final String Project_Folder;
+        private String Project_Folder;
         private final JDialog jDialog_Loading;
         private final Component parentComponent;
         private final JFileChooser jFileChooser1;
@@ -36,7 +38,19 @@ public class download_to_SoC_thread extends Thread {
         
         @Override
         public void run() {
-            boolean success = new compile_c_file().compile_download_to_soc_p(Project_Folder);
+            boolean success;
+            //success = new compile_c_file().compile_download_to_soc_p(Project_Folder);
+            String Project_Name;
+            if (Data.core == Data.RV32) {
+                Project_Name = "RV_FPGA_PLC_Potato";
+                Project_Folder = Project_Folder + "/q_files";
+            } else {
+                Project_Name = "River_SoC";
+                Project_Folder = Project_Folder + "/q_files_64";
+            }
+            String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_pgm -m jtag -c 1 -o \"p;"+Project_Folder+"/output_files/"+Project_Name+".sof\"";
+            int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
+            success = (exitValue == 0);
             if (success) {
                 jDialog_Loading.hide();
                 jTextArea_Output_Tab.append("Downloading Finished Successfully");

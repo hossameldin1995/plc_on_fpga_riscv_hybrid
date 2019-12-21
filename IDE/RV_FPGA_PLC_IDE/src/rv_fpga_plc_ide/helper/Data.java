@@ -107,5 +107,11 @@ public class Data {
     public static final String R32_COMPILER_PATH = "/opt/riscv32/bin/";
     public static final String R64_COMPILER_PATH = "/opt/riscv64/bin/";
     
-    public static final int isFPU_RV64_enabeled = 0;
+    public static boolean is_fpu_RV64_enabeled = false;
+    public static boolean is_mul_RV64_enabeled = false;
+    public static boolean is_div_RV64_enabeled = false;
+    
+    public static final String localVariables = "	/*************** Local Variables ****************/\n\n";
+    public static final String initializeLocalVariables = "	/********** Initialize Local Variables **********/\n\n";
+    
 }

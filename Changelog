@@ -132,3 +132,38 @@ Version 1.11
 8 - Modify compilation flags to compile faster (30min to 24min)
 	a - set_global_assignment -name FITTER_EFFORT FAST_FIT
 	b - set_global_assignment -name PHYSICAL_SYNTHESIS_EFFORT FAST 
+
+
+Version 1.12
+==========================================================================================================================
+1 - Modify check_hardware_change() function to be able to detect core changes and make it simpler.
+2 - Add is_fpu_RV64_enabeled ,is_mul_RV64_enabeled and is_div_RV64_enabeled to the IDE to be changable according to the code
+3 - Modiy the code according to feature in 1.12-2
+4 - Add bool2int and bool2str in generalFunctions to cover feature 1.12-2
+5 - Modify the Quartus project name in IDE to be RV_FPGA_PLC_Potato or River_SoC according to core.
+6 - Modify project anagement module to allow it to modify the title of the main frame.
+7 - Modify copy_mif_to_q_files to be more general >> copy_file
+8 - Modyfy Duty_Cycle_ to be I_Duty_Cycle_ >> internal_duty_cycle because of duplication in variables names.
+9 - Modify write hardware module in 64-bit core to be name of project instead of fixed project (Arithmatic). 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

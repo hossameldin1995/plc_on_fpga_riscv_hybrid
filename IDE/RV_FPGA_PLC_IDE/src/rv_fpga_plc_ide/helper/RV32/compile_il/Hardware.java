@@ -53,7 +53,7 @@ public class Hardware {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
             new Write_Hardware_Files().generate_q_files_variables(Project_Folder);
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
-            new GeneralFunctions().copy_mif_to_q_files(Project_Folder);
+            new GeneralFunctions().copy_file(Project_Folder+"/c_files/bootloader.mif", Project_Folder+"/q_files/bootloader.mif");
             new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.HW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         }
         

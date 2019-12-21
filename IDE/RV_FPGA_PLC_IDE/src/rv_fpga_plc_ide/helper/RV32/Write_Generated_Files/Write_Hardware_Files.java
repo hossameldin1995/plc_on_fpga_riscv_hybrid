@@ -1847,7 +1847,7 @@ public class Write_Hardware_Files {
                                     "	"+Data.Name_of_PWMs[i]+"_stb_in <= processor_stb_out when intercon_peripheral = PERIPHERAL_"+Data.Name_of_PWMs[i]+" else '0';\n\n";
                         }
                 data += "end architecture behaviour;";
-        write_file(Project_Folder_File + "/q_files/hdl_code/toplevel.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/toplevel.vhd", data);
     }
     
     private void generate_pp_soc_reset_vhd_file(String Project_Folder_File) {
@@ -8709,7 +8709,7 @@ public class Write_Hardware_Files {
                         "	end process;\n" +
                         "\n" +
                         "end architecture behaviour;";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/TON/vhdl/TON_Peripheral.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/TON/vhdl/TON_Peripheral.vhd", data);
     }
     
     private void generate_Timer_on_64_Controller_vhd_file(String Project_Folder_File) {
@@ -8771,7 +8771,7 @@ public class Write_Hardware_Files {
                         "		END IF;\n" +
                         "	END PROCESS;\n" +
                         "END RTL;";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/TON/vhdl/Timer_on_64_Controller.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/TON/vhdl/Timer_on_64_Controller.vhd", data);
     }
     
     private void generate_Counter_Down_64_bit_Cin_vhd_file(String Project_Folder_File) {
@@ -8820,7 +8820,7 @@ public class Write_Hardware_Files {
                         "	end process;\n" +
                         "	C_Out <= std_logic_vector(C_O_Tmp);\n" +
                         "END ARCHITECTURE rtl;";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/TON/vhdl/Counter_Down_64_bit_Cin.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/TON/vhdl/Counter_Down_64_bit_Cin.vhd", data);
     }
     
     private void generate_RV_FPGA_PLC_Potato_sdc_file(String Project_Folder_File) {
@@ -8909,7 +8909,7 @@ public class Write_Hardware_Files {
                         "#**************************************************************\n" +
                         "# Set Load\n" +
                         "#**************************************************************";
-        write_file(Project_Folder_File + "/q_files/RV_FPGA_PLC_Potato.sdc", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/RV_FPGA_PLC_Potato.sdc", data);
     }
     
     private void generate_aee_rom_qip_file(String Project_Folder_File) {
@@ -8918,7 +8918,7 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
                         "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"aee_rom.vhd\"]\n" +
                         "set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) \"aee_rom.cmp\"]";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.qip", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.qip", data);
     }
     
     private void generate_aee_rom_cmp_file(String Project_Folder_File) {
@@ -8945,7 +8945,7 @@ public class Write_Hardware_Files {
                         "		q		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)\n" +
                         "	);\n" +
                         "end component;";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.cmp", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_constant/aee_rom/vhdl/aee_rom.cmp", data);
     }
     
     private void generate_PWM_Peripheral_vhd_file(String Project_Folder_File) {
@@ -9061,7 +9061,7 @@ public class Write_Hardware_Files {
                         "	end process;\n" +
                         "\n" +
                         "end architecture behaviour;";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_Peripheral.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_Peripheral.vhd", data);
     }
     
     private void generate_PWM_32_bit_vhd_file(String Project_Folder_File) {
@@ -9106,7 +9106,7 @@ public class Write_Hardware_Files {
                         "	end process;\n" +
                         "	\n" +
                         "end RTL;";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_32_bit.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/func_block_variable/PWM/vhdl/PWM_32_bit.vhd", data);
     }
     
     private void generate_Div_32_bit_vhd_file(String Project_Folder_File) {
@@ -9236,7 +9236,7 @@ public class Write_Hardware_Files {
                         "-- Retrieval info: CONNECT: quotient 0 0 32 0 @quotient 0 0 32 0\n" +
                         "-- Retrieval info: CONNECT: remain 0 0 32 0 @remain 0 0 32 0\n" +
                         "-- Retrieval info: LIB_FILE: lpm";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.vhd", data);
     }
     
     private void generate_Div_32_bit_qip_file(String Project_Folder_File) {
@@ -9244,7 +9244,7 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name IP_TOOL_VERSION \"18.0\"\n" +
                         "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
                         "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"Div_32_bit.vhd\"]";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.qip", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/DIV/Div_32_bit.qip", data);
     }
     
     private void generate_Mult_32_bit_vhd_file(String Project_Folder_File) {
@@ -9377,7 +9377,7 @@ public class Write_Hardware_Files {
                         "-- Retrieval info: CONNECT: @datab 0 0 32 0 datab 0 0 32 0\n" +
                         "-- Retrieval info: CONNECT: result 0 0 64 0 @result 0 0 64 0\n" +
                         "-- Retrieval info: LIB_FILE: lpm";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.vhd", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.vhd", data);
     }
     
     private void generate_Mult_32_bit_qip_file(String Project_Folder_File) {
@@ -9385,31 +9385,11 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name IP_TOOL_VERSION \"18.0\"\n" +
                         "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
                         "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"Mult_32_bit.vhd\"]";
-        write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.qip", data);
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code/peripherals/multi_blocks/MULT/Mult_32_bit.qip", data);
     }
     
     private void generate_test_vhd_file(String Project_Folder_File) {
         String data =   "";
-        write_file(Project_Folder_File + "/q_files/hdl_code", data);
-    }
-    
-    private void write_file(String Project_Folder_File, String data) {
-        //TODO change files to use this function instead of writting files themselfes
-        FileOutputStream fileOutSt = null;
-        try {
-            new File(Project_Folder_File).delete();
-            fileOutSt = new FileOutputStream(Project_Folder_File);
-            fileOutSt.write(data.getBytes(), 0, data.length());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            try {
-                fileOutSt.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        new GeneralFunctions().write_file(Project_Folder_File + "/q_files/hdl_code", data);
     }
 }

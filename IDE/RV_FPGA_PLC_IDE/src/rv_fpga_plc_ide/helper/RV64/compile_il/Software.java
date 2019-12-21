@@ -16,8 +16,10 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import rv_fpga_plc_ide.helper.Data;
 import rv_fpga_plc_ide.helper.GeneralFunctions;
+import rv_fpga_plc_ide.helper.RV64.Write_Generated_Files.Write_Hardware_Files;
 import rv_fpga_plc_ide.helper.RV64.Write_Generated_Files.Write_Software_Files;
 import rv_fpga_plc_ide.helper.RV64.compile_c.compile_c_file;
+import rv_fpga_plc_ide.helper.compile_hld.CompileHLD;
 import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
 
 /**
@@ -58,13 +60,14 @@ public class Software {
             jTextArea_Output_Tab.append("  Start Compiling \"Boot\".\n");
             success &= new compile_c_file().compile_boot(jTextArea_Output_Tab);
         }
-        /*if (success && compile_all_project) {
-            new Output_Tap().println("  Start Writting Hardware Files.");
-            new rv_fpga_plc_ide.helper.RV64.Write_Hardware_Files().generate_q_files(Project_Folder);
-            new Output_Tap().println("  Start Compiling \"Quartus Project\".");
-            new GeneralFunctions().copy_mif_to_q_files(Project_Folder);
-            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.SW_COMPILATION, jDialog_Loading, jFileChooser1);
-        }*/
+        if (success && compile_all_project) {
+            jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
+            new Write_Hardware_Files().generate_q_files(Project_Folder);
+            jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
+            new GeneralFunctions().copy_file(Project_Folder+"/c_files_64/"+Data.Project_Name+"_application/bin/"+Data.Project_Name+".mif", Project_Folder+"/q_files_64/"+Data.Project_Name+".mif");
+            new GeneralFunctions().copy_file(Project_Folder+"/c_files_64/boot/bin/bootimage.mif", Project_Folder+"/q_files_64/bootimage.mif");
+            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.SW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+        }
         
         if (success) {
             if (!compile_all_project) {
@@ -144,11 +147,11 @@ public class Software {
                         " * Global Variables\n" +
                         " ****************************************************************************/\n\n";
         new Write_Software_Files().declareAndInitializeVariables();
-        Data.C_code +=  "void "+Data.Project_Name+"() {\n\n" +
-                        "	/*************** Local Variables ****************/\n\n" +
+        Data.C_code +=  "\nvoid "+Data.Project_Name+"() {\n\n" +
+                        Data.localVariables +
                         "	io_per io_per_d;\n" +
                         "	time_measurement time_measurement_d;\n\n" +
-                        "	/********** Initialize Local Variables **********/\n\n" +
+                        Data.initializeLocalVariables +
                         "	io_per_d.registers = (volatile void *)ADDR_NASTI_SLAVE_GPIO;\n" +
                         "	time_measurement_d.registers = (volatile void *)ADDR_NASTI_SLAVE_MEASUREMENT;\n\n" +
                         "	while(1){\n" +
@@ -230,12 +233,15 @@ public class Software {
             } else if (il_inst.split(" ")[0].contains("MUL")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("MUL", "");
                 add_basic_c_command(Operand, "*", "");
+                Data.is_mul_RV64_enabeled = true;
             } else if (il_inst.split(" ")[0].contains("DIV")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("DIV", "");
                 add_basic_c_command(Operand, "/", "");
+                Data.is_div_RV64_enabeled = true;
             } else if (il_inst.split(" ")[0].contains("MOD")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("MOD", "");
                 add_basic_c_command(Operand, "%", "");
+                Data.is_div_RV64_enabeled = true;
             } else if (il_inst.split(" ")[0].contains("NOT")) {
                 Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" = ~var"+(Data.Load_index - 1)+";\n";
             } else if (il_inst.split(" ")[0].contains("GT")) {
@@ -280,6 +286,8 @@ public class Software {
                 }else if (typeOfVariable.contains("PWM")) {
                     success = PWM_compile_sw(parentComponent, Operand, il_inst, rung_i, program_i, jDialog_Loading);
                     program_i = program_i + 2;
+                    Data.is_mul_RV64_enabeled = true;
+                    Data.is_div_RV64_enabeled = true;
                 } else {
                     JOptionPane.showMessageDialog(parentComponent, "\""+typeOfVariable+"\"not supported yet", "Compile il", JOptionPane.OK_OPTION);
                     success = false;
@@ -303,7 +311,7 @@ public class Software {
         } else if (Operand.contains("T#")) {
             if (not.equals("")) {
                 double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
-                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV32_Timer_Freq);
+                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV64_Timer_Freq);
                 Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
             } else {
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
@@ -462,7 +470,7 @@ public class Software {
             Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" io_per_get_input(&io_per_d, "+Operand+", "+offc+")) var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
             } else if (Operand.contains("T#")) {
                 double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
-                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV32_Timer_Freq);
+                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV64_Timer_Freq);
                 Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" "+Number_of_Clocks+") var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
             } else {
             try {
@@ -492,16 +500,20 @@ public class Software {
             Data.Number_Of_Timers_In_Program++;
             switch (Data.Number_Of_Timers_In_Program) {
                 case 1:
-                    Data.C_code = new GeneralFunctions().insertStringAfter("static struct io_per io_per_d;\n", "\nstatic struct timer timer0;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n", "\n\ttimer_initialize(&timer0, (volatile void *) PLATFORM_TIMER0_BASE);\n\ttimer_reset(&timer0);\n\tuint64_t timer0_count;\n\tuint32_t timer0_is_enabled = TIMER_DISABLED;\n\tuint32_t timer0_output = 0;\n", Data.C_code);
+                    Data.C_code = new GeneralFunctions().insertStringAfter(Data.localVariables, "\tgptimers_map *p_timer;\n\tuint32_t timer0_is_enabled;\n\tuint32_t timer0_output;\n", Data.C_code);
+                    Data.C_code = new GeneralFunctions().insertStringAfter(Data.initializeLocalVariables,   "\tp_timer = (gptimers_map *)ADDR_NASTI_SLAVE_GPTIMERS;\n" +
+                                                                                                            "\tp_timer->timer[0].control = TIMER_CONTROL_DIST_DISIRQ_NOOV;\n" +
+                                                                                                            "\tp_timer->timer[0].cur_value = 0;\n" +
+                                                                                                            "\ttimer0_is_enabled = TIMER_DISABLED;\n" +
+                                                                                                            "\ttimer0_output = 0;\n", Data.C_code);
                     break;
                 case 2:
-                    Data.C_code = new GeneralFunctions().insertStringAfter("timer_initialize(&timer0, (volatile void *) PLATFORM_TIMER0_BASE);\n", "\ttimer_initialize(&timer1, (volatile void *) PLATFORM_TIMER1_BASE);\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("static struct timer timer0;\n", "static struct timer timer1;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("uint64_t timer0_count;\n", "\tuint64_t timer1_count;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("uint32_t timer0_is_enabled = TIMER_DISABLED;\n", "\tuint32_t timer1_is_enabled = TIMER_DISABLED;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("uint32_t timer0_output = 0;\n", "\tuint32_t timer1_output = 0;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("timer_reset(&timer0);\n", "\ttimer_reset(&timer1);\n", Data.C_code);
+                    
+                    Data.C_code = new GeneralFunctions().insertStringAfter(Data.localVariables, "\tuint32_t timer1_is_enabled;\n\tuint32_t timer1_output;\n", Data.C_code);
+                    Data.C_code = new GeneralFunctions().insertStringAfter("timer0_output = 0;\n", "\tp_timer->timer[1].control = TIMER_CONTROL_DIST_DISIRQ_NOOV;\n" +
+                                                                                                            "\tp_timer->timer[1].cur_value = 0;\n" +
+                                                                                                            "\ttimer1_is_enabled = TIMER_DISABLED;\n" +
+                                                                                                            "\ttimer1_output = 0;\n", Data.C_code);
                     break;
                 default:
                     jDialog_Loading.hide();
@@ -566,7 +578,7 @@ public class Software {
                 Preset_Time = Operand;
             } else if (Operand.contains("T#")) {
                 double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
-                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV32_Timer_Freq);
+                long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV64_Timer_Freq);
                 Preset_Time = "(uint64_t)"+Number_of_Clocks;
             } else {
                 JOptionPane.showMessageDialog(parentComponent, "Preset time should be variable with type \"TIME\" or instant begins with T#.", "Compile il", JOptionPane.OK_OPTION);
@@ -640,20 +652,22 @@ public class Software {
             }
                         
             Data.C_code +="\t\tif (var"+Data.Load_index+") {\n"
-                        + "\t\t\ttimer_set_compare(&timer"+timer_number+", "+Preset_Time+");\n"
                         + "\t\t\tif (timer"+timer_number+"_is_enabled) {\n"
-                        + "\t\t\t\ttimer"+timer_number+"_count = timer_get_count(&timer"+timer_number+");\n"
-                        + "\t\t\t\t"+Elapset_Time+" = timer"+timer_number+"_count;\n"
-                        + "\t\t\t\tif (timer"+timer_number+"_count == "+Preset_Time+") {\n"
-                        + "\t\t\t\t\ttimer"+timer_number+"_output = 1;\n\t\t\t\t}\n"
+                        + "\t\t\t\tif ((p_timer->timer["+timer_number+"].control & 4) == 4) {\n"
+                        + "\t\t\t\t\t"+Elapset_Time+" = p_timer->timer["+timer_number+"].init_value;\n"
+                        + "\t\t\t\t\ttimer"+timer_number+"_output = 1;\n"
+                        + "\t\t\t\t} else {\n"
+                        + "\t\t\t\t\t"+Elapset_Time+" = p_timer->timer["+timer_number+"].init_value - p_timer->timer["+timer_number+"].cur_value;\n"
+                        + "\t\t\t\t}\n"
                         + "\t\t\t} else {\n"
-                        + "\t\t\t\ttimer_reset(&timer"+timer_number+");\n"
-                        + "\t\t\t\ttimer_start(&timer"+timer_number+");\n"
+                        + "\t\t\t\tp_timer->timer["+timer_number+"].init_value = "+Preset_Time+";\n"
+                        + "\t\t\t\tp_timer->timer["+timer_number+"].cur_value = 0;\n"
+                        + "\t\t\t\tp_timer->timer["+timer_number+"].control = TIMER_CONTROL_ENT_DISIRQ_NOOV;\n"
                         + "\t\t\t\ttimer"+timer_number+"_is_enabled = TIMER_ENABLED;\n"
                         + "\t\t\t\t"+Elapset_Time+" = 0;\n"
                         + "\t\t\t}\n"
                         + "\t\t} else {\n"
-                        + "\t\t\ttimer_reset(&timer"+timer_number+");\n"
+                        + "\t\t\tp_timer->timer["+timer_number+"].control = TIMER_CONTROL_DIST_DISIRQ_NOOV;\n"
                         + "\t\t\ttimer"+timer_number+"_is_enabled = TIMER_DISABLED;\n"
                         + "\t\t\t"+Elapset_Time+" = 0;\n"
                         + "\t\t\ttimer"+timer_number+"_output = 0;\n"
@@ -679,16 +693,20 @@ public class Software {
             Data.Number_Of_Timers_In_Program++;
             switch (Data.Number_Of_Timers_In_Program) {
                 case 1:
-                    Data.C_code = new GeneralFunctions().insertStringAfter("static struct io_per io_per_d;\n", "\nstatic struct timer timer0;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n", "\n\ttimer_initialize(&timer0, (volatile void *) PLATFORM_TIMER0_BASE);\n\ttimer_reset(&timer0);\n\tuint64_t timer0_count;\n\tuint32_t timer0_is_enabled = TIMER_DISABLED;\n\tuint32_t pwm0_output = 0;\n", Data.C_code);
+                    Data.C_code = new GeneralFunctions().insertStringAfter(Data.localVariables, "\tgptimers_map *p_timer;\n\tuint32_t timer0_is_enabled;\n\tuint32_t timer0_output;\n\tuint32_t pwm0_output;\n", Data.C_code);
+                    Data.C_code = new GeneralFunctions().insertStringAfter(Data.initializeLocalVariables,   "\tp_timer = (gptimers_map *)ADDR_NASTI_SLAVE_GPTIMERS;\n" +
+                                                                                                            "\tp_timer->timer[0].control = TIMER_CONTROL_DIST_DISIRQ_NOOV;\n" +
+                                                                                                            "\tp_timer->timer[0].cur_value = 0;\n" +
+                                                                                                            "\ttimer0_is_enabled = TIMER_DISABLED;\n" +
+                                                                                                            "\tpwm0_output = 0;\n", Data.C_code);
                     break;
                 case 2:
-                    Data.C_code = new GeneralFunctions().insertStringAfter("timer_initialize(&timer0, (volatile void *) PLATFORM_TIMER0_BASE);\n", "\ttimer_initialize(&timer1, (volatile void *) PLATFORM_TIMER1_BASE);\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("static struct timer timer0;\n", "static struct timer timer1;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("uint64_t timer0_count;\n", "\tuint64_t timer1_count;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("uint32_t timer0_is_enabled = TIMER_DISABLED;\n", "\tuint32_t timer1_is_enabled = TIMER_DISABLED;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("uint32_t pwm0_output = 0;\n", "\tuint32_t pwm1_output = 0;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("timer_reset(&timer0);\n", "\ttimer_reset(&timer1);\n", Data.C_code);
+                    
+                    Data.C_code = new GeneralFunctions().insertStringAfter(Data.localVariables, "\tuint32_t timer1_is_enabled;\n\tuint32_t timer1_output;\n\tuint32_t pwm1_output;\n", Data.C_code);
+                    Data.C_code = new GeneralFunctions().insertStringAfter("pwm0_output = 0;\n", "\tp_timer->timer[1].control = TIMER_CONTROL_DIST_DISIRQ_NOOV;\n" +
+                                                                                                            "\tp_timer->timer[1].cur_value = 0;\n" +
+                                                                                                            "\ttimer1_is_enabled = TIMER_DISABLED;\n" +
+                                                                                                            "\tpwm1_output = 0;\n", Data.C_code);
                     break;
                 default:
                     jDialog_Loading.hide();
@@ -705,7 +723,7 @@ public class Software {
                 return false;
             } else {
                 try {
-                    long Number_of_Clocks = (long) ((double)Data.CPU_RV32_Timer_Freq / Double.parseDouble(Operand));
+                    long Number_of_Clocks = (long) ((double)Data.CPU_RV64_Timer_Freq / Double.parseDouble(Operand));
                     Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
                 } catch (NumberFormatException ex) {
                     String Variable_temp;
@@ -720,7 +738,7 @@ public class Software {
                         }
                     }
                     if (typeOfVariable.equals("INT")) {
-                        Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t) ("+Data.CPU_RV32_Timer_Freq+"/"+nameOfVariable+");\n";
+                        Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t) ("+Data.CPU_RV64_Timer_Freq+"/"+nameOfVariable+");\n";
                     } else {
                         JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"INT\".", "Compile il SW", JOptionPane.OK_OPTION);
                         return false;
@@ -756,12 +774,12 @@ public class Software {
             } else {
                 try {
                     Integer_Operand = Integer.parseInt(Operand);
-                    Data.C_code += "\t\tuint64_t Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Integer_Operand+");\n";
-                    Duty_Cycle = "Duty_Cycle_"+timer_number;
+                    Data.C_code += "\t\tuint64_t I_Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Integer_Operand+");\n";
+                    Duty_Cycle = "I_Duty_Cycle_"+timer_number;
                 } catch (NumberFormatException ex) {
                     if (typeOfVariable.equals("INT")) {
-                        Data.C_code += "\t\tuint64_t Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Operand+");\n";
-                        Duty_Cycle = "Duty_Cycle_"+timer_number;
+                        Data.C_code += "\t\tuint64_t I_Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Operand+");\n";
+                        Duty_Cycle = "I_Duty_Cycle_"+timer_number;
                     } else {
                         JOptionPane.showMessageDialog(parentComponent, "Duty cycle should be with type \"INT\".", "Compile il SW", JOptionPane.OK_OPTION);
                         return false;
@@ -809,21 +827,17 @@ public class Software {
                     }
                 }
             }
-                        
-            Data.C_code +="\t\ttimer_set_compare(&timer"+timer_number+", var"+Data.Load_index+");\n"
-                        + "\t\tif (timer"+timer_number+"_is_enabled) {\n"
-                        + "\t\t\ttimer"+timer_number+"_count = timer_get_count(&timer"+timer_number+");\n"
-                        + "\t\t\tif (timer"+timer_number+"_count == var"+Data.Load_index+") {\n"
-                        + "\t\t\t\ttimer_reset(&timer"+timer_number+");\n"
-                        + "\t\t\t\ttimer_start(&timer"+timer_number+");\n"
-                        + "\t\t\t} else if (timer"+timer_number+"_count < "+Duty_Cycle+") {\n"
+            
+            Data.C_code +="\t\tif ((timer"+timer_number+"_is_enabled) && ((p_timer->timer["+timer_number+"].control >> 2) == 0)) {\n"
+                        + "\t\t\tif (p_timer->timer["+timer_number+"].cur_value >= (p_timer->timer["+timer_number+"].init_value - "+Duty_Cycle+")) {\n"
                         + "\t\t\t\tpwm"+timer_number+"_output = 1;\n"
                         + "\t\t\t} else {\n"
                         + "\t\t\t\tpwm"+timer_number+"_output = 0;\n"
                         + "\t\t\t}\n"
                         + "\t\t} else {\n"
-                        + "\t\t\ttimer_reset(&timer"+timer_number+");\n"
-                        + "\t\t\ttimer_start(&timer"+timer_number+");\n"
+                        + "\t\t\tp_timer->timer["+timer_number+"].init_value = var"+Data.Load_index+";\n"
+                        + "\t\t\tp_timer->timer["+timer_number+"].cur_value = 0;\n"
+                        + "\t\t\tp_timer->timer["+timer_number+"].control = TIMER_CONTROL_ENT_DISIRQ_NOOV;\n"
                         + "\t\t\ttimer"+timer_number+"_is_enabled = TIMER_ENABLED;\n"
                         + "\t\t}\n"
                         + Output_Timer

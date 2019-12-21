@@ -22,9 +22,9 @@ import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
  */
 public class GeneralFunctions {
     
-    public void copy_mif_to_q_files(String Project_Folder) {
+    public void copy_file(String From_Path, String To_Path) {
         try {
-            Files.copy(Paths.get(Project_Folder+"/c_files/bootloader.mif"), Paths.get(Project_Folder+"/q_files/bootloader.mif"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get(From_Path), Paths.get(To_Path), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -142,6 +142,22 @@ public class GeneralFunctions {
             } catch (IOException ex) {
                 Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    public int bool2int(boolean bool) {
+        if (bool) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
+    public String bool2str(boolean bool) {
+        if (bool) {
+            return "true";
+        } else {
+            return "false";
         }
     }
 }

@@ -41,8 +41,14 @@ public class compile_analysis_synthesis extends Thread {
         
         @Override
         public void run() {
-            jTextArea_Output_Tab.append("      Starting Analysis snd Synthesis\ns");
-            String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_map --read_settings_files=on --write_settings_files=off "+Project_Folder+"RV_FPGA_PLC_Potato -c "+Project_Folder+"RV_FPGA_PLC_Potato";
+            jTextArea_Output_Tab.append("      Starting Analysis snd Synthesis\n");
+            String Project_Name;
+            if (Data.core == Data.RV32) {
+                Project_Name = "RV_FPGA_PLC_Potato";
+            } else {
+                Project_Name = "River_SoC";
+            }
+            String cmd = "/home/hossameldin/intelFPGA_lite/18.0/quartus/bin/quartus_map --read_settings_files=on --write_settings_files=off "+Project_Folder+Project_Name+" -c "+Project_Folder+Project_Name;
             int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
             if (exitValue == 0) {
                 compile_fitter cf = new compile_fitter(parentComponent, Project_Folder, evt, hdl_compilation_type, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);

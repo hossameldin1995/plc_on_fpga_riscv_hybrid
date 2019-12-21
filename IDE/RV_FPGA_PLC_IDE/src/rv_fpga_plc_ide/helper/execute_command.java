@@ -18,6 +18,9 @@ public class execute_command {
     public int execute_command(String cmd, String before, int type, JTextArea jTextArea_Output_Tab) {
         ProcessBuilder processBuilder = new ProcessBuilder();
         int exitCode = -777;
+        System.out.println("\n\n\n****************************************************************************");
+        System.out.println(cmd);
+        System.out.println("****************************************************************************\n\n");
         
         //System.out.println(before+cmd);
         

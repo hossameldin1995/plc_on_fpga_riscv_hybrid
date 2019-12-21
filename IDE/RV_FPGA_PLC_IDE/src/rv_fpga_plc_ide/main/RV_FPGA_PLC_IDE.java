@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
@@ -2372,7 +2371,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     Data.is_New_Project = false;
                     Data.is_There_is_a_project = true;
                     new ProjectManagement().read_info_file(Project_Folder_Path);
-                    new ProjectManagement().read_il_file(Project_Folder_Path);
+                    new ProjectManagement().read_il_file(Project_Folder_Path, this);
                     FillListProgram(false);
                     FillListVariables(false);
                     Data.is_Saved_Project = true;
@@ -3526,7 +3525,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         loading.start();
         jTextArea_Output_Tab.setText("");
         jTextArea_Output_Tab.append("Start Downloading Software to SoC.\n");
-        download_to_SoC_thread dtst = new download_to_SoC_thread(this, Project_Folder+"/q_files", jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+        download_to_SoC_thread dtst = new download_to_SoC_thread(this, Project_Folder, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         dtst.start();
     }
     

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
 
@@ -32,7 +33,8 @@ public class ProjectManagement {
             write_il_file(Data.Project_Folder.getPath());
             Data.is_New_Project = false;
             Data.is_Saved_Project = true;
-            new RV_FPGA_PLC_IDE().setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
+            JFrame MainFrame = (JFrame) parentComponent;
+            MainFrame.setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
             return true;
         }
     }
@@ -49,7 +51,8 @@ public class ProjectManagement {
             write_il_file(Data.Project_Folder.getPath());
             Data.is_New_Project = false;
             Data.is_Saved_Project = true;
-            new RV_FPGA_PLC_IDE().setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
+            JFrame MainFrame = (JFrame) parentComponent;
+            MainFrame.setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
             return true;
         }
         return false;
@@ -84,7 +87,7 @@ public class ProjectManagement {
         }
     }
     
-    public void read_il_file(String Project_Folder) {
+    public void read_il_file(String Project_Folder, Component parentComponent) {
         BufferedReader il_file = null;
         Data.Vaiables = new String[Data.size_Vaiables];
         try {
@@ -111,7 +114,8 @@ public class ProjectManagement {
                 rung_i++;
             }
             new RV_FPGA_PLC_IDE().convert_program_2D_to_1D();
-            new RV_FPGA_PLC_IDE().setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
+            JFrame MainFrame = (JFrame) parentComponent;
+            MainFrame.setTitle("RV FPGA PLC IDE - " + Data.Project_Name);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -191,6 +195,7 @@ public class ProjectManagement {
     
     public void read_info_file(String Project_Folder) {
         BufferedReader info_file = null;
+        File q_files = null;
         try {
             info_file = new BufferedReader(new FileReader(Project_Folder+"/"+Data.Project_Name+".rfpinfo"));
             info_file.readLine(); // Project Name
@@ -210,7 +215,11 @@ public class ProjectManagement {
             Data.Number_Of_Timers_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.Number_Of_PWMs_Compiled = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.Number_Of_PWMs_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
-            File q_files = new File(Project_Folder+"/q_files");
+            if (Data.core == Data.RV32) {
+                q_files = new File(Project_Folder+"/q_files");
+            } else {
+                q_files = new File(Project_Folder+"/q_files_64");
+            }
             if (!q_files.exists()) {
                 Data.hdl_compilation_state = Data.NO_COMPILATION;
                 Data.hdl_compilation_type = Data.NO_COMPILATION;

@@ -62,7 +62,7 @@ public class Software {
         }
         if (success && compile_all_project) {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
-            new Write_Hardware_Files().generate_q_files(Project_Folder+"/q_files_RV64_SW/");
+            new Write_Hardware_Files().generate_q_files(Project_Folder+"/q_files_RV64_SW/", Data.SW_COMPILATION);
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
             new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV64_SW/"+Data.Project_Name+"_application/bin/"+Data.Project_Name+".mif", Project_Folder+"/q_files_RV64_SW/"+Data.Project_Name+".mif");
             new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV64_SW/boot/bin/bootimage.mif", Project_Folder+"/q_files_RV64_SW/bootimage.mif");

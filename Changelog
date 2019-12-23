@@ -151,3 +151,7 @@ Version 1.13
 1 - Modify the project to separate between folders (RV32_SW, RV32_HW, RV64_SW, RV64_HW) to make availability of compilation files.
 2 - Modify projects to be able to store compilation state of four types.
 3 - Allow downloading to FPGA to sellect between four types.
+
+Version 1.14
+==========================================================================================================================
+1 - Compilling RV64 as Hardware is now fully working and tested.

@@ -227,7 +227,7 @@ public class Hardware {
                     success = TON_compile_hw(parentComponent, Function_Block_Name, il_inst, rung_i, program_i);
                     program_i = program_i + 3;
                 } else if (typeOfVariable.contains("PWM")) {
-                    PWM_compile_hw(parentComponent, Function_Block_Name, il_inst, rung_i, program_i);
+                    success = PWM_compile_hw(parentComponent, Function_Block_Name, il_inst, rung_i, program_i);
                     program_i = program_i + 2;
                 } else {
                     JOptionPane.showMessageDialog(parentComponent, "\""+typeOfVariable+"\"not supported yet", "Compile il HW", JOptionPane.OK_OPTION);

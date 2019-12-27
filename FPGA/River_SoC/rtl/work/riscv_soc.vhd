@@ -68,7 +68,7 @@ entity riscv_soc is port
 ( 
   i_rst     : in std_logic;
   i_clk  	: in std_logic;
-  i_clk_50	: in std_logic;
+  i_clk_pwm	: in std_logic;
   --! GPIO.
   --i_gpio     : in std_logic_vector(11 downto 0);
   --o_gpio     : out std_logic_vector(11 downto 0);
@@ -576,7 +576,7 @@ begin
     xirq     => 0
   ) port map (
     clk   	=> i_clk,
-    clk_50 	=> i_clk_50,
+    clk_pwm 	=> i_clk_pwm,
     nrst  	=> w_glob_nrst,
     cfg   	=> slv_cfg(CFG_BUS0_XSLV_PWM0),
     i			=> axisi(CFG_BUS0_XSLV_PWM0),

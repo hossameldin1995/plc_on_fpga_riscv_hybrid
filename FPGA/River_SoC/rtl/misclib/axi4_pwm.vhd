@@ -26,7 +26,7 @@ entity axi4_pwm is
   );
   port (
     clk  		: in std_logic;
-    clk_50 		: in std_logic;
+    clk_pwm 		: in std_logic;
     nrst 		: in std_logic;
     cfg  		: out axi4_slave_config_type;
     i    		: in  axi4_slave_in_type;
@@ -55,9 +55,10 @@ architecture arch_axi4_pwm  of axi4_pwm is
   signal wb_bus_wdata : std_logic_vector(CFG_SYSBUS_DATA_BITS-1 downto 0);
   
   SIGNAL EN, Q		: std_logic;
-  SIGNAL Frq, DC	: std_logic_vector(31 DOWNTO 0);
+  SIGNAL DC			: std_logic_vector(6 DOWNTO 0);
+  SIGNAL Frq		: std_logic_vector(16 DOWNTO 0);
 	
-  SIGNAL T_Count, Comp_Count	: STD_LOGIC_VECTOR(31 downto 0);
+  SIGNAL T_Count, Comp_Count	: STD_LOGIC_VECTOR(19 downto 0);
 
 begin
 
@@ -80,7 +81,7 @@ begin
     o_wdata => wb_bus_wdata
   );
   
-  PWM			: entity work.PWM_32_bit	PORT MAP(clk_50, nrst, EN, T_Count, Comp_Count, Q);
+  PWM			: entity work.PWM_32_bit	PORT MAP(clk_pwm, nrst, EN, T_Count, Comp_Count, Q);
   PWM_Sig	: entity work.PWM_Signal	PORT MAP(nrst, Frq, DC, T_Count, Comp_Count);
 
   EN			<= '1';
@@ -95,8 +96,8 @@ begin
 			DC				<= (OTHERS => '0');
      elsif rising_edge(clk) then 
 			if w_bus_we = '1' then --write
-				Frq	<= wb_bus_wdata(31 downto 0);
-				DC		<= wb_bus_wdata(63 downto 32);
+				Frq	<= wb_bus_wdata(16 downto 0);
+				DC		<= wb_bus_wdata(38 downto 32);
 			elsif w_bus_re = '1' then -- read
 				wb_dev_rdata(0) <= Q;
 			end if;

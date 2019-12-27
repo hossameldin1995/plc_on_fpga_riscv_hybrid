@@ -155,3 +155,13 @@ Version 1.13
 Version 1.14
 ==========================================================================================================================
 1 - Compilling RV64 as Hardware is now fully working and tested.
+
+Version 1.15
+==========================================================================================================================
+1 - Reduce PWM recources from 1200 ALMs and 2 DSP to 370 ALMs and 1 DSP.
+2 - Adding div_20_7, div_20_17, mul_20_7
+3 - Removing div_30, mul_30
+4 - Reduce Frequency of PWM from 10MHz to 1MHz
+5 - Using unsigned data type in PWM vhdl file to avoide -ve sign overflow.
+6 - Change the name of clk_50 to clk_pwm.
+7 - Removing component declaration from riscv_soc toplevel.

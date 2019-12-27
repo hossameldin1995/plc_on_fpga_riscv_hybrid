@@ -320,9 +320,10 @@ set_global_assignment -name VHDL_FILE rtl/riverlib/types_river.vhd
 set_global_assignment -name VHDL_FILE rtl/riverlib/river_top.vhd
 set_global_assignment -name VHDL_FILE rtl/riverlib/river_cfg.vhd
 set_global_assignment -name VHDL_FILE rtl/riverlib/river_amba.vhd
-set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_32_speed.qip
+set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_20_7_speed.qip
+set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_20_17_speed.qip
 set_global_assignment -name QIP_FILE rtl/arithlib/MULT/mul_int_64.qip
-set_global_assignment -name QIP_FILE rtl/arithlib/MULT/mul_int_32.qip
+set_global_assignment -name QIP_FILE rtl/arithlib/MULT/mul_int_20_7.qip
 set_global_assignment -name QIP_FILE rtl/clock_generator/clock_generator.qip
 set_global_assignment -name SIP_FILE rtl/clock_generator/clock_generator.sip
 set_global_assignment -name VHDL_FILE rtl/funcblocklib/PWM/PWM_32_bit.vhd

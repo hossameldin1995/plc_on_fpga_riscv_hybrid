@@ -70,7 +70,7 @@ Version 0.20
 ==========================================================================================================================
 1 - Adding River Soc project in FPGA folder.
 2 - Copy River files from the repo (TAG ver. 9.0) https://github.com/sergeykhbr/riscv_vhdl
-3 - Modefy files to be compatable with cyclone_v FPGA (Previous: xilinx)
+3 - Modify files to be compatable with cyclone_v FPGA (Previous: xilinx)
 4 - Making FPU, MUL and DIV configurable in confg design file.
 5 - IO-Perepheral and TON are working on axi4.
 
@@ -106,7 +106,7 @@ Version 1.04
 ==========================================================================================================================
 1 - Removing module print output.
 2 - Adding module executting_command.
-3 - Modefy all threads to use module executting_command.
+3 - Modify all threads to use module executting_command.
 
 Version 1.05
 ==========================================================================================================================
@@ -165,3 +165,9 @@ Version 1.15
 5 - Using unsigned data type in PWM vhdl file to avoide -ve sign overflow.
 6 - Change the name of clk_50 to clk_pwm.
 7 - Removing component declaration from riscv_soc toplevel.
+
+Version 1.16
+==========================================================================================================================
+1 - Apply modifications from FPGA folder to IDE project (find details in 1.15).
+2 - Fix number of slavs in compiling RV64 SW to be fixed.
+3 - Reset FPU, MUL, DIV befor compiling (FIX).

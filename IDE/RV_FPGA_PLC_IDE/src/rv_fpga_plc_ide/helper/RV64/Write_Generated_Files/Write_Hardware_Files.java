@@ -167,11 +167,13 @@ public class Write_Hardware_Files {
     private void generate_arithlib_files(String Project_Folder_File) {
         generate_mul_int_64_vhd_file(Project_Folder_File+"MULT/mul_int_64.vhd");
         generate_mul_int_64_qip_file(Project_Folder_File+"MULT/mul_int_64.qip");
-        generate_mul_int_32_vhd_file(Project_Folder_File+"MULT/mul_int_32.vhd");
-        generate_mul_int_32_qip_file(Project_Folder_File+"MULT/mul_int_32.qip");
+        generate_mul_int_20_7_vhd_file(Project_Folder_File+"MULT/mul_int_20_7.vhd");
+        generate_mul_int_20_7_qip_file(Project_Folder_File+"MULT/mul_int_20_7.qip");
         
-        generate_div_int_32_speed_vhd_file(Project_Folder_File+"DIV/div_int_32_speed.vhd");
-        generate_div_int_32_speed_qip_file(Project_Folder_File+"DIV/div_int_32_speed.qip");
+        generate_div_int_20_7_speed_vhd_file(Project_Folder_File+"DIV/div_int_20_7_speed.vhd");
+        generate_div_int_20_7_speed_qip_file(Project_Folder_File+"DIV/div_int_20_7_speed.qip");
+        generate_div_int_20_17_speed_vhd_file(Project_Folder_File+"DIV/div_int_20_17_speed.vhd");
+        generate_div_int_20_17_speed_qip_file(Project_Folder_File+"DIV/div_int_20_17_speed.qip");
     }
     
     private void generate_clock_generator_files(String Project_Folder_File) {
@@ -544,9 +546,10 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name VHDL_FILE rtl/riverlib/river_top.vhd\n" +
                         "set_global_assignment -name VHDL_FILE rtl/riverlib/river_cfg.vhd\n" +
                         "set_global_assignment -name VHDL_FILE rtl/riverlib/river_amba.vhd\n" +
-                        "set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_32_speed.qip\n" +
+                        "set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_20_7_speed.qip\n" +
+                        "set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_20_17_speed.qip\n" +
                         "set_global_assignment -name QIP_FILE rtl/arithlib/MULT/mul_int_64.qip\n" +
-                        "set_global_assignment -name QIP_FILE rtl/arithlib/MULT/mul_int_32.qip\n" +
+                        "set_global_assignment -name QIP_FILE rtl/arithlib/MULT/mul_int_20_7.qip\n" +
                         "set_global_assignment -name QIP_FILE rtl/clock_generator/clock_generator.qip\n" +
                         "set_global_assignment -name SIP_FILE rtl/clock_generator/clock_generator.sip\n" +
                         "set_global_assignment -name VHDL_FILE rtl/funcblocklib/PWM/PWM_32_bit.vhd\n" +
@@ -850,31 +853,9 @@ public class Write_Hardware_Files {
                         "		);\n" +
                         "	end component;\n" +
                         "	\n" +
-                        "	component riscv_soc \n" +
-                        "		port ( \n" +
-                        "			i_rst    : in std_logic;\n" +
-                        "			i_clk  	: in std_logic;\n" +
-                        "			i_clk_50	: in std_logic;\n" +
-                        "			i_uart1_ctsn : in std_logic;\n" +
-                        "			i_uart1_rd   : in std_logic;\n" +
-                        "			o_uart1_td   : out std_logic;\n" +
-                        "			o_uart1_rtsn : out std_logic;\n" +
-                        "			KEY			: in std_logic_vector(3 DOWNTO 0);\n" +
-                        "			SW				: in std_logic_vector(9 DOWNTO 0);\n" +
-                        "			LEDG			: out std_logic_vector(7 DOWNTO 0);\n" +
-                        "			LEDR			: out std_logic_vector(9 DOWNTO 0);\n" +
-                        "			GPIO_IN		: in std_logic_vector(17 DOWNTO 0);\n" +
-                        "			GPIO_OUT		: out std_logic_vector(17 DOWNTO 0);\n" +
-                        "			HEX0			: out std_logic_vector(6 DOWNTO 0);\n" +
-                        "			HEX1			: out std_logic_vector(6 DOWNTO 0);\n" +
-                        "			HEX2			: out std_logic_vector(6 DOWNTO 0);\n" +
-                        "			HEX3			: out std_logic_vector(6 DOWNTO 0)\n" +
-                        "		);\n" +
-                        "	end component;\n" +
-                        "	\n" +
                         "	signal system_rst				: std_logic;\n" +
                         "	signal system_clk				: std_logic;\n" +
-                        "	signal clk_50					: std_logic;\n" +
+                        "	signal clk_pwm					: std_logic;\n" +
                         "	signal system_clk_locked	: std_logic;\n" +
                         "	signal system_gnd				: std_logic;\n" +
                         "	\n" +
@@ -888,15 +869,15 @@ public class Write_Hardware_Files {
                         "			refclk	=> clk,\n" +
                         "			rst 		=> reset,\n" +
                         "			outclk_0	=> system_clk,\n" +
-                        "			outclk_1	=> clk_50,\n" +
+                        "			outclk_1	=> clk_pwm,\n" +
                         "			locked 	=> system_clk_locked\n" +
                         "		);\n" +
                         "	\n" +
-                        "	riscv_soc0: riscv_soc\n" +
+                        "	riscv_soc0: entity work.riscv_soc\n" +
                         "		port map(\n" +
                         "			i_rst				=> system_rst,\n" +
                         "			i_clk				=> system_clk,\n" +
-                        "			i_clk_50			=> clk_50,\n" +
+                        "			i_clk_pwm			=> clk_pwm,\n" +
                         "			i_uart1_ctsn	=> system_gnd,\n" +
                         "			i_uart1_rd		=> uart0_rxd,\n" +
                         "			o_uart1_td		=>	uart0_txd,\n" +
@@ -993,7 +974,7 @@ public class Write_Hardware_Files {
                         "( \n" +
                         "  i_rst     : in std_logic;\n" +
                         "  i_clk  	: in std_logic;\n" +
-                        "  i_clk_50	: in std_logic;\n" +
+                        "  i_clk_pwm	: in std_logic;\n" +
                         "  i_uart1_ctsn : in std_logic;\n" +
                         "  i_uart1_rd   : in std_logic;\n" +
                         "  o_uart1_td   : out std_logic;\n" +
@@ -1272,7 +1253,7 @@ public class Write_Hardware_Files {
                                     "    xirq     => 0\n" +
                                     "  ) port map (\n" +
                                     "    clk   	=> i_clk,\n" +
-                                    "    clk_50 	=> i_clk_50,\n" +
+                                    "    clk_pwm 	=> i_clk_pwm,\n" +
                                     "    nrst  	=> w_glob_nrst,\n" +
                                     "    cfg   	=> slv_cfg(CFG_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+"),\n" +
                                     "    i			=> axisi(CFG_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+"),\n" +
@@ -2815,8 +2796,14 @@ public class Write_Hardware_Files {
                         for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (hdl_compilation_type == Data.HW_COMPILATION)); i++) {
                             data += "constant CFG_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+" : integer := "+(Data.Number_Of_Timers_In_Program+8+i)+";\n";
                         }
+                        int NumberOfSlaves;
+                        if (hdl_compilation_type == Data.HW_COMPILATION) {
+                            NumberOfSlaves = (8+Data.Number_Of_Timers_In_Program+Data.Number_Of_PWMs_In_Program);
+                        } else {
+                            NumberOfSlaves = 8;
+                        }
                 data += "--! Total number of the slaves devices.\n" +
-                        "constant CFG_BUS0_XSLV_TOTAL   : integer := "+(8+Data.Number_Of_Timers_In_Program+Data.Number_Of_PWMs_In_Program)+";  \n" +
+                        "constant CFG_BUS0_XSLV_TOTAL   : integer := "+NumberOfSlaves+";  \n" +
                         "--! @}\n" +
                         "\n" +
                         "--! @defgroup master_id_group AXI4 masters generic IDs.\n" +
@@ -5266,7 +5253,7 @@ public class Write_Hardware_Files {
                         "  );\n" +
                         "  port (\n" +
                         "    clk  		: in std_logic;\n" +
-                        "    clk_50 		: in std_logic;\n" +
+                        "    clk_pwm 		: in std_logic;\n" +
                         "    nrst 		: in std_logic;\n" +
                         "    cfg  		: out axi4_slave_config_type;\n" +
                         "    i    		: in  axi4_slave_in_type;\n" +
@@ -5295,9 +5282,10 @@ public class Write_Hardware_Files {
                         "  signal wb_bus_wdata : std_logic_vector(CFG_SYSBUS_DATA_BITS-1 downto 0);\n" +
                         "  \n" +
                         "  SIGNAL EN, Q		: std_logic;\n" +
-                        "  SIGNAL Frq, DC	: std_logic_vector(31 DOWNTO 0);\n" +
+                        "  SIGNAL DC	: std_logic_vector(6 DOWNTO 0);\n" +
+                        "  SIGNAL Frq	: std_logic_vector(16 DOWNTO 0);\n" +
                         "	\n" +
-                        "  SIGNAL T_Count, Comp_Count	: STD_LOGIC_VECTOR(31 downto 0);\n" +
+                        "  SIGNAL T_Count, Comp_Count	: STD_LOGIC_VECTOR(19 downto 0);\n" +
                         "\n" +
                         "begin\n" +
                         "\n" +
@@ -5320,7 +5308,7 @@ public class Write_Hardware_Files {
                         "    o_wdata => wb_bus_wdata\n" +
                         "  );\n" +
                         "  \n" +
-                        "  PWM			: entity work.PWM_32_bit	PORT MAP(clk_50, nrst, EN, T_Count, Comp_Count, Q);\n" +
+                        "  PWM			: entity work.PWM_32_bit	PORT MAP(clk_pwm, nrst, EN, T_Count, Comp_Count, Q);\n" +
                         "  PWM_Sig	: entity work.PWM_Signal	PORT MAP(nrst, Frq, DC, T_Count, Comp_Count);\n" +
                         "\n" +
                         "  EN			<= '1';\n" +
@@ -5335,8 +5323,8 @@ public class Write_Hardware_Files {
                         "			DC				<= (OTHERS => '0');\n" +
                         "     elsif rising_edge(clk) then \n" +
                         "			if w_bus_we = '1' then --write\n" +
-                        "				Frq	<= wb_bus_wdata(31 downto 0);\n" +
-                        "				DC		<= wb_bus_wdata(63 downto 32);\n" +
+                        "				Frq	<= wb_bus_wdata(16 downto 0);\n" +
+                        "				DC		<= wb_bus_wdata(38 downto 32);\n" +
                         "			elsif w_bus_re = '1' then -- read\n" +
                         "				wb_dev_rdata(0) <= Q;\n" +
                         "			end if;\n" +
@@ -5398,19 +5386,20 @@ public class Write_Hardware_Files {
     private void generate_PWM_32_bit_vhd_file(String Project_Folder_File) {
         String data =   "library IEEE;\n" +
                         "USE IEEE.STD_LOGIC_1164.ALL;\n" +
-                        "USE IEEE.STD_LOGIC_SIGNED.ALL;\n" +
+                        "USE IEEE.STD_LOGIC_UNSIGNED.ALL;\n" +
+                        "USE IEEE.NUMERIC_STD.ALL;\n" +
                         "\n" +
                         "entity PWM_32_bit is\n" +
                         "port( clk, nrst	: in STD_LOGIC;\n" +
                         "		EN				: in STD_LOGIC;\n" +
-                        "		T_Count		: in STD_LOGIC_VECTOR(31 downto 0);\n" +
-                        "		Comp_Count	: in STD_LOGIC_VECTOR(31 downto 0);\n" +
+                        "		T_Count		: in STD_LOGIC_VECTOR(19 downto 0);\n" +
+                        "		Comp_Count	: in STD_LOGIC_VECTOR(19 downto 0);\n" +
                         "		Y_OUT			: out STD_LOGIC\n" +
                         "		);\n" +
                         "end;\n" +
                         "\n" +
                         "architecture RTL of PWM_32_bit is\n" +
-                        "	SIGNAL T_Count_T, Comp_Count_T	: STD_LOGIC_VECTOR(31 downto 0);\n" +
+                        "	SIGNAL T_Count_T, Comp_Count_T	: STD_LOGIC_VECTOR(19 downto 0);\n" +
                         "	\n" +
                         "	begin\n" +
                         "	\n" +
@@ -5421,13 +5410,13 @@ public class Write_Hardware_Files {
                         "			Comp_Count_T	<= (others => '0');\n" +
                         "			Y_OUT				<= '0';\n" +
                         "		elsif (rising_edge(clk) and EN = '1') then\n" +
-                        "			if T_Count_T = X\"00000000\" then\n" +
+                        "			if T_Count_T = \"00000000000000000000\" then\n" +
                         "				T_Count_T		<= T_Count;\n" +
                         "				Comp_Count_T	<= Comp_Count;\n" +
                         "				Y_OUT				<= '0';\n" +
                         "			else\n" +
-                        "				T_Count_T	<= T_Count_T - X\"00000001\";\n" +
-                        "				if T_Count_T < Comp_Count_T then\n" +
+                        "				T_Count_T	<= T_Count_T - \"00000000000000000001\";\n" +
+                        "				if unsigned(T_Count_T) < unsigned(Comp_Count_T) then\n" +
                         "					Y_OUT <= '1';\n" +
                         "				else\n" +
                         "					Y_OUT <= '0';\n" +
@@ -5443,7 +5432,6 @@ public class Write_Hardware_Files {
     private void generate_PWM_Signal_vhd_file(String Project_Folder_File) {
         String data =   "library IEEE;\n" +
                         "USE IEEE.STD_LOGIC_1164.ALL;\n" +
-                        "USE IEEE.STD_LOGIC_SIGNED.ALL;\n" +
                         "\n" +
                         "--------------------------------\n" +
                         "-- T_Count = clk_Hz / Frq\n" +
@@ -5453,33 +5441,31 @@ public class Write_Hardware_Files {
                         "\n" +
                         "entity PWM_Signal is\n" +
                         "port( nrst			: in STD_LOGIC;\n" +
-                        "		Frq			: in STD_LOGIC_VECTOR(31 downto 0);\n" +
-                        "		DC				: in STD_LOGIC_VECTOR(31 downto 0);\n" +
-                        "		T_Count		: out STD_LOGIC_VECTOR(31 downto 0);\n" +
-                        "		Comp_Count	: out STD_LOGIC_VECTOR(31 downto 0)\n" +
+                        "		Frq			: in STD_LOGIC_VECTOR(16 downto 0);\n" +
+                        "		DC				: in STD_LOGIC_VECTOR(6 downto 0);\n" +
+                        "		T_Count		: out STD_LOGIC_VECTOR(19 downto 0);\n" +
+                        "		Comp_Count	: out STD_LOGIC_VECTOR(19 downto 0)\n" +
                         "		);\n" +
                         "end;\n" +
                         "\n" +
                         "architecture RTL of PWM_Signal is\n" +
                         "	\n" +
-                        "	signal Comp_Count_0, T_Count_T, Frq_T	: std_logic_vector(31 downto 0);\n" +
-                        "	--signal denom, numer, result_div	: std_logic_vector(31 downto 0);\n" +
-                        "	signal result			: std_logic_vector(63 downto 0);\n" +
-                        "	--signal stage			: std_logic;\n" +
+                        "	signal Comp_Count_0, T_Count_T	: std_logic_vector(19 downto 0);\n" +
+                        "	signal Frq_T	: std_logic_vector(16 downto 0);\n" +
+                        "	signal result			: std_logic_vector(26 downto 0);\n" +
                         "	begin\n" +
                         "	\n" +
-                        "	Comp_Count	<= result(31 downto 0);\n" +
+                        "	Comp_Count	<= result(19 downto 0);\n" +
                         "	T_Count	<= T_Count_T;\n" +
                         "	\n" +
-                        "	Div1: entity work.div_int_32_speed	PORT MAP(Frq_T, X\"00989680\", T_Count_T, open);	-- T_Count = clk_Hz / Frq\n" +
-                        "	Div2: entity work.div_int_32_speed	PORT MAP(X\"00000064\", T_Count_T, Comp_Count_0, open);	-- Comp_Count_0 = (T_Count/100)\n" +
-                        "	--Div: 	entity work.div_int_32_t	PORT MAP(denom, numer, result_div, open);\n" +
-                        "	Mult: entity work.mul_int_32	PORT MAP(Comp_Count_0, DC, result);							-- Comp_Count = Comp_Count_0 * DC\n" +
+                        "	Div1: entity work.div_int_20_17_speed	PORT MAP(Frq_T, X\"F4240\", T_Count_T, open);	-- T_Count = clk_Hz / Frq\n" +
+                        "	Div2: entity work.div_int_20_7_speed	PORT MAP(\"1100100\", T_Count_T, Comp_Count_0, open);	-- Comp_Count_0 = (T_Count/100)\n" +
+                        "	Mult: entity work.mul_int_20_7	PORT MAP(Comp_Count_0, DC, result);							-- Comp_Count = Comp_Count_0 * DC\n" +
                         "	\n" +
                         "	process(Frq)\n" +
                         "	begin\n" +
-                        "		if( Frq = X\"00000000\") or (nrst = '0') then\n" +
-                        "			Frq_T <= X\"00989680\";\n" +
+                        "		if( Frq = \"00000000000000000\") or (nrst = '0') then\n" +
+                        "			Frq_T <= (others => '1');\n" +
                         "		else\n" +
                         "			Frq_T <= Frq;\n" +
                         "		end if;\n" +
@@ -18885,14 +18871,14 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
-    private void generate_mul_int_32_vhd_file(String Project_Folder_File) {
+    private void generate_mul_int_20_7_vhd_file(String Project_Folder_File) {
         String data =   "-- megafunction wizard: %LPM_MULT%\n" +
                         "-- GENERATION: STANDARD\n" +
                         "-- VERSION: WM1.0\n" +
                         "-- MODULE: lpm_mult \n" +
                         "\n" +
                         "-- ============================================================\n" +
-                        "-- File Name: mul_int_32.vhd\n" +
+                        "-- File Name: mul_int_20_7.vhd\n" +
                         "-- Megafunction Name(s):\n" +
                         "-- 			lpm_mult\n" +
                         "--\n" +
@@ -18927,19 +18913,19 @@ public class Write_Hardware_Files {
                         "LIBRARY lpm;\n" +
                         "USE lpm.all;\n" +
                         "\n" +
-                        "ENTITY mul_int_32 IS\n" +
+                        "ENTITY mul_int_20_7 IS\n" +
                         "	PORT\n" +
                         "	(\n" +
-                        "		dataa		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "		datab		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "		result		: OUT STD_LOGIC_VECTOR (63 DOWNTO 0)\n" +
+                        "		dataa		: IN STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "		datab		: IN STD_LOGIC_VECTOR (6 DOWNTO 0);\n" +
+                        "		result		: OUT STD_LOGIC_VECTOR (26 DOWNTO 0)\n" +
                         "	);\n" +
-                        "END mul_int_32;\n" +
+                        "END mul_int_20_7;\n" +
                         "\n" +
                         "\n" +
-                        "ARCHITECTURE SYN OF mul_int_32 IS\n" +
+                        "ARCHITECTURE SYN OF mul_int_20_7 IS\n" +
                         "\n" +
-                        "	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (63 DOWNTO 0);\n" +
+                        "	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (26 DOWNTO 0);\n" +
                         "\n" +
                         "\n" +
                         "\n" +
@@ -18953,23 +18939,23 @@ public class Write_Hardware_Files {
                         "		lpm_widthp		: NATURAL\n" +
                         "	);\n" +
                         "	PORT (\n" +
-                        "			dataa	: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "			datab	: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "			result	: OUT STD_LOGIC_VECTOR (63 DOWNTO 0)\n" +
+                        "			dataa	: IN STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "			datab	: IN STD_LOGIC_VECTOR (6 DOWNTO 0);\n" +
+                        "			result	: OUT STD_LOGIC_VECTOR (26 DOWNTO 0)\n" +
                         "	);\n" +
                         "	END COMPONENT;\n" +
                         "\n" +
                         "BEGIN\n" +
-                        "	result    <= sub_wire0(63 DOWNTO 0);\n" +
+                        "	result    <= sub_wire0(26 DOWNTO 0);\n" +
                         "\n" +
                         "	lpm_mult_component : lpm_mult\n" +
                         "	GENERIC MAP (\n" +
-                        "		lpm_hint => \"DEDICATED_MULTIPLIER_CIRCUITRY=YES,MAXIMIZE_SPEED=1\",\n" +
+                        "		lpm_hint => \"DEDICATED_MULTIPLIER_CIRCUITRY=YES,MAXIMIZE_SPEED=9\",\n" +
                         "		lpm_representation => \"UNSIGNED\",\n" +
                         "		lpm_type => \"LPM_MULT\",\n" +
-                        "		lpm_widtha => 32,\n" +
-                        "		lpm_widthb => 32,\n" +
-                        "		lpm_widthp => 64\n" +
+                        "		lpm_widtha => 20,\n" +
+                        "		lpm_widthb => 7,\n" +
+                        "		lpm_widthp => 27\n" +
                         "	)\n" +
                         "	PORT MAP (\n" +
                         "		dataa => dataa,\n" +
@@ -18986,7 +18972,7 @@ public class Write_Hardware_Files {
                         "-- ============================================================\n" +
                         "-- Retrieval info: PRIVATE: AutoSizeResult NUMERIC \"1\"\n" +
                         "-- Retrieval info: PRIVATE: B_isConstant NUMERIC \"0\"\n" +
-                        "-- Retrieval info: PRIVATE: ConstantB NUMERIC \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: ConstantB NUMERIC \"100\"\n" +
                         "-- Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING \"Cyclone V\"\n" +
                         "-- Retrieval info: PRIVATE: LPM_PIPELINE NUMERIC \"5\"\n" +
                         "-- Retrieval info: PRIVATE: Latency NUMERIC \"0\"\n" +
@@ -18994,9 +18980,9 @@ public class Write_Hardware_Files {
                         "-- Retrieval info: PRIVATE: SignedMult NUMERIC \"0\"\n" +
                         "-- Retrieval info: PRIVATE: USE_MULT NUMERIC \"1\"\n" +
                         "-- Retrieval info: PRIVATE: ValidConstant NUMERIC \"1\"\n" +
-                        "-- Retrieval info: PRIVATE: WidthA NUMERIC \"32\"\n" +
-                        "-- Retrieval info: PRIVATE: WidthB NUMERIC \"32\"\n" +
-                        "-- Retrieval info: PRIVATE: WidthP NUMERIC \"64\"\n" +
+                        "-- Retrieval info: PRIVATE: WidthA NUMERIC \"20\"\n" +
+                        "-- Retrieval info: PRIVATE: WidthB NUMERIC \"7\"\n" +
+                        "-- Retrieval info: PRIVATE: WidthP NUMERIC \"27\"\n" +
                         "-- Retrieval info: PRIVATE: aclr NUMERIC \"0\"\n" +
                         "-- Retrieval info: PRIVATE: clken NUMERIC \"0\"\n" +
                         "-- Retrieval info: PRIVATE: new_diagram STRING \"1\"\n" +
@@ -19005,35 +18991,35 @@ public class Write_Hardware_Files {
                         "-- Retrieval info: CONSTANT: LPM_HINT STRING \"DEDICATED_MULTIPLIER_CIRCUITRY=YES,MAXIMIZE_SPEED=9\"\n" +
                         "-- Retrieval info: CONSTANT: LPM_REPRESENTATION STRING \"UNSIGNED\"\n" +
                         "-- Retrieval info: CONSTANT: LPM_TYPE STRING \"LPM_MULT\"\n" +
-                        "-- Retrieval info: CONSTANT: LPM_WIDTHA NUMERIC \"32\"\n" +
-                        "-- Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC \"32\"\n" +
-                        "-- Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC \"64\"\n" +
-                        "-- Retrieval info: USED_PORT: dataa 0 0 32 0 INPUT NODEFVAL \"dataa[31..0]\"\n" +
-                        "-- Retrieval info: USED_PORT: datab 0 0 32 0 INPUT NODEFVAL \"datab[31..0]\"\n" +
-                        "-- Retrieval info: USED_PORT: result 0 0 64 0 OUTPUT NODEFVAL \"result[63..0]\"\n" +
-                        "-- Retrieval info: CONNECT: @dataa 0 0 32 0 dataa 0 0 32 0\n" +
-                        "-- Retrieval info: CONNECT: @datab 0 0 32 0 datab 0 0 32 0\n" +
-                        "-- Retrieval info: CONNECT: result 0 0 64 0 @result 0 0 64 0\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHA NUMERIC \"20\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC \"7\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC \"27\"\n" +
+                        "-- Retrieval info: USED_PORT: dataa 0 0 20 0 INPUT NODEFVAL \"dataa[19..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: datab 0 0 7 0 INPUT NODEFVAL \"datab[6..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: result 0 0 27 0 OUTPUT NODEFVAL \"result[26..0]\"\n" +
+                        "-- Retrieval info: CONNECT: @dataa 0 0 20 0 dataa 0 0 20 0\n" +
+                        "-- Retrieval info: CONNECT: @datab 0 0 7 0 datab 0 0 7 0\n" +
+                        "-- Retrieval info: CONNECT: result 0 0 27 0 @result 0 0 27 0\n" +
                         "-- Retrieval info: LIB_FILE: lpm";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
-    private void generate_mul_int_32_qip_file(String Project_Folder_File) {
+    private void generate_mul_int_20_7_qip_file(String Project_Folder_File) {
         String data =   "set_global_assignment -name IP_TOOL_NAME \"LPM_MULT\"\n" +
                         "set_global_assignment -name IP_TOOL_VERSION \"18.0\"\n" +
                         "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
-                        "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"mul_int_32.vhd\"]";
+                        "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"mul_int_20_7.vhd\"]";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
-    private void generate_div_int_32_speed_vhd_file(String Project_Folder_File) {
+    private void generate_div_int_20_7_speed_vhd_file(String Project_Folder_File) {
         String data =   "-- megafunction wizard: %LPM_DIVIDE%\n" +
                         "-- GENERATION: STANDARD\n" +
                         "-- VERSION: WM1.0\n" +
                         "-- MODULE: LPM_DIVIDE \n" +
                         "\n" +
                         "-- ============================================================\n" +
-                        "-- File Name: div_int_32_speed.vhd\n" +
+                        "-- File Name: div_int_20_7_speed.vhd\n" +
                         "-- Megafunction Name(s):\n" +
                         "-- 			LPM_DIVIDE\n" +
                         "--\n" +
@@ -19068,21 +19054,21 @@ public class Write_Hardware_Files {
                         "LIBRARY lpm;\n" +
                         "USE lpm.all;\n" +
                         "\n" +
-                        "ENTITY div_int_32_speed IS\n" +
+                        "ENTITY div_int_20_7_speed IS\n" +
                         "	PORT\n" +
                         "	(\n" +
-                        "		denom		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "		numer		: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "		quotient		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "		remain		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)\n" +
+                        "		denom		: IN STD_LOGIC_VECTOR (6 DOWNTO 0);\n" +
+                        "		numer		: IN STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "		quotient		: OUT STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "		remain		: OUT STD_LOGIC_VECTOR (6 DOWNTO 0)\n" +
                         "	);\n" +
-                        "END div_int_32_speed;\n" +
+                        "END div_int_20_7_speed;\n" +
                         "\n" +
                         "\n" +
-                        "ARCHITECTURE SYN OF div_int_32_speed IS\n" +
+                        "ARCHITECTURE SYN OF div_int_20_7_speed IS\n" +
                         "\n" +
-                        "	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
+                        "	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (6 DOWNTO 0);\n" +
                         "\n" +
                         "\n" +
                         "\n" +
@@ -19096,16 +19082,16 @@ public class Write_Hardware_Files {
                         "		lpm_widthn		: NATURAL\n" +
                         "	);\n" +
                         "	PORT (\n" +
-                        "			denom	: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "			numer	: IN STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "			quotient	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);\n" +
-                        "			remain	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)\n" +
+                        "			denom	: IN STD_LOGIC_VECTOR (6 DOWNTO 0);\n" +
+                        "			numer	: IN STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "			quotient	: OUT STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "			remain	: OUT STD_LOGIC_VECTOR (6 DOWNTO 0)\n" +
                         "	);\n" +
                         "	END COMPONENT;\n" +
                         "\n" +
                         "BEGIN\n" +
-                        "	quotient    <= sub_wire0(31 DOWNTO 0);\n" +
-                        "	remain    <= sub_wire1(31 DOWNTO 0);\n" +
+                        "	quotient    <= sub_wire0(19 DOWNTO 0);\n" +
+                        "	remain    <= sub_wire1(6 DOWNTO 0);\n" +
                         "\n" +
                         "	LPM_DIVIDE_component : LPM_DIVIDE\n" +
                         "	GENERIC MAP (\n" +
@@ -19113,8 +19099,8 @@ public class Write_Hardware_Files {
                         "		lpm_hint => \"MAXIMIZE_SPEED=6,LPM_REMAINDERPOSITIVE=TRUE\",\n" +
                         "		lpm_nrepresentation => \"UNSIGNED\",\n" +
                         "		lpm_type => \"LPM_DIVIDE\",\n" +
-                        "		lpm_widthd => 32,\n" +
-                        "		lpm_widthn => 32\n" +
+                        "		lpm_widthd => 7,\n" +
+                        "		lpm_widthn => 20\n" +
                         "	)\n" +
                         "	PORT MAP (\n" +
                         "		denom => denom,\n" +
@@ -19142,31 +19128,163 @@ public class Write_Hardware_Files {
                         "-- Retrieval info: CONSTANT: LPM_HINT STRING \"MAXIMIZE_SPEED=6,LPM_REMAINDERPOSITIVE=TRUE\"\n" +
                         "-- Retrieval info: CONSTANT: LPM_NREPRESENTATION STRING \"UNSIGNED\"\n" +
                         "-- Retrieval info: CONSTANT: LPM_TYPE STRING \"LPM_DIVIDE\"\n" +
-                        "-- Retrieval info: CONSTANT: LPM_WIDTHD NUMERIC \"32\"\n" +
-                        "-- Retrieval info: CONSTANT: LPM_WIDTHN NUMERIC \"32\"\n" +
-                        "-- Retrieval info: USED_PORT: denom 0 0 32 0 INPUT NODEFVAL \"denom[31..0]\"\n" +
-                        "-- Retrieval info: USED_PORT: numer 0 0 32 0 INPUT NODEFVAL \"numer[31..0]\"\n" +
-                        "-- Retrieval info: USED_PORT: quotient 0 0 32 0 OUTPUT NODEFVAL \"quotient[31..0]\"\n" +
-                        "-- Retrieval info: USED_PORT: remain 0 0 32 0 OUTPUT NODEFVAL \"remain[31..0]\"\n" +
-                        "-- Retrieval info: CONNECT: @denom 0 0 32 0 denom 0 0 32 0\n" +
-                        "-- Retrieval info: CONNECT: @numer 0 0 32 0 numer 0 0 32 0\n" +
-                        "-- Retrieval info: CONNECT: quotient 0 0 32 0 @quotient 0 0 32 0\n" +
-                        "-- Retrieval info: CONNECT: remain 0 0 32 0 @remain 0 0 32 0\n" +
-                        "-- Retrieval info: GEN_FILE: TYPE_NORMAL div_int_32_speed.vhd TRUE\n" +
-                        "-- Retrieval info: GEN_FILE: TYPE_NORMAL div_int_32_speed.inc FALSE\n" +
-                        "-- Retrieval info: GEN_FILE: TYPE_NORMAL div_int_32_speed.cmp TRUE\n" +
-                        "-- Retrieval info: GEN_FILE: TYPE_NORMAL div_int_32_speed.bsf FALSE\n" +
-                        "-- Retrieval info: GEN_FILE: TYPE_NORMAL div_int_32_speed_inst.vhd FALSE\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHD NUMERIC \"7\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHN NUMERIC \"20\"\n" +
+                        "-- Retrieval info: USED_PORT: denom 0 0 7 0 INPUT NODEFVAL \"denom[6..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: numer 0 0 20 0 INPUT NODEFVAL \"numer[19..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: quotient 0 0 20 0 OUTPUT NODEFVAL \"quotient[19..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: remain 0 0 7 0 OUTPUT NODEFVAL \"remain[6..0]\"\n" +
+                        "-- Retrieval info: CONNECT: @denom 0 0 7 0 denom 0 0 7 0\n" +
+                        "-- Retrieval info: CONNECT: @numer 0 0 20 0 numer 0 0 20 0\n" +
+                        "-- Retrieval info: CONNECT: quotient 0 0 20 0 @quotient 0 0 20 0\n" +
+                        "-- Retrieval info: CONNECT: remain 0 0 7 0 @remain 0 0 7 0\n" +
                         "-- Retrieval info: LIB_FILE: lpm";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
-    private void generate_div_int_32_speed_qip_file(String Project_Folder_File) {
+    private void generate_div_int_20_7_speed_qip_file(String Project_Folder_File) {
         String data =   "set_global_assignment -name IP_TOOL_NAME \"LPM_DIVIDE\"\n" +
                         "set_global_assignment -name IP_TOOL_VERSION \"18.0\"\n" +
                         "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
-                        "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"div_int_32_speed.vhd\"]\n" +
-                        "set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) \"div_int_32_speed.cmp\"]";
+                        "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"div_int_20_7_speed.vhd\"]";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
+    private void generate_div_int_20_17_speed_vhd_file(String Project_Folder_File) {
+        String data =   "-- megafunction wizard: %LPM_DIVIDE%\n" +
+                        "-- GENERATION: STANDARD\n" +
+                        "-- VERSION: WM1.0\n" +
+                        "-- MODULE: LPM_DIVIDE \n" +
+                        "\n" +
+                        "-- ============================================================\n" +
+                        "-- File Name: div_int_20_17_speed.vhd\n" +
+                        "-- Megafunction Name(s):\n" +
+                        "-- 			LPM_DIVIDE\n" +
+                        "--\n" +
+                        "-- Simulation Library Files(s):\n" +
+                        "-- 			lpm\n" +
+                        "-- ============================================================\n" +
+                        "-- ************************************************************\n" +
+                        "-- THIS IS A WIZARD-GENERATED FILE. DO NOT EDIT THIS FILE!\n" +
+                        "--\n" +
+                        "-- 18.0.0 Build 614 04/24/2018 SJ Lite Edition\n" +
+                        "-- ************************************************************\n" +
+                        "\n" +
+                        "\n" +
+                        "--Copyright (C) 2018  Intel Corporation. All rights reserved.\n" +
+                        "--Your use of Intel Corporation's design tools, logic functions \n" +
+                        "--and other software and tools, and its AMPP partner logic \n" +
+                        "--functions, and any output files from any of the foregoing \n" +
+                        "--(including device programming or simulation files), and any \n" +
+                        "--associated documentation or information are expressly subject \n" +
+                        "--to the terms and conditions of the Intel Program License \n" +
+                        "--Subscription Agreement, the Intel Quartus Prime License Agreement,\n" +
+                        "--the Intel FPGA IP License Agreement, or other applicable license\n" +
+                        "--agreement, including, without limitation, that your use is for\n" +
+                        "--the sole purpose of programming logic devices manufactured by\n" +
+                        "--Intel and sold by Intel or its authorized distributors.  Please\n" +
+                        "--refer to the applicable agreement for further details.\n" +
+                        "\n" +
+                        "\n" +
+                        "LIBRARY ieee;\n" +
+                        "USE ieee.std_logic_1164.all;\n" +
+                        "\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.all;\n" +
+                        "\n" +
+                        "ENTITY div_int_20_17_speed IS\n" +
+                        "	PORT\n" +
+                        "	(\n" +
+                        "		denom		: IN STD_LOGIC_VECTOR (16 DOWNTO 0);\n" +
+                        "		numer		: IN STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "		quotient		: OUT STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "		remain		: OUT STD_LOGIC_VECTOR (16 DOWNTO 0)\n" +
+                        "	);\n" +
+                        "END div_int_20_17_speed;\n" +
+                        "\n" +
+                        "\n" +
+                        "ARCHITECTURE SYN OF div_int_20_17_speed IS\n" +
+                        "\n" +
+                        "	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (16 DOWNTO 0);\n" +
+                        "\n" +
+                        "\n" +
+                        "\n" +
+                        "	COMPONENT lpm_divide\n" +
+                        "	GENERIC (\n" +
+                        "		lpm_drepresentation		: STRING;\n" +
+                        "		lpm_hint		: STRING;\n" +
+                        "		lpm_nrepresentation		: STRING;\n" +
+                        "		lpm_type		: STRING;\n" +
+                        "		lpm_widthd		: NATURAL;\n" +
+                        "		lpm_widthn		: NATURAL\n" +
+                        "	);\n" +
+                        "	PORT (\n" +
+                        "			denom	: IN STD_LOGIC_VECTOR (16 DOWNTO 0);\n" +
+                        "			numer	: IN STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "			quotient	: OUT STD_LOGIC_VECTOR (19 DOWNTO 0);\n" +
+                        "			remain	: OUT STD_LOGIC_VECTOR (16 DOWNTO 0)\n" +
+                        "	);\n" +
+                        "	END COMPONENT;\n" +
+                        "\n" +
+                        "BEGIN\n" +
+                        "	quotient    <= sub_wire0(19 DOWNTO 0);\n" +
+                        "	remain    <= sub_wire1(16 DOWNTO 0);\n" +
+                        "\n" +
+                        "	LPM_DIVIDE_component : LPM_DIVIDE\n" +
+                        "	GENERIC MAP (\n" +
+                        "		lpm_drepresentation => \"UNSIGNED\",\n" +
+                        "		lpm_hint => \"MAXIMIZE_SPEED=6,LPM_REMAINDERPOSITIVE=TRUE\",\n" +
+                        "		lpm_nrepresentation => \"UNSIGNED\",\n" +
+                        "		lpm_type => \"LPM_DIVIDE\",\n" +
+                        "		lpm_widthd => 17,\n" +
+                        "		lpm_widthn => 20\n" +
+                        "	)\n" +
+                        "	PORT MAP (\n" +
+                        "		denom => denom,\n" +
+                        "		numer => numer,\n" +
+                        "		quotient => sub_wire0,\n" +
+                        "		remain => sub_wire1\n" +
+                        "	);\n" +
+                        "\n" +
+                        "\n" +
+                        "\n" +
+                        "END SYN;\n" +
+                        "\n" +
+                        "-- ============================================================\n" +
+                        "-- CNX file retrieval info\n" +
+                        "-- ============================================================\n" +
+                        "-- Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING \"Cyclone V\"\n" +
+                        "-- Retrieval info: PRIVATE: PRIVATE_LPM_REMAINDERPOSITIVE STRING \"TRUE\"\n" +
+                        "-- Retrieval info: PRIVATE: PRIVATE_MAXIMIZE_SPEED NUMERIC \"6\"\n" +
+                        "-- Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: USING_PIPELINE NUMERIC \"0\"\n" +
+                        "-- Retrieval info: PRIVATE: VERSION_NUMBER NUMERIC \"2\"\n" +
+                        "-- Retrieval info: PRIVATE: new_diagram STRING \"1\"\n" +
+                        "-- Retrieval info: LIBRARY: lpm lpm.lpm_components.all\n" +
+                        "-- Retrieval info: CONSTANT: LPM_DREPRESENTATION STRING \"UNSIGNED\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_HINT STRING \"MAXIMIZE_SPEED=6,LPM_REMAINDERPOSITIVE=TRUE\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_NREPRESENTATION STRING \"UNSIGNED\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_TYPE STRING \"LPM_DIVIDE\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHD NUMERIC \"17\"\n" +
+                        "-- Retrieval info: CONSTANT: LPM_WIDTHN NUMERIC \"20\"\n" +
+                        "-- Retrieval info: USED_PORT: denom 0 0 17 0 INPUT NODEFVAL \"denom[16..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: numer 0 0 20 0 INPUT NODEFVAL \"numer[19..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: quotient 0 0 20 0 OUTPUT NODEFVAL \"quotient[19..0]\"\n" +
+                        "-- Retrieval info: USED_PORT: remain 0 0 17 0 OUTPUT NODEFVAL \"remain[16..0]\"\n" +
+                        "-- Retrieval info: CONNECT: @denom 0 0 17 0 denom 0 0 17 0\n" +
+                        "-- Retrieval info: CONNECT: @numer 0 0 20 0 numer 0 0 20 0\n" +
+                        "-- Retrieval info: CONNECT: quotient 0 0 20 0 @quotient 0 0 20 0\n" +
+                        "-- Retrieval info: CONNECT: remain 0 0 17 0 @remain 0 0 17 0\n" +
+                        "-- Retrieval info: LIB_FILE: lpm";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
+    private void generate_div_int_20_17_speed_qip_file(String Project_Folder_File) {
+        String data =   "set_global_assignment -name IP_TOOL_NAME \"LPM_DIVIDE\"\n" +
+                        "set_global_assignment -name IP_TOOL_VERSION \"18.0\"\n" +
+                        "set_global_assignment -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
+                        "set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) \"div_int_20_17_speed.vhd\"]";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
@@ -19834,10 +19952,10 @@ public class Write_Hardware_Files {
                         "		.reference_clock_frequency(\"125.0 MHz\"),\n" +
                         "		.operation_mode(\"direct\"),\n" +
                         "		.number_of_clocks(2),\n" +
-                        "		.output_clock_frequency0(\"75.000000 MHz\"),\n" +
+                        "		.output_clock_frequency0(\""+(Data.CPU_RV64_Freq/1000000)+" MHz\"),\n" +
                         "		.phase_shift0(\"0 ps\"),\n" +
                         "		.duty_cycle0(50),\n" +
-                        "		.output_clock_frequency1(\"10.000000 MHz\"),\n" +
+                        "		.output_clock_frequency1(\""+(Data.PWM_RV64_HW_Freq/1000000)+" MHz\"),\n" +
                         "		.phase_shift1(\"0 ps\"),\n" +
                         "		.duty_cycle1(50),\n" +
                         "		.output_clock_frequency2(\"0 MHz\"),\n" +

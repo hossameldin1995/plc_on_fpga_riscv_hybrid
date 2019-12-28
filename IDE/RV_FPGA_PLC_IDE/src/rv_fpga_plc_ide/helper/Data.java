@@ -57,15 +57,17 @@ public class Data {
     public static int Load_index = 0;
     public static final int F_100M = 100000000;
     public static final int F_75M  = 75000000;
+    public static final int F_70M  = 70000000;
     public static final int F_50M  = 50000000;
     public static final int F_10M  = 10000000;
+    public static final int F_1M   = 1000000;
     
     public static int       CPU_RV32_Freq = F_100M;
     public static int       CPU_RV32_Timer_Freq = F_100M;
     
     public static int       CPU_RV64_Freq = F_75M;
     public static int       CPU_RV64_Timer_Freq = F_75M;
-    public static int       PWM_RV64_HW_Freq = F_10M;
+    public static int       PWM_RV64_HW_Freq = F_1M;
     
     public static boolean RequestDownload = false;
     

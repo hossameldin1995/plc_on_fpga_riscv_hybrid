@@ -28,6 +28,9 @@ import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
  */
 public class Software {
     public void compile_software(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, boolean compile_all_project, JDialog jDialog_Loading, JLabel JTextLableLoading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
+        Data.is_fpu_RV64_enabeled = false;
+        Data.is_mul_RV64_enabeled = false;
+        Data.is_div_RV64_enabeled = false;
         if (Data.hdl_compilation_state_RV64_SW == Data.UPDATED) {
             Data.hdl_compilation_state_RV64_SW = Data.ASSEMBLER;
         }

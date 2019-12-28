@@ -29,6 +29,9 @@ import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
  */
 public class Hardware {
     public void compile_hardware(Component parentComponent, String Project_Folder, ActionEvent evt, JLabel JTextLableLoading, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
+        Data.is_fpu_RV64_enabeled = false;
+        Data.is_mul_RV64_enabeled = false;
+        Data.is_div_RV64_enabeled = false;
         if (Data.hdl_compilation_state_RV64_HW == Data.UPDATED) {
             Data.hdl_compilation_state_RV64_HW = Data.ASSEMBLER;
         }

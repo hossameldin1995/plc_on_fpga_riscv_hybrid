@@ -6,6 +6,7 @@
 package rv_fpga_plc_ide.helper.RV64.compile_il;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.Icon;
 import javax.swing.JDialog;
@@ -27,7 +28,7 @@ import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
  * @author hossameldin
  */
 public class Software {
-    public void compile_software(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, boolean compile_all_project, JDialog jDialog_Loading, JLabel JTextLableLoading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
+    public void compile_software(Component parentComponent, String Project_Folder, ActionEvent evt, boolean compile_all_project, JDialog jDialog_Loading, JLabel JTextLableLoading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
         Data.is_fpu_RV64_enabeled = false;
         Data.is_mul_RV64_enabeled = false;
         Data.is_div_RV64_enabeled = false;
@@ -575,7 +576,7 @@ public class Software {
                 }
             }
                         
-            String Preset_Time = "ERROR_PRESET_TIME";
+            String Preset_Time;
                        
             if (typeOfVariable.contains("TIME")) {
                 Preset_Time = Operand;
@@ -596,7 +597,7 @@ public class Software {
             il_inst = il_inst.replaceAll(",", "");
             Operand = il_inst.split("=>")[1];
                        
-            String Elapset_Time = "ERROR_ELAPSET_TIME";
+            String Elapset_Time;
                        
             typeOfVariable = "No Type";
             for (int i = 1; i < Data.size_Vaiables-1; i++) {
@@ -622,7 +623,7 @@ public class Software {
             il_inst = il_inst.replaceAll("\\)", "");
             Operand = il_inst.split("=>")[1];
                         
-            String Output_Timer = "ERROR_OUTPUT_TIMER\n";
+            String Output_Timer;
             if (Operand.contains("%")){
                 Operand = Operand.replaceAll("%", "");
                 String offc = Operand.split("\\.")[1];

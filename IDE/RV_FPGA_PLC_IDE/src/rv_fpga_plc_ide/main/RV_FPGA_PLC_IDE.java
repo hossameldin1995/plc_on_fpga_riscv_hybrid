@@ -2399,6 +2399,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     set_core_in_jmenu();
                     jTextArea_Output_Tab.setText("");
                     jTextArea_Output_Tab.append("Project \""+Data.Project_Name+"\" opened.\n");
+                    Data.is_fpu_RV64_enabeled = false;
+                    Data.is_mul_RV64_enabeled = false;
+                    Data.is_div_RV64_enabeled = false;
                 } else {
                     JOptionPane.showMessageDialog(this, "Instruction List file dose not exists.", "Open Preoject", JOptionPane.OK_OPTION);
                 }
@@ -2619,11 +2622,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
     private void jMenuItem_Compile_HardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_HardwareActionPerformed
         int sel;
+        boolean compile_all_project;
         if (Data.is_Saved_Project) {
+            sel = JOptionPane.showConfirmDialog(this, "Do you want to compile all project (C and VHDL)?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            compile_all_project = (sel == JOptionPane.YES_OPTION);
             if (Data.core == Data.RV32) {
-                new rv_fpga_plc_ide.helper.RV32.compile_il.Hardware().compile_hardware(this, Data.Project_Folder.getPath(), evt, JTextLableLoading, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+                new rv_fpga_plc_ide.helper.RV32.compile_il.Hardware().compile_hardware(this, Data.Project_Folder.getPath(), evt, compile_all_project, JTextLableLoading, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
             } else if (Data.core == Data.RV64) {
-                new rv_fpga_plc_ide.helper.RV64.compile_il.Hardware().compile_hardware(this, Data.Project_Folder.getPath(), evt, JTextLableLoading, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+                new rv_fpga_plc_ide.helper.RV64.compile_il.Hardware().compile_hardware(this, Data.Project_Folder.getPath(), evt, compile_all_project, JTextLableLoading, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
             }
         } else {
             sel = JOptionPane.showConfirmDialog(this, "This project is not saved.\nDo you want to save is?", "Compile As Hardware", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

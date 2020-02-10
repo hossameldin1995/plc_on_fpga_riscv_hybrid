@@ -28,7 +28,7 @@ import rv_fpga_plc_ide.helper.private_threads.LoadingDialoge;
  * @author hossameldin
  */
 public class Hardware {
-    public void compile_hardware(Component parentComponent, String Project_Folder, ActionEvent evt, JLabel JTextLableLoading, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
+    public void compile_hardware(Component parentComponent, String Project_Folder, ActionEvent evt, boolean compile_all_project, JLabel JTextLableLoading, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
         if (Data.hdl_compilation_state_RV32_HW == Data.UPDATED) {
             Data.hdl_compilation_state_RV32_HW = Data.ASSEMBLER;
         }
@@ -41,7 +41,7 @@ public class Hardware {
         File q_files = new File(Project_Folder+"/q_files_RV32_HW");
         
         c_files.mkdirs();
-        q_files.mkdirs();
+        if (compile_all_project) q_files.mkdirs();
         
         jTextArea_Output_Tab.append("  Start Compiling \"instruction list\".\n");
         success &= compill_il_file_hw(parentComponent);
@@ -49,7 +49,7 @@ public class Hardware {
             jTextArea_Output_Tab.append("  Start Compiling \"c files\".\n");
             success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
         }
-        if (success) {
+        if (success && compile_all_project) {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
             new Write_Hardware_Files().generate_q_files_variables(Project_Folder+"/q_files_RV32_HW/");
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
@@ -57,7 +57,13 @@ public class Hardware {
             new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.HW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         }
         
-        if (!success) {
+        if (success) {
+            if (!compile_all_project) {
+                jDialog_Loading.hide();
+                JOptionPane.showMessageDialog(parentComponent, "Successful");
+                jTextArea_Output_Tab.append("Compilling Finished Successfully\n");
+            }
+        } else {
             Icon icon = UIManager.getIcon("OptionPane.errorIcon");
             jDialog_Loading.hide();
             JOptionPane.showMessageDialog(parentComponent, "Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);

@@ -514,7 +514,7 @@ public class Software {
                 }
             }
                         
-            String Preset_Time = "ERROR_PRESET_TIME";
+            String Preset_Time;
                        
             if (typeOfVariable.contains("TIME")) {
                 Preset_Time = Operand;
@@ -535,7 +535,7 @@ public class Software {
             il_inst = il_inst.replaceAll(",", "");
             Operand = il_inst.split("=>")[1];
                        
-            String Elapset_Time = "ERROR_ELAPSET_TIME";
+            String Elapset_Time;
                        
             typeOfVariable = "No Type";
             for (int i = 1; i < Data.size_Vaiables-1; i++) {
@@ -561,7 +561,7 @@ public class Software {
             il_inst = il_inst.replaceAll("\\)", "");
             Operand = il_inst.split("=>")[1];
                         
-            String Output_Timer = "ERROR_OUTPUT_TIMER\n";
+            String Output_Timer;
             if (Operand.contains("%")){
                 Operand = Operand.replaceAll("%", "");
                 String offc = Operand.split("\\.")[1];
@@ -641,7 +641,7 @@ public class Software {
                     Data.C_code = new GeneralFunctions().insertStringAfter("static struct timer timer0;\n", "static struct timer timer1;\n", Data.C_code);
                     Data.C_code = new GeneralFunctions().insertStringAfter("uint64_t timer0_count;\n", "\tuint64_t timer1_count;\n", Data.C_code);
                     Data.C_code = new GeneralFunctions().insertStringAfter("uint32_t timer0_is_enabled = TIMER_DISABLED;\n", "\tuint32_t timer1_is_enabled = TIMER_DISABLED;\n", Data.C_code);
-                    Data.C_code = new GeneralFunctions().insertStringAfter("uint32_t pwm0_output = 0;\n", "\tuint32_t pwm1_output = 0;\n", Data.C_code);
+                    Data.C_code = new GeneralFunctions().insertStringAfter("uint32_t timer1_is_enabled = TIMER_DISABLED;\n", "\tuint32_t pwm1_output = 0;\n", Data.C_code);
                     Data.C_code = new GeneralFunctions().insertStringAfter("timer_reset(&timer0);\n", "\ttimer_reset(&timer1);\n", Data.C_code);
                     break;
                 default:

@@ -1272,9 +1272,9 @@ public class Write_Software_Files {
                         "#include <stdint.h>\n" +
                         "\n" +
                         "// Timer register offsets:\n" +
-                        "#define Elapsed_Time	0x00\n" +
+                        "#define Elapsed_Time_TON	0x00\n" +
                         "#define Q_TON         	0x08\n" +
-                        "#define Preset_Time		0x00\n" +
+                        "#define Preset_Time_TON		0x00\n" +
                         "#define IN_TON        	0x08\n" +
                         "\n" +
                         "typedef struct timer_hw\n" +
@@ -1289,12 +1289,12 @@ public class Write_Software_Files {
                         "\n" +
                         "static inline void timer_hw_send_preset_time(struct timer_hw * module, uint64_t preset_time)\n" +
                         "{\n" +
-                        "	module->registers[Preset_Time >> 3] = preset_time;\n" +
+                        "	module->registers[Preset_Time_TON >> 3] = preset_time;\n" +
                         "}\n" +
                         "\n" +
                         "static inline uint64_t timer_hw_recieve_elapsed_time(struct timer_hw  * module)\n" +
                         "{\n" +
-                        "	return module->registers[Elapsed_Time >> 3];;\n" +
+                        "	return module->registers[Elapsed_Time_TON >> 3];;\n" +
                         "}\n" +
                         "\n" +
                         "static inline uint32_t timer_hw_recieve_Q(struct timer_hw  * module)\n" +

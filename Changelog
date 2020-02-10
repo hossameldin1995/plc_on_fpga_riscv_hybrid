@@ -171,3 +171,10 @@ Version 1.16
 1 - Apply modifications from FPGA folder to IDE project (find details in 1.15).
 2 - Fix number of slavs in compiling RV64 SW to be fixed.
 3 - Reset FPU, MUL, DIV befor compiling (FIX).
+
+Version 1.17
+==========================================================================================================================
+1 - Fix changing fpu, mul, dic enabling after first compiling.
+2 - Ask in hardware as in software for compiling all hardware or just compile software only.
+3 - Fix duplicated preset_time and elabset_time in TON library file.
+4 - Removing some warnings.

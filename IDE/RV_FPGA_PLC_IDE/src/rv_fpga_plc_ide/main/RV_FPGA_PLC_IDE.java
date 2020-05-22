@@ -224,10 +224,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenuItem_And1 = new javax.swing.JMenuItem();
         jMenuItem_Or1 = new javax.swing.JMenuItem();
         jMenuItem_Xor1 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem_And2 = new javax.swing.JMenuItem();
-        jMenuItem_Or2 = new javax.swing.JMenuItem();
-        jMenuItem_Xor2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -1679,34 +1675,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
         jMenu_Logic_Operations.add(jMenu4);
 
-        jMenu5.setText("Branch Operations");
-
-        jMenuItem_And2.setText("AndB");
-        jMenuItem_And2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_And2ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem_And2);
-
-        jMenuItem_Or2.setText("OrB");
-        jMenuItem_Or2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_Or2ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem_Or2);
-
-        jMenuItem_Xor2.setText("XorB");
-        jMenuItem_Xor2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_Xor2ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem_Xor2);
-
-        jMenu_Logic_Operations.add(jMenu5);
-
         jMenu_Commands.add(jMenu_Logic_Operations);
 
         jMenu2.setText("Comparison");
@@ -2655,18 +2623,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         Basic_commands_button("Add And Command", "XORN");
     }//GEN-LAST:event_jMenuItem_Xor1ActionPerformed
 
-    private void jMenuItem_And2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_And2ActionPerformed
-        add_to_2d_program(1, new String[] {"        ANDB"});
-    }//GEN-LAST:event_jMenuItem_And2ActionPerformed
-
-    private void jMenuItem_Or2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Or2ActionPerformed
-        add_to_2d_program(1, new String[] {"        ORB"});
-    }//GEN-LAST:event_jMenuItem_Or2ActionPerformed
-
-    private void jMenuItem_Xor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Xor2ActionPerformed
-        add_to_2d_program(1, new String[] {"        XORB"});
-    }//GEN-LAST:event_jMenuItem_Xor2ActionPerformed
-
     private void jComboBox_Choose_CompilerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_Choose_CompilerKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_Choose_CompilerKeyReleased
@@ -3005,7 +2961,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
@@ -3022,7 +2977,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Add_Variable;
     private javax.swing.JMenuItem jMenuItem_And;
     private javax.swing.JMenuItem jMenuItem_And1;
-    private javax.swing.JMenuItem jMenuItem_And2;
     private javax.swing.JMenuItem jMenuItem_Close_Project;
     private javax.swing.JMenuItem jMenuItem_Compile_All;
     private javax.swing.JMenuItem jMenuItem_Compile_Hardware;
@@ -3047,7 +3001,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Open_Project;
     private javax.swing.JMenuItem jMenuItem_Or;
     private javax.swing.JMenuItem jMenuItem_Or1;
-    private javax.swing.JMenuItem jMenuItem_Or2;
     private javax.swing.JMenuItem jMenuItem_PWM;
     private javax.swing.JMenuItem jMenuItem_Redo;
     private javax.swing.JMenuItem jMenuItem_Remove_Rung;
@@ -3067,7 +3020,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Undo;
     private javax.swing.JMenuItem jMenuItem_Xor;
     private javax.swing.JMenuItem jMenuItem_Xor1;
-    private javax.swing.JMenuItem jMenuItem_Xor2;
     private javax.swing.JMenu jMenu_Arithmetic;
     private javax.swing.JMenu jMenu_Basic_Comands;
     private javax.swing.JMenu jMenu_Bistable;

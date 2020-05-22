@@ -7,6 +7,7 @@ package rv_fpga_plc_ide.helper.RV32.compile_il;
 
 import java.awt.Component;
 import java.io.File;
+import java.util.Arrays;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -110,6 +111,8 @@ public class Software {
                         "		io_per_set_output(&io_per_d, RWD, 0, 0);\n";
         
         Data.Load_index = 0;
+        Data.Load_index_is_defined = new Boolean[Data.MAX_LOAD_INDEX];
+        Arrays.fill(Data.Load_index_is_defined, Boolean.FALSE);
         for (int rung_i = 0; rung_i < Data.size_Rung; rung_i++) {
             Data.C_code += "\n\t\t// Rung " + (rung_i + 1 ) + " :" + Data.Rung_Name[rung_i].replaceAll(":", "") + "\n";
             success &= compile_rung_sw(parentComponent, rung_i, jDialog_Loading);
@@ -160,12 +163,6 @@ public class Software {
             } else if (il_inst.split(" ")[0].contains("ORN")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("OR", "");
                 add_basic_c_command(Operand, "|", "~");
-            } else if (il_inst.split(" ")[0].contains("ANDB")) {
-                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" &= var"+(Data.Load_index - 2)+";\n";
-            } else if (il_inst.split(" ")[0].contains("XORB")) {
-                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" ^= var"+(Data.Load_index - 2)+";\n";
-            } else if (il_inst.split(" ")[0].contains("ORB")) {
-                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" |= var"+(Data.Load_index - 2)+";\n";
             } else if (il_inst.split(" ")[0].contains("AND")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("AND", "");
                 add_basic_c_command(Operand, "&", "");
@@ -191,7 +188,7 @@ public class Software {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("MOD", "");
                 add_basic_c_command(Operand, "%", "");
             } else if (il_inst.split(" ")[0].contains("NOT")) {
-                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" = ~var"+(Data.Load_index - 1)+";\n";
+                Data.C_code += "\t\tvar"+(Data.Load_index)+" = ~var"+(Data.Load_index)+";\n";
             } else if (il_inst.split(" ")[0].contains("GT")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("GT", "");
                 add_comparison_c_command(Operand, ">");
@@ -253,12 +250,22 @@ public class Software {
             Operand = Operand.replaceAll("%", "");
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
-            Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+            if (!Data.Load_index_is_defined[Data.Load_index]) {
+                Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                Data.Load_index_is_defined[Data.Load_index] = true;
+            } else {
+                Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+            }
         } else if (Operand.contains("T#")) {
             if (not.equals("")) {
                 double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
                 long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV32_Timer_Freq);
-                Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
+                if (!Data.Load_index_is_defined[Data.Load_index]) {
+                    Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
+                    Data.Load_index_is_defined[Data.Load_index] = true;
+                } else {
+                    Data.C_code += "\t\tvar"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
+                }
             } else {
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Time can't be invertes!", "Compile As Software", JOptionPane.OK_OPTION, icon);
@@ -267,7 +274,12 @@ public class Software {
         } else {
             try {
                 Instant_Operand = Integer.parseInt(Operand);
-                Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+not+Instant_Operand+";\n";
+                if (!Data.Load_index_is_defined[Data.Load_index]) {
+                    Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+not+Instant_Operand+";\n";
+                    Data.Load_index_is_defined[Data.Load_index] = true;
+                } else {
+                    Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+Instant_Operand+";\n";
+                }
             } catch (NumberFormatException ex) {
                 String Variable_temp;
                 String typeOfVariable = "Variabe Not Found";
@@ -297,10 +309,14 @@ public class Software {
                     default:
                         break;
                 }
-                Data.C_code += "\t\t"+Type+" var"+Data.Load_index+" = "+not+nameOfVariable+";\n";
+                if (!Data.Load_index_is_defined[Data.Load_index]) {
+                    Data.C_code += "\t\t"+Type+" var"+Data.Load_index+" = "+not+nameOfVariable+";\n";
+                    Data.Load_index_is_defined[Data.Load_index] = true;
+                } else {
+                    Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+nameOfVariable+";\n";
+                }
             }
         }
-        Data.Load_index++;
         return success;
     }
     
@@ -310,7 +326,7 @@ public class Software {
             Operand = Operand.replaceAll("%", "");
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
-            Data.C_code += "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", "+not+"var"+(Data.Load_index-1)+");\n";
+            Data.C_code += "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", "+not+"var"+(Data.Load_index)+");\n";
         } else {
             try {
                 Integer.parseInt(Operand);
@@ -327,7 +343,7 @@ public class Software {
                         break;
                     }
                 }
-                Data.C_code += "\t\t"+nameOfVariable+" = "+not+"var"+(Data.Load_index-1)+";\n";
+                Data.C_code += "\t\t"+nameOfVariable+" = "+not+"var"+(Data.Load_index)+";\n";
             }
         }
         return success;
@@ -339,7 +355,7 @@ public class Software {
             Operand = Operand.replaceAll("%", "");
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
-            Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" != 0) io_per_set_output(&io_per_d, "+Operand+", "+offc+", "+set_reset+");\n";
+            Data.C_code += "\t\tif (var"+(Data.Load_index)+" != 0) io_per_set_output(&io_per_d, "+Operand+", "+offc+", "+set_reset+");\n";
         } else {
             try {
                 Integer.parseInt(Operand);
@@ -356,7 +372,7 @@ public class Software {
                         break;
                     }
                 }
-                Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" != 0) "+nameOfVariable+" = "+set_reset+";\n";
+                Data.C_code += "\t\tif (var"+(Data.Load_index)+" != 0) "+nameOfVariable+" = "+set_reset+";\n";
             }
         }
         return success;
@@ -368,11 +384,11 @@ public class Software {
             Operand = Operand.replaceAll("%", "");
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
-            Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" "+operation+"= "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+            Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
         } else {
             try {
                 Instant_Operand = Integer.parseInt(Operand);
-                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" "+operation+"= "+not+Instant_Operand+";\n";
+                Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+Instant_Operand+";\n";
             } catch (NumberFormatException ex) {
                 String Variable_temp;
                 String typeOfVariable = "Variabe Not Found";
@@ -402,7 +418,7 @@ public class Software {
                     default:
                         break;
                 }
-                Data.C_code += "\t\tvar"+(Data.Load_index - 1)+" "+operation+"= "+not+nameOfVariable+";\n";
+                Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+nameOfVariable+";\n";
             }
         }
     }
@@ -413,15 +429,15 @@ public class Software {
             Operand = Operand.replaceAll("%", "");
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
-            Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" io_per_get_input(&io_per_d, "+Operand+", "+offc+")) var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
+            Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" io_per_get_input(&io_per_d, "+Operand+", "+offc+")) var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
             } else if (Operand.contains("T#")) {
                 double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
                 long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV32_Timer_Freq);
-                Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" "+Number_of_Clocks+") var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
+                Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+Number_of_Clocks+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
             } else {
             try {
                 Instant_Operand = Integer.parseInt(Operand);
-                Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" "+Instant_Operand+") var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
+                Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+Instant_Operand+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
             } catch (NumberFormatException ex) {
                 String Variable_temp;
                 String nameOfVariable = "Variabe Not Found";
@@ -433,7 +449,7 @@ public class Software {
                     }
                 }
                 
-                Data.C_code += "\t\tif (var"+(Data.Load_index - 1)+" "+compare+" "+nameOfVariable+") var"+(Data.Load_index - 1)+" = 1; else var"+(Data.Load_index - 1)+" = 0;\n";
+                Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+nameOfVariable+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
             }
         }
     }
@@ -471,11 +487,21 @@ public class Software {
                     Operand = Operand.replaceAll("%", "");
                     String offc = Operand.split("\\.")[1];
                     Operand = Operand.split("\\.")[0];
-                    Data.C_code += "\t\tint var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                    if (!Data.Load_index_is_defined[Data.Load_index]) {
+                        Data.C_code += "\t\tint var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                        Data.Load_index_is_defined[Data.Load_index] = true;
+                    } else {
+                        Data.C_code += "\t\tvar"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                    }
                 } else {
                     try {
                         Instant_Operand = Integer.parseInt(Operand);
-                        Data.C_code += "\t\tint var"+Data.Load_index+" = "+Instant_Operand+";\n";
+                        if (!Data.Load_index_is_defined[Data.Load_index]) {
+                            Data.C_code += "\t\tint var"+Data.Load_index+" = "+Instant_Operand+";\n";
+                            Data.Load_index_is_defined[Data.Load_index] = true;
+                        } else {
+                            Data.C_code += "\t\tvar"+Data.Load_index+" = "+Instant_Operand+";\n";
+                        }
                     } catch (NumberFormatException ex) {
                         String Variable_temp;
                         typeOfVariable = "Not Supported Type";
@@ -489,7 +515,12 @@ public class Software {
                             }
                         }
                         if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
-                            Data.C_code += "\t\tint var"+Data.Load_index+" = "+nameOfVariable+";\n";
+                            if (!Data.Load_index_is_defined[Data.Load_index]) {
+                                Data.C_code += "\t\tint var"+Data.Load_index+" = "+nameOfVariable+";\n";
+                                Data.Load_index_is_defined[Data.Load_index] = true;
+                            } else {
+                                Data.C_code += "\t\tvar"+Data.Load_index+" = "+nameOfVariable+";\n";
+                            }
                         } else {
                             JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
                             return false;
@@ -615,8 +646,7 @@ public class Software {
                         + Output_Timer
                         + "\n"
                         + "";
-                        
-            Data.Load_index++;
+
         } else {
             jDialog_Loading.hide();
             JOptionPane.showMessageDialog(parentComponent, "There is only two timers in the core.", "Compile il", JOptionPane.OK_OPTION);
@@ -660,7 +690,12 @@ public class Software {
             } else {
                 try {
                     long Number_of_Clocks = (long) ((double)Data.CPU_RV32_Timer_Freq / Double.parseDouble(Operand));
-                    Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
+                    if (!Data.Load_index_is_defined[Data.Load_index]) {
+                        Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
+                        Data.Load_index_is_defined[Data.Load_index] = true;
+                    } else {
+                        Data.C_code += "\t\tvar"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
+                    }
                 } catch (NumberFormatException ex) {
                     String Variable_temp;
                     typeOfVariable = "Not Supported Type";
@@ -674,7 +709,12 @@ public class Software {
                         }
                     }
                     if (typeOfVariable.equals("INT")) {
-                        Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t) ("+Data.CPU_RV32_Timer_Freq+"/"+nameOfVariable+");\n";
+                        if (!Data.Load_index_is_defined[Data.Load_index]) {
+                            Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t) ("+Data.CPU_RV32_Timer_Freq+"/"+nameOfVariable+");\n";
+                            Data.Load_index_is_defined[Data.Load_index] = true;
+                        } else {
+                            Data.C_code += "\t\tvar"+Data.Load_index+" = (uint64_t) ("+Data.CPU_RV32_Timer_Freq+"/"+nameOfVariable+");\n";
+                        }
                     } else {
                         JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"INT\".", "Compile il SW", JOptionPane.OK_OPTION);
                         return false;
@@ -783,8 +823,7 @@ public class Software {
                         + Output_Timer
                         + "\n"
                         + "";
-                        
-            Data.Load_index++;
+
         } else {
             jDialog_Loading.hide();
             JOptionPane.showMessageDialog(parentComponent, "There is only two timers in the core.", "Compile il", JOptionPane.OK_OPTION);

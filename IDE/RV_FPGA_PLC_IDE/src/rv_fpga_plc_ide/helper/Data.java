@@ -55,6 +55,8 @@ public class Data {
     // Compill il to c
     public static String C_code;
     public static int Load_index = 0;
+    public static Boolean[] Load_index_is_defined;
+    public static final int MAX_LOAD_INDEX = 1000;
     public static final int F_100M = 100000000;
     public static final int F_75M  = 75000000;
     public static final int F_70M  = 70000000;

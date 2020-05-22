@@ -7,6 +7,5 @@ PROGRAM Two_Branches_One_Output
         AND    %SW.2
         LD     %SW.3
         AND    %SW.4
-        ORB
         ST     %LEDG.1
 END_PROGRAM

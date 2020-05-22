@@ -1,11 +1,11 @@
 Project Name           = Two_Branches_One_Output
-Size of Program        = 9
+Size of Program        = 8
 Max Size of Program    = 6
 Number of Rungs        = 1
-    Rung (1) Size      = 6
+    Rung (1) Size      = 5
 Number of Variables    = 0
-Core                   = 0
-Compiled Core          = 2
+Core                   = 1
+Compiled Core          = 1
 HDL Compilation State  = 0, 0, 0, 0
 Compiled Timers        = 0
 Timers in Program      = 0

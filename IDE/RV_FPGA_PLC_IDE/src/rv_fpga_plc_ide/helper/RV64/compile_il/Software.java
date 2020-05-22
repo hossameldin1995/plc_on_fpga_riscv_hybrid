@@ -8,6 +8,7 @@ package rv_fpga_plc_ide.helper.RV64.compile_il;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.Arrays;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -163,6 +164,8 @@ public class Software {
                         "		io_per_set_output(&io_per_d, RWD, 0, 0);\n";
         
         Data.Load_index = 0;
+        Data.Load_index_is_defined = new Boolean[Data.MAX_LOAD_INDEX];
+        Arrays.fill(Data.Load_index_is_defined, Boolean.FALSE);
         for (int rung_i = 0; rung_i < Data.size_Rung; rung_i++) {
             Data.C_code += "\n\t\t// Rung " + (rung_i + 1 ) + " :" + Data.Rung_Name[rung_i].replaceAll(":", "") + "\n";
             success &= compile_rung_sw(parentComponent, rung_i, jDialog_Loading);

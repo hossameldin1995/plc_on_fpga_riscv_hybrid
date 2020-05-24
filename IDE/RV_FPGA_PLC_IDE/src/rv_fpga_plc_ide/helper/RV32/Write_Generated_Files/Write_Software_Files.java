@@ -908,38 +908,13 @@ public class Write_Software_Files {
         String Variable_temp;
         String typeOfVariable;
         String nameOfVariable;
-        String Type;
+        String C_DataType;
         for (int i = 1; i < Data.size_Vaiables-1; i++) {
             Variable_temp = Data.Vaiables[i].replace(" ", "");
             nameOfVariable = Variable_temp.split(":")[0];
             typeOfVariable = Variable_temp.split(":")[1];
-            switch (typeOfVariable) {
-                case "INT":
-                    Type = "uint32_t";
-                    break;
-                case "BOOL":
-                    Type = "uint32_t";
-                    break;
-                case "REAL":
-                    Type = "double";
-                    break;
-                case "TIME":
-                    Type = "uint64_t";
-                    break;
-                case "TON":
-                    Type = "Timer";
-                    break;
-                case "TOF":
-                    Type = "Timer";
-                    break;
-                case "PWM":
-                    Type = "Timer";
-                    break;
-                default:
-                    Type = "NotSupported";
-                    break;
-            }
-            if (!Type.equals("Timer")) Data.C_code += "\t"+Type+" "+nameOfVariable+" = 0;\n";
+            C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable);
+            if (!C_DataType.equals("Timer")) Data.C_code += "\t"+C_DataType+" "+nameOfVariable+" = 0;\n";
         }
     }
 }

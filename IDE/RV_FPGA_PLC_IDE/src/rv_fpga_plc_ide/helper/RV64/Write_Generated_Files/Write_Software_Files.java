@@ -356,7 +356,7 @@ public class Write_Software_Files {
                         "    \n" +
                         "    io_per_set_output(&io_per_d, LEDG, 0, LED_ON); // LED = 1\n" +
                         "    io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
-                        "    print_uart(\"Booting . . .\\n\\r\", 15);\n" +
+                        "    //print_uart(\"Booting . . .\\n\\r\", 15);\n" +
                         "    \n" +
                         "    io_per_set_output(&io_per_d, LEDG, 1, LED_ON); // LEDG = 2\n" +
                         "    io_per_set_output(&io_per_d, LEDG, 0, LED_OFF);\n" +
@@ -367,12 +367,12 @@ public class Write_Software_Files {
                         "    io_per_set_output(&io_per_d, LEDG, 2, LED_ON); // LEDG = 4\n" +
                         "    io_per_set_output(&io_per_d, LEDG, 1, LED_OFF);\n" +
                         "    io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
-                        "    print_uart(\"Application image copied to RAM\\r\\n\", 33);\n" +
+                        "    //print_uart(\"Application image copied to RAM\\r\\n\", 33);\n" +
                         "\n" +
                         "    io_per_set_output(&io_per_d, LEDR, 9, LED_ON); // LEDR = 0x200\n" +
                         "    io_per_set_output(&io_per_d, LEDG, 2, LED_OFF);\n" +
                         "    io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
-                        "    print_uart(\"Jump to Application in RAM\\r\\n\", 28);\n" +
+                        "    //print_uart(\"Jump to Application in RAM\\r\\n\", 28);\n" +
                         "}\n" +
                         "\n" +
                         "/** Not used actually */\n" +
@@ -3900,38 +3900,13 @@ public class Write_Software_Files {
         String Variable_temp;
         String typeOfVariable;
         String nameOfVariable;
-        String Type;
+        String C_DataType;
         for (int i = 1; i < Data.size_Vaiables-1; i++) {
             Variable_temp = Data.Vaiables[i].replace(" ", "");
             nameOfVariable = Variable_temp.split(":")[0];
             typeOfVariable = Variable_temp.split(":")[1];
-            switch (typeOfVariable) {
-                case "INT":
-                    Type = "uint32_t";
-                    break;
-                case "BOOL":
-                    Type = "uint32_t";
-                    break;
-                case "REAL":
-                    Type = "double";
-                    break;
-                case "TIME":
-                    Type = "uint64_t";
-                    break;
-                case "TON":
-                    Type = "Timer";
-                    break;
-                case "TOF":
-                    Type = "Timer";
-                    break;
-                case "PWM":
-                    Type = "Timer";
-                    break;
-                default:
-                    Type = "NotSupported";
-                    break;
-            }
-            if (!Type.equals("Timer")) Data.C_code += Type+" "+nameOfVariable+" = 0;\n";
+            C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable);
+            if (!C_DataType.equals("Timer")) Data.C_code += C_DataType+" "+nameOfVariable+" = 0;\n";
         }
     }
 }

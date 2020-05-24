@@ -1,0 +1,16 @@
+Project Name           = PWM_DIM_14
+Size of Program        = 116
+Max Size of Program    = 56
+Number of Rungs        = 2
+    Rung (1) Size      = 56
+    Rung (2) Size      = 56
+Number of Variables    = 28
+Core                   = 1
+Compiled Core          = 1
+HDL Compilation State  = 0, 0, 0, 4
+Compiled ALU           = 0
+ALU in Program         = 0
+Compiled Timers        = 0
+Timers in Program      = 0
+Compiled PWMs          = 14
+PWMs in Program        = 14

@@ -52,6 +52,16 @@ public class Data {
     
     public static final int Max_Number_Of_Timers_SW = 2;
     
+    public static final String[] SUPPORTED_DATATYPES = new String[] 
+    { 
+        "BOOL", 
+        "SINT", "INT", "DINT", "LINT", "USINT", "UINT", "UDINT", "ULINT", 
+        "REAL", "LREAL", 
+        "TIME", 
+        "TON", "TOF", "PWM" 
+    };
+    
+    
     // Compill il to c
     public static String C_code;
     public static int Load_index = 0;
@@ -73,6 +83,7 @@ public class Data {
     public static int       PWM_RV64_HW_Freq = F_1M;
     
     public static boolean RequestDownload = false;
+    
     
     // Comile hdl
     public static final int NO_COMPILATION = 0;
@@ -96,12 +107,21 @@ public class Data {
     public static int Number_Of_PWMs_In_Program = 0;
     public static String[] Name_of_PWMs = new String[50];
     
-    
+    public static int ALU_Support_Compiled = 0;
+    public static int ALU_Support_In_Program = 0;
+    public static boolean is_fpu_RV64_enabeled = false;
+    public static boolean is_mul_RV64_enabeled = false;
+    public static boolean is_div_RV64_enabeled = false;
+    public static final int MASK_FPU_RV64 = 1;
+    public static final int MASK_MUL_RV64 = 2;
+    public static final int MASK_DIV_RV64 = 4;
+            
     public static final int RV32 = 0;
     public static final int RV64 = 1;
     public static final int NO_CORE = 2;
     public static int core = NO_CORE;
     public static int compiled_core = NO_CORE;
+    
     
     // Type of output from executing commands
     public static final int COMMAND_WINDOW = 0;
@@ -110,13 +130,10 @@ public class Data {
     public static final int NO_WINDOW = 3;
     public static int deafult_out_window = COMMAND_WINDOW;
     
+    
     // Path to compilers
     public static final String R32_COMPILER_PATH = "/opt/riscv32/bin/";
     public static final String R64_COMPILER_PATH = "/opt/riscv64/bin/";
-    
-    public static boolean is_fpu_RV64_enabeled = false;
-    public static boolean is_mul_RV64_enabeled = false;
-    public static boolean is_div_RV64_enabeled = false;
     
     public static final String localVariables = "	/*************** Local Variables ****************/\n\n";
     public static final String initializeLocalVariables = "	/********** Initialize Local Variables **********/\n\n";

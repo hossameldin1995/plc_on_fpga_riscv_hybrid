@@ -193,4 +193,16 @@ Version 1.22
 1 - Adding Modifier "(" and ")" for branch operations according to the standard.
 2 - Using setVisible(false) instead of hide() for hiding the loading dialoge.
 3 - Fix craching after found a problem in compiling the code.
+4 - Adding project folder "Three_Branches"
 
+Version 1.25
+==========================================================================================================================
+1 - Adding proper support for ALU in RV64 to be compiled in hardware.
+2 - Modifying the "rfpinfo" files in the project to support ALU in RV.
+3 - Adding check for ALU support in hardware change.
+4 - Adding project folder "BWM_DIM_TEN"
+5 - Adding project folder "BWM_DIM_14"
+6 - Adding support for more Data Types in compiling the project.
+7 - Using one function for data type conversion in general functions "convert_il_datatype_to_c_datatype"
+8 - Fixing core selection save project needed when select the same core.
+9 - Removing printing in UART in boot stage for faster booting

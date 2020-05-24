@@ -33,6 +33,7 @@ public class Hardware {
         Data.is_fpu_RV64_enabeled = false;
         Data.is_mul_RV64_enabeled = false;
         Data.is_div_RV64_enabeled = false;
+        Data.ALU_Support_In_Program = 0;
         if (Data.hdl_compilation_state_RV64_HW == Data.UPDATED) {
             Data.hdl_compilation_state_RV64_HW = Data.ASSEMBLER;
         }
@@ -242,14 +243,17 @@ public class Hardware {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("MUL", "");
                 add_basic_c_command(Operand, "*", "");
                 Data.is_mul_RV64_enabeled = true;
+                Data.ALU_Support_In_Program |= Data.MASK_MUL_RV64;
             } else if (il_inst.split(" ")[0].contains("DIV")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("DIV", "");
                 add_basic_c_command(Operand, "/", "");
                 Data.is_div_RV64_enabeled = true;
+                Data.ALU_Support_In_Program |= Data.MASK_DIV_RV64;
             } else if (il_inst.split(" ")[0].contains("MOD")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("MOD", "");
                 add_basic_c_command(Operand, "%", "");
                 Data.is_div_RV64_enabeled = true;
+                Data.ALU_Support_In_Program |= Data.MASK_DIV_RV64;
             } else if (il_inst.split(" ")[0].contains("NOT")) {
                 Data.C_code += "\t\tvar"+(Data.Load_index)+" = ~var"+(Data.Load_index)+";\n";
             } else if (il_inst.split(" ")[0].contains("GT")) {
@@ -321,7 +325,7 @@ public class Hardware {
     private boolean add_basic_load_command(Component parentComponent, String Operand, String not) {
         boolean success = true;
         int Instant_Operand;
-        if (Operand.contains("%")){
+        if (Operand.contains("%")){ // BOOL
             Operand = Operand.replaceAll("%", "");
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
@@ -359,7 +363,7 @@ public class Hardware {
                 String Variable_temp;
                 String typeOfVariable = "Variabe Not Found";
                 String nameOfVariable = "Variabe Not Found";
-                String Type = "NotSupported";
+                String C_DataType;
                 for (int i = 1; i < Data.size_Vaiables-1; i++) {
                     Variable_temp = Data.Vaiables[i].replace(" ", "");
                     if (Variable_temp.contains(Operand)) {
@@ -368,24 +372,9 @@ public class Hardware {
                         break;
                     }
                 }
-                switch (typeOfVariable) {
-                    case "INT":
-                        Type = "uint32_t";
-                        break;
-                    case "BOOL":
-                        Type = "uint32_t";
-                        break;
-                    case "REAL":
-                        Type = "float";
-                        break;
-                    case "TIME":
-                        Type = "uint64_t";
-                        break;
-                    default:
-                        break;
-                }
+                C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
-                    Data.C_code += "\t\t"+Type+" var"+Data.Load_index+" = "+not+nameOfVariable+";\n";
+                    Data.C_code += "\t\t"+C_DataType+" var"+Data.Load_index+" = "+not+nameOfVariable+";\n";
                     Data.Load_index_is_defined[Data.Load_index] = true;
                 } else {
                     Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+nameOfVariable+";\n";
@@ -474,32 +463,13 @@ public class Hardware {
                     Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+Instant_Operand+";\n";
                 } catch (NumberFormatException ex) {
                     String Variable_temp;
-                    String typeOfVariable = "Variabe Not Found";
                     String nameOfVariable = "Variabe Not Found";
-                    String Type = "NotSupported";
                     for (int i = 1; i < Data.size_Vaiables-1; i++) {
                         Variable_temp = Data.Vaiables[i].replace(" ", "");
                         if (Variable_temp.contains(Operand)) {
                             nameOfVariable = Variable_temp.split(":")[0];
-                            typeOfVariable = Variable_temp.split(":")[1];
                             break;
                         }
-                    }
-                    switch (typeOfVariable) {
-                        case "INT":
-                            Type = "uint32_t";
-                            break;
-                        case "BOOL":
-                            Type = "uint32_t";
-                            break;
-                        case "REAL":
-                            Type = "float";
-                            break;
-                        case "TIME":
-                            Type = "uint64_t";
-                            break;
-                        default:
-                            break;
                     }
                     Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+nameOfVariable+";\n";
                 }
@@ -565,7 +535,7 @@ public class Hardware {
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
             if (!Data.Load_index_is_defined[Data.Load_index]) {
-                        Data.C_code += "\t\tint var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                        Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
                         Data.Load_index_is_defined[Data.Load_index] = true;
                     } else {
                         Data.C_code += "\t\tvar"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
@@ -574,7 +544,7 @@ public class Hardware {
             try {
                 Instant_Operand = Integer.parseInt(Operand);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
-                            Data.C_code += "\t\tint var"+Data.Load_index+" = "+Instant_Operand+";\n";
+                            Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+Instant_Operand+";\n";
                             Data.Load_index_is_defined[Data.Load_index] = true;
                         } else {
                             Data.C_code += "\t\tvar"+Data.Load_index+" = "+Instant_Operand+";\n";
@@ -593,11 +563,11 @@ public class Hardware {
                 }
                 if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
                     if (!Data.Load_index_is_defined[Data.Load_index]) {
-                                Data.C_code += "\t\tint var"+Data.Load_index+" = "+nameOfVariable+";\n";
-                                Data.Load_index_is_defined[Data.Load_index] = true;
-                            } else {
-                                Data.C_code += "\t\tvar"+Data.Load_index+" = "+nameOfVariable+";\n";
-                            }
+                        Data.C_code += "\t\tuint16_t var"+Data.Load_index+" = "+nameOfVariable+";\n";
+                        Data.Load_index_is_defined[Data.Load_index] = true;
+                    } else {
+                        Data.C_code += "\t\tvar"+Data.Load_index+" = "+nameOfVariable+";\n";
+                    }
                 } else {
                     JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il HW", JOptionPane.OK_OPTION);
                     return false;

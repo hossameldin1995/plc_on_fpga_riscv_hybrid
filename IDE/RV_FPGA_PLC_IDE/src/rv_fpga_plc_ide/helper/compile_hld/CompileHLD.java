@@ -81,6 +81,10 @@ public class CompileHLD {
             if (Data.Number_Of_PWMs_Compiled != Data.Number_Of_PWMs_In_Program) {
                 return false;
             }
+            if ((Data.ALU_Support_Compiled != Data.ALU_Support_In_Program) && Data.core == Data.RV64) {
+                return false;
+            }
+            
         }
         
         return true;

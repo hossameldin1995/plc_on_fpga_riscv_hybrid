@@ -2098,7 +2098,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Add_RungActionPerformed
 
     private void jMenuItem_Add_VariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Add_VariableActionPerformed
-        jComboBox_Variable_Type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BOOL", "REAL", "INT", "TIME", "TON", "TOF", "PWM" }));
+        jComboBox_Variable_Type.setModel(new javax.swing.DefaultComboBoxModel<>(Data.SUPPORTED_DATATYPES));
         Data.is_newVariable_timer = false;
         Data.is_newVariable_PWM = false;
         jDialog_Add_Variable.show();
@@ -2805,17 +2805,21 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_Add_V_Ok2ActionPerformed
 
     private void jRadioButton_R32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_R32ActionPerformed
-        Data.core = Data.RV32;
-        Data.is_Saved_Project = false;
-        this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
-        set_core_in_jmenu();
+        if (Data.core != Data.RV32) {
+            Data.core = Data.RV32;
+            Data.is_Saved_Project = false;
+            this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
+            set_core_in_jmenu();
+        }
     }//GEN-LAST:event_jRadioButton_R32ActionPerformed
 
     private void jRadioButton_R64ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_R64ActionPerformed
-        Data.core = Data.RV64;
-        Data.is_Saved_Project = false;
-        this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
-        set_core_in_jmenu();
+        if (Data.core != Data.RV64) {
+            Data.core = Data.RV64;
+            Data.is_Saved_Project = false;
+            this.setTitle("RV FPGA PLC IDE - " + Data.Project_Name + " *");
+            set_core_in_jmenu();
+        }
     }//GEN-LAST:event_jRadioButton_R64ActionPerformed
 
     private void jMenuItem_Download_Program_to_SoC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Download_Program_to_SoC1ActionPerformed

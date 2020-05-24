@@ -160,4 +160,64 @@ public class GeneralFunctions {
             return "false";
         }
     }
+    
+    public String convert_il_datatype_to_c_datatype(String IL_DataType) {
+        String C_DataType;
+        Data.is_fpu_RV64_enabeled = false;
+        switch (IL_DataType) {
+            case "BOOL":
+                C_DataType = "uint8_t";
+                break;
+            case "SINT" :
+                C_DataType = "int8_t";
+                break;
+            case "INT":
+                C_DataType = "int16_t";
+                break;
+            case "DINT":
+                C_DataType = "int32_t";
+                break;
+            case "LINT":
+                C_DataType = "int64_t";
+                break;
+            case "USINT" :
+                C_DataType = "uint8_t";
+                break;
+            case "UINT":
+                C_DataType = "uint16_t";
+                break;
+            case "UDINT":
+                C_DataType = "uint32_t";
+                break;
+            case "ULINT":
+                C_DataType = "uint64_t";
+                break;
+            case "REAL":
+                C_DataType = "float";
+                Data.is_fpu_RV64_enabeled = true;
+                Data.ALU_Support_In_Program |= Data.MASK_FPU_RV64;
+                break;
+            case "LREAL":
+                Data.is_fpu_RV64_enabeled = true;
+                Data.ALU_Support_In_Program |= Data.MASK_FPU_RV64;
+                C_DataType = "double";
+                break;
+            case "TIME":
+                C_DataType = "uint64_t";
+                break;
+            case "TON":
+                C_DataType = "Timer";
+                break;
+            case "TOF":
+                C_DataType = "Timer";
+                break;
+            case "PWM":
+                C_DataType = "Timer";
+                break;
+            default:
+                C_DataType = "NotSupported";
+                break;
+            }
+        return C_DataType;
+    }
 }

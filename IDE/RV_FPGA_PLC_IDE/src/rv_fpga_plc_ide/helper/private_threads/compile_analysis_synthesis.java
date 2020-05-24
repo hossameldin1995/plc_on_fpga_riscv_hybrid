@@ -57,6 +57,7 @@ public class compile_analysis_synthesis extends Thread {
                 hdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
                 Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
                 Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
+                Data.ALU_Support_Compiled = Data.ALU_Support_In_Program;
                 Data.compiled_core = Data.core;
                 cf.start();
             } else {

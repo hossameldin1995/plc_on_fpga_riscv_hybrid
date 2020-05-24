@@ -1,0 +1,16 @@
+Project Name           = PWM_DIM_TEN
+Size of Program        = 84
+Max Size of Program    = 40
+Number of Rungs        = 2
+    Rung (1) Size      = 40
+    Rung (2) Size      = 40
+Number of Variables    = 20
+Core                   = 0
+Compiled Core          = 0
+HDL Compilation State  = 0, 0, 0, 3
+Compiled ALU           = 0
+ALU in Program         = 0
+Compiled Timers        = 0
+Timers in Program      = 2
+Compiled PWMs          = 10
+PWMs in Program        = 0

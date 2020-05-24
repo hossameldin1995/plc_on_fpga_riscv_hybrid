@@ -61,11 +61,11 @@ public class download_to_SoC_thread extends Thread {
             int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
             success = (exitValue == 0);
             if (success) {
-                jDialog_Loading.hide();
+                jDialog_Loading.setVisible(false);
                 jTextArea_Output_Tab.append("Downloading Finished Successfully");
                 JOptionPane.showMessageDialog(parentComponent, "Downloading Finished Successfully");
             } else {
-                jDialog_Loading.hide();
+                jDialog_Loading.setVisible(false);
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Downloading did not Finished Successfully.", "Downloading to SoC", JOptionPane.OK_OPTION, icon);
                 jTextArea_Output_Tab.append("Downloading did not Finished Successfully\n");

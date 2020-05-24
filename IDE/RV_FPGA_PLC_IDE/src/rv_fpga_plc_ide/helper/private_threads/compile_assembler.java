@@ -58,7 +58,7 @@ public class compile_assembler extends Thread {
             Data.compiled_core = Data.core;
             if (exitValue == 0) {
                 hdl_compilation_state = Data.UPDATED;
-                jDialog_Loading.hide();
+                jDialog_Loading.setVisible(false);
                 jTextArea_Output_Tab.append("  Compiling Finished Successfully\n");
                 JOptionPane.showMessageDialog(parentComponent, "Compiling Finished Successfully");
                 if (Data.RequestDownload) {
@@ -66,7 +66,7 @@ public class compile_assembler extends Thread {
                     new RV_FPGA_PLC_IDE().Download_Prog_to_SoC(evt, hdl_compilation_type);
                 }
             } else {
-                jDialog_Loading.hide();
+                jDialog_Loading.setVisible(false);
                 hdl_compilation_state = Data.FITTER;
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Compiling did not Finished Successfully", "Compile As Software", JOptionPane.OK_OPTION, icon);

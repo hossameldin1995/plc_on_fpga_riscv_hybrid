@@ -57,7 +57,7 @@ public class compile_update_mif extends Thread {
                 ca.start();
             } else {
                 hdl_compilation_state = Data.NO_COMPILATION;
-                jDialog_Loading.hide();
+                jDialog_Loading.setVisible(false);
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Updating mif Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
                 jTextArea_Output_Tab.append("  Compiling did not Finished Successfully\n");

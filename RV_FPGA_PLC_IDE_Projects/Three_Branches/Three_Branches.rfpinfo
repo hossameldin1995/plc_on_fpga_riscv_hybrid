@@ -1,0 +1,16 @@
+Project Name           = Three_Branches
+Size of Program        = 26
+Max Size of Program    = 11
+Number of Rungs        = 4
+    Rung (1) Size      = 11
+    Rung (2) Size      = 3
+    Rung (3) Size      = 3
+    Rung (4) Size      = 3
+Number of Variables    = 0
+Core                   = 1
+Compiled Core          = 1
+HDL Compilation State  = 3, 3, 4, 3
+Compiled Timers        = 0
+Timers in Program      = 0
+Compiled PWMs          = 0
+PWMs in Program        = 0

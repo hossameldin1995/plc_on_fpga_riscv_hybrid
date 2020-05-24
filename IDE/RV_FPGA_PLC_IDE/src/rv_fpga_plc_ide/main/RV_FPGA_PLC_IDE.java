@@ -105,6 +105,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jTextField_Instant = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        jCheckBox1_Modifier = new javax.swing.JCheckBox();
         jDialog_Bistable_Command = new javax.swing.JDialog();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -214,6 +216,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenuItem_Store_Not = new javax.swing.JMenuItem();
         jMenuItem_Set = new javax.swing.JMenuItem();
         jMenuItem_Reset = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu_Logic_Operations = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem_And = new javax.swing.JMenuItem();
@@ -560,6 +563,32 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         });
 
+        jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder("Modifier"));
+
+        jCheckBox1_Modifier.setText("Modifier “(”");
+        jCheckBox1_Modifier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1_ModifierActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCheckBox1_Modifier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCheckBox1_Modifier)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jDialog_Basic_CommandsLayout = new javax.swing.GroupLayout(jDialog_Basic_Commands.getContentPane());
         jDialog_Basic_Commands.getContentPane().setLayout(jDialog_Basic_CommandsLayout);
         jDialog_Basic_CommandsLayout.setHorizontalGroup(
@@ -572,19 +601,22 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jDialog_Basic_CommandsLayout.setVerticalGroup(
             jDialog_Basic_CommandsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog_Basic_CommandsLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog_Basic_CommandsLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jDialog_Basic_CommandsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jDialog_Bistable_Command.setModal(true);
@@ -1607,6 +1639,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         });
         jMenu_Basic_Comands.add(jMenuItem_Reset);
 
+        jMenuItem8.setText("Close Modifier");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu_Basic_Comands.add(jMenuItem8);
+
         jMenu_Commands.add(jMenu_Basic_Comands);
 
         jMenu_Logic_Operations.setText("Logic Operations");
@@ -2075,7 +2115,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_Add_V_OkActionPerformed
 
     private void jMenuItem_LoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_LoadActionPerformed
-        Basic_commands_button("Add Load Command", "LD ");
+        Basic_commands_button("Add Load Command", "LD ", false);
     }//GEN-LAST:event_jMenuItem_LoadActionPerformed
 
     private void jRadioButton_VariablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_VariablesActionPerformed
@@ -2159,15 +2199,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem_StoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_StoreActionPerformed
-        Basic_commands_button("Add Store Command", "ST ");
+        Basic_commands_button("Add Store Command", "ST ", false);
     }//GEN-LAST:event_jMenuItem_StoreActionPerformed
 
     private void jMenuItem_SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_SetActionPerformed
-        Basic_commands_button("Add Set Command", "SET");
+        Basic_commands_button("Add Set Command", "SET", false);
     }//GEN-LAST:event_jMenuItem_SetActionPerformed
 
     private void jMenuItem_ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_ResetActionPerformed
-        Basic_commands_button("Add Reset Command", "RST");
+        Basic_commands_button("Add Reset Command", "RST", false);
     }//GEN-LAST:event_jMenuItem_ResetActionPerformed
 
     private void jRadioButton_InstantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_InstantActionPerformed
@@ -2188,39 +2228,41 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Remove_VariableActionPerformed
 
     private void jMenuItem_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_AddActionPerformed
-        Basic_commands_button("Add Addition Command", "ADD");
+        Basic_commands_button("Add Addition Command", "ADD", true);
     }//GEN-LAST:event_jMenuItem_AddActionPerformed
 
     private void jMenuItem_SubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_SubActionPerformed
-        Basic_commands_button("Add Subtraction Command", "SUB");
+        Basic_commands_button("Add Subtraction Command", "SUB", true);
     }//GEN-LAST:event_jMenuItem_SubActionPerformed
 
     private void jMenuItem_MulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_MulActionPerformed
-        Basic_commands_button("Add Multiplication Command", "MUL");
+        Basic_commands_button("Add Multiplication Command", "MUL", true);
     }//GEN-LAST:event_jMenuItem_MulActionPerformed
 
     private void jMenuItem_DivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_DivActionPerformed
-        Basic_commands_button("Add Division Command", "DIV");
+        Basic_commands_button("Add Division Command", "DIV", true);
     }//GEN-LAST:event_jMenuItem_DivActionPerformed
 
     private void jMenuItem_ModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_ModActionPerformed
-        Basic_commands_button("Add Modelus Command", "MOD");
+        Basic_commands_button("Add Modelus Command", "MOD", true);
     }//GEN-LAST:event_jMenuItem_ModActionPerformed
 
     private void jMenuItem_AndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_AndActionPerformed
-        Basic_commands_button("Add And Command", "AND");
+        Basic_commands_button("Add And Command", "AND", true);
     }//GEN-LAST:event_jMenuItem_AndActionPerformed
 
     private void jMenuItem_OrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_OrActionPerformed
-        Basic_commands_button("Add Or Command", "OR ");
+        Basic_commands_button("Add Or Command", "OR ", true);
     }//GEN-LAST:event_jMenuItem_OrActionPerformed
 
     private void jMenuItem_XorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_XorActionPerformed
-        Basic_commands_button("Add Xor Command", "XOR");
+        Basic_commands_button("Add Xor Command", "XOR", true);
     }//GEN-LAST:event_jMenuItem_XorActionPerformed
 
     private void jMenuItem_NotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_NotActionPerformed
-        add_to_2d_program(1, new String[] {"        NOT"});
+        if (check_rung_selection()) {
+            add_to_2d_program(1, new String[] {"        NOT"});
+        }
     }//GEN-LAST:event_jMenuItem_NotActionPerformed
 
     private void jMenuItem_Set_DominantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Set_DominantActionPerformed
@@ -2525,35 +2567,35 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox_KeysItemStateChanged
 
     private void jMenuItem_Load_NotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Load_NotActionPerformed
-        Basic_commands_button("Add Load Not Command", "LDN");
+        Basic_commands_button("Add Load Not Command", "LDN", false);
     }//GEN-LAST:event_jMenuItem_Load_NotActionPerformed
 
     private void jMenuItem_Store_NotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Store_NotActionPerformed
-        Basic_commands_button("Add Store Not Command", "STN");
+        Basic_commands_button("Add Store Not Command", "STN", false);
     }//GEN-LAST:event_jMenuItem_Store_NotActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        Basic_commands_button("Add Greater Than Command", "GT ");
+        Basic_commands_button("Add Greater Than Command", "GT ", true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Basic_commands_button("Add Greater Than or Equal Command", "GE ");
+        Basic_commands_button("Add Greater Than or Equal Command", "GE ", true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        Basic_commands_button("Add Equal Command", "EQ ");
+        Basic_commands_button("Add Equal Command", "EQ ", true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        Basic_commands_button("Add Not Equal Command", "NE ");
+        Basic_commands_button("Add Not Equal Command", "NE ", true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        Basic_commands_button("Add Less Than Command", "LT ");
+        Basic_commands_button("Add Less Than Command", "LT ", true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        Basic_commands_button("Add Less Than or Equal Command", "LE ");
+        Basic_commands_button("Add Less Than or Equal Command", "LE ", true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
@@ -2612,15 +2654,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Compile_HardwareActionPerformed
 
     private void jMenuItem_And1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_And1ActionPerformed
-        Basic_commands_button("Add And Command", "ANDN");
+        Basic_commands_button("Add And Command", "ANDN", true);
     }//GEN-LAST:event_jMenuItem_And1ActionPerformed
 
     private void jMenuItem_Or1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Or1ActionPerformed
-        Basic_commands_button("Add And Command", "ORN");
+        Basic_commands_button("Add And Command", "ORN", true);
     }//GEN-LAST:event_jMenuItem_Or1ActionPerformed
 
     private void jMenuItem_Xor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Xor1ActionPerformed
-        Basic_commands_button("Add And Command", "XORN");
+        Basic_commands_button("Add And Command", "XORN", true);
     }//GEN-LAST:event_jMenuItem_Xor1ActionPerformed
 
     private void jComboBox_Choose_CompilerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_Choose_CompilerKeyReleased
@@ -2780,6 +2822,20 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         Download_Prog_to_SoC(evt, Data.HW_COMPILATION);
     }//GEN-LAST:event_jMenuItem_Download_Program_to_SoC1ActionPerformed
 
+    private void jCheckBox1_ModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1_ModifierActionPerformed
+        if (jCheckBox1_Modifier.isSelected()) {
+            choose_operator_enable(false);
+        } else {
+            choose_operator_enable(true);
+        }
+    }//GEN-LAST:event_jCheckBox1_ModifierActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        if (check_rung_selection()) {
+            add_to_2d_program(1, new String[] {"        )"});
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
     private void FillListProgram(boolean isEditing) {
         jList_Program.setModel(new javax.swing.AbstractListModel() {
             @Override
@@ -2916,6 +2972,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JButton jButton_Add_V_Ok;
     private javax.swing.JButton jButton_Add_V_Ok1;
     private javax.swing.JButton jButton_Add_V_Ok2;
+    private javax.swing.JCheckBox jCheckBox1_Modifier;
     private javax.swing.JComboBox<String> jComboBox_Choose_Compiler;
     private javax.swing.JComboBox<String> jComboBox_Choose_Compiler1;
     private javax.swing.JComboBox<String> jComboBox_Inputs;
@@ -2971,6 +3028,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem_About;
     private javax.swing.JMenuItem jMenuItem_Add;
     private javax.swing.JMenuItem jMenuItem_Add_Rung;
@@ -3040,6 +3098,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3096,7 +3155,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         FillListVariables(true);
     }
 
-    private void Basic_commands_button(String Function_Name, String Function_IL) {
+    private void Basic_commands_button(String Function_Name, String Function_IL, boolean is_modifier) {
         Data.Function_Name = Function_Name;
         if (check_rung_selection()) {
             String[] Variables_temp = new String[Data.size_Vaiables-1];
@@ -3115,6 +3174,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             jTextField_Instant.setText("");
             jDialog_Basic_Commands.setTitle(Function_Name);
             Data.Basic_Comman_IL = Function_IL;
+            jCheckBox1_Modifier.setEnabled(is_modifier);
+            jCheckBox1_Modifier.setSelected(false);
+            choose_operator_enable(true);
             jDialog_Basic_Commands.show();
         }
     }
@@ -3333,8 +3395,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         boolean close = true;
         switch (Data.Operator_Select){
             case -1:
-                JOptionPane.showMessageDialog(this, "Please select operand", jDialog_Basic_Commands.getTitle(), JOptionPane.OK_OPTION);
-                close = false;
+                if (jCheckBox1_Modifier.isSelected()) {
+                    Operator = "(";
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please select operand", jDialog_Basic_Commands.getTitle(), JOptionPane.OK_OPTION);
+                    close = false;
+                }
                 break;
             case 0:
                 if (jComboBox_Variables.getSelectedIndex() == 0){
@@ -3630,5 +3696,22 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         if (Data.hdl_compilation_state_RV64_HW == Data.UPDATED) {
             Data.hdl_compilation_state_RV64_HW = Data.ASSEMBLER;
         }
+    }
+
+    private void choose_operator_enable(boolean enable) {
+        jRadioButton_Instant.setEnabled(enable);
+        jRadioButton_Variables.setEnabled(enable);
+        jRadioButton_Inputs.setEnabled(enable);
+        jRadioButton_Outputs.setEnabled(enable);
+        jRadioButton_Leds.setEnabled(enable);
+        jRadioButton_Switches.setEnabled(enable);
+        jRadioButton_Keys.setEnabled(enable);
+        jTextField_Instant.setEnabled(enable);
+        jComboBox_Variables.setEnabled(enable);
+        jComboBox_Inputs.setEnabled(enable);
+        jComboBox_Outputs.setEnabled(enable);
+        jComboBox_Leds.setEnabled(enable);
+        jComboBox_Switches.setEnabled(enable);
+        jComboBox_Keys.setEnabled(enable);
     }
 }

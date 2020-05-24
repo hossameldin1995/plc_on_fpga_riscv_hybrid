@@ -187,3 +187,10 @@ Version 1.21
 ==========================================================================================================================
 1 - Fix uninitialized Load_index_is_defined.
 2 - Remove branch operations from project folder
+
+Version 1.22
+==========================================================================================================================
+1 - Adding Modifier "(" and ")" for branch operations according to the standard.
+2 - Using setVisible(false) instead of hide() for hiding the loading dialoge.
+3 - Fix craching after found a problem in compiling the code.
+

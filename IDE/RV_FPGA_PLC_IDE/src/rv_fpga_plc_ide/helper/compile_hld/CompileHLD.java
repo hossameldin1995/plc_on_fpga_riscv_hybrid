@@ -64,7 +64,7 @@ public class CompileHLD {
                     break;
                 case Data.UPDATED:
                     jTextArea_Output_Tab.append("No Need for Compilling\n");
-                    jDialog_Loading.hide();
+                    jDialog_Loading.setVisible(false);
                     JOptionPane.showMessageDialog(parentComponent, "No Need for Compilling");
             }
         } else {

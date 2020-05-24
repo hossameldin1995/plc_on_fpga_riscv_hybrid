@@ -60,7 +60,7 @@ public class compile_fitter extends Thread {
                 hdl_compilation_state = Data.FITTER;
                 ca.start();
             } else {
-                jDialog_Loading.hide();
+                jDialog_Loading.setVisible(false);
                 hdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Fitter Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);

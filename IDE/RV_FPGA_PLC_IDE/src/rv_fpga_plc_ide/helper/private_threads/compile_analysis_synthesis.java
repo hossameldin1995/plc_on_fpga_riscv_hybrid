@@ -60,7 +60,7 @@ public class compile_analysis_synthesis extends Thread {
                 Data.compiled_core = Data.core;
                 cf.start();
             } else {
-                jDialog_Loading.hide();
+                jDialog_Loading.setVisible(false);
                 hdl_compilation_state = Data.NO_COMPILATION;
                 Data.Number_Of_Timers_Compiled = 0;
                 Data.Number_Of_PWMs_Compiled = 0;

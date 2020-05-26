@@ -23,7 +23,6 @@ import rv_fpga_plc_ide.helper.execute_command;
 public class compile_fitter extends Thread {
         private final String Project_Folder;
         private final java.awt.event.ActionEvent evt;
-        private final int hdl_compilation_type;
         private final JDialog jDialog_Loading;
         private final Component parentComponent;
         private final JFileChooser jFileChooser1;
@@ -31,10 +30,9 @@ public class compile_fitter extends Thread {
         
         int hdl_compilation_state;
         
-        public compile_fitter(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
+        public compile_fitter(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
-            this.hdl_compilation_type = hdl_compilation_type;
             this.jDialog_Loading = jDialog_Loading;
             this.parentComponent = parentComponent;
             this.jFileChooser1 = jFileChooser1;
@@ -54,10 +52,9 @@ public class compile_fitter extends Thread {
             int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
             Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
             Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
-            Data.ALU_Support_Compiled = Data.ALU_Support_In_Program;
             Data.compiled_core = Data.core;
             if (exitValue == 0) {
-                compile_assembler ca = new compile_assembler(parentComponent, Project_Folder, evt, hdl_compilation_type, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+                compile_assembler ca = new compile_assembler(parentComponent, Project_Folder, evt, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
                 hdl_compilation_state = Data.FITTER;
                 ca.start();
             } else {
@@ -68,16 +65,18 @@ public class compile_fitter extends Thread {
             }
             
             if (Data.core == Data.RV32) {
-                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                if (Data.Compiling_Type == Data.SW_COMPILING) {
                     Data.hdl_compilation_state_RV32_SW = hdl_compilation_state;
-                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                } else if (Data.Compiling_Type == Data.HW_COMPILING) {
                     Data.hdl_compilation_state_RV32_HW = hdl_compilation_state;
                 }
             } else {
-                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                if (Data.Compiling_Type == Data.SW_COMPILING) {
                     Data.hdl_compilation_state_RV64_SW = hdl_compilation_state;
-                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.ALU_Support_Compiled_RV64_SW = Data.ALU_Support_In_Program_RV64_SW;
+                } else if (Data.Compiling_Type == Data.HW_COMPILING) {
                     Data.hdl_compilation_state_RV64_HW = hdl_compilation_state;
+                    Data.ALU_Support_Compiled_RV64_HW = Data.ALU_Support_In_Program_RV64_HW;
                 }
             }
             

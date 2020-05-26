@@ -33,7 +33,7 @@ public class Hardware {
         Data.is_fpu_RV64_enabeled = false;
         Data.is_mul_RV64_enabeled = false;
         Data.is_div_RV64_enabeled = false;
-        Data.ALU_Support_In_Program = 0;
+        Data.ALU_Support_In_Program_RV64_HW = 0;
         if (Data.hdl_compilation_state_RV64_HW == Data.UPDATED) {
             Data.hdl_compilation_state_RV64_HW = Data.ASSEMBLER;
         }
@@ -52,27 +52,27 @@ public class Hardware {
         success &= compill_il_file_hw(parentComponent, jDialog_Loading);
         if (success) {
             jTextArea_Output_Tab.append("  Start Compiling \"hex2mifc\".\n");
-            success &= new compile_c_file().compile_hex2mif(jTextArea_Output_Tab, Data.HW_COMPILATION);
+            success &= new compile_c_file().compile_hex2mif(jTextArea_Output_Tab);
         }
         if (success) {
             jTextArea_Output_Tab.append("  Start Compiling \"elf2rawx\".\n");
-            success &= new compile_c_file().compile_elf2rawx(jTextArea_Output_Tab, Data.HW_COMPILATION);
+            success &= new compile_c_file().compile_elf2rawx(jTextArea_Output_Tab);
         }
         if (success) {
             jTextArea_Output_Tab.append("  Start Compiling \"Application\".\n");
-            success &= new compile_c_file().compile_application(jTextArea_Output_Tab, Data.HW_COMPILATION);
+            success &= new compile_c_file().compile_application(jTextArea_Output_Tab);
         }
         if (success) {
             jTextArea_Output_Tab.append("  Start Compiling \"Boot\".\n");
-            success &= new compile_c_file().compile_boot(jTextArea_Output_Tab, Data.HW_COMPILATION);
+            success &= new compile_c_file().compile_boot(jTextArea_Output_Tab);
         }
         if (success && compile_all_project) {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
-            new Write_Hardware_Files().generate_q_files(Project_Folder+"/q_files_RV64_HW/", Data.HW_COMPILATION);
+            new Write_Hardware_Files().generate_q_files(Project_Folder+"/q_files_RV64_HW/");
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
             new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV64_HW/"+Data.Project_Name+"_application/bin/"+Data.Project_Name+".mif", Project_Folder+"/q_files_RV64_HW/"+Data.Project_Name+".mif");
             new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV64_HW/boot/bin/bootimage.mif", Project_Folder+"/q_files_RV64_HW/bootimage.mif");
-            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.HW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         }
         
         if (success) {
@@ -183,7 +183,7 @@ public class Hardware {
                        "    }\n" +
                        "\n" +
                        "}";
-        new Write_Software_Files().write_library_files(Data.Project_Folder.getPath()+"/c_files_RV64_HW", Data.HW_COMPILATION);
+        new Write_Software_Files().write_library_files(Data.Project_Folder.getPath()+"/c_files_RV64_HW");
         new GeneralFunctions().write_file(Data.Project_Folder.getPath()+"/c_files_RV64_HW/"+Data.Project_Name+"_application/src/"+Data.Project_Name+".c", Data.C_code);
         return success;
     }
@@ -243,17 +243,17 @@ public class Hardware {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("MUL", "");
                 add_basic_c_command(Operand, "*", "");
                 Data.is_mul_RV64_enabeled = true;
-                Data.ALU_Support_In_Program |= Data.MASK_MUL_RV64;
+                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_MUL_RV64;
             } else if (il_inst.split(" ")[0].contains("DIV")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("DIV", "");
                 add_basic_c_command(Operand, "/", "");
                 Data.is_div_RV64_enabeled = true;
-                Data.ALU_Support_In_Program |= Data.MASK_DIV_RV64;
+                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_DIV_RV64;
             } else if (il_inst.split(" ")[0].contains("MOD")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("MOD", "");
                 add_basic_c_command(Operand, "%", "");
                 Data.is_div_RV64_enabeled = true;
-                Data.ALU_Support_In_Program |= Data.MASK_DIV_RV64;
+                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_DIV_RV64;
             } else if (il_inst.split(" ")[0].contains("NOT")) {
                 Data.C_code += "\t\tvar"+(Data.Load_index)+" = ~var"+(Data.Load_index)+";\n";
             } else if (il_inst.split(" ")[0].contains("GT")) {
@@ -306,7 +306,7 @@ public class Hardware {
                     success = TON_compile_hw(parentComponent, Function_Block_Name, il_inst, rung_i, program_i);
                     program_i = program_i + 3;
                 } else if (typeOfVariable.contains("PWM")) {
-                    success = PWM_compile_hw(parentComponent, Function_Block_Name, il_inst, rung_i, program_i);
+                    success = PWM_compile_hw(parentComponent, Function_Block_Name, il_inst, rung_i, program_i, jDialog_Loading);
                     program_i = program_i + 2;
                 } else {
                     jDialog_Loading.setVisible(false);
@@ -330,7 +330,7 @@ public class Hardware {
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
             if (!Data.Load_index_is_defined[Data.Load_index]) {
-                Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
                 Data.Load_index_is_defined[Data.Load_index] = true;
             } else {
                 Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
@@ -354,7 +354,7 @@ public class Hardware {
             try {
                 Instant_Operand = Integer.parseInt(Operand);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
-                    Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+not+Instant_Operand+";\n";
+                    Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = "+not+Instant_Operand+";\n";
                     Data.Load_index_is_defined[Data.Load_index] = true;
                 } else {
                     Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+Instant_Operand+";\n";
@@ -535,7 +535,7 @@ public class Hardware {
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
             if (!Data.Load_index_is_defined[Data.Load_index]) {
-                        Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                        Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
                         Data.Load_index_is_defined[Data.Load_index] = true;
                     } else {
                         Data.C_code += "\t\tvar"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
@@ -544,7 +544,7 @@ public class Hardware {
             try {
                 Instant_Operand = Integer.parseInt(Operand);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
-                            Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+Instant_Operand+";\n";
+                            Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = "+Instant_Operand+";\n";
                             Data.Load_index_is_defined[Data.Load_index] = true;
                         } else {
                             Data.C_code += "\t\tvar"+Data.Load_index+" = "+Instant_Operand+";\n";
@@ -561,7 +561,7 @@ public class Hardware {
                         break;
                     }
                 }
-                if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                if (typeOfVariable.equals("BOOL")) {
                     if (!Data.Load_index_is_defined[Data.Load_index]) {
                         Data.C_code += "\t\tuint16_t var"+Data.Load_index+" = "+nameOfVariable+";\n";
                         Data.Load_index_is_defined[Data.Load_index] = true;
@@ -569,7 +569,7 @@ public class Hardware {
                         Data.C_code += "\t\tvar"+Data.Load_index+" = "+nameOfVariable+";\n";
                     }
                 } else {
-                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il HW", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\".", "Compile il HW", JOptionPane.OK_OPTION);
                     return false;
                 }
             }
@@ -663,10 +663,10 @@ public class Hardware {
                     }
                 }
                             
-                if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                if (typeOfVariable.equals("BOOL")) {
                     Output_Timer = "\t\t"+nameOfVariable+" = timer_hw_recieve_Q(&"+Timer_Name+");\n";
                 } else {
-                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il HW", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\".", "Compile il HW", JOptionPane.OK_OPTION);
                     return false;
                 }
             }
@@ -681,10 +681,12 @@ public class Hardware {
         return true;
     }
     
-    private boolean PWM_compile_hw(Component parentComponent, String PWM_Name, String il_inst, int rung_i, int program_i) {
+    private boolean PWM_compile_hw(Component parentComponent, String PWM_Name, String il_inst, int rung_i, int program_i, JDialog jDialog_Loading) {
+        String nameOfVariable;
         String typeOfVariable;
+        String Duty_Cycle;
         String[] il_inst_Arr = new String[1];
-        String Frequency = "Error Freq";
+        String Frequency;
                 
         Data.Name_of_PWMs[Data.Number_Of_PWMs_In_Program] = PWM_Name;
         Data.Number_Of_PWMs_In_Program++;
@@ -696,16 +698,17 @@ public class Hardware {
         String Operand = il_inst.split(":=")[1];
         
         if (Operand.contains("%")){
+            jDialog_Loading.setVisible(false);
             JOptionPane.showMessageDialog(parentComponent, "Frequency can't be BOOL.", "Compile il HW", JOptionPane.OK_OPTION);
             return false;
         } else {
             try {
                 Integer.parseInt(Operand);
-                Frequency = Operand;
+                Frequency = "(uint32_t)" + Operand;
             } catch (NumberFormatException ex) {
                 String Variable_temp;
                 typeOfVariable = "Not Supported Type";
-                String nameOfVariable = "Variabe Not Found";
+                nameOfVariable = "Variabe Not Found";
                 for (int i = 1; i < Data.size_Vaiables-1; i++) {
                     Variable_temp = Data.Vaiables[i].replace(" ", "");
                     if (Variable_temp.contains(Operand)) {
@@ -714,10 +717,11 @@ public class Hardware {
                         break;
                     }
                 }
-                if (typeOfVariable.equals("INT")) {
-                    Frequency = nameOfVariable;
+                if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PWM_FRQ_DC)) {
+                    Frequency = "(uint32_t)" + nameOfVariable;
                 } else {
-                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"INT\".", "Compile il HW", JOptionPane.OK_OPTION);
+                    jDialog_Loading.setVisible(false);
+                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" is not correct.\nSee supported types for frequency.", "Compile il HW", JOptionPane.OK_OPTION);
                     return false;
                 }
             }
@@ -731,32 +735,35 @@ public class Hardware {
         il_inst = il_inst.replaceAll(",", "");
         Operand = il_inst.split(":=")[1];
                         
-        typeOfVariable = "No Type";
+        typeOfVariable = "Not Supported Type";
+        nameOfVariable = "Variabe Not Found";
         for (int i = 1; i < Data.size_Vaiables-1; i++) {
             String Variable_temp = Data.Vaiables[i].replace(" ", "");
             if (Variable_temp.contains(Operand)) {
+                nameOfVariable = Variable_temp.split(":")[0];
                 typeOfVariable = Variable_temp.split(":")[1];
                 break;
             }
         }
-                        
-        String Duty_Cycle;
-                     
+        
         if (Operand.contains("%")){
+            jDialog_Loading.setVisible(false);
             JOptionPane.showMessageDialog(parentComponent, "Duty Cycle can't be BOOL.", "Compile il HW", JOptionPane.OK_OPTION);
             return false;
         } else if (Operand.contains("T#")) {
+            jDialog_Loading.setVisible(false);
             JOptionPane.showMessageDialog(parentComponent, "Duty Cycle can't be TIME.", "Compile il HW", JOptionPane.OK_OPTION);
             return false;
         } else {
             try {
                 Integer.parseInt(Operand);
-                Duty_Cycle = Operand;
+                Duty_Cycle = "(uint32_t)" + Operand;
             } catch (NumberFormatException ex) {
-                if (typeOfVariable.equals("INT")) {
-                    Duty_Cycle = Operand;
+                if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PWM_FRQ_DC)) {
+                    Duty_Cycle = "(uint32_t)" + Operand;
                 } else {
-                    JOptionPane.showMessageDialog(parentComponent, "Duty cycle should be with type \"INT\".", "Compile il HW", JOptionPane.OK_OPTION);
+                    jDialog_Loading.setVisible(false);
+                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\" "+nameOfVariable+"\" is not correct.\nSee supported types for duty cycle.", "Compile il HW", JOptionPane.OK_OPTION);
                     return false;
                 }
             }
@@ -779,12 +786,13 @@ public class Hardware {
         } else {
             try {
                 int Integer_Operand = Integer.parseInt(Operand);
+                jDialog_Loading.setVisible(false);
                 JOptionPane.showMessageDialog(parentComponent, "Tho output of the timer \""+Integer_Operand+"\" shouldn't be instant value.", "Compile il HW", JOptionPane.OK_OPTION);
                 return false;
             } catch (NumberFormatException ex) {
                 String Variable_temp;
                 typeOfVariable = "Not Supported Type";
-                String nameOfVariable = "Variabe Not Found";
+                nameOfVariable = "Variabe Not Found";
                 for (int i = 1; i < Data.size_Vaiables-1; i++) {
                     Variable_temp = Data.Vaiables[i].replace(" ", "");
                     if (Variable_temp.contains(Operand)) {
@@ -794,10 +802,11 @@ public class Hardware {
                     }
                 }
                             
-                if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                if (typeOfVariable.equals("BOOL")) {
                     Output_Timer = "\t\t"+nameOfVariable+" = pwm_hw_recieve_Q(&"+PWM_Name+");\n";
                 } else {
-                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il HW", JOptionPane.OK_OPTION);
+                    jDialog_Loading.setVisible(false);
+                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\".", "Compile il HW", JOptionPane.OK_OPTION);
                     return false;
                 }
             }

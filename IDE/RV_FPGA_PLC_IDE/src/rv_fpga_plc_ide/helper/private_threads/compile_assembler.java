@@ -24,7 +24,6 @@ import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
 public class compile_assembler extends Thread {
         private final String Project_Folder;
         private final java.awt.event.ActionEvent evt;
-        private final int hdl_compilation_type;
         private final JDialog jDialog_Loading;
         private final Component parentComponent;
         private final JFileChooser jFileChooser1;
@@ -32,10 +31,9 @@ public class compile_assembler extends Thread {
         
         int hdl_compilation_state;
         
-        public compile_assembler(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, int hdl_compilation_type, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
+        public compile_assembler(Component parentComponent, String Project_Folder, java.awt.event.ActionEvent evt, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
             this.Project_Folder = Project_Folder;
             this.evt = evt;
-            this.hdl_compilation_type = hdl_compilation_type;
             this.jDialog_Loading = jDialog_Loading;
             this.parentComponent = parentComponent;
             this.jFileChooser1 = jFileChooser1;
@@ -55,7 +53,6 @@ public class compile_assembler extends Thread {
             int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
             Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
             Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
-            Data.ALU_Support_Compiled = Data.ALU_Support_In_Program;
             Data.compiled_core = Data.core;
             if (exitValue == 0) {
                 hdl_compilation_state = Data.UPDATED;
@@ -64,7 +61,7 @@ public class compile_assembler extends Thread {
                 JOptionPane.showMessageDialog(parentComponent, "Compiling Finished Successfully");
                 if (Data.RequestDownload) {
                     Data.RequestDownload = false;
-                    new RV_FPGA_PLC_IDE().Download_Prog_to_SoC(evt, hdl_compilation_type);
+                    new RV_FPGA_PLC_IDE().Download_Prog_to_SoC(evt);
                 }
             } else {
                 jDialog_Loading.setVisible(false);
@@ -79,16 +76,18 @@ public class compile_assembler extends Thread {
             }
             
             if (Data.core == Data.RV32) {
-                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                if (Data.Compiling_Type == Data.SW_COMPILING) {
                     Data.hdl_compilation_state_RV32_SW = hdl_compilation_state;
-                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                } else if (Data.Compiling_Type == Data.HW_COMPILING) {
                     Data.hdl_compilation_state_RV32_HW = hdl_compilation_state;
                 }
             } else {
-                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                if (Data.Compiling_Type == Data.SW_COMPILING) {
                     Data.hdl_compilation_state_RV64_SW = hdl_compilation_state;
-                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                    Data.ALU_Support_Compiled_RV64_SW = Data.ALU_Support_In_Program_RV64_SW;
+                } else if (Data.Compiling_Type == Data.HW_COMPILING) {
                     Data.hdl_compilation_state_RV64_HW = hdl_compilation_state;
+                    Data.ALU_Support_Compiled_RV64_HW = Data.ALU_Support_In_Program_RV64_HW;
                 }
             }
             

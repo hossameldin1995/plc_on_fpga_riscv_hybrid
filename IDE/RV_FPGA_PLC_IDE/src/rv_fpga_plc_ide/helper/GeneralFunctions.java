@@ -195,11 +195,13 @@ public class GeneralFunctions {
             case "REAL":
                 C_DataType = "float";
                 Data.is_fpu_RV64_enabeled = true;
-                Data.ALU_Support_In_Program |= Data.MASK_FPU_RV64;
+                Data.ALU_Support_In_Program_RV64_SW |= Data.MASK_FPU_RV64;
+                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_FPU_RV64;
                 break;
             case "LREAL":
                 Data.is_fpu_RV64_enabeled = true;
-                Data.ALU_Support_In_Program |= Data.MASK_FPU_RV64;
+                Data.ALU_Support_In_Program_RV64_SW |= Data.MASK_FPU_RV64;
+                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_FPU_RV64;
                 C_DataType = "double";
                 break;
             case "TIME":
@@ -219,5 +221,14 @@ public class GeneralFunctions {
                 break;
             }
         return C_DataType;
+    }
+    
+    public boolean is_contain_str_arr(String str, String[] arr) {
+        for (String arr1 : arr) {
+            if (str.equals(arr1)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

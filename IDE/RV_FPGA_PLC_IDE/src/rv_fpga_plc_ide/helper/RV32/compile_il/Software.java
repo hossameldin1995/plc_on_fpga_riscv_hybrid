@@ -54,7 +54,7 @@ public class Software {
             new Write_Hardware_Files().generate_q_files(Project_Folder+"/q_files_RV32_SW/");
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
             new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV32_SW/bootloader.mif", Project_Folder+"/q_files_RV32_SW/bootloader.mif");
-            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, Data.SW_COMPILATION, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
+            new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         }
         
         if (success) {
@@ -73,8 +73,7 @@ public class Software {
     
     private boolean compill_il_file_sw(Component parentComponent, JDialog jDialog_Loading) {
         boolean success = true;
-        Data.Number_Of_Timers_In_Program = 0;
-        Data.Number_Of_PWMs_In_Program = 0;
+        Data.Number_Of_Timers_In_Program_SW = 0;
         Data.C_code =   "#include <stdint.h>\n" +
                         "#include \"platform.h\"\n" +
                         "//#include \"uart.h\"\n" +
@@ -269,7 +268,7 @@ public class Software {
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
             if (!Data.Load_index_is_defined[Data.Load_index]) {
-                Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
                 Data.Load_index_is_defined[Data.Load_index] = true;
             } else {
                 Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
@@ -293,7 +292,7 @@ public class Software {
             try {
                 Instant_Operand = Integer.parseInt(Operand);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
-                    Data.C_code += "\t\tuint32_t var"+Data.Load_index+" = "+not+Instant_Operand+";\n";
+                    Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = "+not+Instant_Operand+";\n";
                     Data.Load_index_is_defined[Data.Load_index] = true;
                 } else {
                     Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+Instant_Operand+";\n";
@@ -460,9 +459,9 @@ public class Software {
         String typeOfVariable;
         String[] il_inst_Arr = new String[1];
                 
-        if (Data.Number_Of_Timers_In_Program < Data.Max_Number_Of_Timers_SW) {
-            Data.Number_Of_Timers_In_Program++;
-            switch (Data.Number_Of_Timers_In_Program) {
+        if (Data.Number_Of_Timers_In_Program_SW < Data.MAX_NUMBER_OF_TIMERS_SW) {
+            Data.Number_Of_Timers_In_Program_SW++;
+            switch (Data.Number_Of_Timers_In_Program_SW) {
                 case 1:
                     Data.C_code = new GeneralFunctions().insertStringAfter("static struct io_per io_per_d;\n", "\nstatic struct timer timer0;\n", Data.C_code);
                     Data.C_code = new GeneralFunctions().insertStringAfter("io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n", "\n\ttimer_initialize(&timer0, (volatile void *) PLATFORM_TIMER0_BASE);\n\ttimer_reset(&timer0);\n\tuint64_t timer0_count;\n\tuint32_t timer0_is_enabled = TIMER_DISABLED;\n\tuint32_t timer0_output = 0;\n", Data.C_code);
@@ -480,7 +479,7 @@ public class Software {
                     JOptionPane.showMessageDialog(parentComponent, "This CPU has only two timers.\nPlease compile as hardware or use optimaization algorithm.", "Compile il", JOptionPane.OK_OPTION);
                     return false;
                 }
-                int timer_number = (Data.Number_Of_Timers_In_Program-1);
+                int timer_number = (Data.Number_Of_Timers_In_Program_SW-1);
                         
                 Data.C_code += "\n\t\t// TON "+Operand+"\n";
                 Operand = il_inst.split(":=")[1];
@@ -516,7 +515,7 @@ public class Software {
                                 break;
                             }
                         }
-                        if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                        if (typeOfVariable.equals("BOOL")) {
                             if (!Data.Load_index_is_defined[Data.Load_index]) {
                                 Data.C_code += "\t\tint var"+Data.Load_index+" = "+nameOfVariable+";\n";
                                 Data.Load_index_is_defined[Data.Load_index] = true;
@@ -524,7 +523,8 @@ public class Software {
                                 Data.C_code += "\t\tvar"+Data.Load_index+" = "+nameOfVariable+";\n";
                             }
                         } else {
-                            JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
+                            jDialog_Loading.setVisible(false);
+                            JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\".", "Compile il", JOptionPane.OK_OPTION);
                             return false;
                         }
                     }
@@ -556,6 +556,7 @@ public class Software {
                 long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV32_Timer_Freq);
                 Preset_Time = "(uint64_t)"+Number_of_Clocks;
             } else {
+                jDialog_Loading.setVisible(false);
                 JOptionPane.showMessageDialog(parentComponent, "Preset time should be variable with type \"TIME\" or instant begins with T#.", "Compile il", JOptionPane.OK_OPTION);
                 return false;
             }
@@ -582,6 +583,7 @@ public class Software {
             if (typeOfVariable.contains("TIME")) {
                 Elapset_Time = Operand;
             } else {
+                jDialog_Loading.setVisible(false);
                 JOptionPane.showMessageDialog(parentComponent, "Elapsed time should be variable with type \"TIME\".", "Compile il", JOptionPane.OK_OPTION);
                 return false;
             }
@@ -602,6 +604,7 @@ public class Software {
                 Output_Timer = "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", timer"+timer_number+"_output);\n";
             } else {
                 try {
+                    jDialog_Loading.setVisible(false);
                     JOptionPane.showMessageDialog(parentComponent, "Tho output of the timer shouldn't be instant value.", "Compile il", JOptionPane.OK_OPTION);
                     return false;
                 } catch (NumberFormatException ex) {
@@ -617,10 +620,11 @@ public class Software {
                         }
                     }
                                
-                    if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                    if (typeOfVariable.equals("BOOL")) {
                         Output_Timer = "\t\t"+nameOfVariable+" = timer"+timer_number+"_output;\n";
                     } else {
-                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\".", "Compile il", JOptionPane.OK_OPTION);
                         return false;
                     }
                 }
@@ -658,12 +662,14 @@ public class Software {
     }
     
     private boolean PWM_compile_sw(Component parentComponent, String Operand, String il_inst, int rung_i, int program_i, JDialog jDialog_Loading) {
+        String nameOfVariable;
         String typeOfVariable;
+        String Duty_Cycle;
         String[] il_inst_Arr = new String[1];
                 
-        if (Data.Number_Of_Timers_In_Program < Data.Max_Number_Of_Timers_SW) {
-            Data.Number_Of_Timers_In_Program++;
-            switch (Data.Number_Of_Timers_In_Program) {
+        if (Data.Number_Of_Timers_In_Program_SW < Data.MAX_NUMBER_OF_TIMERS_SW) {
+            Data.Number_Of_Timers_In_Program_SW++;
+            switch (Data.Number_Of_Timers_In_Program_SW) {
                 case 1:
                     Data.C_code = new GeneralFunctions().insertStringAfter("static struct io_per io_per_d;\n", "\nstatic struct timer timer0;\n", Data.C_code);
                     Data.C_code = new GeneralFunctions().insertStringAfter("io_per_initialize(&io_per_d, (volatile void *) PLATFORM_IO_BASE);\n", "\n\ttimer_initialize(&timer0, (volatile void *) PLATFORM_TIMER0_BASE);\n\ttimer_reset(&timer0);\n\tuint64_t timer0_count;\n\tuint32_t timer0_is_enabled = TIMER_DISABLED;\n\tuint32_t pwm0_output = 0;\n", Data.C_code);
@@ -681,12 +687,13 @@ public class Software {
                     JOptionPane.showMessageDialog(parentComponent, "This CPU has only two timers.\nPlease compile as hardware or use optimaization algorithm.", "Compile il", JOptionPane.OK_OPTION);
                     return false;
             }
-            int timer_number = (Data.Number_Of_Timers_In_Program-1);
+            int timer_number = (Data.Number_Of_Timers_In_Program_SW-1);
                         
             Data.C_code += "\n\t\t// PWM "+Operand+"\n";
             Operand = il_inst.split(":=")[1];
             int Integer_Operand;
             if (Operand.contains("%")){
+                jDialog_Loading.setVisible(false);
                 JOptionPane.showMessageDialog(parentComponent, "Frequency can't be BOOL.", "Compile il SW", JOptionPane.OK_OPTION);
                 return false;
             } else {
@@ -701,7 +708,7 @@ public class Software {
                 } catch (NumberFormatException ex) {
                     String Variable_temp;
                     typeOfVariable = "Not Supported Type";
-                    String nameOfVariable = "Variabe Not Found";
+                    nameOfVariable = "Variabe Not Found";
                     for (int i = 1; i < Data.size_Vaiables-1; i++) {
                         Variable_temp = Data.Vaiables[i].replace(" ", "");
                         if (Variable_temp.contains(Operand)) {
@@ -710,7 +717,7 @@ public class Software {
                             break;
                         }
                     }
-                    if (typeOfVariable.equals("INT")) {
+                    if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PWM_FRQ_DC)) {
                         if (!Data.Load_index_is_defined[Data.Load_index]) {
                             Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t) ("+Data.CPU_RV32_Timer_Freq+"/"+nameOfVariable+");\n";
                             Data.Load_index_is_defined[Data.Load_index] = true;
@@ -718,7 +725,8 @@ public class Software {
                             Data.C_code += "\t\tvar"+Data.Load_index+" = (uint64_t) ("+Data.CPU_RV32_Timer_Freq+"/"+nameOfVariable+");\n";
                         }
                     } else {
-                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"INT\".", "Compile il SW", JOptionPane.OK_OPTION);
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" is not correct.\nSee supported types for frequency.", "Compile il SW", JOptionPane.OK_OPTION);
                         return false;
                     }
                 }
@@ -732,21 +740,23 @@ public class Software {
             il_inst = il_inst.replaceAll(",", "");
             Operand = il_inst.split(":=")[1];
                         
-            typeOfVariable = "No Type";
+            typeOfVariable = "Not Supported Type";
+            nameOfVariable = "Variabe Not Found";
             for (int i = 1; i < Data.size_Vaiables-1; i++) {
             String Variable_temp = Data.Vaiables[i].replace(" ", "");
                 if (Variable_temp.contains(Operand)) {
+                    nameOfVariable = Variable_temp.split(":")[0];
                     typeOfVariable = Variable_temp.split(":")[1];
                     break;
                 }
             }
-                        
-            String Duty_Cycle;
                        
             if (Operand.contains("%")){
+                jDialog_Loading.setVisible(false);
                 JOptionPane.showMessageDialog(parentComponent, "Duty Cycle can't be BOOL.", "Compile il SW", JOptionPane.OK_OPTION);
                 return false;
             } else if (Operand.contains("T#")) {
+                jDialog_Loading.setVisible(false);
                 JOptionPane.showMessageDialog(parentComponent, "Duty Cycle can't be TIME.", "Compile il SW", JOptionPane.OK_OPTION);
                 return false;
             } else {
@@ -755,11 +765,12 @@ public class Software {
                     Data.C_code += "\t\tuint64_t I_Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Integer_Operand+");\n";
                     Duty_Cycle = "I_Duty_Cycle_"+timer_number;
                 } catch (NumberFormatException ex) {
-                    if (typeOfVariable.equals("INT")) {
+                    if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PWM_FRQ_DC)) {
                         Data.C_code += "\t\tuint64_t I_Duty_Cycle_"+timer_number+" = (uint64_t) ((var"+Data.Load_index+"/100)*"+Operand+");\n";
                         Duty_Cycle = "I_Duty_Cycle_"+timer_number;
                     } else {
-                        JOptionPane.showMessageDialog(parentComponent, "Duty cycle should be with type \"INT\".", "Compile il SW", JOptionPane.OK_OPTION);
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" is not correct.\nSee supported types for duty cycle.", "Compile il SW", JOptionPane.OK_OPTION);
                         return false;
                     }
                 }
@@ -782,12 +793,13 @@ public class Software {
             } else {
                 try {
                     Integer_Operand = Integer.parseInt(Operand);
+                    jDialog_Loading.setVisible(false);
                     JOptionPane.showMessageDialog(parentComponent, "Tho output of the timer \""+Integer_Operand+"\" shouldn't be instant value.", "Compile il", JOptionPane.OK_OPTION);
                     return false;
                 } catch (NumberFormatException ex) {
                     String Variable_temp;
                     typeOfVariable = "Not Supported Type";
-                    String nameOfVariable = "Variabe Not Found";
+                    nameOfVariable = "Variabe Not Found";
                     for (int i = 1; i < Data.size_Vaiables-1; i++) {
                         Variable_temp = Data.Vaiables[i].replace(" ", "");
                         if (Variable_temp.contains(Operand)) {
@@ -797,10 +809,11 @@ public class Software {
                         }
                     }
                                
-                    if (typeOfVariable.equals("BOOL") || typeOfVariable.equals("INT")) {
+                    if (typeOfVariable.equals("BOOL")) {
                         Output_Timer = "\t\t"+nameOfVariable+" = pwm"+timer_number+"_output;\n";
                     } else {
-                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\" or \"INT\".", "Compile il", JOptionPane.OK_OPTION);
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\".", "Compile il", JOptionPane.OK_OPTION);
                         return false;
                     }
                 }

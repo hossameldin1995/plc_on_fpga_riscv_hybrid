@@ -14,11 +14,11 @@ import rv_fpga_plc_ide.helper.GeneralFunctions;
  * @author hossameldin
  */
 public class Write_Hardware_Files {
-    public void generate_q_files(String Project_Folder, int hdl_compilation_type) {
+    public void generate_q_files(String Project_Folder) {
         generate_q_subfolders(Project_Folder+"rtl/");
         generate_project_files(Project_Folder);
-        generate_top_level_files(Project_Folder, hdl_compilation_type);
-        generate_ambalib_files(Project_Folder+"rtl/ambalib/", hdl_compilation_type);
+        generate_top_level_files(Project_Folder);
+        generate_ambalib_files(Project_Folder+"rtl/ambalib/");
         generate_commonlib_files(Project_Folder+"rtl/commonlib/");
         generate_misclib_files(Project_Folder+"rtl/misclib/");
         generate_funcblocklib_files(Project_Folder+"rtl/funcblocklib/");
@@ -64,18 +64,18 @@ public class Write_Hardware_Files {
         generate_River_SoC_sdc_file(Project_Folder_File+"River_SoC.sdc");
     }
     
-    private void generate_top_level_files(String Project_Folder_File, int hdl_compilation_type) {
+    private void generate_top_level_files(String Project_Folder_File) {
         generate_RV_FPGA_PLC_River_vhd_file(Project_Folder_File+"RV_FPGA_PLC_River.vhd");
         generate_toplevel_vhd_file(Project_Folder_File+"rtl/toplevel.vhd");
-        generate_riscv_soc_vhd_file(Project_Folder_File+"rtl/work/riscv_soc.vhd", hdl_compilation_type);
+        generate_riscv_soc_vhd_file(Project_Folder_File+"rtl/work/riscv_soc.vhd");
         generate_config_cyclone_v_vhd_file(Project_Folder_File+"rtl/prj/cyclone_v/config_cyclone_v.vhd");
     }
     
-    private void generate_ambalib_files(String Project_Folder_File, int hdl_compilation_type) {
+    private void generate_ambalib_files(String Project_Folder_File) {
         generate_axictrl_bus0_vhd_file(Project_Folder_File+"axictrl_bus0.vhd");
         generate_axislv_vhd_file(Project_Folder_File+"axislv.vhd");
         generate_types_amba4_vhd_file(Project_Folder_File+"types_amba4.vhd");
-        generate_types_bus0_vhd_file(Project_Folder_File+"types_bus0.vhd", hdl_compilation_type);
+        generate_types_bus0_vhd_file(Project_Folder_File+"types_bus0.vhd");
     }
     
     private void generate_commonlib_files(String Project_Folder_File) {
@@ -899,7 +899,7 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
-    private void generate_riscv_soc_vhd_file(String Project_Folder_File, int hdl_compilation_type) {
+    private void generate_riscv_soc_vhd_file(String Project_Folder_File) {
         String data =   "--!\n" +
                         "--! Copyright 2019 Sergey Khabarov, sergeykhbr@gmail.com\n" +
                         "--!\n" +
@@ -925,10 +925,10 @@ public class Write_Hardware_Files {
                         "-- 0x80002000		4  KB		IRQ Controller\n" +
                         "-- 0x80003000		4  KB		GP Timers				Two general purpose timers with RTC\n" +
                         "-- 0x80004000		4  KB		Time Measurement\n";
-                        for (int i = 0; ((i < Data.Number_Of_Timers_In_Program) && (hdl_compilation_type == Data.HW_COMPILATION)); i++) {
+                        for (int i = 0; ((i < Data.Number_Of_Timers_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "-- 0x800"+new GeneralFunctions().dec2hex_str(5 + i, 2)+"000		4  KB		TON: "+Data.Name_of_Timers[i]+"\n";
                         }
-                        for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (hdl_compilation_type == Data.HW_COMPILATION)); i++) {
+                        for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "-- 0x800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 5 + i, 2)+"000		4  KB		PWM: "+Data.Name_of_PWMs[i]+"\n";
                         }
                 data += "\n" +
@@ -1231,7 +1231,7 @@ public class Write_Hardware_Files {
                         "	 HEX3			=> HEX3\n" +
                         "  );\n" +
                         "\n";
-                        for (int i = 0; ((i < Data.Number_Of_Timers_In_Program) && (hdl_compilation_type == Data.HW_COMPILATION)); i++) {
+                        for (int i = 0; ((i < Data.Number_Of_Timers_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "  "+Data.Name_of_Timers[i]+" : entity work.axi4_ton generic map (\n" +
                                     "    async_reset => CFG_ASYNC_RESET,\n" +
                                     "    xaddr    => 16#800"+new GeneralFunctions().dec2hex_str(5 + i, 2)+"#,\n" +
@@ -1245,7 +1245,7 @@ public class Write_Hardware_Files {
                                     "    o			=> axiso(CFG_BUS0_XSLV_TON_"+Data.Name_of_Timers[i]+")\n" +
                                     "  );\n\n";
                         }
-                        for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (hdl_compilation_type == Data.HW_COMPILATION)); i++) {
+                        for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "  "+Data.Name_of_PWMs[i]+" : entity work.axi4_pwm generic map (\n" +
                                     "    async_reset => CFG_ASYNC_RESET,\n" +
                                     "    xaddr    => 16#800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 5 + i, 2)+"#,\n" +
@@ -2738,7 +2738,7 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
-    private void generate_types_bus0_vhd_file(String Project_Folder_File, int hdl_compilation_type) {
+    private void generate_types_bus0_vhd_file(String Project_Folder_File) {
         String data =   "--!\n" +
                         "--! Copyright 2019 Sergey Khabarov, sergeykhbr@gmail.com\n" +
                         "--!\n" +
@@ -2790,14 +2790,14 @@ public class Write_Hardware_Files {
                         "--! Configuration index of the GPtimer module.\n" +
                         "constant CFG_BUS0_XSLV_GPTIMERS : integer := 6;\n" +
                         "constant CFG_BUS0_XSLV_TIME_MEASUREMENT : integer := 7;\n";
-                        for (int i = 0; ((i < Data.Number_Of_Timers_In_Program) && (hdl_compilation_type == Data.HW_COMPILATION)); i++) {
+                        for (int i = 0; ((i < Data.Number_Of_Timers_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "constant CFG_BUS0_XSLV_TON_"+Data.Name_of_Timers[i]+" : integer := "+(8+i)+";\n";
                         }
-                        for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (hdl_compilation_type == Data.HW_COMPILATION)); i++) {
+                        for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "constant CFG_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+" : integer := "+(Data.Number_Of_Timers_In_Program+8+i)+";\n";
                         }
                         int NumberOfSlaves;
-                        if (hdl_compilation_type == Data.HW_COMPILATION) {
+                        if (Data.Compiling_Type == Data.HW_COMPILING) {
                             NumberOfSlaves = (8+Data.Number_Of_Timers_In_Program+Data.Number_Of_PWMs_In_Program);
                         } else {
                             NumberOfSlaves = 8;

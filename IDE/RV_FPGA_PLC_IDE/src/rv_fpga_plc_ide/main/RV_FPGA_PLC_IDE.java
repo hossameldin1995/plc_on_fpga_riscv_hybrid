@@ -2429,6 +2429,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         int sel;
         boolean compile_all_project;
         if (Data.is_Saved_Project) {
+            Data.Compiling_Type = Data.SW_COMPILING;
             sel = JOptionPane.showConfirmDialog(this, "Do you want to compile all project (C and VHDL)?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             compile_all_project = (sel == JOptionPane.YES_OPTION);
             if (Data.core == Data.RV32) {
@@ -2627,13 +2628,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton14KeyPressed
 
     private void jMenuItem_Download_Program_to_SoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Download_Program_to_SoCActionPerformed
-        Download_Prog_to_SoC(evt, Data.SW_COMPILATION);
+        Data.Compiling_Type = Data.SW_COMPILING;
+        Download_Prog_to_SoC(evt);
     }//GEN-LAST:event_jMenuItem_Download_Program_to_SoCActionPerformed
 
     private void jMenuItem_Compile_HardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_HardwareActionPerformed
         int sel;
         boolean compile_all_project;
         if (Data.is_Saved_Project) {
+            Data.Compiling_Type = Data.HW_COMPILING;
             sel = JOptionPane.showConfirmDialog(this, "Do you want to compile all project (C and VHDL)?", "Compile As Software", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             compile_all_project = (sel == JOptionPane.YES_OPTION);
             if (Data.core == Data.RV32) {
@@ -2823,7 +2826,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton_R64ActionPerformed
 
     private void jMenuItem_Download_Program_to_SoC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Download_Program_to_SoC1ActionPerformed
-        Download_Prog_to_SoC(evt, Data.HW_COMPILATION);
+        Data.Compiling_Type = Data.HW_COMPILING;
+        Download_Prog_to_SoC(evt);
     }//GEN-LAST:event_jMenuItem_Download_Program_to_SoC1ActionPerformed
 
     private void jCheckBox1_ModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1_ModifierActionPerformed
@@ -3569,12 +3573,12 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
     }
 
-    private void download_software_to_SoC(String Project_Folder, int hdl_compilation_type) {
+    private void download_software_to_SoC(String Project_Folder) {
         LoadingDialoge loading = new LoadingDialoge("Downloading ...", JTextLableLoading, jDialog_Loading);
         loading.start();
         jTextArea_Output_Tab.setText("");
         jTextArea_Output_Tab.append("Start Downloading Software to SoC.\n");
-        download_to_SoC_thread dtst = new download_to_SoC_thread(this, Project_Folder, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab, hdl_compilation_type);
+        download_to_SoC_thread dtst = new download_to_SoC_thread(this, Project_Folder, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
         dtst.start();
     }
     
@@ -3644,15 +3648,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
     }
 
-    public void Download_Prog_to_SoC(ActionEvent evt, int hdl_compilation_type) {
+    public void Download_Prog_to_SoC(ActionEvent evt) {
         int sel, hdl_compilation_state = Data.NO_COMPILATION;
-        if (hdl_compilation_type == Data.SW_COMPILATION) {
+        if (Data.Compiling_Type == Data.SW_COMPILING) {
             if (Data.core == Data.RV32) {
                 hdl_compilation_state = Data.hdl_compilation_state_RV32_SW;
             } else {
                 hdl_compilation_state = Data.hdl_compilation_state_RV64_SW;
             }
-        } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+        } else if (Data.Compiling_Type == Data.HW_COMPILING) {
             if (Data.core == Data.RV32) {
                 hdl_compilation_state = Data.hdl_compilation_state_RV32_HW;
             } else {
@@ -3661,7 +3665,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
         if (Data.is_Saved_Project) {
             if (hdl_compilation_state == Data.UPDATED) {
-                download_software_to_SoC(Data.Project_Folder.getPath(), hdl_compilation_type);
+                download_software_to_SoC(Data.Project_Folder.getPath());
             } else {
                 sel = JOptionPane.showConfirmDialog(this, "This project is not compiled.\nDo you want to compile it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (sel == JOptionPane.YES_OPTION){

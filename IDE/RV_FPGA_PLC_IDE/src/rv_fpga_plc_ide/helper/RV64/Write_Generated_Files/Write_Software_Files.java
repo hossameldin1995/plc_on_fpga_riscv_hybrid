@@ -15,15 +15,15 @@ import rv_fpga_plc_ide.helper.GeneralFunctions;
  */
 public class Write_Software_Files {
     static String c_files = "NO_C_FILES";
-    public void write_library_files(String Project_Folder, int hdl_compilation_type) {
-        if (hdl_compilation_type == Data.SW_COMPILATION) {
+    public void write_library_files(String Project_Folder) {
+        if (Data.Compiling_Type == Data.SW_COMPILING) {
             c_files = "c_files_RV64_SW";
-        } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+        } else if (Data.Compiling_Type == Data.HW_COMPILING) {
             c_files = "c_files_RV64_HW";
         }
         generate_c_subfolders(Project_Folder);
         write_boot_files(Project_Folder+"/boot");
-        write_common_files(Project_Folder+"/common", hdl_compilation_type);
+        write_common_files(Project_Folder+"/common");
         write_elf2rawx_files(Project_Folder+"/elf2rawx");
         write_hex2mif_files(Project_Folder+"/hex2mif");
         write_project_main_files(Project_Folder+"/"+Data.Project_Name+"_application");
@@ -57,8 +57,8 @@ public class Write_Software_Files {
         write_encoding_h_file(Folder+"/src/encoding.h");
     }
     
-    private void write_common_files(String Folder, int hdl_compilation_type) {
-        write_axi_maps_h_file(Folder+"/axi_maps.h", hdl_compilation_type);
+    private void write_common_files(String Folder) {
+        write_axi_maps_h_file(Folder+"/axi_maps.h");
         write_axi_const_h_file(Folder+"/axi_const.h");
         
         write_map_i_o_peripheral_h_file(Folder+"/maps/map_i_o_peripheral.h");
@@ -875,7 +875,7 @@ public class Write_Software_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
-    private void write_axi_maps_h_file(String Project_Folder_File, int hdl_compilation_type) {
+    private void write_axi_maps_h_file(String Project_Folder_File) {
         String data =   "/******************************************************************************\n" +
                         " * @file\n" +
                         " * @copyright Copyright 2015 GNSS Sensor Ltd. All right reserved.\n" +
@@ -905,10 +905,10 @@ public class Write_Software_Files {
                         "#define ADDR_NASTI_SLAVE_IRQCTRL        0x80002000\n" +
                         "#define ADDR_NASTI_SLAVE_GPTIMERS       0x80003000\n" +
                         "#define ADDR_NASTI_SLAVE_MEASUREMENT    0x80004000\n";
-                        for (int i = 0; ((i < Data.Number_Of_Timers_In_Program) && (hdl_compilation_type == Data.HW_COMPILATION)); i++) {
+                        for (int i = 0; ((i < Data.Number_Of_Timers_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "#define ADDR_NASTI_SLAVE_TON_"+Data.Name_of_Timers[i]+"		0x800"+new GeneralFunctions().dec2hex_str(5 + i, 2)+"000\n";
                         }
-                        for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (hdl_compilation_type == Data.HW_COMPILATION)); i++) {
+                        for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "#define ADDR_NASTI_SLAVE_PWM_"+Data.Name_of_PWMs[i]+"		0x800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 5 + i, 2)+"000\n";
                         }
                 data += "\n" +

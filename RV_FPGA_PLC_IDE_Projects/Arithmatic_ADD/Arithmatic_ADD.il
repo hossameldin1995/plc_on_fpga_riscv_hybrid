@@ -2,7 +2,7 @@ VAR
     Add_Res   : INT
 END_VAR
 
-PROGRAM Arithmatic
+PROGRAM Arithmatic_ADD
     Addition :
         LD     25
         ADD    16

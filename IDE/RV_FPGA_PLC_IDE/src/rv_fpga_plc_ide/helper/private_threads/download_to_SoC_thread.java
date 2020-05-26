@@ -26,15 +26,13 @@ public class download_to_SoC_thread extends Thread {
         private final Component parentComponent;
         private final JFileChooser jFileChooser1;
         private final JTextArea jTextArea_Output_Tab;
-        private final int hdl_compilation_type;
         
-        public download_to_SoC_thread(Component parentComponent, String Project_Folder, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab, int hdl_compilation_type) {
+        public download_to_SoC_thread(Component parentComponent, String Project_Folder, JDialog jDialog_Loading, JFileChooser jFileChooser1, JTextArea jTextArea_Output_Tab) {
             this.Project_Folder = Project_Folder;
             this.jDialog_Loading = jDialog_Loading;
             this.parentComponent = parentComponent;
             this.jFileChooser1 = jFileChooser1;
             this.jTextArea_Output_Tab = jTextArea_Output_Tab;
-            this.hdl_compilation_type = hdl_compilation_type;
         }
         
         @Override
@@ -44,16 +42,16 @@ public class download_to_SoC_thread extends Thread {
             String Project_Name;
             if (Data.core == Data.RV32) {
                 Project_Name = "RV_FPGA_PLC_Potato";
-                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                if (Data.Compiling_Type == Data.SW_COMPILING) {
                     Project_Folder = Project_Folder + "/q_files_RV32_SW";
-                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                } else if (Data.Compiling_Type == Data.HW_COMPILING) {
                     Project_Folder = Project_Folder + "/q_files_RV32_HW";
                 }
             } else {
                 Project_Name = "River_SoC";
-                if (hdl_compilation_type == Data.SW_COMPILATION) {
+                if (Data.Compiling_Type == Data.SW_COMPILING) {
                     Project_Folder = Project_Folder + "/q_files_RV64_SW";
-                } else if (hdl_compilation_type == Data.HW_COMPILATION) {
+                } else if (Data.Compiling_Type == Data.HW_COMPILING) {
                     Project_Folder = Project_Folder + "/q_files_RV64_HW";
                 }
             }

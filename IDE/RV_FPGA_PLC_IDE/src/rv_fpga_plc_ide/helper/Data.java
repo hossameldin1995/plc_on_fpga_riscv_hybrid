@@ -50,7 +50,7 @@ public class Data {
     
     public static int Max_Number_Of_Instructions = 256;
     
-    public static final int Max_Number_Of_Timers_SW = 2;
+    public static final int MAX_NUMBER_OF_TIMERS_SW = 2;
     
     public static final String[] SUPPORTED_DATATYPES = new String[] 
     { 
@@ -61,6 +61,15 @@ public class Data {
         "TON", "TOF", "PWM" 
     };
     
+    public static final String[] SUPPORTED_PWM_FRQ_DC = new String[]
+    {
+        "SINT", "INT", "DINT", "USINT", "UINT", "UDINT"
+    };
+    
+    public static final int NO_COMPILING = 0;
+    public static final int SW_COMPILING = 1;
+    public static final int HW_COMPILING = 2;
+    public static int Compiling_Type = NO_COMPILING;
     
     // Compill il to c
     public static String C_code;
@@ -96,19 +105,19 @@ public class Data {
     public static int hdl_compilation_state_RV64_SW = NO_COMPILATION;
     public static int hdl_compilation_state_RV64_HW = NO_COMPILATION;
     
-    public static final int SW_COMPILATION = 1;
-    public static final int HW_COMPILATION = 2;
-    
     public static int Number_Of_Timers_Compiled = 0;
     public static int Number_Of_Timers_In_Program = 0;
+    public static int Number_Of_Timers_In_Program_SW = 0;
     public static String[] Name_of_Timers = new String[50];
     
     public static int Number_Of_PWMs_Compiled = 0;
     public static int Number_Of_PWMs_In_Program = 0;
     public static String[] Name_of_PWMs = new String[50];
     
-    public static int ALU_Support_Compiled = 0;
-    public static int ALU_Support_In_Program = 0;
+    public static int ALU_Support_Compiled_RV64_SW = 0;
+    public static int ALU_Support_Compiled_RV64_HW = 0;
+    public static int ALU_Support_In_Program_RV64_SW = 0;
+    public static int ALU_Support_In_Program_RV64_HW = 0;
     public static boolean is_fpu_RV64_enabeled = false;
     public static boolean is_mul_RV64_enabeled = false;
     public static boolean is_div_RV64_enabeled = false;

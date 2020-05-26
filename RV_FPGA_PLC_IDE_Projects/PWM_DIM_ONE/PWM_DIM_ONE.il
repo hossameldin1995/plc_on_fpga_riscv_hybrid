@@ -1,5 +1,5 @@
 VAR
-    Duty_Cycle   : INT
+    Duty_Cycle   : UDINT
     PWM_1   : PWM
 END_VAR
 

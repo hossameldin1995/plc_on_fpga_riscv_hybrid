@@ -9,5 +9,4 @@ PROGRAM Two_Branches_One_Output
         LD     %SW.3
         AND    %SW.4
         )
-        ST      %LEDR.1
 END_PROGRAM

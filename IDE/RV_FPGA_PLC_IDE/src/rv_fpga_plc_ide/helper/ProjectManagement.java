@@ -150,8 +150,10 @@ public class ProjectManagement {
                                                       Data.hdl_compilation_state_RV32_HW+", "+
                                                       Data.hdl_compilation_state_RV64_SW+", "+
                                                       Data.hdl_compilation_state_RV64_HW+"\n"+
-                          "Compiled ALU           = "+Data.ALU_Support_Compiled+"\n"+
-                          "ALU in Program         = "+Data.ALU_Support_In_Program+"\n"+
+                          "Compiled ALU           = "+Data.ALU_Support_Compiled_RV64_SW+", "+
+                                                      Data.ALU_Support_Compiled_RV64_HW+"\n"+
+                          "ALU in Program         = "+Data.ALU_Support_In_Program_RV64_SW+", "+
+                                                      Data.ALU_Support_In_Program_RV64_HW+"\n"+
                           "Compiled Timers        = "+Data.Number_Of_Timers_Compiled+"\n"+
                           "Timers in Program      = "+Data.Number_Of_Timers_In_Program+"\n"+
                           "Compiled PWMs          = "+Data.Number_Of_PWMs_Compiled+"\n"+
@@ -220,8 +222,12 @@ public class ProjectManagement {
             Data.hdl_compilation_state_RV64_SW = Integer.parseInt(hdl_compilation_state[2]);
             Data.hdl_compilation_state_RV64_HW = Integer.parseInt(hdl_compilation_state[3]);
             
-            Data.ALU_Support_Compiled = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
-            Data.ALU_Support_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            String ALU_Support_Compiled[] = info_file.readLine().replaceAll(" ", "").split("=")[1].split(",");
+            Data.ALU_Support_Compiled_RV64_SW = Integer.parseInt(ALU_Support_Compiled[0]);
+            Data.ALU_Support_Compiled_RV64_HW = Integer.parseInt(ALU_Support_Compiled[1]);
+            String ALU_Support_In_Program[] = info_file.readLine().replaceAll(" ", "").split("=")[1].split(",");
+            Data.ALU_Support_In_Program_RV64_SW = Integer.parseInt(ALU_Support_In_Program[0]);
+            Data.ALU_Support_In_Program_RV64_HW = Integer.parseInt(ALU_Support_In_Program[1]);
                
             Data.Number_Of_Timers_Compiled = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.Number_Of_Timers_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);

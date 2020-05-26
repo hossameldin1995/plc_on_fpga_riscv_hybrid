@@ -2,6 +2,7 @@ VAR
     X   : INT
     Y   : INT
     Z   : INT
+    TON_1   : TON
 END_VAR
 
 PROGRAM Test_Project
@@ -15,9 +16,9 @@ PROGRAM Test_Project
         LD     X
         ADD    Y
         ST     Z
-        CAL TON(
-            IN := %I0.3,
+        CAL TON_1(
+            IN := %SW.0,
             PT := X,
-            ET := %SW.0,
-            Q  => jl)
+            ET := Z,
+            Q  => %LEDG.0)
 END_PROGRAM

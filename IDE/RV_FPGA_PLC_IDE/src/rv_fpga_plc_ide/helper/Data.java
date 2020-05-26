@@ -60,7 +60,11 @@ public class Data {
         "TIME", 
         "TON", "TOF", "PWM" 
     };
-    
+    public static final String[] SUPPORTED_TYPE_CONVERSION = new String[]
+    {
+        "BOOL", 
+        "SINT", "INT", "DINT", "LINT", "USINT", "UINT", "UDINT", "ULINT", 
+    };
     public static final String[] SUPPORTED_PWM_FRQ_DC = new String[]
     {
         "SINT", "INT", "DINT", "USINT", "UINT", "UDINT"

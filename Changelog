@@ -206,3 +206,16 @@ Version 1.25
 7 - Using one function for data type conversion in general functions "convert_il_datatype_to_c_datatype"
 8 - Fixing core selection save project needed when select the same core.
 9 - Removing printing in UART in boot stage for faster booting
+
+Version 1.26
+==========================================================================================================================
+1 - Making compilation type global and remove it from function arguments.
+2 - Adding supported types for PWM frequency and duty cycle.
+3 - Adding "is_contain_str_arr" function in General functions class for supporting types for PWM frequency and duty cycle.
+4 - Fixing ALU support (sebrate HW and SW).
+5 - Adding support for sebarating in project folder and modifiy all ".rfpinfo" files.
+
+Version 1.27
+==========================================================================================================================
+1 - Adding type conversion feature.
+2 - Using setVisible(true) instead of show().

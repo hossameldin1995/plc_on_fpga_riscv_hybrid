@@ -26,6 +26,6 @@ public class LoadingDialoge extends Thread {
         @Override
         public void run() {
             JTextLableLoading.setText(loading_text);
-            jDialog_Loading.show();
+            jDialog_Loading.setVisible(true);;
         }
     }

@@ -44,22 +44,24 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         initComponents();
         
         int Width_addition = 30, Hight_addition = 30;
-        jDialog_Basic_Commands.setSize((int) jDialog_Basic_Commands.getPreferredSize().getWidth()+Width_addition, 
-                                       (int) jDialog_Basic_Commands.getPreferredSize().getHeight()+Hight_addition);
-        jDialog_Add_Variable.setSize((int) jDialog_Add_Variable.getPreferredSize().getWidth()+Width_addition, 
-                                     (int) jDialog_Add_Variable.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_Basic_Commands.setSize(  (int) jDialog_Basic_Commands.getPreferredSize().getWidth()+Width_addition, 
+                                         (int) jDialog_Basic_Commands.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_Add_Variable.setSize(    (int) jDialog_Add_Variable.getPreferredSize().getWidth()+Width_addition, 
+                                         (int) jDialog_Add_Variable.getPreferredSize().getHeight()+Hight_addition);
         jDialog_Bistable_Command.setSize((int) jDialog_Bistable_Command.getPreferredSize().getWidth()+Width_addition, 
                                          (int) jDialog_Bistable_Command.getPreferredSize().getHeight()+Hight_addition);
-        jDialog_Timer_Command.setSize((int) jDialog_Timer_Command.getPreferredSize().getWidth()+Width_addition, 
-                                      (int) jDialog_Timer_Command.getPreferredSize().getHeight()+Hight_addition);
-        jDialog_Loading.setSize((int) jDialog_Loading.getPreferredSize().getWidth()+Width_addition, 
-                                      (int) jDialog_Loading.getPreferredSize().getHeight()+Hight_addition);
-        jDialog_Choose_Compiler.setSize((int) jDialog_Choose_Compiler.getPreferredSize().getWidth()+Width_addition, 
-                                      (int) jDialog_Choose_Compiler.getPreferredSize().getHeight()+Hight_addition);
-        jDialog_PWM_Command.setSize((int) jDialog_PWM_Command.getPreferredSize().getWidth()+Width_addition, 
-                                      (int) jDialog_PWM_Command.getPreferredSize().getHeight()+Hight_addition);
-        jDialog_Choose_Core.setSize((int) jDialog_Choose_Core.getPreferredSize().getWidth()+Width_addition, 
-                                      (int) jDialog_Choose_Core.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_Timer_Command.setSize(   (int) jDialog_Timer_Command.getPreferredSize().getWidth()+Width_addition, 
+                                         (int) jDialog_Timer_Command.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_Loading.setSize(         (int) jDialog_Loading.getPreferredSize().getWidth()+Width_addition, 
+                                         (int) jDialog_Loading.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_Choose_Compiler.setSize( (int) jDialog_Choose_Compiler.getPreferredSize().getWidth()+Width_addition, 
+                                         (int) jDialog_Choose_Compiler.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_PWM_Command.setSize(     (int) jDialog_PWM_Command.getPreferredSize().getWidth()+Width_addition, 
+                                         (int) jDialog_PWM_Command.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_Choose_Core.setSize(     (int) jDialog_Choose_Core.getPreferredSize().getWidth()+Width_addition, 
+                                         (int) jDialog_Choose_Core.getPreferredSize().getHeight()+Hight_addition);
+        jDialog_Type_Conversion.setSize( (int) jDialog_Type_Conversion.getPreferredSize().getWidth()+Width_addition, 
+                                         (int) jDialog_Type_Conversion.getPreferredSize().getHeight()+Hight_addition);
         
         jDialog_Basic_Commands.setLocationRelativeTo(null);
         jDialog_Add_Variable.setLocationRelativeTo(null);
@@ -69,6 +71,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jDialog_Choose_Compiler.setLocationRelativeTo(null);
         jDialog_PWM_Command.setLocationRelativeTo(null);
         jDialog_Choose_Core.setLocationRelativeTo(null);
+        jDialog_Type_Conversion.setLocationRelativeTo(null);
     }
 
     /**
@@ -174,9 +177,15 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jComboBox_Variables_PWM = new javax.swing.JComboBox<>();
         jDialog_Choose_Core = new javax.swing.JDialog();
         jLabel19 = new javax.swing.JLabel();
-        jComboBox_Choose_Compiler1 = new javax.swing.JComboBox<>();
+        jComboBox_Choose_Core = new javax.swing.JComboBox<>();
         jButton_Add_V_Cancel2 = new javax.swing.JButton();
         jButton_Add_V_Ok2 = new javax.swing.JButton();
+        jDialog_Type_Conversion = new javax.swing.JDialog();
+        jButton_Add_V_Ok3 = new javax.swing.JButton();
+        jButton_Add_V_Cancel3 = new javax.swing.JButton();
+        jComboBox_Data_Type_Conversion_From = new javax.swing.JComboBox<>();
+        jComboBox_Data_Type_Conversion_To = new javax.swing.JComboBox<>();
+        jLabel20 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea_Output_Tab = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -209,6 +218,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jMenu_Variables = new javax.swing.JMenu();
         jMenuItem_Add_Variable = new javax.swing.JMenuItem();
         jMenuItem_Remove_Variable = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenu_Basic_Comands = new javax.swing.JMenu();
         jMenuItem_Load = new javax.swing.JMenuItem();
         jMenuItem_Load_Not = new javax.swing.JMenuItem();
@@ -283,11 +293,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
         jLabel5.setText("Variable Type:");
 
-        jTextFieldVariable_Name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldVariable_NameActionPerformed(evt);
-            }
-        });
         jTextFieldVariable_Name.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextFieldVariable_NameKeyReleased(evt);
@@ -1079,16 +1084,6 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jLabel14.setText("Choose Compiler");
 
         jComboBox_Choose_Compiler.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Compiler", "Software Compilation", "Hardware Compilation", "Optimized Compilation" }));
-        jComboBox_Choose_Compiler.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_Choose_CompilerActionPerformed(evt);
-            }
-        });
-        jComboBox_Choose_Compiler.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jComboBox_Choose_CompilerKeyReleased(evt);
-            }
-        });
 
         jButton_Add_V_Cancel1.setText("Cancel");
         jButton_Add_V_Cancel1.addActionListener(new java.awt.event.ActionListener() {
@@ -1368,17 +1363,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
 
         jLabel19.setText("Choose Core");
 
-        jComboBox_Choose_Compiler1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RISC-V 32", "RISC-V 64" }));
-        jComboBox_Choose_Compiler1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_Choose_Compiler1ActionPerformed(evt);
-            }
-        });
-        jComboBox_Choose_Compiler1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jComboBox_Choose_Compiler1KeyReleased(evt);
-            }
-        });
+        jComboBox_Choose_Core.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RISC-V 32", "RISC-V 64" }));
 
         jButton_Add_V_Cancel2.setText("Cancel");
         jButton_Add_V_Cancel2.addActionListener(new java.awt.event.ActionListener() {
@@ -1409,7 +1394,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                     .addGroup(jDialog_Choose_CoreLayout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox_Choose_Compiler1, 0, 348, Short.MAX_VALUE)))
+                        .addComponent(jComboBox_Choose_Core, 0, 348, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jDialog_Choose_CoreLayout.setVerticalGroup(
@@ -1418,11 +1403,67 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jDialog_Choose_CoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(jComboBox_Choose_Compiler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox_Choose_Core, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jDialog_Choose_CoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_Add_V_Ok2)
                     .addComponent(jButton_Add_V_Cancel2))
+                .addContainerGap())
+        );
+
+        jDialog_Type_Conversion.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        jDialog_Type_Conversion.setTitle("Type Conversion");
+        jDialog_Type_Conversion.setModal(true);
+        jDialog_Type_Conversion.setResizable(false);
+
+        jButton_Add_V_Ok3.setText("OK");
+        jButton_Add_V_Ok3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_Add_V_Ok3ActionPerformed(evt);
+            }
+        });
+
+        jButton_Add_V_Cancel3.setText("Cancel");
+        jButton_Add_V_Cancel3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_Add_V_Cancel3ActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setText("TO");
+
+        javax.swing.GroupLayout jDialog_Type_ConversionLayout = new javax.swing.GroupLayout(jDialog_Type_Conversion.getContentPane());
+        jDialog_Type_Conversion.getContentPane().setLayout(jDialog_Type_ConversionLayout);
+        jDialog_Type_ConversionLayout.setHorizontalGroup(
+            jDialog_Type_ConversionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog_Type_ConversionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog_Type_ConversionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog_Type_ConversionLayout.createSequentialGroup()
+                        .addComponent(jComboBox_Data_Type_Conversion_From, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_Data_Type_Conversion_To, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog_Type_ConversionLayout.createSequentialGroup()
+                        .addGap(0, 167, Short.MAX_VALUE)
+                        .addComponent(jButton_Add_V_Cancel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_Add_V_Ok3)))
+                .addContainerGap())
+        );
+        jDialog_Type_ConversionLayout.setVerticalGroup(
+            jDialog_Type_ConversionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog_Type_ConversionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog_Type_ConversionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox_Data_Type_Conversion_From)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_Data_Type_Conversion_To))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog_Type_ConversionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_Add_V_Ok3)
+                    .addComponent(jButton_Add_V_Cancel3))
                 .addContainerGap())
         );
 
@@ -1584,6 +1625,14 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             }
         });
         jMenu_Variables.add(jMenuItem_Remove_Variable);
+
+        jMenuItem9.setText("Type Conversion");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu_Variables.add(jMenuItem9);
 
         jMenu_Commands.add(jMenu_Variables);
 
@@ -2053,7 +2102,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
         
         if (!Data.Project_Name.equals(Data.Project_Name_temp)) {
-            jDialog_Choose_Core.show();
+            jDialog_Choose_Core.setVisible(true);;
         } else {
             Data.Project_Name = Data.Project_Name_temp;
         }
@@ -2101,13 +2150,13 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jComboBox_Variable_Type.setModel(new javax.swing.DefaultComboBoxModel<>(Data.SUPPORTED_DATATYPES));
         Data.is_newVariable_timer = false;
         Data.is_newVariable_PWM = false;
-        jDialog_Add_Variable.show();
+        jDialog_Add_Variable.setVisible(true);;
     }//GEN-LAST:event_jMenuItem_Add_VariableActionPerformed
 
     private void jButton_Add_V_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_CancelActionPerformed
         jTextFieldVariable_Name.setText("");
         jComboBox_Variable_Type.setSelectedIndex(0);
-        jDialog_Add_Variable.hide();
+        jDialog_Add_Variable.setVisible(false);;
     }//GEN-LAST:event_jButton_Add_V_CancelActionPerformed
 
     private void jButton_Add_V_OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_OkActionPerformed
@@ -2191,7 +2240,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox_Variable_TypeKeyReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jDialog_Basic_Commands.hide();
+        jDialog_Basic_Commands.setVisible(false);;
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -2293,7 +2342,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_Reset_DominantActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        jDialog_Bistable_Command.hide();
+        jDialog_Bistable_Command.setVisible(false);;
         jTextField_Set_Bistable.setText("");
         jTextField_Q_Bistable.setText("");
         jTextField_Reset_Bistable.setText("");
@@ -2322,7 +2371,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                                                "            "+set_text+" := "+jTextField_Set_Bistable.getText()+",",
                                                "            "+reset_text+" := "+jTextField_Reset_Bistable.getText()+",",
                                                "            Q  => "+jTextField_Q_Bistable.getText()+")"});
-            jDialog_Bistable_Command.hide();
+            jDialog_Bistable_Command.setVisible(false);;
             jTextField_Set_Bistable.setText("");
             jTextField_Q_Bistable.setText("");
             jTextField_Reset_Bistable.setText("");
@@ -2668,13 +2717,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         Basic_commands_button("Add And Command", "XORN", true);
     }//GEN-LAST:event_jMenuItem_Xor1ActionPerformed
 
-    private void jComboBox_Choose_CompilerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_Choose_CompilerKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_Choose_CompilerKeyReleased
-
     private void jButton_Add_V_Cancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_Cancel1ActionPerformed
         jComboBox_Choose_Compiler.setSelectedIndex(0);
-        jDialog_Choose_Compiler.hide();
+        jDialog_Choose_Compiler.setVisible(false);;
     }//GEN-LAST:event_jButton_Add_V_Cancel1ActionPerformed
 
     private void jButton_Add_V_Ok1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_Ok1ActionPerformed
@@ -2696,16 +2741,8 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 Data.RequestDownload = true;
                 break;
         }
-        jDialog_Choose_Compiler.hide();
+        jDialog_Choose_Compiler.setVisible(false);;
     }//GEN-LAST:event_jButton_Add_V_Ok1ActionPerformed
-
-    private void jTextFieldVariable_NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldVariable_NameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldVariable_NameActionPerformed
-
-    private void jComboBox_Choose_CompilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_Choose_CompilerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_Choose_CompilerActionPerformed
 
     private void jMenuItem_Compile_AllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_Compile_AllActionPerformed
         Icon icon = UIManager.getIcon("OptionPane.errorIcon");
@@ -2765,17 +2802,9 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         PWM_Button_Pressed(evt);
     }//GEN-LAST:event_jButton17KeyPressed
 
-    private void jComboBox_Choose_Compiler1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_Choose_Compiler1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_Choose_Compiler1ActionPerformed
-
-    private void jComboBox_Choose_Compiler1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_Choose_Compiler1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_Choose_Compiler1KeyReleased
-
     private void jButton_Add_V_Cancel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_Cancel2ActionPerformed
         Data.Project_Name = Data.Project_Name_temp;
-        jDialog_Choose_Core.hide();
+        jDialog_Choose_Core.setVisible(false);;
     }//GEN-LAST:event_jButton_Add_V_Cancel2ActionPerformed
 
     private void jButton_Add_V_Ok2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_Ok2ActionPerformed
@@ -2788,7 +2817,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             jMenuItem_Save_As.setEnabled(true);
             jMenuItem_Close_Project.setEnabled(true);
             
-            Data.core = jComboBox_Choose_Compiler1.getSelectedIndex();
+            Data.core = jComboBox_Choose_Core.getSelectedIndex();
             set_core_in_jmenu();
             
             
@@ -2804,7 +2833,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         } else {
             Data.Project_Name = Data.Project_Name_temp;
         }
-        jDialog_Choose_Core.hide();
+        jDialog_Choose_Core.setVisible(false);;
     }//GEN-LAST:event_jButton_Add_V_Ok2ActionPerformed
 
     private void jRadioButton_R32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_R32ActionPerformed
@@ -2843,6 +2872,24 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             add_to_2d_program(1, new String[] {"        )"});
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jButton_Add_V_Cancel3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_Cancel3ActionPerformed
+        jDialog_Type_Conversion.setVisible(false);
+    }//GEN-LAST:event_jButton_Add_V_Cancel3ActionPerformed
+
+    private void jButton_Add_V_Ok3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Add_V_Ok3ActionPerformed
+        add_to_2d_program(1, new String[] {"        " +jComboBox_Data_Type_Conversion_From.getSelectedItem()+
+                                               "_TO_" +jComboBox_Data_Type_Conversion_To.getSelectedItem() });
+        jDialog_Type_Conversion.setVisible(false);
+    }//GEN-LAST:event_jButton_Add_V_Ok3ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        if (check_rung_selection()) {
+            jComboBox_Data_Type_Conversion_From.setModel(new javax.swing.DefaultComboBoxModel<>(Data.SUPPORTED_TYPE_CONVERSION));
+            jComboBox_Data_Type_Conversion_To.setModel(new javax.swing.DefaultComboBoxModel<>(Data.SUPPORTED_TYPE_CONVERSION));
+            jDialog_Type_Conversion.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void FillListProgram(boolean isEditing) {
         jList_Program.setModel(new javax.swing.AbstractListModel() {
@@ -2977,12 +3024,16 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JButton jButton_Add_V_Cancel;
     private javax.swing.JButton jButton_Add_V_Cancel1;
     private javax.swing.JButton jButton_Add_V_Cancel2;
+    private javax.swing.JButton jButton_Add_V_Cancel3;
     private javax.swing.JButton jButton_Add_V_Ok;
     private javax.swing.JButton jButton_Add_V_Ok1;
     private javax.swing.JButton jButton_Add_V_Ok2;
+    private javax.swing.JButton jButton_Add_V_Ok3;
     private javax.swing.JCheckBox jCheckBox1_Modifier;
     private javax.swing.JComboBox<String> jComboBox_Choose_Compiler;
-    private javax.swing.JComboBox<String> jComboBox_Choose_Compiler1;
+    private javax.swing.JComboBox<String> jComboBox_Choose_Core;
+    private javax.swing.JComboBox<String> jComboBox_Data_Type_Conversion_From;
+    private javax.swing.JComboBox<String> jComboBox_Data_Type_Conversion_To;
     private javax.swing.JComboBox<String> jComboBox_Inputs;
     private javax.swing.JComboBox<String> jComboBox_Keys;
     private javax.swing.JComboBox<String> jComboBox_Leds;
@@ -3000,6 +3051,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog_Loading;
     private javax.swing.JDialog jDialog_PWM_Command;
     private javax.swing.JDialog jDialog_Timer_Command;
+    private javax.swing.JDialog jDialog_Type_Conversion;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -3013,6 +3065,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -3037,6 +3090,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItem_About;
     private javax.swing.JMenuItem jMenuItem_Add;
     private javax.swing.JMenuItem jMenuItem_Add_Rung;
@@ -3159,7 +3213,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         Data.Vaiables[Data.size_Vaiables-1] = "END_VAR";
         jTextFieldVariable_Name.setText("");
         jComboBox_Variable_Type.setSelectedIndex(0);
-        jDialog_Add_Variable.hide();
+        jDialog_Add_Variable.setVisible(false);;
         FillListVariables(true);
     }
 
@@ -3185,7 +3239,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             jCheckBox1_Modifier.setEnabled(is_modifier);
             jCheckBox1_Modifier.setSelected(false);
             choose_operator_enable(true);
-            jDialog_Basic_Commands.show();
+            jDialog_Basic_Commands.setVisible(true);;
         }
     }
     
@@ -3204,7 +3258,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             jDialog_Bistable_Command.setTitle(Data.Function_Name);
             jLabel6.setText(set_text);
             jLabel7.setText(reset_text);
-            jDialog_Bistable_Command.show();
+            jDialog_Bistable_Command.setVisible(true);;
         }
     }
     
@@ -3223,7 +3277,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         }
         if (check_rung_selection()) {
             jDialog_Timer_Command.setTitle(Data.Function_Name);
-            jDialog_Timer_Command.show();
+            jDialog_Timer_Command.setVisible(true);;
         }
     }
     
@@ -3235,7 +3289,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         
         if (check_rung_selection()) {
             jDialog_PWM_Command.setTitle(Data.Function_Name);
-            jDialog_PWM_Command.show();
+            jDialog_PWM_Command.setVisible(true);;
         }
     }
     
@@ -3274,7 +3328,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
         jRadioButton_Variables.setSelected(false);
         jTextField_Instant.setText("");
         jDialog_Basic_Commands.setTitle(Data.Function_Name);
-        jDialog_Basic_Commands.show();
+        jDialog_Basic_Commands.setVisible(true);;
     }
 
     private void add_to_2d_program(int number_of_lines, String[] Lines) {
@@ -3444,7 +3498,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                 IL_Command = "        "+Data.Basic_Comman_IL+"    " + Operator;
                 add_to_2d_program(1, new String[] {IL_Command});
             }
-            jDialog_Basic_Commands.hide();
+            jDialog_Basic_Commands.setVisible(false);;
         }
     }
 
@@ -3515,7 +3569,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }
 
     private void Cancel_Button_Timer_command() {
-        jDialog_Timer_Command.hide();
+        jDialog_Timer_Command.setVisible(false);;
         jTextField_IN_Timer.setText("");
         jTextField_Q_Timer.setText("");
         jTextField_PT_Timer.setText("");
@@ -3541,7 +3595,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                                                "            PT := "+jTextField_PT_Timer.getText()+",",
                                                "            ET => "+jTextField_ET_Timer.getText()+",",
                                                "            Q  => "+jTextField_Q_Timer.getText()+")"});
-            jDialog_Timer_Command.hide();
+            jDialog_Timer_Command.setVisible(false);;
             jTextField_IN_Timer.setText("");
             jTextField_PT_Timer.setText("");
             jTextField_ET_Timer.setText("");
@@ -3605,7 +3659,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
                                                "            F  := "+jTextField_Frequency.getText()+",",
                                                "            DC := "+jTextField_Duty_Cycle.getText()+",",
                                                "            Q  => "+jTextField_Q_PWM.getText()+")"});
-            jDialog_PWM_Command.hide();
+            jDialog_PWM_Command.setVisible(false);;
             jTextField_Frequency.setText("");
             jTextField_Duty_Cycle.setText("");
             jTextField_Q_PWM.setText("");
@@ -3614,7 +3668,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
     }
     
     private void Cancel_Button_PWM_command() {
-        jDialog_PWM_Command.hide();
+        jDialog_PWM_Command.setVisible(false);;
         jTextField_Frequency.setText("");
         jTextField_Q_PWM.setText("");
         jTextField_Duty_Cycle.setText("");
@@ -3632,7 +3686,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             jComboBox_Variable_Type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"TOF"}));
             Data.is_newVariable_timer = true;
         }
-        jDialog_Add_Variable.show();
+        jDialog_Add_Variable.setVisible(true);;
     }
 
     private void set_core_in_jmenu() {
@@ -3669,7 +3723,7 @@ public class RV_FPGA_PLC_IDE extends javax.swing.JFrame {
             } else {
                 sel = JOptionPane.showConfirmDialog(this, "This project is not compiled.\nDo you want to compile it?", "Downloading to SoC", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (sel == JOptionPane.YES_OPTION){
-                    jDialog_Choose_Compiler.show();
+                    jDialog_Choose_Compiler.setVisible(true);;
                 } else {
                     Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                     JOptionPane.showMessageDialog(this, "Program is not saved!", "Downloading to SoC", JOptionPane.OK_OPTION, icon);

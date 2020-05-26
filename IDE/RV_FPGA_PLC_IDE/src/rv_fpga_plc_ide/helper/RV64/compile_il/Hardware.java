@@ -274,6 +274,9 @@ public class Hardware {
             } else if (il_inst.split(" ")[0].contains("LE")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("LE", "");
                 add_comparison_c_command(Operand, "<=");
+            } else if (il_inst.split(" ")[0].contains("_TO_")) {
+                String[] Operand = il_inst.replaceAll(" ", "").split("_TO_");
+                new GeneralFunctions().add_conversion_type_c_command(Operand[0], Operand[1]);
             } else if (il_inst.split(" ")[0].contains(")")) {
                 if (Data.Load_index_operation_not[Data.Load_index-1][1].equals("C")) {
                     add_comparison_c_command(")",
@@ -310,12 +313,12 @@ public class Hardware {
                     program_i = program_i + 2;
                 } else {
                     jDialog_Loading.setVisible(false);
-                    JOptionPane.showMessageDialog(parentComponent, "\""+typeOfVariable+"\"not supported yet", "Compile il", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(parentComponent, "\""+typeOfVariable+"\" not supported yet", "Compile il", JOptionPane.OK_OPTION);
                     success = false;
                 }
             } else {
                 jDialog_Loading.setVisible(false);
-                JOptionPane.showMessageDialog(parentComponent, "\""+il_inst+"\"not supported yet", "Compile il", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(parentComponent, "\""+il_inst+"\" not supported yet", "Compile il", JOptionPane.OK_OPTION);
                 success = false;
             }
         }
@@ -330,7 +333,7 @@ public class Hardware {
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
             if (!Data.Load_index_is_defined[Data.Load_index]) {
-                Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                Data.C_code += "\t\tint64_t var"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
                 Data.Load_index_is_defined[Data.Load_index] = true;
             } else {
                 Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+"io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
@@ -340,7 +343,7 @@ public class Hardware {
                 double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
                 long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV64_Timer_Freq);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
-                    Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
+                    Data.C_code += "\t\tint64_t var"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
                     Data.Load_index_is_defined[Data.Load_index] = true;
                 } else {
                     Data.C_code += "\t\tvar"+Data.Load_index+" = (uint64_t)"+Number_of_Clocks+";\n";
@@ -354,7 +357,7 @@ public class Hardware {
             try {
                 Instant_Operand = Integer.parseInt(Operand);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
-                    Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = "+not+Instant_Operand+";\n";
+                    Data.C_code += "\t\tint64_t var"+Data.Load_index+" = "+not+Instant_Operand+";\n";
                     Data.Load_index_is_defined[Data.Load_index] = true;
                 } else {
                     Data.C_code += "\t\tvar"+Data.Load_index+" = "+not+Instant_Operand+";\n";
@@ -535,7 +538,7 @@ public class Hardware {
             String offc = Operand.split("\\.")[1];
             Operand = Operand.split("\\.")[0];
             if (!Data.Load_index_is_defined[Data.Load_index]) {
-                        Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                        Data.C_code += "\t\tint64_t var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
                         Data.Load_index_is_defined[Data.Load_index] = true;
                     } else {
                         Data.C_code += "\t\tvar"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
@@ -544,7 +547,7 @@ public class Hardware {
             try {
                 Instant_Operand = Integer.parseInt(Operand);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
-                            Data.C_code += "\t\tuint64_t var"+Data.Load_index+" = "+Instant_Operand+";\n";
+                            Data.C_code += "\t\tint64_t var"+Data.Load_index+" = "+Instant_Operand+";\n";
                             Data.Load_index_is_defined[Data.Load_index] = true;
                         } else {
                             Data.C_code += "\t\tvar"+Data.Load_index+" = "+Instant_Operand+";\n";
@@ -599,7 +602,7 @@ public class Hardware {
         } else if (Operand.contains("T#")) {
             double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
             long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV64_Timer_Freq);
-            Preset_Time = "(uint64_t)"+Number_of_Clocks;
+            Preset_Time = "(int64_t)"+Number_of_Clocks;
         } else {
             JOptionPane.showMessageDialog(parentComponent, "Preset time should be variable with type \"TIME\" or instant begins with T#.", "Compile il HW", JOptionPane.OK_OPTION);
             return false;

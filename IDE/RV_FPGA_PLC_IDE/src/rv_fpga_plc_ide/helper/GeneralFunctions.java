@@ -231,4 +231,11 @@ public class GeneralFunctions {
         }
         return false;
     }
+
+    public void add_conversion_type_c_command(String From_Type, String To_Type) {
+        String From_Type_c = convert_il_datatype_to_c_datatype(From_Type);
+        String To_Type_c = convert_il_datatype_to_c_datatype(To_Type);
+        
+        Data.C_code += "\t\tvar" + Data.Load_index + " = ("+ To_Type_c +") var" + Data.Load_index + ";\n";
+    }
 }

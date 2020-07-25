@@ -220,8 +220,14 @@ Version 1.27
 1 - Adding type conversion feature.
 2 - Using setVisible(true) instead of show().
 
-
 Version 2.00
 ==========================================================================================================================
 1 - Rename the FPGA River_SoC to V09.0
 2 - Ignore vs studio setting file.
+
+Version 3.00
+==========================================================================================================================
+1 - Adding River_SoC_V10.0
+2 - Adding PID hardware and testing with bootrom_test
+3 - Optimizing FPU and make it work
+4 - Adding FPU support instructions

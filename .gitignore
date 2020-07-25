@@ -1,2 +1,4 @@
 
 Software_River/\.vscode/settings\.json
+
+FPGA/River_SoC_V10\.0/riscv_vhdl/examples/bootrom_tests/makefiles/_bootrom_tests-comp\.err

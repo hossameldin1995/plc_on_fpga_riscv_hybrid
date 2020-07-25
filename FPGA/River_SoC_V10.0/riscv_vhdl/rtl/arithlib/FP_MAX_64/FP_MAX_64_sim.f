@@ -1,0 +1,3 @@
+FP_MAX_64_sim/dspba_library_package.vhd
+FP_MAX_64_sim/dspba_library.vhd
+FP_MAX_64_sim/FP_MAX_64.vhd

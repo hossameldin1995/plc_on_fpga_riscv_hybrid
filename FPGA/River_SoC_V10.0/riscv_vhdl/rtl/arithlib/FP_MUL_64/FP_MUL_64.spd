@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file path="FP_MUL_64_sim/dspba_library_package.vhd" type="VHDL" />
+ <file path="FP_MUL_64_sim/dspba_library.vhd" type="VHDL" />
+ <file path="FP_MUL_64_sim/FP_MUL_64.vhd" type="VHDL" />
+ <topLevel name="FP_MUL_64" />
+ <deviceFamily name="cyclonev" />
+</simPackage>

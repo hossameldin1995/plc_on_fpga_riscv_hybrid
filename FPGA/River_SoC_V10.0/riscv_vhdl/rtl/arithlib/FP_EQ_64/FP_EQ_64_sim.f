@@ -1,0 +1,3 @@
+FP_EQ_64_sim/dspba_library_package.vhd
+FP_EQ_64_sim/dspba_library.vhd
+FP_EQ_64_sim/FP_EQ_64.vhd

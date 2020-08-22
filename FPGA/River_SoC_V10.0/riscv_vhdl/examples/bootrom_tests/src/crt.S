@@ -1,4 +1,4 @@
-##!  Register 	ABI Name 	Description 			                Saver
+##!  Register   ABI Name  Description                       Saver
 ##!  x0         zero      Hard-wired zero                   —
 ##!  x1         ra        Return address                    Caller
 ##!  x2         sp        Stack pointer                     Callee

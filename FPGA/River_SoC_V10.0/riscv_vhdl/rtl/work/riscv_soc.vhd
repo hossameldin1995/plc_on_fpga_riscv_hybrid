@@ -20,7 +20,7 @@
 -- 0x80001000		4  KB		UART1
 -- 0x80002000		4  KB		IRQ Controller
 -- 0x80003000		4  KB		GP Timers				Two general purpose timers with RTC
--- 0x80004000		4	KB		Time Measurement
+-- 0x80004000		4  KB		Time Measurement
 -- 0x80005000		4  KB		TON0
 -- 0x80006000		4  KB		PWM0
 -- 0x80007000		4  KB		PID0
@@ -90,7 +90,6 @@ architecture arch_riscv_soc of riscv_soc is
 
   signal w_glob_rst  : std_ulogic; -- Global reset active HIGH
   signal w_glob_nrst : std_ulogic; -- Global reset active LOW
-  signal w_soft_rst : std_ulogic:='0'; -- Software reset (acitve HIGH) from DSU
   signal w_bus_nrst : std_ulogic; -- Global reset and Soft Reset active LOW
   
   signal uart1i : uart_in_type;
@@ -103,12 +102,8 @@ architecture arch_riscv_soc of riscv_soc is
   signal axisi   : bus0_xslv_in_vector;
   signal axiso   : bus0_xslv_out_vector;
   signal slv_cfg : bus0_xslv_cfg_vector;
-  signal mst_cfg : bus0_xmst_cfg_vector;
   signal w_ext_irq : std_logic;
   signal dport_i : dport_in_vector;
-  signal dport_o : dport_out_vector;
-  signal wb_bus_util_w : std_logic_vector(CFG_BUS0_XMST_TOTAL-1 downto 0);
-  signal wb_bus_util_r : std_logic_vector(CFG_BUS0_XMST_TOTAL-1 downto 0);
 
   signal irq_pins : std_logic_vector(CFG_IRQ_TOTAL-1 downto 1);
 begin
@@ -122,7 +117,7 @@ begin
     outReset    => w_glob_rst
   );
   w_glob_nrst <= not w_glob_rst;
-  w_bus_nrst <= not (w_glob_rst or w_soft_rst);
+  w_bus_nrst <= not w_glob_rst;
 
   --! @brief AXI4 controller.
   ctrl0 : axictrl_bus0 generic map (
@@ -135,8 +130,8 @@ begin
     i_msto   => aximo,
     o_slvi   => axisi,
     o_msti   => aximi,
-    o_bus_util_w => wb_bus_util_w, -- Bus write access utilization per master statistic
-    o_bus_util_r => wb_bus_util_r  -- Bus read access utilization per master statistic
+    o_bus_util_w => open, -- Bus write access utilization per master statistic
+    o_bus_util_r => open  -- Bus read access utilization per master statistic
   );
 
   --! @brief RISC-V Processor core (River or Rocket).
@@ -149,9 +144,9 @@ begin
     i_clk    => i_clk,
     i_msti   => aximi(CFG_BUS0_XMST_CPU0),
     o_msto   => aximo(CFG_BUS0_XMST_CPU0),
-    o_mstcfg => mst_cfg(CFG_BUS0_XMST_CPU0),
+    o_mstcfg => open,
     i_dport => dport_i(0),
-    o_dport => dport_o(0),
+    o_dport => open,
     i_ext_irq => w_ext_irq
   );
 

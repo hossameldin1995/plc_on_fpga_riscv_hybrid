@@ -102,8 +102,6 @@ begin
     variable v : RegistersType;
     variable wb_a1 : std_logic_vector(RISCV_ARCH-1 downto 0);
     variable wb_a2 : std_logic_vector(RISCV_ARCH-1 downto 0);
-    variable wb_divident : std_logic_vector(64 downto 0);
-    variable wb_divider : std_logic_vector(64 downto 0);
     variable w_invert64 : std_logic;
     variable w_invert32 : std_logic;
   begin
@@ -112,8 +110,6 @@ begin
 
     w_invert64 := '0';
     w_invert32 := '0';
-    wb_divident(64) := '0';
-    wb_divider(64) := '0';
 
     if i_rv32 = '1' then
         wb_a1(63 downto 32) := (others => '0');

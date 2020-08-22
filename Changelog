@@ -231,3 +231,9 @@ Version 3.00
 2 - Adding PID hardware and testing with bootrom_test
 3 - Optimizing FPU and make it work
 4 - Adding FPU support instructions
+
+
+Version 3.02
+==========================================================================================================================
+1 - Adding Clock domain crossing for PWM and solve dome warnings
+2 - Rename SysPLL folder.

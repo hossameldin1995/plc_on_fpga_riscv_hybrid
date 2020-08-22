@@ -93,7 +93,6 @@ architecture axi4_irqctrl_rtl of axi4_irqctrl is
 
   signal wb_dev_rdata : std_logic_vector(CFG_SYSBUS_DATA_BITS-1 downto 0);
   signal wb_bus_raddr : global_addr_array_type;
-  signal w_bus_re    : std_logic;
   signal wb_bus_waddr : global_addr_array_type;
   signal w_bus_we    : std_logic;
   signal wb_bus_wstrb : std_logic_vector(CFG_SYSBUS_DATA_BYTES-1 downto 0);
@@ -111,7 +110,7 @@ begin
     o_xslvo => o_axi,
     i_ready => '1',
     i_rdata => wb_dev_rdata,
-    o_re => w_bus_re,
+    o_re => open,
     o_r32 => open,
     o_radr => wb_bus_raddr,
     o_wadr => wb_bus_waddr,
@@ -120,7 +119,7 @@ begin
     o_wdata => wb_bus_wdata
   );
 
-  comblogic : process(nrst, i_irqs, r, w_bus_re, wb_bus_raddr, wb_bus_waddr,
+  comblogic : process(nrst, i_irqs, r, wb_bus_raddr, wb_bus_waddr,
                       w_bus_we, wb_bus_wstrb, wb_bus_wdata)
     variable v : registers;
     variable raddr : integer;

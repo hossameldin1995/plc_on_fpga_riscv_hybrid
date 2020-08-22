@@ -20,7 +20,6 @@ add wave -noupdate /top_c5g/soc0/i_rst
 add wave -noupdate /top_c5g/soc0/i_clk
 add wave -noupdate /top_c5g/soc0/w_glob_rst
 add wave -noupdate /top_c5g/soc0/w_glob_nrst
-add wave -noupdate /top_c5g/soc0/w_soft_rst
 add wave -noupdate /top_c5g/soc0/w_bus_nrst
 add wave -noupdate /top_c5g/soc0/aximi
 add wave -noupdate /top_c5g/soc0/aximo
@@ -28,9 +27,6 @@ add wave -noupdate /top_c5g/soc0/axisi
 add wave -noupdate /top_c5g/soc0/axiso
 add wave -noupdate /top_c5g/soc0/w_ext_irq
 add wave -noupdate /top_c5g/soc0/dport_i
-add wave -noupdate /top_c5g/soc0/dport_o
-add wave -noupdate /top_c5g/soc0/wb_bus_util_w
-add wave -noupdate /top_c5g/soc0/wb_bus_util_r
 add wave -noupdate /top_c5g/soc0/irq_pins
 add wave -noupdate /top_c5g/soc0/cpu0/river0/proc0/w
 add wave -noupdate /top_c5g/soc0/cpu0/river0/proc0/iregs0/r

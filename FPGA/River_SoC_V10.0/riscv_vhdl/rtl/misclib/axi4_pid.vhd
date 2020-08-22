@@ -53,7 +53,6 @@ architecture arch_axi4_pid  of axi4_pid is
   signal w_bus_re    : std_logic;
   signal wb_bus_waddr : global_addr_array_type;
   signal w_bus_we    : std_logic;
-  signal wb_bus_wstrb : std_logic_vector(CFG_SYSBUS_DATA_BYTES-1 downto 0);
   signal wb_bus_wdata : std_logic_vector(CFG_SYSBUS_DATA_BITS-1 downto 0);
   
   signal TS		: std_logic_vector(63 DOWNTO 0) := X"0000000000989680"; -- 100 ms
@@ -83,7 +82,7 @@ begin
     o_radr => wb_bus_raddr,
     o_wadr => wb_bus_waddr,
     o_we => w_bus_we,
-    o_wstrb => wb_bus_wstrb,
+    o_wstrb => open,
     o_wdata => wb_bus_wdata
   );
   

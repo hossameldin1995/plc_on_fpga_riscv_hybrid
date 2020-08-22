@@ -53,11 +53,8 @@ architecture arch_axi4_time_measurement  of axi4_time_measurement is
   );
 
   signal wb_dev_rdata : std_logic_vector(CFG_SYSBUS_DATA_BITS-1 downto 0);
-  signal wb_bus_raddr : global_addr_array_type;
-  signal w_bus_re    : std_logic;
   signal wb_bus_waddr : global_addr_array_type;
   signal w_bus_we    : std_logic;
-  signal wb_bus_wstrb : std_logic_vector(CFG_SYSBUS_DATA_BYTES-1 downto 0);
   signal wb_bus_wdata : std_logic_vector(CFG_SYSBUS_DATA_BITS-1 downto 0);
 	
   
@@ -75,12 +72,12 @@ begin
     o_xslvo => o,
     i_ready => '1',
     i_rdata => wb_dev_rdata,
-    o_re => w_bus_re,
+    o_re => open,
     o_r32 => open,
-    o_radr => wb_bus_raddr,
+    o_radr => open,
     o_wadr => wb_bus_waddr,
     o_we => w_bus_we,
-    o_wstrb => wb_bus_wstrb,
+    o_wstrb => open,
     o_wdata => wb_bus_wdata
   );
   
@@ -107,8 +104,6 @@ begin
 						Micro_Nano <= '0';
 					end if;
 				END IF;
-			elsif w_bus_re = '1' then -- read
-				
 			end if;
      end if;
   end process;

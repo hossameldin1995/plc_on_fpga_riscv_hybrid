@@ -1,13 +1,13 @@
 Project Name           = PWM_DIM_TWO
-Size of Program        = 20
-Max Size of Program    = 8
+Size of Program        = 22
+Max Size of Program    = 10
 Number of Rungs        = 2
-    Rung (1) Size      = 8
+    Rung (1) Size      = 10
     Rung (2) Size      = 8
 Number of Variables    = 4
 Core                   = 1
 Compiled Core          = 1
-HDL Compilation State  = 4, 4, 4, 4
+HDL Compilation State  = 4, 4, 0, 4
 Compiled ALU           = 6, 2
 ALU in Program         = 6, 2
 Compiled Timers        = 0

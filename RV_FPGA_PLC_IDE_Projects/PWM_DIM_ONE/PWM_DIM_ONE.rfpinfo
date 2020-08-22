@@ -1,8 +1,8 @@
 Project Name           = PWM_DIM_ONE
-Size of Program        = 12
-Max Size of Program    = 4
+Size of Program        = 13
+Max Size of Program    = 5
 Number of Rungs        = 2
-    Rung (1) Size      = 4
+    Rung (1) Size      = 5
     Rung (2) Size      = 4
 Number of Variables    = 2
 Core                   = 1

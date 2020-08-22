@@ -6,6 +6,7 @@ END_VAR
 PROGRAM PWM_DIM_ONE
     DC :
         LD     %SW.0
+        BOOL_TO_UDINT
         MUL    50
         ADD    50
         ST     Duty_Cycle

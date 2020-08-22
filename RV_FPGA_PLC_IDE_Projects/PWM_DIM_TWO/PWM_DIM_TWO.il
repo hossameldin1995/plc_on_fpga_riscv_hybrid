@@ -8,10 +8,12 @@ END_VAR
 PROGRAM PWM_DIM_TWO
     DC :
         LD     %SW.0
+        BOOL_TO_INT
         MUL    50
         ADD    50
         ST     Duty_Cycle
         LD     %SW.1
+        BOOL_TO_INT
         MUL    50
         ADD    50
         ST     Duty_Cycle_2

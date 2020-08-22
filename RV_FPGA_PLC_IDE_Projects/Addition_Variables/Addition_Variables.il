@@ -7,11 +7,19 @@ END_VAR
 PROGRAM Addition_Variables
     Rung_1 :
         LD     %SW.0
-        ADD    %SW.1
+        BOOL_TO_INT
+        ST     X
+        LD     %SW.1
+        BOOL_TO_INT
+        ADD    X
         ST     X
     Rung_2 :
         LD     %SW.2
-        ADD    %SW.3
+        BOOL_TO_INT
+        ST     Y
+        LD     %SW.3
+        BOOL_TO_INT
+        ADD    Y
         ST     Y
     Rung_3 :
         LD     X

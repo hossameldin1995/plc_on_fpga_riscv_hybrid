@@ -2,7 +2,7 @@ VAR
     X   : INT
     Y   : INT
     Z   : INT
-    TON_1   : TON
+    TON   : TON_1
 END_VAR
 
 PROGRAM Test_Project

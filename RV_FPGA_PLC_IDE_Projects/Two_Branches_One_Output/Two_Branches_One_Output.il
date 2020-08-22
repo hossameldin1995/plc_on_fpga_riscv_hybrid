@@ -9,4 +9,5 @@ PROGRAM Two_Branches_One_Output
         LD     %SW.3
         AND    %SW.4
         )
+        ST     %LEDG.0
 END_PROGRAM

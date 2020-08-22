@@ -6,6 +6,7 @@
 package rv_fpga_plc_ide.helper.private_threads;
 
 import java.awt.Component;
+import java.util.Date;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import rv_fpga_plc_ide.helper.Data;
+import rv_fpga_plc_ide.helper.GeneralFunctions;
 import rv_fpga_plc_ide.helper.ProjectManagement;
 import rv_fpga_plc_ide.helper.execute_command;
 import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
@@ -57,6 +59,9 @@ public class compile_assembler extends Thread {
             if (exitValue == 0) {
                 hdl_compilation_state = Data.UPDATED;
                 jDialog_Loading.setVisible(false);
+                String[] defference_time = new String[3];
+                new GeneralFunctions().calculate_defference_time(defference_time);
+                jTextArea_Output_Tab.append("  Execution time for Compiling is "+defference_time[2]+":"+defference_time[1]+":"+defference_time[0]+"\n");
                 jTextArea_Output_Tab.append("  Compiling Finished Successfully\n");
                 JOptionPane.showMessageDialog(parentComponent, "Compiling Finished Successfully");
                 if (Data.RequestDownload) {

@@ -237,3 +237,14 @@ Version 3.02
 ==========================================================================================================================
 1 - Adding Clock domain crossing for PWM and solve dome warnings
 2 - Rename SysPLL folder.
+
+
+Version 3.03
+==========================================================================================================================
+1 - Adding compiling time calculation for IDE.
+2 - Adding final int values for supported Data types in compilation.
+3 - Creating general function to convert string values of data types into final int values.
+4 - Checking the previous register type and generate error if it is not compatiable in RV64 only.
+5 - Checking arithmatic operations and prevent performing thim on BOOL type (use type converssion before) in RV64 only.
+6 - Upgrading RV64 to River_SoC_V10.0 in IDE insead of River_SoC_V09.0
+7 - Adding feature to generate all files and compile only c files.

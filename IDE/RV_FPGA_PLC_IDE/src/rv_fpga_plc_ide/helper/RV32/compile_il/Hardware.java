@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Date;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -33,6 +34,8 @@ public class Hardware {
         if (Data.hdl_compilation_state_RV32_HW == Data.UPDATED) {
             Data.hdl_compilation_state_RV32_HW = Data.ASSEMBLER;
         }
+        Data.StartTime = new Date();
+        
         LoadingDialoge loading = new LoadingDialoge("Compiling ...", JTextLableLoading, jDialog_Loading);
         loading.start();
         jTextArea_Output_Tab.setText("");
@@ -42,7 +45,7 @@ public class Hardware {
         File q_files = new File(Project_Folder+"/q_files_RV32_HW");
         
         c_files.mkdirs();
-        if (compile_all_project) q_files.mkdirs();
+        q_files.mkdirs();
         
         jTextArea_Output_Tab.append("  Start Compiling \"instruction list\".\n");
         success &= compill_il_file_hw(parentComponent, jDialog_Loading);
@@ -50,9 +53,11 @@ public class Hardware {
             jTextArea_Output_Tab.append("  Start Compiling \"c files\".\n");
             success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
         }
-        if (success && compile_all_project) {
+        if (success) {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
             new Write_Hardware_Files().generate_q_files_variables(Project_Folder+"/q_files_RV32_HW/");
+        }
+        if (success && compile_all_project) {
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
             new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV32_HW/bootloader.mif", Project_Folder+"/q_files_RV32_HW/bootloader.mif");
             new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
@@ -62,6 +67,9 @@ public class Hardware {
             if (!compile_all_project) {
                 jDialog_Loading.setVisible(false);
                 JOptionPane.showMessageDialog(parentComponent, "Successful");
+                String[] defference_time = new String[3];
+                new GeneralFunctions().calculate_defference_time(defference_time);
+                jTextArea_Output_Tab.append("Execution time for Compiling is "+defference_time[2]+":"+defference_time[1]+":"+defference_time[0]+"\n");
                 jTextArea_Output_Tab.append("Compilling Finished Successfully\n");
             }
         } else {
@@ -112,7 +120,7 @@ public class Hardware {
         Data.Load_index = 0;
         Data.Load_index_is_defined = new Boolean[Data.MAX_LOAD_INDEX];
         Arrays.fill(Data.Load_index_is_defined, Boolean.FALSE);
-        Data.Load_index_operation_not = new String[Data.MAX_LOAD_INDEX][2];
+        Data.Load_index_Save = new String[Data.MAX_LOAD_INDEX][2];
         for (int rung_i = 0; rung_i < Data.size_Rung; rung_i++) {
             Data.C_code += "\n\t\t// Rung " + (rung_i + 1) + " :" + Data.Rung_Name[rung_i].replaceAll(":", "") + "\n";
             success &= compile_rung_hw(parentComponent, rung_i, jDialog_Loading);
@@ -148,7 +156,7 @@ public class Hardware {
                 success = success && add_basic_load_command(parentComponent, Operand, "~");
             } else if (il_inst.split(" ")[0].contains("STN")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("STN", "");
-                success = success && add_basic_store_command(parentComponent, Operand, "~");
+                success = success && add_basic_store_command(parentComponent, Operand, "~", jDialog_Loading);
             } else if (il_inst.split(" ")[0].contains("SET")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("SET", "");
                 add_set_reset_c_command(parentComponent, Operand, 1);
@@ -160,7 +168,7 @@ public class Hardware {
                 success = success && add_basic_load_command(parentComponent, Operand, "");
             } else if (il_inst.split(" ")[0].contains("ST")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("ST", "");
-                success = success && add_basic_store_command(parentComponent, Operand, "");
+                success = success && add_basic_store_command(parentComponent, Operand, "", jDialog_Loading);
             } else if (il_inst.split(" ")[0].contains("ANDN")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("ANDN", "");
                 add_basic_c_command(Operand, "&", "~");
@@ -218,13 +226,13 @@ public class Hardware {
                 String[] Operand = il_inst.replaceAll(" ", "").split("_TO_");
                 new GeneralFunctions().add_conversion_type_c_command(Operand[0], Operand[1]);
             } else if (il_inst.split(" ")[0].contains(")")) {
-                if (Data.Load_index_operation_not[Data.Load_index-1][1].equals("C")) {
+                if (Data.Load_index_Save[Data.Load_index-1][1].equals("C")) {
                     add_comparison_c_command(")",
-                            Data.Load_index_operation_not[Data.Load_index-1][0]);
+                            Data.Load_index_Save[Data.Load_index-1][0]);
                 } else {
                     add_basic_c_command(")",
-                            Data.Load_index_operation_not[Data.Load_index-1][0],
-                            Data.Load_index_operation_not[Data.Load_index-1][1]);
+                            Data.Load_index_Save[Data.Load_index-1][0],
+                            Data.Load_index_Save[Data.Load_index-1][1]);
                 }
             } else if (il_inst.split(" ")[0].contains("CAL")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("CAL", "").replaceAll("\\(", "");
@@ -307,6 +315,7 @@ public class Hardware {
                 String typeOfVariable = "Variabe Not Found";
                 String nameOfVariable = "Variabe Not Found";
                 String C_DataType;
+                int[] Register_Type = new int[1];
                 for (int i = 1; i < Data.size_Vaiables-1; i++) {
                     Variable_temp = Data.Vaiables[i].replace(" ", "");
                     if (Variable_temp.contains(Operand)) {
@@ -315,7 +324,7 @@ public class Hardware {
                         break;
                     }
                 }
-                C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable);
+                C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable, Register_Type);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
                     Data.C_code += "\t\t"+C_DataType+" var"+Data.Load_index+" = "+not+nameOfVariable+";\n";
                     Data.Load_index_is_defined[Data.Load_index] = true;
@@ -327,7 +336,7 @@ public class Hardware {
         return success;
     }
     
-    private boolean add_basic_store_command(Component parentComponent, String Operand, String not) {
+    private boolean add_basic_store_command(Component parentComponent, String Operand, String not, JDialog jDialog_Loading) {
         boolean success = true;
         if (Operand.contains("%")){
             Operand = Operand.replaceAll("%", "");
@@ -336,6 +345,7 @@ public class Hardware {
             Data.C_code += "\t\tio_per_set_output(&io_per_d, "+Operand+", "+offc+", "+not+"var"+(Data.Load_index)+");\n";
         } else {
             try {
+                jDialog_Loading.setVisible(false);
                 Integer.parseInt(Operand);
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Can not add instanse in store command", "Compile As Software", JOptionPane.OK_OPTION, icon);
@@ -358,8 +368,8 @@ public class Hardware {
     
     private void add_basic_c_command(String Operand, String operation, String not) {
         if (Operand.contains("(")) {
-            Data.Load_index_operation_not[Data.Load_index][0] = operation;
-            Data.Load_index_operation_not[Data.Load_index][1] = not;
+            Data.Load_index_Save[Data.Load_index][0] = operation;
+            Data.Load_index_Save[Data.Load_index][1] = not;
             Data.Load_index++;
         } else if (Operand.contains(")")) {
             Data.Load_index--;
@@ -393,8 +403,8 @@ public class Hardware {
     
     private void add_comparison_c_command(String Operand, String compare) {
         if (Operand.contains("(")) {
-            Data.Load_index_operation_not[Data.Load_index][0] = compare;
-            Data.Load_index_operation_not[Data.Load_index][1] = "C";
+            Data.Load_index_Save[Data.Load_index][0] = compare;
+            Data.Load_index_Save[Data.Load_index][1] = "C";
             Data.Load_index++;
         } else if (Operand.contains(")")) {
             Data.Load_index--;

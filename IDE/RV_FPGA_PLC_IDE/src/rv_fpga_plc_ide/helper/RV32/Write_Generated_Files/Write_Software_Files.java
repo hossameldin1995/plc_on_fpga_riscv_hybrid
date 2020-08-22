@@ -909,11 +909,12 @@ public class Write_Software_Files {
         String typeOfVariable;
         String nameOfVariable;
         String C_DataType;
+        int[] Register_Type = new int[1];
         for (int i = 1; i < Data.size_Vaiables-1; i++) {
             Variable_temp = Data.Vaiables[i].replace(" ", "");
             nameOfVariable = Variable_temp.split(":")[0];
             typeOfVariable = Variable_temp.split(":")[1];
-            C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable);
+            C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable, Register_Type);
             if (!C_DataType.equals("Timer")) Data.C_code += "\t"+C_DataType+" "+nameOfVariable+" = 0;\n";
         }
     }

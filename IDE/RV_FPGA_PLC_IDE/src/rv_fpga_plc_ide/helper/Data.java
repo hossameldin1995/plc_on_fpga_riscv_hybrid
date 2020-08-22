@@ -6,6 +6,7 @@
 package rv_fpga_plc_ide.helper;
 
 import java.io.File;
+import java.util.Date;
 import javax.swing.JTextField;
 
 /**
@@ -56,7 +57,7 @@ public class Data {
     { 
         "BOOL", 
         "SINT", "INT", "DINT", "LINT", "USINT", "UINT", "UDINT", "ULINT", 
-        "REAL", "LREAL", 
+        "LREAL", 
         "TIME", 
         "TON", "TOF", "PWM" 
     };
@@ -79,11 +80,16 @@ public class Data {
     public static String C_code;
     public static int Load_index = 0;
     public static Boolean[] Load_index_is_defined;
-    public static String[][] Load_index_operation_not;
+    public static String[][] Load_index_Save;   // 0 >> Save compare or operation       (compare  or operation   )
+                                                // 1 >> Determine compare or arethmetic (C        or not         )
+                                                // 2 >> Determine suport boolean or not (true     or Support_BOOL)
+                                                // 3 >> Determine type mismatch or no   (mismatch or false       )
+    public static final int SUB_INDEX = 4;
     public static final int MAX_LOAD_INDEX = 1000;
     public static final int F_100M = 100000000;
     public static final int F_75M  = 75000000;
     public static final int F_70M  = 70000000;
+    public static final int F_65M  = 65000000;
     public static final int F_50M  = 50000000;
     public static final int F_10M  = 10000000;
     public static final int F_1M   = 1000000;
@@ -148,7 +154,33 @@ public class Data {
     public static final String R32_COMPILER_PATH = "/opt/riscv32/bin/";
     public static final String R64_COMPILER_PATH = "/opt/riscv64/bin/";
     
-    public static final String localVariables = "	/*************** Local Variables ****************/\n\n";
+    public static final String localVariables           = "	/*************** Local Variables ****************/\n\n";
     public static final String initializeLocalVariables = "	/********** Initialize Local Variables **********/\n\n";
+    public static final String instructionListVariables = "	/********** Instruction List Variables **********/\n\n";
+    
+    
+    // Compiling time calculation
+    public static Date StartTime;
+    public static Date EndTime;
+    
+    // Supported Data types in compilation
+    public static final int NO_TYPE  = 0;
+    public static final int BOOL     = 1;
+    public static final int UINT8_T  = 2;
+    public static final int UINT16_T = 3;
+    public static final int UINT32_T = 4;
+    public static final int UINT64_T = 5;
+    public static final int INT8_T   = 6;
+    public static final int INT16_T  = 7;
+    public static final int INT32_T  = 8;
+    public static final int INT64_T  = 9;
+    public static final int FLOAT    = 10;
+    public static final int DOUBLE   = 11;
+    public static final int TIME     = 12;
+    public static final int TIMER    = 13;
+    public static final int NAN      = 14;
+    
+    public static int[] Current_Register_Type = new int[MAX_LOAD_INDEX];
+    public static int Current_Register_Count = 0;
     
 }

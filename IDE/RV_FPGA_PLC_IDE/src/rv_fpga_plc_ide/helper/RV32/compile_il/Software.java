@@ -8,6 +8,7 @@ package rv_fpga_plc_ide.helper.RV32.compile_il;
 import java.awt.Component;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Date;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -32,6 +33,8 @@ public class Software {
         if (Data.hdl_compilation_state_RV32_SW == Data.UPDATED) {
             Data.hdl_compilation_state_RV32_SW = Data.ASSEMBLER;
         }
+        Data.StartTime = new Date();
+        
         LoadingDialoge loading = new LoadingDialoge("Compiling ...", JTextLableLoading, jDialog_Loading);
         loading.start();
         jTextArea_Output_Tab.setText("");
@@ -41,7 +44,7 @@ public class Software {
         File q_files = new File(Project_Folder+"/q_files_RV32_SW");
         
         c_files.mkdirs();
-        if (compile_all_project) q_files.mkdirs();
+        q_files.mkdirs();
         
         jTextArea_Output_Tab.append("  Start Compiling \"instruction list\".\n");
         success &= compill_il_file_sw(parentComponent, jDialog_Loading);
@@ -49,9 +52,11 @@ public class Software {
             jTextArea_Output_Tab.append("  Start Compiling \"c files\".\n");
             success &= new compile_c_file().compile_c_to_mif_p(c_files.getPath(), c_files.getPath()+"/"+Data.Project_Name);
         }
-        if (success && compile_all_project) {
+        if (success) {
             jTextArea_Output_Tab.append("  Start Writting Hardware Files.\n");
             new Write_Hardware_Files().generate_q_files(Project_Folder+"/q_files_RV32_SW/");
+        }
+        if (success && compile_all_project) {
             jTextArea_Output_Tab.append("  Start Compiling \"Quartus Project\".\n");
             new GeneralFunctions().copy_file(Project_Folder+"/c_files_RV32_SW/bootloader.mif", Project_Folder+"/q_files_RV32_SW/bootloader.mif");
             new CompileHLD().compile_hdl(parentComponent, Project_Folder, evt, jDialog_Loading, jFileChooser1, jTextArea_Output_Tab);
@@ -61,6 +66,9 @@ public class Software {
             if (!compile_all_project) {
                 jDialog_Loading.setVisible(false);
                 JOptionPane.showMessageDialog(parentComponent, "Successful");
+                String[] defference_time = new String[3];
+                new GeneralFunctions().calculate_defference_time(defference_time);
+                jTextArea_Output_Tab.append("Execution time for Compiling is "+defference_time[2]+":"+defference_time[1]+":"+defference_time[0]+"\n");
                 jTextArea_Output_Tab.append("Compilling Finished Successfully\n");
             }
         } else {
@@ -112,7 +120,7 @@ public class Software {
         Data.Load_index = 0;
         Data.Load_index_is_defined = new Boolean[Data.MAX_LOAD_INDEX];
         Arrays.fill(Data.Load_index_is_defined, Boolean.FALSE);
-        Data.Load_index_operation_not = new String[Data.MAX_LOAD_INDEX][2];
+        Data.Load_index_Save = new String[Data.MAX_LOAD_INDEX][2];
         for (int rung_i = 0; rung_i < Data.size_Rung; rung_i++) {
             Data.C_code += "\n\t\t// Rung " + (rung_i + 1 ) + " :" + Data.Rung_Name[rung_i].replaceAll(":", "") + "\n";
             success &= compile_rung_sw(parentComponent, rung_i, jDialog_Loading);
@@ -217,13 +225,13 @@ public class Software {
                 String[] Operand = il_inst.replaceAll(" ", "").split("_TO_");
                 new GeneralFunctions().add_conversion_type_c_command(Operand[0], Operand[1]);
             } else if (il_inst.split(" ")[0].contains(")")) {
-                if (Data.Load_index_operation_not[Data.Load_index-1][1].equals("C")) {
+                if (Data.Load_index_Save[Data.Load_index-1][1].equals("C")) {
                     add_comparison_c_command(")",
-                            Data.Load_index_operation_not[Data.Load_index-1][0]);
+                            Data.Load_index_Save[Data.Load_index-1][0]);
                 } else {
                     add_basic_c_command(")",
-                            Data.Load_index_operation_not[Data.Load_index-1][0],
-                            Data.Load_index_operation_not[Data.Load_index-1][1]);
+                            Data.Load_index_Save[Data.Load_index-1][0],
+                            Data.Load_index_Save[Data.Load_index-1][1]);
                 }
             } else if (il_inst.split(" ")[0].contains("CAL")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("CAL", "").replaceAll("\\(", "");
@@ -305,6 +313,7 @@ public class Software {
                 String typeOfVariable = "Variabe Not Found";
                 String nameOfVariable = "Variabe Not Found";
                 String C_DataType;
+                int[] Register_Type = new int[1];
                 for (int i = 1; i < Data.size_Vaiables-1; i++) {
                     Variable_temp = Data.Vaiables[i].replace(" ", "");
                     if (Variable_temp.contains(Operand)) {
@@ -313,7 +322,7 @@ public class Software {
                         break;
                     }
                 }
-                C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable);
+                C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable, Register_Type);
                 if (!Data.Load_index_is_defined[Data.Load_index]) {
                     Data.C_code += "\t\t"+C_DataType+" var"+Data.Load_index+" = "+not+nameOfVariable+";\n";
                     Data.Load_index_is_defined[Data.Load_index] = true;
@@ -385,8 +394,8 @@ public class Software {
     
     private void add_basic_c_command(String Operand, String operation, String not) {
         if (Operand.contains("(")) {
-            Data.Load_index_operation_not[Data.Load_index][0] = operation;
-            Data.Load_index_operation_not[Data.Load_index][1] = not;
+            Data.Load_index_Save[Data.Load_index][0] = operation;
+            Data.Load_index_Save[Data.Load_index][1] = not;
             Data.Load_index++;
         } else if (Operand.contains(")")) {
             Data.Load_index--;
@@ -420,8 +429,8 @@ public class Software {
     
     private void add_comparison_c_command(String Operand, String compare) {
         if (Operand.contains("(")) {
-            Data.Load_index_operation_not[Data.Load_index][0] = compare;
-            Data.Load_index_operation_not[Data.Load_index][1] = "C";
+            Data.Load_index_Save[Data.Load_index][0] = compare;
+            Data.Load_index_Save[Data.Load_index][1] = "C";
             Data.Load_index++;
         } else if (Operand.contains(")")) {
             Data.Load_index--;

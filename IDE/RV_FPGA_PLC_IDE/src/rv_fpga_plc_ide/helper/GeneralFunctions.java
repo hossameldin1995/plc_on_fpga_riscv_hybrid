@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rv_fpga_plc_ide.main.RV_FPGA_PLC_IDE;
@@ -161,39 +162,49 @@ public class GeneralFunctions {
         }
     }
     
-    public String convert_il_datatype_to_c_datatype(String IL_DataType) {
+    public String convert_il_datatype_to_c_datatype(String IL_DataType, int[] Register_Type) {
         String C_DataType;
         Data.is_fpu_RV64_enabeled = false;
         switch (IL_DataType) {
             case "BOOL":
                 C_DataType = "uint8_t";
+                Register_Type[0] = Data.BOOL;
                 break;
             case "SINT" :
                 C_DataType = "int8_t";
+                Register_Type[0] = Data.INT8_T;
                 break;
             case "INT":
                 C_DataType = "int16_t";
+                Register_Type[0] = Data.INT16_T;
                 break;
             case "DINT":
                 C_DataType = "int32_t";
+                Register_Type[0] = Data.INT32_T;
                 break;
             case "LINT":
                 C_DataType = "int64_t";
+                Register_Type[0] = Data.INT64_T;
                 break;
             case "USINT" :
                 C_DataType = "uint8_t";
+                Register_Type[0] = Data.UINT8_T;
                 break;
             case "UINT":
                 C_DataType = "uint16_t";
+                Register_Type[0] = Data.UINT16_T;
                 break;
             case "UDINT":
                 C_DataType = "uint32_t";
+                Register_Type[0] = Data.UINT32_T;
                 break;
             case "ULINT":
                 C_DataType = "uint64_t";
+                Register_Type[0] = Data.UINT64_T;
                 break;
             case "REAL":
                 C_DataType = "float";
+                Register_Type[0] = Data.FLOAT;
                 Data.is_fpu_RV64_enabeled = true;
                 Data.ALU_Support_In_Program_RV64_SW |= Data.MASK_FPU_RV64;
                 Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_FPU_RV64;
@@ -203,21 +214,27 @@ public class GeneralFunctions {
                 Data.ALU_Support_In_Program_RV64_SW |= Data.MASK_FPU_RV64;
                 Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_FPU_RV64;
                 C_DataType = "double";
+                Register_Type[0] = Data.DOUBLE;
                 break;
             case "TIME":
                 C_DataType = "uint64_t";
+                Register_Type[0] = Data.TIME;
                 break;
             case "TON":
                 C_DataType = "Timer";
+                Register_Type[0] = Data.TIMER;
                 break;
             case "TOF":
                 C_DataType = "Timer";
+                Register_Type[0] = Data.TIMER;
                 break;
             case "PWM":
                 C_DataType = "Timer";
+                Register_Type[0] = Data.TIMER;
                 break;
             default:
                 C_DataType = "NotSupported";
+                Register_Type[0] = Data.NAN;
                 break;
             }
         return C_DataType;
@@ -233,9 +250,51 @@ public class GeneralFunctions {
     }
 
     public void add_conversion_type_c_command(String From_Type, String To_Type) {
-        String From_Type_c = convert_il_datatype_to_c_datatype(From_Type);
-        String To_Type_c = convert_il_datatype_to_c_datatype(To_Type);
+        int[] From_Register_Type = new int[1];
+        int[] To_Register_Type = new int[1];
+        String From_Type_c = convert_il_datatype_to_c_datatype(From_Type, From_Register_Type);
+        String To_Type_c = convert_il_datatype_to_c_datatype(To_Type, To_Register_Type);
         
-        Data.C_code += "\t\tvar" + Data.Load_index + " = ("+ To_Type_c +") var" + Data.Load_index + ";\n";
+        if (Data.Load_index_is_defined[Data.Load_index]) {
+            if (Data.Current_Register_Type[Data.Load_index] == To_Register_Type[0]) {
+                Data.C_code += "\t\tvar" + Data.Load_index + " = ("+ To_Type_c +") var" + Data.Load_index + ";\n";
+            } else {
+                Data.Current_Register_Count++;
+                Data.Load_index++;
+                Data.C_code += "\t\t"+To_Type_c+" var" + Data.Load_index + " = ("+ To_Type_c +") var" + (Data.Load_index-1) + ";\n";
+                Data.Load_index_is_defined[Data.Load_index] = true;
+                Data.Current_Register_Type[Data.Load_index] = To_Register_Type[0];
+            }
+        }
+    }
+    
+    public void calculate_defference_time(String[] res) {
+        Data.EndTime = new Date();
+        long deff = Data.EndTime.getTime() - Data.StartTime.getTime();
+        long deff_h, deff_m, deff_s;
+        deff_s = deff/1000;
+        deff_m = deff/60000;
+        deff_h = deff/3600000;
+        
+        if (deff_s < 10) res[0] = "0"+deff_s; 
+        else res[0] = ""+deff_s;
+        
+        if (deff_m < 10) res[1] = "0"+deff_m; 
+        else res[1] = ""+deff_m;
+        
+        if (deff_h < 10) res[2] = "0"+deff_h; 
+        else res[2] = ""+deff_h;
+    }
+    
+    public void initialize_int_with_value(int[] arr, int val) {
+        for(int i = 0; i < arr.length; i++) {
+            arr[i] = val;
+        }
+    }
+
+    public int getRegesterTypeFromStringType(String typeOfVariable) {
+        int[] RegesterType = new int[1];
+        convert_il_datatype_to_c_datatype(typeOfVariable, RegesterType);
+        return RegesterType[0];
     }
 }

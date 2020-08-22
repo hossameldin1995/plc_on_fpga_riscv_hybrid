@@ -54,19 +54,4 @@ public class compile_c_file {
         
         return ret_val == 0;
     }
-    
-    public boolean compile_boot(JTextArea jTextArea_Output_Tab) {
-        String cmd = "ERROR CMD HW or SW in RV64";
-        if (Data.Compiling_Type == Data.SW_COMPILING) {
-            cmd =    "make -f "+Data.Project_Folder.getPath()+"/c_files_RV64_SW/boot/makefiles/makefile " +
-                        "PROJECT_FOLDER="+Data.Project_Folder.getPath()+"/c_files_RV64_SW/";
-        } else if (Data.Compiling_Type == Data.HW_COMPILING) {
-            cmd =    "make -f "+Data.Project_Folder.getPath()+"/c_files_RV64_HW/boot/makefiles/makefile " +
-                        "PROJECT_FOLDER="+Data.Project_Folder.getPath()+"/c_files_RV64_HW/";
-        }
-        
-        int ret_val = new execute_command().execute_command(cmd, "    ", Data.deafult_out_window, jTextArea_Output_Tab);
-        
-        return ret_val == 0;
-    }
 }

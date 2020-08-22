@@ -22,7 +22,6 @@ public class Write_Software_Files {
             c_files = "c_files_RV64_HW";
         }
         generate_c_subfolders(Project_Folder);
-        write_boot_files(Project_Folder+"/boot");
         write_common_files(Project_Folder+"/common");
         write_elf2rawx_files(Project_Folder+"/elf2rawx");
         write_hex2mif_files(Project_Folder+"/hex2mif");
@@ -31,9 +30,6 @@ public class Write_Software_Files {
     
     private void generate_c_subfolders(String Project_Folder) {
         File file;
-        file = new File(Project_Folder+"/boot"); file.mkdirs();
-        file = new File(Project_Folder+"/boot/makefiles"); file.mkdirs();
-        file = new File(Project_Folder+"/boot/src"); file.mkdirs();
         file = new File(Project_Folder+"/common"); file.mkdirs();
         file = new File(Project_Folder+"/common/maps"); file.mkdirs();
         file = new File(Project_Folder+"/elf2rawx"); file.mkdirs();
@@ -46,17 +42,6 @@ public class Write_Software_Files {
         file = new File(Project_Folder+"/"+Data.Project_Name+"_application/src"); file.mkdirs();
     }
     
-    private void write_boot_files(String Folder) {
-        write_boot_makefile_file(Folder+"/makefiles/makefile");
-        write_util_mak_file(Folder+"/makefiles/util.mak");
-        write_boot_linker_ld_file(Folder+"/makefiles/boot_linker.ld");
-        
-        write_boot_main_c_file(Folder+"/src/main.c");
-        write_trap_c_file(Folder+"/src/trap.c");
-        write_crt_S_file(Folder+"/src/crt.S");
-        write_encoding_h_file(Folder+"/src/encoding.h");
-    }
-    
     private void write_common_files(String Folder) {
         write_axi_maps_h_file(Folder+"/axi_maps.h");
         write_axi_const_h_file(Folder+"/axi_const.h");
@@ -64,6 +49,7 @@ public class Write_Software_Files {
         write_map_i_o_peripheral_h_file(Folder+"/maps/map_i_o_peripheral.h");
         write_map_gptimers_h_file(Folder+"/maps/map_gptimers.h");
         write_map_uart_h_file(Folder+"/maps/map_uart.h");
+        write_map_pid_hw_h_file(Folder+"/maps/map_pid_hw.h");
         write_map_pwm_hw_h_file(Folder+"/maps/map_pwm_hw.h");
         write_map_time_measurement_h_file(Folder+"/maps/map_time_measurement.h");
         write_map_timer_hw_h_file(Folder+"/maps/map_timer_hw.h");
@@ -97,102 +83,16 @@ public class Write_Software_Files {
         write_app_ld_file(Folder+"/makefiles/app.ld");
         write_util_mak_file(Folder+"/makefiles/makeutil.mak");
         
-        write_project_main_main_c_file(Folder+"/src/main.c");
-    }
-    
-    private void write_boot_makefile_file(String Project_Folder_File) {
-        String data =   "include $(PROJECT_FOLDER)boot/makefiles/util.mak\n" +
-                        "\n" +
-                        "CC=/opt/riscv64/bin/riscv64-unknown-elf-gcc\n" +
-                        "CPP=/opt/riscv64/bin/riscv64-unknown-elf-gcc\n" +
-                        "OBJDUMP=/opt/riscv64/bin/riscv64-unknown-elf-objdump\n" +
-                        "ELF2HEX=$(PROJECT_FOLDER)elf2rawx/elf/elf2rawx\n" +
-                        "HEX2MIF=$(PROJECT_FOLDER)hex2mif/bin/hex2mif\n" +
-                        "\n" +
-                        "OBJ_DIR = $(PROJECT_FOLDER)boot/obj\n" +
-                        "ELF_DIR = $(PROJECT_FOLDER)boot/bin\n" +
-                        "\n" +
-                        "FPU_ENABLED="+new GeneralFunctions().bool2int(Data.is_fpu_RV64_enabeled)+"\n" +
-                        "\n" +
-                        "CFLAGS= -c -g -static -std=gnu99 -O0 -fno-common -fno-builtin-printf\n" +
-                        "ifeq ($(FPU_ENABLED), 1)\n" +
-                        "  CFLAGS += -march=rv64imafd -DFPU_ENABLED\n" +
-                        "else\n" +
-                        "  CFLAGS += -march=rv64imac -mabi=lp64\n" +
-                        "endif\n" +
-                        "\n" +
-                        "\n" +
-                        "LDFLAGS=-T $(PROJECT_FOLDER)boot/makefiles/boot_linker.ld -nostdlib -nostartfiles\n" +
-                        "ifeq ($(FPU_ENABLED), 1)\n" +
-                        "else\n" +
-                        "  LDFLAGS += -march=rv64imac -mabi=lp64\n" +
-                        "endif\n" +
-                        "\n" +
-                        "\n" +
-                        "INCL_KEY=-I\n" +
-                        "DIR_KEY=-B\n" +
-                        "\n" +
-                        "\n" +
-                        "# include sub-folders list\n" +
-                        "INCL_PATH=\\\n" +
-                        "	$(PROJECT_FOLDER)common \\\n" +
-                        "	$(PROJECT_FOLDER)boot/src\n" +
-                        "\n" +
-                        "# source files directories list:\n" +
-                        "SRC_PATH =\\\n" +
-                        "	$(PROJECT_FOLDER)boot/src\n" +
-                        "\n" +
-                        "LIB_NAMES =\\\n" +
-                        "	gcc \\\n" +
-                        "	c \\\n" +
-                        "	m\n" +
-                        "\n" +
-                        "VPATH = $(SRC_PATH)\n" +
-                        "\n" +
-                        "SOURCES = main \\\n" +
-                        "	trap \\\n" +
-                        "	crt\n" +
-                        "\n" +
-                        "OBJ_FILES = $(addsuffix .o,$(SOURCES))\n" +
-                        "EXECUTABLE = bootimage\n" +
-                        "DUMPFILE = $(EXECUTABLE).dump\n" +
-                        "HEXFILE = $(EXECUTABLE).hex\n" +
-                        "MIFFILE = $(EXECUTABLE).mif\n" +
-                        "LSTFILE = $(EXECUTABLE).lst\n" +
-                        "\n" +
-                        "\n" +
-                        "all: $(EXECUTABLE) $(DUMPFILE) $(HEXFILE) $(MIFFILE)\n" +
-                        "\n" +
-                        "$(MIFFILE): $(EXECUTABLE)\n" +
-                        "	$(HEX2MIF) $(ELF_DIR)/$(HEXFILE) $(ELF_DIR)/$(MIFFILE) 4096\n" +
-                        "\n" +
-                        "$(HEXFILE): $(EXECUTABLE)\n" +
-                        "	$(ELF2HEX) $(addprefix $(ELF_DIR)/,$<) -h -f 32768 -l 8 -o $(addprefix $(ELF_DIR)/,$(EXECUTABLE).hex)\n" +
-                        "\n" +
-                        "$(DUMPFILE): $(EXECUTABLE)\n" +
-                        "	$(OBJDUMP) --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.data $(addprefix $(ELF_DIR)/,$<) > $(addprefix $(ELF_DIR)/,$@)\n" +
-                        "	$(OBJDUMP) -S $(addprefix $(ELF_DIR)/,$<) > $(addprefix $(ELF_DIR)/,$(LSTFILE))\n" +
-                        "\n" +
-                        "\n" +
-                        "$(EXECUTABLE): $(OBJ_FILES)\n" +
-                        "	$(MKDIR) $(ELF_DIR)\n" +
-                        "	$(CPP) $(LDFLAGS) $(addprefix $(OBJ_DIR)/,$(OBJ_FILES)) -o $(addprefix $(ELF_DIR)/,$@) $(addprefix -l,$(LIB_NAMES))\n" +
-                        "	$(ECHO) \"\\n  Boot has been built successfully.\\n\"\n" +
-                        "\n" +
-                        "#.cpp.o:\n" +
-                        "%.o: %.cpp\n" +
-                        "	$(MKDIR) $(OBJ_DIR)\n" +
-                        "	$(CPP) $(CFLAGS) $(addprefix $(INCL_KEY),$(INCL_PATH)) $< -o $(addprefix $(OBJ_DIR)/,$@)\n" +
-                        "\n" +
-                        "#.c.o:\n" +
-                        "%.o: %.c\n" +
-                        "	$(MKDIR) $(OBJ_DIR)\n" +
-                        "	$(CC) $(CFLAGS) $(addprefix $(INCL_KEY),$(INCL_PATH)) $< -o $(addprefix $(OBJ_DIR)/,$@)\n" +
-                        "\n" +
-                        "%.o: %.S\n" +
-                        "	$(MKDIR) $(OBJ_DIR)\n" +
-                        "	$(CC) $(CFLAGS) -D__ASSEMBLY__=1 $(addprefix $(INCL_KEY),$(INCL_PATH)) $< -o $(addprefix $(OBJ_DIR)/,$@)";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
+        write_crt_S_file(Folder+"/src/crt.S");
+        write_encoding_h_file(Folder+"/src/encoding.h");
+        write_exceptions_c_file(Folder+"/src/exceptions.c");
+        write_fw_api_c_file(Folder+"/src/fw_api.c");
+        write_fw_api_h_file(Folder+"/src/fw_api.h");
+        write_interrupts_c_file(Folder+"/src/interrupts.c");
+        write_memanager_c_file(Folder+"/src/memanager.c");
+        write_uart_c_file(Folder+"/src/uart.c");
+        
+        
     }
     
     private void write_util_mak_file(String Project_Folder_File) {
@@ -211,679 +111,22 @@ public class Write_Software_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
-    private void write_boot_linker_ld_file(String Project_Folder_File) {
-        String data =   "/*----------------------------------------------------------------------*/\n" +
-                        "/* Setup                                                                */\n" +
-                        "/*----------------------------------------------------------------------*/\n" +
-                        "\n" +
-                        "/* The OUTPUT_ARCH command specifies the machine architecture where the\n" +
-                        "   argument is one of the names used in the BFD library. More\n" +
-                        "   specifically one of the entires in bfd/cpu-mips.c */\n" +
-                        "\n" +
-                        "OUTPUT_ARCH( \"riscv\" )\n" +
-                        "\n" +
-                        "/*----------------------------------------------------------------------*/\n" +
-                        "/* Sections                                                             */\n" +
-                        "/*----------------------------------------------------------------------*/\n" +
-                        "\n" +
-                        "SECTIONS\n" +
-                        "{\n" +
-                        "\n" +
-                        "  /* text: test code section */\n" +
-                        "  . = 0x0000;\n" +
-                        "  .text : \n" +
-                        "  {\n" +
-                        "    KEEP(*(.isr_vector))\n" +
-                        "    *(.text*)\n" +
-                        "  }\n" +
-                        "\n" +
-                        "  /* data segment */\n" +
-                        "  .data : { *(.data) }\n" +
-                        "\n" +
-                        "  .sdata : {\n" +
-                        "    *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata*)\n" +
-                        "    *(.sdata .sdata.* .gnu.linkonce.s.*)\n" +
-                        "  }\n" +
-                        "\n" +
-                        "  /* bss segment */\n" +
-                        "  .sbss : {\n" +
-                        "    *(.sbss .sbss.* .gnu.linkonce.sb.*)\n" +
-                        "    *(.scommon)\n" +
-                        "  }\n" +
-                        "  .bss : { *(.bss) }\n" +
-                        "\n" +
-                        "  /* End of uninitalized data segement */\n" +
-                        "  _end = .;\n" +
-                        "}";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-    
-    private void write_boot_main_c_file(String Project_Folder_File) {
-        String data =   "/*\n" +
-                        " *  Copyright 2018 Sergey Khabarov, sergeykhbr@gmail.com\n" +
-                        " *\n" +
-                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
-                        " *  you may not use this file except in compliance with the License.\n" +
-                        " *  You may obtain a copy of the License at\n" +
-                        " *\n" +
-                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
-                        " *\n" +
-                        " *  Unless required by applicable law or agreed to in writing, software\n" +
-                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
-                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
-                        " *  See the License for the specific language governing permissions and\n" +
-                        " *  limitations under the License.\n" +
-                        " */\n" +
-                        "\n" +
-                        "#include <string.h>\n" +
-                        "#include \"axi_maps.h\"\n" +
-                        "#include \"encoding.h\"\n" +
-                        "\n" +
-                        "static const int FW_IMAGE_SIZE_BYTES = 1 << 16; // 64 KB\n" +
-                        "\n" +
-                        "int fw_get_cpuid() {\n" +
-                        "    int ret;\n" +
-                        "    asm(\"csrr %0, mhartid\" : \"=r\" (ret));\n" +
-                        "    return ret;\n" +
-                        "}\n" +
-                        "\n" +
-                        "void print_uart(const char *buf, int sz) {\n" +
-                        "    uart_map *uart = (uart_map *)ADDR_NASTI_SLAVE_UART1;\n" +
-                        "    for (int i = 0; i < sz; i++) {\n" +
-                        "        while (uart->status & UART_STATUS_TX_FULL) {}\n" +
-                        "        uart->data = buf[i];\n" +
-                        "    }\n" +
-                        "}\n" +
-                        "\n" +
-                        "void print_uart_hex(long val) {\n" +
-                        "    unsigned char t, s;\n" +
-                        "    uart_map *uart = (uart_map *)ADDR_NASTI_SLAVE_UART1;\n" +
-                        "    for (int i = 0; i < 16; i++) {\n" +
-                        "        while (uart->status & UART_STATUS_TX_FULL) {}\n" +
-                        "        \n" +
-                        "        t = (unsigned char)((val >> ((15 - i) * 4)) & 0xf);\n" +
-                        "        if (t < 10) {\n" +
-                        "            s = t + '0';\n" +
-                        "        } else {\n" +
-                        "            s = (t - 10) + 'a';\n" +
-                        "        }\n" +
-                        "        uart->data = s;\n" +
-                        "    }\n" +
-                        "}\n" +
-                        "\n" +
-                        "void copy_image() {\n" +
-                        "    uint64_t *fwrom = (uint64_t *)ADDR_NASTI_SLAVE_FWIMAGE;\n" +
-                        "    uint64_t *sram = (uint64_t *)ADDR_NASTI_SLAVE_SRAM;\n" +
-                        "    \n" +
-                        "    memcpy(sram, fwrom, FW_IMAGE_SIZE_BYTES);\n" +
-                        "}\n" +
-                        "\n" +
-                        "/** This function will be used during video recording to show\n" +
-                        " how tochange npc register value on core[1] while core[0] is running\n" +
-                        " Zephyr OS\n" +
-                        "*/\n" +
-                        "void timestamp_output() {\n" +
-                        "    gptimers_map *tmr = (gptimers_map *)ADDR_NASTI_SLAVE_GPTIMERS;\n" +
-                        "    uint64_t start = tmr->highcnt;\n" +
-                        "    while (1) {\n" +
-                        "        if (tmr->highcnt < start || (start + SYS_HZ) < tmr->highcnt) {\n" +
-                        "            start = tmr->highcnt;\n" +
-                        "            print_uart(\"HIGHCNT: \", 9);\n" +
-                        "            print_uart_hex(start);\n" +
-                        "            print_uart(\"\\r\\n\", 2);\n" +
-                        "        }\n" +
-                        "    }\n" +
-                        "}\n" +
-                        "\n" +
-                        "void _init() {\n" +
-                        "    uart_map *uart = (uart_map *)ADDR_NASTI_SLAVE_UART1;\n" +
-                        "    irqctrl_map *p_irq = (irqctrl_map *)ADDR_NASTI_SLAVE_IRQCTRL;\n" +
-                        "    io_per io_per_d;\n" +
-                        "    \n" +
-                        "    io_per_d.registers = (volatile void *)ADDR_NASTI_SLAVE_GPIO;\n" +
-                        "\n" +
-                        "    if (fw_get_cpuid() != 0) {\n" +
-                        "        // TODO: waiting event or something\n" +
-                        "        while(1) {}\n" +
-                        "    }\n" +
-                        "\n" +
-                        "    // mask all interrupts in interrupt controller to avoid\n" +
-                        "    // unpredictable behaviour after elf-file reloading via debug port.\n" +
-                        "    p_irq->irq_mask = 0xFFFFFFFF;\n" +
-                        "\n" +
-                        "    // Half period of the uart = Fbus / 115200 / 2 = 70 MHz / 115200 / 2:\n" +
-                        "    uart->scaler = SYS_HZ / 115200 / 2;  // 40 MHz\n" +
-                        "    \n" +
-                        "    io_per_set_output(&io_per_d, LEDG, 0, LED_ON); // LED = 1\n" +
-                        "    io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
-                        "    //print_uart(\"Booting . . .\\n\\r\", 15);\n" +
-                        "    \n" +
-                        "    io_per_set_output(&io_per_d, LEDG, 1, LED_ON); // LEDG = 2\n" +
-                        "    io_per_set_output(&io_per_d, LEDG, 0, LED_OFF);\n" +
-                        "    io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
-                        "\n" +
-                        "    copy_image();\n" +
-                        "    \n" +
-                        "    io_per_set_output(&io_per_d, LEDG, 2, LED_ON); // LEDG = 4\n" +
-                        "    io_per_set_output(&io_per_d, LEDG, 1, LED_OFF);\n" +
-                        "    io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
-                        "    //print_uart(\"Application image copied to RAM\\r\\n\", 33);\n" +
-                        "\n" +
-                        "    io_per_set_output(&io_per_d, LEDR, 9, LED_ON); // LEDR = 0x200\n" +
-                        "    io_per_set_output(&io_per_d, LEDG, 2, LED_OFF);\n" +
-                        "    io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
-                        "    //print_uart(\"Jump to Application in RAM\\r\\n\", 28);\n" +
-                        "}\n" +
-                        "\n" +
-                        "/** Not used actually */\n" +
-                        "int main() {\n" +
-                        "    while (1) {}\n" +
-                        "\n" +
-                        "    return 0;\n" +
-                        "}";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-    
-    private void write_trap_c_file(String Project_Folder_File) {
-        String data =   "/*\n" +
-                        " *  Copyright 2018 Sergey Khabarov, sergeykhbr@gmail.com\n" +
-                        " *\n" +
-                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
-                        " *  you may not use this file except in compliance with the License.\n" +
-                        " *  You may obtain a copy of the License at\n" +
-                        " *\n" +
-                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
-                        " *\n" +
-                        " *  Unless required by applicable law or agreed to in writing, software\n" +
-                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
-                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
-                        " *  See the License for the specific language governing permissions and\n" +
-                        " *  limitations under the License.\n" +
-                        " */\n" +
-                        "\n" +
-                        "#include <string.h>\n" +
-                        "#include \"axi_maps.h\"\n" +
-                        "#include \"encoding.h\"\n" +
-                        "\n" +
-                        "typedef void (*IRQ_HANDLER)(int idx, void *args);\n" +
-                        "\n" +
-                        "typedef union csr_mcause_type {\n" +
-                        "    struct bits_type {\n" +
-                        "        uint64_t code   : 63;   // 11 - Machine external interrupt\n" +
-                        "        uint64_t irq    : 1;\n" +
-                        "    } bits;\n" +
-                        "    uint64_t value;\n" +
-                        "} csr_mcause_type;\n" +
-                        "\n" +
-                        "extern void print_uart(const char *buf, int sz);\n" +
-                        "extern void print_uart_hex(long val);\n" +
-                        "extern void led_set(int output);\n" +
-                        "\n" +
-                        "int get_mcause() {\n" +
-                        "    int ret;\n" +
-                        "    asm(\"csrr %0, mcause\" : \"=r\" (ret));\n" +
-                        "    return ret;\n" +
-                        "}\n" +
-                        "\n" +
-                        "int get_mepc() {\n" +
-                        "    int ret;\n" +
-                        "    asm(\"csrr %0, mepc\" : \"=r\" (ret));\n" +
-                        "    return ret;\n" +
-                        "}\n" +
-                        "\n" +
-                        "int get_uepc() {\n" +
-                        "    int ret;\n" +
-                        "    asm(\"csrr %0, uepc\" : \"=r\" (ret));\n" +
-                        "    return ret;\n" +
-                        "}\n" +
-                        "\n" +
-                        "int get_mstatus(){\n" +
-                        "    int ret;\n" +
-                        "    asm(\"csrr %0, mstatus\" : \"=r\" (ret));\n" +
-                        "    return ret;\n" +
-                        "}\n" +
-                        "\n" +
-                        "void exception_handler_c() {\n" +
-                        "    print_uart(\"mcause:\", 7);\n" +
-                        "    print_uart_hex(get_mcause());\n" +
-                        "    print_uart(\",mepc:\", 6);\n" +
-                        "    print_uart_hex(get_mepc());\n" +
-                        "    print_uart(\",uepc:\", 6);\n" +
-                        "    print_uart_hex(get_uepc());\n" +
-                        "    print_uart(\",mstatus:\", 9);\n" +
-                        "    print_uart_hex(get_mstatus());\n" +
-                        "    print_uart(\"\\r\\n\", 2);\n" +
-                        "    struct io_per io_per_d;\n" +
-                        "    io_per_d.registers = (volatile void *)ADDR_NASTI_SLAVE_GPIO;\n" +
-                        "\n" +
-                        "    /// Exception trap\n" +
-                        "    io_per_set_output(&io_per_d, LEDR, 0, LED_ON);\n" +
-                        "    io_per_set_output(&io_per_d, LEDR, 1, LED_ON);\n" +
-                        "    io_per_set_output(&io_per_d, LEDR, 2, LED_ON);\n" +
-                        "    io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
-                        "    while (1) {}\n" +
-                        "}\n" +
-                        "\n" +
-                        "long interrupt_handler_c(long cause, long epc, long long regs[32]) {\n" +
-                        "    /**\n" +
-                        "     * Pending interrupt bit is cleared in the crt.S file by calling:\n" +
-                        "     *      csrc mip, MIP_MSIP\n" +
-                        "     * If we woudn't do it the interrupt handler will be called infinitly\n" +
-                        "     *\n" +
-                        "     * Rise interrupt from the software maybe done sending a self-IPI:\n" +
-                        "     *      csrwi mipi, 0\n" +
-                        "     */\n" +
-                        "    irqctrl_map *p_irqctrl = (irqctrl_map *)ADDR_NASTI_SLAVE_IRQCTRL;\n" +
-                        "    IRQ_HANDLER irq_handler = (IRQ_HANDLER)p_irqctrl->isr_table;\n" +
-                        "    uint32_t pending;\n" +
-                        "    csr_mcause_type mcause;\n" +
-                        "\n" +
-                        "    mcause.value = cause;\n" +
-                        "    p_irqctrl->dbg_cause = cause;\n" +
-                        "    p_irqctrl->dbg_epc = epc;\n" +
-                        "\n" +
-                        "    p_irqctrl->irq_lock = 1;\n" +
-                        "    pending = p_irqctrl->irq_pending;\n" +
-                        "    p_irqctrl->irq_clear = pending;\n" +
-                        "    p_irqctrl->irq_lock = 0;\n" +
-                        "\n" +
-                        "    for (int i = 0; i < CFG_IRQ_TOTAL; i++) {\n" +
-                        "        if (pending & 0x1) {\n" +
-                        "            p_irqctrl->irq_cause_idx = i;\n" +
-                        "            irq_handler(i, NULL);\n" +
-                        "        }\n" +
-                        "        pending >>= 1;\n" +
-                        "    }\n" +
-                        "\n" +
-                        "    return epc;\n" +
-                        "}";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-    
-    private void write_crt_S_file(String Project_Folder_File) {
-        String data =   "##!	Register	ABI Name	Description						Saver\n" +
-                        "##!	x0			zero		Hard-wired zero					�\n" +
-                        "##!	x1			ra			Return address					Caller\n" +
-                        "##!	x2			s0/fp		Saved register/frame pointer	Callee\n" +
-                        "##!	x3:13		s1:11		Saved registers					Callee\n" +
-                        "##!	x14			sp			Stack pointer					Callee\n" +
-                        "##!	x15			tp			Thread pointer					Callee   \n" +
-                        "##!	x16:17		v0:1		Return values					Caller\n" +
-                        "##!	x18:25		a0:7		Function arguments				Caller\n" +
-                        "##!	x26:30		t0:4		Temporaries						Caller\n" +
-                        "##!	x31			gp			Global 	pointer					�\n" +
-                        "##!	f0:15		fs0:15		FP saved registers				Callee\n" +
-                        "##!	f16:17		fv0:1		FP return values				Caller\n" +
-                        "##!	f18:25		fa0:7		FP arguments					Caller\n" +
-                        "##!	f26:31		ft0:5		FP temporaries					Caller\n" +
-                        "\n" +
-                        "#include \"encoding.h\"\n" +
-                        "\n" +
-                        "##! Disabling the compressed code\n" +
-                        "  .option norvc\n" +
-                        "\n" +
-                        "  .section .isr_vector, \"x\"\n" +
-                        "  .align 4\n" +
-                        "  .globl _start\n" +
-                        "  .globl exception_handler_c\n" +
-                        "  .globl interrupt_handler_c\n" +
-                        "\n" +
-                        "trap_table:\n" +
-                        "# 8-bytes per exception entry\n" +
-                        "trap_table:\n" +
-                        "  j _start            # \n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Instruction Misaligned\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Instruction Load Fault\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Instruction Illegal\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Breakpoint\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Load Misaligned\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Load Fault\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Store Misaligned\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Store Fault\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Call from U-mode\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Call from S-mode\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Call from H-mode\n" +
-                        "  nop\n" +
-                        "  j exception_entry   # Call from M-mode\n" +
-                        "  nop\n" +
-                        "\n" +
-                        "bad_trap:\n" +
-                        "  j bad_trap\n" +
-                        "\n" +
-                        "_start:\n" +
-                        "  li  x1, 0\n" +
-                        "  li  x2, 0\n" +
-                        "  li  x3, 0\n" +
-                        "  li  x4, 0\n" +
-                        "  li  x5, 0\n" +
-                        "  li  x6, 0\n" +
-                        "  li  x7, 0\n" +
-                        "  li  x8, 0\n" +
-                        "  li  x9, 0\n" +
-                        "  li  x10,0\n" +
-                        "  li  x11,0\n" +
-                        "  li  x12,0\n" +
-                        "  li  x13,0\n" +
-                        "  li  x14,0\n" +
-                        "  li  x15,0\n" +
-                        "  li  x16,0\n" +
-                        "  li  x17,0\n" +
-                        "  li  x18,0\n" +
-                        "  li  x19,0\n" +
-                        "  li  x20,0\n" +
-                        "  li  x21,0\n" +
-                        "  li  x22,0\n" +
-                        "  li  x23,0\n" +
-                        "  li  x24,0\n" +
-                        "  li  x25,0\n" +
-                        "  li  x26,0\n" +
-                        "  li  x27,0\n" +
-                        "  li  x28,0\n" +
-                        "  li  x29,0\n" +
-                        "  li  x30,0\n" +
-                        "  li  x31,0\n" +
-                        "\n" +
-                        "  ##! csrs (pseudo asm instruction) - set bit   \n" +
-                        "  ##! csrrs - atomic read and set bit\n" +
-                        "  ##! csrc (pseudo asm instruction) - clear bit \n" +
-                        "  ##! csrrc - atomic read and clear bit\n" +
-                        "\n" +
-                        "  li t0, 0x00001800   # MPP[12:11] = 0x3 (Previous to machine mode)\n" +
-                        "  csrc mstatus, t0    # run tests in user mode = 0, by clearing bits\n" +
-                        "  li t0, 0x00000008   # Enable irq in machine and user modes after execution of xRET\n" +
-                        "  csrs mstatus, t0    # enable interrupts in user mode\n" +
-                        "  #li t0, MSTATUS_FS;\n" +
-                        "  #csrs mstatus, t0    # enable FPU\n" +
-                        "  #li t0, MSTATUS_XS;   \n" +
-                        "  #csrs mstatus, t0    # enable accelerator\n" +
-                        "\n" +
-                        "  ##! init mtvec register (see https://github.com/riscv/riscv-test-env/blob/master/p/riscv_test.h)\n" +
-                        "  la t0, interrupt_entry\n" +
-                        "  csrw mtvec, t0\n" +
-                        "  li t0, 0x00000800\n" +
-                        "  csrs mie, t0       # Enable External irq (ftom PLIC) for M mode\n" +
-                        "\n" +
-                        "#if 0\n" +
-                        "  ##! see https://github.com/riscv/riscv-tests/benchmarks/common\n" +
-                        "  csrr t0, mstatus\n" +
-                        "  li t1, MSTATUS_XS\n" +
-                        "  and t1, t0, t1\n" +
-                        "  sw t1, have_vec, t2\n" +
-                        "\n" +
-                        "  ## if that didn't stick, we don't have a FPU, so don't initialize it\n" +
-                        "  li t1, MSTATUS_FS\n" +
-                        "  and t1, t0, t1\n" +
-                        "  beqz t1, 1f\n" +
-                        "#endif\n" +
-                        "\n" +
-                        "# intialization when HW FPU enabled\n" +
-                        "#ifdef FPU_ENABLED\n" +
-                        "  fssr    x0\n" +
-                        "  fmv.s.x f0, x0\n" +
-                        "  fmv.s.x f1, x0\n" +
-                        "  fmv.s.x f2, x0\n" +
-                        "  fmv.s.x f3, x0\n" +
-                        "  fmv.s.x f4, x0\n" +
-                        "  fmv.s.x f5, x0\n" +
-                        "  fmv.s.x f6, x0\n" +
-                        "  fmv.s.x f7, x0\n" +
-                        "  fmv.s.x f8, x0\n" +
-                        "  fmv.s.x f9, x0\n" +
-                        "  fmv.s.x f10,x0\n" +
-                        "  fmv.s.x f11,x0\n" +
-                        "  fmv.s.x f12,x0\n" +
-                        "  fmv.s.x f13,x0\n" +
-                        "  fmv.s.x f14,x0\n" +
-                        "  fmv.s.x f15,x0\n" +
-                        "  fmv.s.x f16,x0\n" +
-                        "  fmv.s.x f17,x0\n" +
-                        "  fmv.s.x f18,x0\n" +
-                        "  fmv.s.x f19,x0\n" +
-                        "  fmv.s.x f20,x0\n" +
-                        "  fmv.s.x f21,x0\n" +
-                        "  fmv.s.x f22,x0\n" +
-                        "  fmv.s.x f23,x0\n" +
-                        "  fmv.s.x f24,x0\n" +
-                        "  fmv.s.x f25,x0\n" +
-                        "  fmv.s.x f26,x0\n" +
-                        "  fmv.s.x f27,x0\n" +
-                        "  fmv.s.x f28,x0\n" +
-                        "  fmv.s.x f29,x0\n" +
-                        "  fmv.s.x f30,x0\n" +
-                        "  fmv.s.x f31,x0\n" +
-                        "#endif\n" +
-                        "\n" +
-                        "  ##! initialize global pointer (no need in it)\n" +
-                        "  lui gp, 0x10000\n" +
-                        "\n" +
-                        "  ##! get core id\n" +
-                        "  csrr a0, mhartid            # a0 <= MHARTID value\n" +
-                        "\n" +
-                        "#define SRAM_BASE_ADDR  0x10000000\n" +
-                        "#define SRAM_SIZE_BYTES (1<<18)\n" +
-                        "#define STACK_CORE1_BYTES 4096\n" +
-                        "\n" +
-                        "  li  sp, SRAM_BASE_ADDR+SRAM_SIZE_BYTES\n" +
-                        "  li  a1, 1\n" +
-                        "  beq a0, a1, sp_init_core1\n" +
-                        "  li  a1, 0\n" +
-                        "  beq a0, a1, sp_init_core0\n" +
-                        "sp_init_core1:\n" +
-                        "  j sp_init_coreall\n" +
-                        "sp_init_core0:\n" +
-                        "  li t0,-STACK_CORE1_BYTES\n" +
-                        "  add sp, sp, t0\n" +
-                        "sp_init_coreall:\n" +
-                        "  add tp, zero, sp            # tp = sp + 0 (mov)\n" +
-                        "  ## Use tp register to save/restore registers context on task switching\n" +
-                        "  addi tp,tp,-256              # tp = tp - 256 = 0x1007ff00\n" +
-                        "  addi sp, sp,-264\n" +
-                        "\n" +
-                        "  # copy image 64 KB\n" +
-                        "  jal _init\n" +
-                        "\n" +
-                        "  ##! jump to entry point in SRAM = 0x10000000\n" +
-                        "  ##!     'meps' - Machine Exception Program Coutner\n" +
-                        "  li  t0, SRAM_BASE_ADDR\n" +
-                        "  csrw mepc, t0\n" +
-                        "  ##! @see riscv-priv-spec-1.7.pdf. 3.2.1\n" +
-                        "  ##! After handling a trap, the ERET instruction is used to return to the privilege level at which the\n" +
-                        "  ##! trap occurred. In addition to manipulating the privilege stack as described in Section 3.1.5, ERET\n" +
-                        "  ##! sets the pc to the value stored in the Xepc register, where X is the privilege mode (S, H, or M) in\n" +
-                        "  ##! which the ERET instruction was executed.\n" +
-                        "  mret\n" +
-                        "\n" +
-                        "exception_entry:\n" +
-                        "  fence\n" +
-                        "  _save_context(tp)\n" +
-                        "  jal exception_handler_c\n" +
-                        "  _restore_context(tp)\n" +
-                        "  mret\n" +
-                        "\n" +
-                        "interrupt_entry:\n" +
-                        "  ##! module CSRFile rises io_fatc signal that is cause of the 'ptw.invalidate'.\n" +
-                        "  fence\n" +
-                        "  csrw mscratch, a0;\n" +
-                        "\n" +
-                        "  _save_context(tp)\n" +
-                        "\n" +
-                        "  ## @brief Call function :\n" +
-                        "  ##       long handle_trap(long cause, long epc, long long regs[32])\n" +
-                        "  ##             a0 = argument 1: cause\n" +
-                        "  ##             a1 = argument 2: mepc\n" +
-                        "  ##             a2 = argument 3: pointer on stack\n" +
-                        "  ## @return     a0 New instruction pointer offset\n" +
-                        "  csrr a0, mcause\n" +
-                        "  csrr a1, mepc\n" +
-                        "  sd a1,COOP_REG_TP(tp)\n" +
-                        "  mv a2, sp\n" +
-                        "  # !!! Cannot reset external pending bits only via IrqController (page 28)\n" +
-                        "  li t0, 0x00000800\n" +
-                        "  csrc mip, t0      #csrc pseudo asm instruction clear CSR bit.\n" +
-                        "                    #[11] MEIP: machine pending external interrupt\n" +
-                        "  jal interrupt_handler_c\n" +
-                        "\n" +
-                        "  # tp-offset in the context array is used to save mepc value. An it may be\n" +
-                        "  # modified by isr handler during preemtive task switching.\n" +
-                        "  ld a1,COOP_REG_TP(tp)\n" +
-                        "  csrw mepc,a1\n" +
-                        "  _restore_context(tp)\n" +
-                        "  mret";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    } 
-    
-    private void write_encoding_h_file(String Project_Folder_File) {
-        String data =   "// See LICENSE for license details.\n" +
-                        "\n" +
-                        "#ifndef RISCV_CSR_ENCODING_H\n" +
-                        "#define RISCV_CSR_ENCODING_H\n" +
-                        "\n" +
-                        "/** Return address */\n" +
-                        "#define COOP_REG_RA         0//(0*sizeof(uint64_t))\n" +
-                        "/** Saved registers */\n" +
-                        "#define COOP_REG_S0         8//(1*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S1         16//(2*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S2         24//(3*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S3         32//(4*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S4         40//(5*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S5         48//(6*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S6         56//(7*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S7         64//(8*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S8         72//(9*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S9         80//(10*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S10        88//(11*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_S11        96//(12*sizeof(uint64_t))\n" +
-                        "/** Stack pointer */\n" +
-                        "#define COOP_REG_SP         104//(13*sizeof(uint64_t))\n" +
-                        "/** Thread pointer */\n" +
-                        "#define COOP_REG_TP         112//(14*sizeof(uint64_t))\n" +
-                        "/** Return values */\n" +
-                        "#define COOP_REG_V0         120//(15*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_V1         128//(16*sizeof(uint64_t))\n" +
-                        "/** Function Arguments */\n" +
-                        "#define COOP_REG_A0         136//(17*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_A1         144//(18*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_A2         152//(19*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_A3         160//(20*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_A4         168//(21*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_A5         176//(22*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_A6         184//(23*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_A7         192//(24*sizeof(uint64_t))\n" +
-                        "/** Temporary registers */\n" +
-                        "#define COOP_REG_T0         200//(25*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_T1         208//(26*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_T2         216//(27*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_T3         224//(28*sizeof(uint64_t))\n" +
-                        "#define COOP_REG_T4         232//(29*sizeof(uint64_t))\n" +
-                        "/** Global pointer */\n" +
-                        "#define COOP_REG_GP         240//(30*sizeof(uint64_t))\n" +
-                        "\n" +
-                        "#define _save_context(TO) \\\n" +
-                        "  sd ra, COOP_REG_RA(TO); \\\n" +
-                        "  sd s0, COOP_REG_S0(TO); \\\n" +
-                        "  sd s1, COOP_REG_S1(TO); \\\n" +
-                        "  sd s2, COOP_REG_S2(TO); \\\n" +
-                        "  sd s3, COOP_REG_S3(TO); \\\n" +
-                        "  sd s4, COOP_REG_S4(TO); \\\n" +
-                        "  sd s5, COOP_REG_S5(TO); \\\n" +
-                        "  sd s6, COOP_REG_S6(TO); \\\n" +
-                        "  sd s7, COOP_REG_S7(TO); \\\n" +
-                        "  sd s8, COOP_REG_S8(TO); \\\n" +
-                        "  sd s9, COOP_REG_S9(TO); \\\n" +
-                        "  sd s10, COOP_REG_S10(TO); \\\n" +
-                        "  sd s11, COOP_REG_S11(TO); \\\n" +
-                        "  sd sp, COOP_REG_SP(TO); \\\n" +
-                        "  sd x16, COOP_REG_V0(TO); \\\n" +
-                        "  sd x17, COOP_REG_V1(TO); \\\n" +
-                        "  sd a0, COOP_REG_A0(TO); \\\n" +
-                        "  sd a1, COOP_REG_A1(TO); \\\n" +
-                        "  sd a2, COOP_REG_A2(TO); \\\n" +
-                        "  sd a3, COOP_REG_A3(TO); \\\n" +
-                        "  sd a4, COOP_REG_A4(TO); \\\n" +
-                        "  sd a5, COOP_REG_A5(TO); \\\n" +
-                        "  sd a6, COOP_REG_A6(TO); \\\n" +
-                        "  sd a7, COOP_REG_A7(TO); \\\n" +
-                        "  sd t0, COOP_REG_T0(TO); \\\n" +
-                        "  sd t1, COOP_REG_T1(TO); \\\n" +
-                        "  sd t2, COOP_REG_T2(TO); \\\n" +
-                        "  sd t3, COOP_REG_T3(TO); \\\n" +
-                        "  sd t4, COOP_REG_T4(TO); \\\n" +
-                        "  sd gp, COOP_REG_GP(TO);\n" +
-                        "\n" +
-                        "\n" +
-                        "#define _restore_context(FROM) \\\n" +
-                        "  ld ra, COOP_REG_RA(FROM); \\\n" +
-                        "  ld s0, COOP_REG_S0(FROM); \\\n" +
-                        "  ld s1, COOP_REG_S1(FROM); \\\n" +
-                        "  ld s2, COOP_REG_S2(FROM); \\\n" +
-                        "  ld s3, COOP_REG_S3(FROM); \\\n" +
-                        "  ld s4, COOP_REG_S4(FROM); \\\n" +
-                        "  ld s5, COOP_REG_S5(FROM); \\\n" +
-                        "  ld s6, COOP_REG_S6(FROM); \\\n" +
-                        "  ld s7, COOP_REG_S7(FROM); \\\n" +
-                        "  ld s8, COOP_REG_S8(FROM); \\\n" +
-                        "  ld s9, COOP_REG_S9(FROM); \\\n" +
-                        "  ld s10, COOP_REG_S10(FROM); \\\n" +
-                        "  ld s11, COOP_REG_S11(FROM); \\\n" +
-                        "  ld sp, COOP_REG_SP(FROM); \\\n" +
-                        "  ld x16, COOP_REG_V0(FROM); \\\n" +
-                        "  ld x17, COOP_REG_V1(FROM); \\\n" +
-                        "  ld a0, COOP_REG_A0(FROM); \\\n" +
-                        "  ld a1, COOP_REG_A1(FROM); \\\n" +
-                        "  ld a2, COOP_REG_A2(FROM); \\\n" +
-                        "  ld a3, COOP_REG_A3(FROM); \\\n" +
-                        "  ld a4, COOP_REG_A4(FROM); \\\n" +
-                        "  ld a5, COOP_REG_A5(FROM); \\\n" +
-                        "  ld a6, COOP_REG_A6(FROM); \\\n" +
-                        "  ld a7, COOP_REG_A7(FROM); \\\n" +
-                        "  ld t0, COOP_REG_T0(FROM); \\\n" +
-                        "  ld t1, COOP_REG_T1(FROM); \\\n" +
-                        "  ld t2, COOP_REG_T2(FROM); \\\n" +
-                        "  ld t3, COOP_REG_T3(FROM); \\\n" +
-                        "  ld t4, COOP_REG_T4(FROM); \\\n" +
-                        "  ld gp, COOP_REG_GP(FROM);\n" +
-                        "\n" +
-                        "\n" +
-                        "#define MSTATUS_IE          0x00000001\n" +
-                        "#define MSTATUS_PRV         0x00000006\n" +
-                        "#define MSTATUS_IE1         0x00000008\n" +
-                        "#define MSTATUS_PRV1        0x00000030\n" +
-                        "#define MSTATUS_IE2         0x00000040\n" +
-                        "#define MSTATUS_PRV2        0x00000180\n" +
-                        "#define MSTATUS_IE3         0x00000200\n" +
-                        "#define MSTATUS_PRV3        0x00000C00\n" +
-                        "#define MSTATUS_FS          0x00003000\n" +
-                        "#define MSTATUS_XS          0x0000C000\n" +
-                        "#define MSTATUS_MPRV        0x00010000\n" +
-                        "#define MSTATUS_VM          0x003E0000\n" +
-                        "#define MSTATUS32_SD        0x80000000\n" +
-                        "#define MSTATUS64_SD        0x8000000000000000\n" +
-                        "\n" +
-                        "\n" +
-                        "#endif";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-    
     private void write_axi_maps_h_file(String Project_Folder_File) {
-        String data =   "/******************************************************************************\n" +
-                        " * @file\n" +
-                        " * @copyright Copyright 2015 GNSS Sensor Ltd. All right reserved.\n" +
-                        " * @author    Sergey Khabarov - sergeykhbr@gmail.com\n" +
-                        " * @brief     AXI4 device mapping\n" +
-                        " * @details   Don't use this address directly use Kernel interface to get\n" +
-                        " *            detected device interface.\n" +
-                        "******************************************************************************/\n" +
+        String data =   "/*\n" +
+                        " *  Copyright 2019 Sergey Khabarov, sergeykhbr@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
                         "\n" +
                         "#ifndef __AXI_MAPS_H__\n" +
                         "#define __AXI_MAPS_H__\n" +
@@ -893,23 +136,26 @@ public class Write_Software_Files {
                         "#include \"maps/map_gptimers.h\"\n" +
                         "#include \"maps/map_uart.h\"\n" +
                         "#include \"maps/map_irqctrl.h\"\n" +
+                        "#include \"maps/map_time_measurement.h\"\n" +
                         "#include \"maps/map_i_o_peripheral.h\"\n" +
                         "#include \"maps/map_timer_hw.h\"\n" +
                         "#include \"maps/map_pwm_hw.h\"\n" +
-                        "#include \"maps/map_time_measurement.h\"\n" +
+                        "#include \"maps/map_pid_hw.h\"\n" +
                         "\n" +
-                        "#define ADDR_NASTI_SLAVE_FWIMAGE        0x00100000\n" +
-                        "#define ADDR_NASTI_SLAVE_SRAM           0x10000000\n" +
-                        "#define ADDR_NASTI_SLAVE_GPIO           0x80000000\n" +
-                        "#define ADDR_NASTI_SLAVE_UART1          0x80001000\n" +
-                        "#define ADDR_NASTI_SLAVE_IRQCTRL        0x80002000\n" +
-                        "#define ADDR_NASTI_SLAVE_GPTIMERS       0x80003000\n" +
-                        "#define ADDR_NASTI_SLAVE_MEASUREMENT    0x80004000\n";
+                        "#define ADDR_BUS0_XSLV_OTP          0x00010000\n" +
+                        "#define ADDR_BUS0_XSLV_FWIMAGE      0x00100000\n" +
+                        "#define ADDR_BUS0_XSLV_EXTFLASH     0x00200000\n" +
+                        "#define ADDR_BUS0_XSLV_SRAM         0x10000000\n" +
+                        "#define ADDR_BUS0_XSLV_GPIO         0x80000000\n" +
+                        "#define ADDR_BUS0_XSLV_UART1        0x80001000\n" +
+                        "#define ADDR_BUS0_XSLV_IRQCTRL      0x80002000\n" +
+                        "#define ADDR_BUS0_XSLV_GPTIMERS     0x80003000\n" +
+                        "#define ADDR_BUS0_XSLV_MEASUREMENT  0x80004000\n";
                         for (int i = 0; ((i < Data.Number_Of_Timers_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
-                            data += "#define ADDR_NASTI_SLAVE_TON_"+Data.Name_of_Timers[i]+"		0x800"+new GeneralFunctions().dec2hex_str(5 + i, 2)+"000\n";
+                            data += "#define ADDR_BUS0_XSLV_TON_"+Data.Name_of_Timers[i]+"		0x800"+new GeneralFunctions().dec2hex_str(5 + i, 2)+"000\n";
                         }
                         for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
-                            data += "#define ADDR_NASTI_SLAVE_PWM_"+Data.Name_of_PWMs[i]+"		0x800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 5 + i, 2)+"000\n";
+                            data += "#define ADDR_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+"		0x800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 5 + i, 2)+"000\n";
                         }
                 data += "\n" +
                         "\n" +
@@ -918,6 +164,9 @@ public class Write_Software_Files {
                         "#define CFG_IRQ_UART1       1\n" +
                         "#define CFG_IRQ_GPTIMERS    2\n" +
                         "#define CFG_IRQ_TOTAL       3\n" +
+                        "\n" +
+                        "// printf_uart enabling\n" +
+                        "#define PRINTF_UART_EN\n" +
                         "\n" +
                         "#define SYS_HZ              "+Data.CPU_RV64_Freq+"\n" +
                         "#define PWM_HZ              "+Data.PWM_RV64_HW_Freq+"\n" +
@@ -942,35 +191,9 @@ public class Write_Software_Files {
                         "\n" +
                         "static const int AXI4_SYSTEM_CLOCK = "+Data.CPU_RV64_Freq+";\n" +
                         "\n" +
-                        "#define VENDOR_GNSSSENSOR        0x00F1\n" +
-                        "\n" +
-                        "#define GNSSSENSOR_EMPTY         0x5577     /// Dummy device\n" +
-                        "#define GNSSSENSOR_ENGINE_STUB   0x0068     /// GNSS Engine stub\n" +
-                        "#define GNSSSENSOR_FSE_V2_GPS    0x0069     /// Fast Search Engines Device ID provided by gnsslib\n" +
-                        "#define GNSSSENSOR_FSE_V2_GLO    0x006A     ///\n" +
-                        "#define GNSSSENSOR_FSE_V2_GAL    0x006C     ///\n" +
-                        "#define GNSSSENSOR_BOOTROM       0x0071     /// Boot ROM Device ID\n" +
-                        "#define GNSSSENSOR_FWIMAGE       0x0072     /// FW ROM image Device ID\n" +
-                        "#define GNSSSENSOR_SRAM          0x0073     /// Internal SRAM block Device ID\n" +
-                        "#define GNSSSENSOR_PNP           0x0074     /// Configuration Registers Module Device ID provided by gnsslib\n" +
-                        "#define GNSSSENSOR_SPI_FLASH     0x0075     /// SD-card controller Device ID provided by gnsslib\n" +
-                        "#define GNSSSENSOR_GPIO          0x0076     /// General purpose IOs Device ID provided by gnsslib\n" +
-                        "#define GNSSSENSOR_RF_CONTROL    0x0077     /// RF front-end controller Device ID provided by gnsslib\n" +
-                        "#define GNSSSENSOR_ENGINE        0x0078     /// GNSS Engine Device ID provided by gnsslib\n" +
-                        "#define GNSSSENSOR_UART          0x007a     /// rs-232 UART Device ID\n" +
-                        "#define GNSSSENSOR_ACCELEROMETER 0x007b     /// Accelerometer Device ID provided by gnsslib\n" +
-                        "#define GNSSSENSOR_GYROSCOPE     0x007c     /// Gyroscope Device ID provided by gnsslib\n" +
-                        "#define GNSSSENSOR_IRQCTRL       0x007d     /// Interrupt controller\n" +
-                        "#define GNSSSENSOR_ETHMAC        0x007f\n" +
-                        "#define GNSSSENSOR_DSU           0x0080\n" +
-                        "#define GNSSSENSOR_GPTIMERS      0x0081\n" +
-                        "#define GNSSSENSOR_RECORDER      0x0082\n" +
-                        "#define GNSSSENSOR_OTP_8KB       0x0083\n" +
-                        "\n" +
                         "#define CFG_NASTI_MASTER_CACHED     0\n" +
                         "#define CFG_NASTI_MASTER_UNCACHED   1\n" +
-                        "#define CFG_NASTI_MASTER_ETHMAC     2\n" +
-                        "#define CFG_NASTI_MASTER_TOTAL      3\n" +
+                        "#define CFG_NASTI_MASTER_TOTAL      2\n" +
                         "\n" +
                         "#define MST_DID_EMPTY             0x7755\n" +
                         "#define SLV_DID_EMPTY             0x5577\n" +
@@ -978,20 +201,7 @@ public class Write_Software_Files {
                         "// Masters IDs\n" +
                         "#define RISCV_CACHED_TILELINK     0x0500\n" +
                         "#define RISCV_UNCACHED_TILELINK   0x0501\n" +
-                        "#define GAISLER_ETH_MAC_MASTER    0x0502\n" +
-                        "#define GAISLER_ETH_EDCL_MASTER   0x0503\n" +
-                        "#define RISCV_RIVER_CPU           0x0505\n" +
-                        "#define GNSSSENSOR_UART_TAP       0x050a\n" +
-                        "#define GNSSSENSOR_JTAG_TAP       0x050b\n" +
                         "\n" +
-                        "#define PNP_CFG_TYPE_INVALID      0\n" +
-                        "#define PNP_CFG_TYPE_MASTER       1\n" +
-                        "#define PNP_CFG_TYPE_SLAVE        2\n" +
-                        "\n" +
-                        "\n" +
-                        "#define TECH_INFERRED       0\n" +
-                        "#define TECH_VIRTEX6        36\n" +
-                        "#define TECH_KINTEX7        49\n" +
                         "\n" +
                         "#ifdef WIN32\n" +
                         "#ifdef __cplusplus\n" +
@@ -1040,12 +250,22 @@ public class Write_Software_Files {
     }
     
     private void write_map_i_o_peripheral_h_file(String Project_Folder_File) {
-        String data =   "/******************************************************************************\n" +
-                        " * @file\n" +
-                        " * @copyright Copyright 2019 Hossameldin Eassa All right reserved.\n" +
-                        " * @author    Hossameldin Eassa - hossameassa@gmail.com\n" +
-                        " * @brief     DIO memory map.\n" +
-                        "******************************************************************************/\n" +
+        String data =   "/*\n" +
+                        " *  Copyright 2020 Hossameldin Eassa, hossameassa@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
+                        "\n" +
                         "\n" +
                         "#ifndef PAEE_I_O_PERIPHERAL_H\n" +
                         "#define PAEE_I_O_PERIPHERAL_H\n" +
@@ -1096,6 +316,9 @@ public class Write_Software_Files {
                         "\n" +
                         "#include <inttypes.h>\n" +
                         "\n" +
+                        "#define TIMER_CONTROL_ENA      (1 << 0)\n" +
+                        "#define TIMER_CONTROL_IRQ_ENA  (1 << 1)\n" +
+                        "\n" +
                         "#define TIMER_CONTROL_ENT_DISIRQ_NOOV	0x01	// 0b001\n" +
                         "#define TIMER_CONTROL_ENT_ENIRQ_NOOV	0x03	// 0b011\n" +
                         "#define TIMER_CONTROL_DIST_ENIRQ_NOOV	0x02	// 0b010\n" +
@@ -1113,6 +336,7 @@ public class Write_Software_Files {
                         "    volatile uint32_t rsv1;\n" +
                         "    volatile uint64_t cur_value;\n" +
                         "    volatile uint64_t init_value;\n" +
+                        "    volatile uint32_t rsrv2[2];\n" +
                         "} gptimer_type;\n" +
                         "\n" +
                         "\n" +
@@ -1161,13 +385,98 @@ public class Write_Software_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
+    private void write_map_pid_hw_h_file(String Project_Folder_File) {
+        String data =   "/*\n" +
+                        " *  Copyright 2020 Hossameldin Eassa, hossameassa@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
+                        "\n" +
+                        "#ifndef LIBSOC_PID_HW_H\n" +
+                        "#define LIBSOC_PID_HW_H\n" +
+                        "\n" +
+                        "#include <stdint.h>\n" +
+                        "\n" +
+                        "#define ADDR_64 3\n" +
+                        "#define ADDR_32 2\n" +
+                        "\n" +
+                        "// Write\n" +
+                        "#define TS_PID		 	(0x00 >> ADDR_64)\n" +
+                        "#define PV_SP_PID		(0x08 >> ADDR_64)\n" +
+                        "#define b0_b1_PID   	(0x10 >> ADDR_64)\n" +
+                        "#define b2_PID			(0x18 >> ADDR_64)\n" +
+                        "\n" +
+                        "// Read\n" +
+                        "#define XOUT_PID		(0x00 >> ADDR_64)\n" +
+                        "#define XOUT_R_PID		(0x08 >> ADDR_64)\n" +
+                        "\n" +
+                        "typedef struct pid_hw\n" +
+                        "{\n" +
+                        "	volatile uint64_t * registers;\n" +
+                        "} pid_hw;\n" +
+                        "\n" +
+                        "static inline void pid_hw_send_ts(struct pid_hw * module,  uint64_t ts)\n" +
+                        "{\n" +
+                        "	module->registers[TS_PID] = (uint64_t)ts;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline void pid_hw_send_pv_sp(struct pid_hw * module,  uint32_t pv, uint32_t sp)\n" +
+                        "{\n" +
+                        "	uint64_t ret = ((uint64_t)sp<<32);\n" +
+                        "	module->registers[PV_SP_PID] = (uint64_t) (ret | pv);\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline void pid_hw_send_b0_b1(struct pid_hw * module,  uint32_t b0, uint32_t b1)\n" +
+                        "{\n" +
+                        "	uint64_t ret = ((uint64_t)b1<<32);\n" +
+                        "	module->registers[b0_b1_PID] = (uint64_t) (ret | b0);\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline void pid_hw_send_b2(struct pid_hw * module,  uint32_t b2)\n" +
+                        "{\n" +
+                        "	module->registers[b2_PID] = b2;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline uint32_t pid_hw_recieve_XOUT(struct pid_hw  * module)\n" +
+                        "{\n" +
+                        "	return (uint32_t) module->registers[XOUT_PID];\n" +
+                        "}\n" +
+                        "\n" +
+                        "static inline uint32_t pid_hw_recieve_XOUT_R(struct pid_hw  * module)\n" +
+                        "{\n" +
+                        "	return (uint32_t) module->registers[XOUT_R_PID];\n" +
+                        "}\n" +
+                        "\n" +
+                        "#endif";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
     private void write_map_pwm_hw_h_file(String Project_Folder_File) {
-        String data =   "/******************************************************************************\n" +
-                        " * @file\n" +
-                        " * @copyright Copyright 2019 Hossameldin Eassa All right reserved.\n" +
-                        " * @author    Hossameldin Eassa - hossameassa@gmail.com\n" +
-                        " * @brief     PWM memory map.\n" +
-                        "******************************************************************************/\n" +
+        String data =   "/*\n" +
+                        " *  Copyright 2020 Hossameldin Eassa, hossameassa@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
                         "\n" +
                         "#ifndef LIBSOC_PWM_HW_H\n" +
                         "#define LIBSOC_PWM_HW_H\n" +
@@ -1200,12 +509,8 @@ public class Write_Software_Files {
     }
     
     private void write_map_time_measurement_h_file(String Project_Folder_File) {
-        String data =   "/******************************************************************************\n" +
-                        " * @file\n" +
-                        " * @copyright Copyright 2019 Hossameldin Eassa All right reserved.\n" +
-                        " * @author    Hossameldin Eassa - hossameassa@gmail.com\n" +
-                        " * @brief     Time Measurement memory map.\n" +
-                        "******************************************************************************/\n" +
+        String data =   "// The Potato SoC Library add from hossameldin\n" +
+                        "// (c) Hossameldin Bayoummy Eassa 2019 <hossameassa@gmail.com>\n" +
                         "\n" +
                         "#ifndef PAEE_TIME_MEASUREMENT_H\n" +
                         "#define PAEE_TIME_MEASUREMENT_H\n" +
@@ -3748,7 +3053,7 @@ public class Write_Software_Files {
                         "endif\n" +
                         "\n" +
                         "\n" +
-                        "LDFLAGS=-static -T $(PROJECT_FOLDER)"+Data.Project_Name+"_application/makefiles/app.ld -nostartfiles\n" +
+                        "LDFLAGS= -T $(PROJECT_FOLDER)"+Data.Project_Name+"_application/makefiles/app.ld -nostartfiles\n" +
                         "ifeq ($(FPU_ENABLED), 1)\n" +
                         "else\n" +
                         "  LDFLAGS += -march=rv64imac -mabi=lp64\n" +
@@ -3776,26 +3081,36 @@ public class Write_Software_Files {
                         "\n" +
                         "VPATH = $(SRC_PATH)\n" +
                         "\n" +
-                        "SOURCES = \\\n" +
-                        "	main \\\n" +
-                        "	"+Data.Project_Name+"\n" +
+                        "SOURCES = crt \\\n" +
+                        "	exceptions \\\n" +
+                        "	interrupts \\\n" +
+                        "	memanager \\\n" +
+                        "	uart \\\n" +
+                        "	fw_api \\\n" +
+                        "	main \n" +
                         "\n" +
                         "OBJ_FILES = $(addsuffix .o,$(SOURCES))\n" +
-                        "EXECUTABLE = "+Data.Project_Name+"\n" +
-                        "DUMPFILE = $(EXECUTABLE).dump\n" +
-                        "HEXFILE = $(EXECUTABLE).hex\n" +
-                        "MIFFILE = $(EXECUTABLE).mif\n" +
-                        "LSTFILE = $(EXECUTABLE).lst\n" +
+                        "COMMONNAME = "+Data.Project_Name+"\n" +
+                        "EXECUTABLE = $(COMMONNAME).elf\n" +
+                        "DUMPFILE = $(COMMONNAME).dump\n" +
+                        "MIFFILE = $(COMMONNAME).mif\n" +
+                        "HEXFILE = $(COMMONNAME).hex\n" +
+                        "LSTFILE = $(COMMONNAME).lst\n" +
                         "\n" +
                         "\n" +
                         "\n" +
-                        "all: $(EXECUTABLE) $(DUMPFILE) $(HEXFILE) $(MIFFILE)\n" +
+                        "all: "+Data.Project_Name+"\n" +
                         "\n" +
-                        "$(MIFFILE): $(HEXFILE)\n" +
+                        ".PHONY: $(EXECUTABLE) $(DUMPFILE)\n" +
+                        "\n" +
+                        "\n" +
+                        Data.Project_Name+": $(EXECUTABLE) $(DUMPFILE) $(HEXFILE) $(MIFFILE)\n" +
+                        "\n" +
+                        "$(MIFFILE): $(EXECUTABLE)\n" +
                         "	$(HEX2MIF) $(ELF_DIR)/$(HEXFILE) $(ELF_DIR)/$(MIFFILE) 8192\n" +
                         "\n" +
                         "$(HEXFILE): $(EXECUTABLE)\n" +
-                        "	$(ELF2HEX) $(addprefix $(ELF_DIR)/,$<) -h -f 65536 -l 8 -o $(addprefix $(ELF_DIR)/,$(EXECUTABLE).hex)\n" +
+                        "	$(ELF2HEX) $(addprefix $(ELF_DIR)/,$<) -h -f 65536 -l 8 -o $(addprefix $(ELF_DIR)/,$(HEXFILE))\n" +
                         "\n" +
                         "$(DUMPFILE): $(EXECUTABLE)\n" +
                         "	$(OBJDUMP) --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.data $(addprefix $(ELF_DIR)/,$<) > $(addprefix $(ELF_DIR)/,$@)\n" +
@@ -3823,20 +3138,29 @@ public class Write_Software_Files {
     }
     
     private void write_app_ld_file(String Project_Folder_File) {
-        String data =   "OUTPUT_ARCH( \"riscv\" )\n" +
+        String data =   "/*----------------------------------------------------------------------*/\n" +
+                        "/* Setup                                                                */\n" +
+                        "/*----------------------------------------------------------------------*/\n" +
+                        "\n" +
+                        "/* The OUTPUT_ARCH command specifies the machine architecture where the\n" +
+                        "   argument is one of the names used in the BFD library. More\n" +
+                        "   specifically one of the entires in bfd/cpu-mips.c */\n" +
+                        "\n" +
+                        "OUTPUT_ARCH( \"riscv\" )\n" +
                         "\n" +
                         "/*----------------------------------------------------------------------*/\n" +
                         "/* Sections                                                             */\n" +
                         "/*----------------------------------------------------------------------*/\n" +
+                        "\n" +
                         "SECTIONS\n" +
                         "{\n" +
                         "\n" +
                         "  /* text: test code section */\n" +
-                        "  . = 0x10000000;\n" +
+                        "  . = 0x0000;\n" +
                         "  .text : \n" +
                         "  {\n" +
-                        "    "+Data.Project_Folder.getPath()+"/"+c_files+"/"+Data.Project_Name+"_application/obj/main.o (.text.startup)\n" +
-                        "    *(.text)\n" +
+                        "    KEEP(*(.isr_vector))\n" +
+                        "    *(.text*)\n" +
                         "  }\n" +
                         "\n" +
                         "  /* data segment */\n" +
@@ -3854,59 +3178,1190 @@ public class Write_Software_Files {
                         "  }\n" +
                         "  .bss : { *(.bss) }\n" +
                         "\n" +
-                        "  /* thread-local data segment */\n" +
-                        "  .tdata :\n" +
-                        "  {\n" +
-                        "    *(.tdata)\n" +
-                        "  }\n" +
-                        "  .tbss :\n" +
-                        "  {\n" +
-                        "    *(.tbss)\n" +
-                        "  }\n" +
-                        "\n" +
                         "  /* End of uninitalized data segement */\n" +
                         "  _end = .;\n" +
-                        "\n" +
-                        "}";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-    
-    private void write_project_main_main_c_file(String Project_Folder_File) {
-        String data =   "/*****************************************************************************\n" +
-                        " * @file\n" +
-                        " * @author   Hossameldin Eassa\n" +
-                        " * @brief    Main entry function for real PLC application. \n" +
-                        " * @details  This file matches to linker symbol '.text.startup' and will be\n" +
-                        "*            assigned to default entry point 0x10000000. See linker script.\n" +
-                        " * @warning  DO NOT ADD NEW METHODS INTO THIS FILE\n" +
-                        " ****************************************************************************/\n" +
-                        "\n" +
-                        "extern void "+Data.Project_Name+"();\n" +
-                        "\n" +
-                        "int main() {\n" +
-                        "    "+Data.Project_Name+"();\n" +
-                        "    while(1);\n" +
-                        "    return 0;\n" +
                         "}";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
       
+    private void write_crt_S_file(String Project_Folder_File) {
+        String data =   "##!  Register   ABI Name  Description                       Saver\n" +
+                        "##!  x0         zero      Hard-wired zero                   —\n" +
+                        "##!  x1         ra        Return address                    Caller\n" +
+                        "##!  x2         sp        Stack pointer                     Callee\n" +
+                        "##!  x3         gp        Global pointer                    —\n" +
+                        "##!  x4         tp        Thread pointer                    —\n" +
+                        "##!  x5         t0        Temporary/alternate link register Caller\n" +
+                        "##!  x6–7       t1–2      Temporaries                       Caller\n" +
+                        "##!  x8         s0/fp     Saved register/frame pointer      Callee\n" +
+                        "##!  x9         s1        Saved register                    Callee\n" +
+                        "##!  x10–11     a0–1      Function arguments/return values  Caller\n" +
+                        "##!  x12–17     a2–7      Function arguments                Caller\n" +
+                        "##!  x18–27     s2–11     Saved registers                   Callee\n" +
+                        "##!  x28–31     t3–6      Temporaries                       Caller\n" +
+                        "##!  f0–7       ft0–7     FP temporaries                    Caller\n" +
+                        "##!  f8–9       fs0–1     FP saved registers                Callee\n" +
+                        "##!  f10–11     fa0–1     FP arguments/return values        Caller\n" +
+                        "##!  f12–17     fa2–7     FP arguments                      Caller\n" +
+                        "##!  f18–27     fs2–11    FP saved registers                Callee\n" +
+                        "##!  f28–31     ft8–11    FP temporaries                    Caller\n" +
+                        "\n" +
+                        "#include \"encoding.h\"\n" +
+                        "\n" +
+                        "##! Disabling the compressed code\n" +
+                        "  .option norvc\n" +
+                        "\n" +
+                        "  .section .isr_vector, \"x\"\n" +
+                        "  .align 4\n" +
+                        "  .globl _start\n" +
+                        "  .globl _mbist_ram_exit\n" +
+                        "  .globl exception_handler_c\n" +
+                        "  .globl interrupt_handler_c\n" +
+                        "\n" +
+                        "# 8-bytes per exception entry\n" +
+                        "trap_table:\n" +
+                        "  j _start            # \n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Instruction Misaligned\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Instruction Load Fault\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Instruction Illegal\n" +
+                        "  nop\n" +
+                        "  j bad_trap          # Breakpoint\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Load Misaligned\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Load Fault\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Store Misaligned\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Store Fault\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Call from U-mode\n" +
+                        "  nop\n" +
+                        "  j bad_trap          # Call from S-mode\n" +
+                        "  nop\n" +
+                        "  j bad_trap          # Call from H-mode\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Call from M-mode\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Instruction Page Fault\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Load Page Fault\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Store Page Fault\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Stack Overflow\n" +
+                        "  nop\n" +
+                        "  j exception_entry   # Stack Underflow\n" +
+                        "  nop\n" +
+                        "\n" +
+                        "bad_trap:\n" +
+                        "  j bad_trap\n" +
+                        "\n" +
+                        "_start:\n" +
+                        "  li  x1, 0\n" +
+                        "  li  x2, 0\n" +
+                        "  li  x3, 0\n" +
+                        "  li  x4, 0\n" +
+                        "  li  x5, 0\n" +
+                        "  li  x6, 0\n" +
+                        "  li  x7, 0\n" +
+                        "  li  x8, 0\n" +
+                        "  li  x9, 0\n" +
+                        "  li  x10,0\n" +
+                        "  li  x11,0\n" +
+                        "  li  x12,0\n" +
+                        "  li  x13,0\n" +
+                        "  li  x14,0\n" +
+                        "  li  x15,0\n" +
+                        "  li  x16,0\n" +
+                        "  li  x17,0\n" +
+                        "  li  x18,0\n" +
+                        "  li  x19,0\n" +
+                        "  li  x20,0\n" +
+                        "  li  x21,0\n" +
+                        "  li  x22,0\n" +
+                        "  li  x23,0\n" +
+                        "  li  x24,0\n" +
+                        "  li  x25,0\n" +
+                        "  li  x26,0\n" +
+                        "  li  x27,0\n" +
+                        "  li  x28,0\n" +
+                        "  li  x29,0\n" +
+                        "  li  x30,0\n" +
+                        "  li  x31,0\n" +
+                        "\n" +
+                        "  ##! csrs (pseudo asm instruction) - set bit   \n" +
+                        "  ##! csrrs - atomic read and set bit\n" +
+                        "  ##! csrc (pseudo asm instruction) - clear bit \n" +
+                        "  ##! csrrc - atomic read and clear bit\n" +
+                        "\n" +
+                        "  li t0, 0x00001800   # MPP[12:11] = 0x3 (Previous to machine mode)\n" +
+                        "  csrc mstatus, t0    # run tests in user mode = 0, by clearing bits\n" +
+                        "  li t0, 0x00000008   # Enable irq in machine and user modes after execution of xRET\n" +
+                        "  csrs mstatus, t0    # enable interrupts in user mode\n" +
+                        "  #li t0, MSTATUS_FS;\n" +
+                        "  #csrs mstatus, t0    # enable FPU\n" +
+                        "  #li t0, MSTATUS_XS;   \n" +
+                        "  #csrs mstatus, t0    # enable accelerator\n" +
+                        "\n" +
+                        "  ##! init mtvec register (see https://github.com/riscv/riscv-test-env/blob/master/p/riscv_test.h)\n" +
+                        "  la t0, interrupt_entry\n" +
+                        "  csrw mtvec, t0\n" +
+                        "  li t0, 0x00000800\n" +
+                        "  csrs mie, t0       # Enable External irq (ftom PLIC) for M mode\n" +
+                        "\n" +
+                        "#if 0\n" +
+                        "  ##! see https://github.com/riscv/riscv-tests/benchmarks/common\n" +
+                        "  csrr t0, mstatus\n" +
+                        "  li t1, MSTATUS_XS\n" +
+                        "  and t1, t0, t1\n" +
+                        "  sw t1, have_vec, t2\n" +
+                        "#endif\n" +
+                        "#if 0\n" +
+                        "  ## if that didn't stick, we don't have a FPU, so don't initialize it\n" +
+                        "  li t1, MSTATUS_FS\n" +
+                        "  and t1, t0, t1\n" +
+                        "  beqz t1, 1f\n" +
+                        "#endif\n" +
+                        "\n" +
+                        "# intialization when HW FPU enabled\n" +
+                        "#ifdef FPU_ENABLED\n" +
+                        "  fssr    x0\n" +
+                        "  fmv.d.x f0, x0\n" +
+                        "  fmv.d.x f1, x0\n" +
+                        "  fmv.d.x f2, x0\n" +
+                        "  fmv.d.x f3, x0\n" +
+                        "  fmv.d.x f4, x0\n" +
+                        "  fmv.d.x f5, x0\n" +
+                        "  fmv.d.x f6, x0\n" +
+                        "  fmv.d.x f7, x0\n" +
+                        "  fmv.d.x f8, x0\n" +
+                        "  fmv.d.x f9, x0\n" +
+                        "  fmv.d.x f10,x0\n" +
+                        "  fmv.d.x f11,x0\n" +
+                        "  fmv.d.x f12,x0\n" +
+                        "  fmv.d.x f13,x0\n" +
+                        "  fmv.d.x f14,x0\n" +
+                        "  fmv.d.x f15,x0\n" +
+                        "  fmv.d.x f16,x0\n" +
+                        "  fmv.d.x f17,x0\n" +
+                        "  fmv.d.x f18,x0\n" +
+                        "  fmv.d.x f19,x0\n" +
+                        "  fmv.d.x f20,x0\n" +
+                        "  fmv.d.x f21,x0\n" +
+                        "  fmv.d.x f22,x0\n" +
+                        "  fmv.d.x f23,x0\n" +
+                        "  fmv.d.x f24,x0\n" +
+                        "  fmv.d.x f25,x0\n" +
+                        "  fmv.d.x f26,x0\n" +
+                        "  fmv.d.x f27,x0\n" +
+                        "  fmv.d.x f28,x0\n" +
+                        "  fmv.d.x f29,x0\n" +
+                        "  fmv.d.x f30,x0\n" +
+                        "  fmv.d.x f31,x0\n" +
+                        "#endif\n" +
+                        "\n" +
+                        "  ##! initialize global pointer (no need in it)\n" +
+                        "  lui gp, 0x10000\n" +
+                        "\n" +
+                        "  ##! get core id\n" +
+                        "  csrr a0, mhartid            # a0 <= MHARTID value\n" +
+                        "\n" +
+                        "  # Task stack pointer (tp) uses the same value as sp.\n" +
+                        "#define SRAM_BASE_ADDR  0x10000000\n" +
+                        "#define SRAM_SIZE_BYTES (1<<18)\n" +
+                        "#define STACK_CORE1_BYTES 4096\n" +
+                        "\n" +
+                        "  li  sp, SRAM_BASE_ADDR+SRAM_SIZE_BYTES\n" +
+                        "  li  a1, 1\n" +
+                        "  beq a0, a1, sp_init_core1\n" +
+                        "  li  a1, 0\n" +
+                        "  beq a0, a1, sp_init_core0\n" +
+                        "sp_init_core1:\n" +
+                        "  j sp_init_coreall\n" +
+                        "sp_init_core0:\n" +
+                        "  li t0,-STACK_CORE1_BYTES\n" +
+                        "  add sp, sp, t0\n" +
+                        "\n" +
+                        "  # run memory selftest only on Core[0]\n" +
+                        "  #jal _mbist_ram\n" +
+                        "_mbist_ram_exit:\n" +
+                        "\n" +
+                        "sp_init_coreall:\n" +
+                        "  add tp, zero, sp            # tp = sp + 0 (mov)\n" +
+                        "  ## Use tp register to save/restore registers context on task switching\n" +
+                        "  addi tp,tp,-256              # tp = tp - 256 = 0x1007ff00\n" +
+                        "  addi sp, sp,-264\n" +
+                        "\n" +
+                        "  jal main\n" +
+                        "  ## Never reach here\n" +
+                        "\n" +
+                        "exception_entry:\n" +
+                        "  _save_context(tp)\n" +
+                        "  jal exception_handler_c\n" +
+                        "  _restore_context(tp)\n" +
+                        "  mret\n" +
+                        "\n" +
+                        "interrupt_entry:\n" +
+                        "  ##! module CSRFile rises io_fatc signal that is cause of the 'ptw.invalidate'.\n" +
+                        "  csrw mscratch, a0;\n" +
+                        "\n" +
+                        "  _save_context(tp)\n" +
+                        "\n" +
+                        "  ## @brief Call function :\n" +
+                        "  ##       long handle_trap(long cause, long epc, long long regs[32])\n" +
+                        "  ##             a0 = argument 1: cause\n" +
+                        "  ##             a1 = argument 2: mepc\n" +
+                        "  ##             a2 = argument 3: pointer on stack\n" +
+                        "  ## @return     a0 New instruction pointer offset\n" +
+                        "  csrr a0, mcause\n" +
+                        "  csrr a1, mepc\n" +
+                        "  sd a1,COOP_REG_TP(tp)\n" +
+                        "  mv a2, sp\n" +
+                        "  # !!! Cannot reset external pending bits only via IrqController (page 28)\n" +
+                        "  li t0, 0x00000800\n" +
+                        "  csrc mip, t0      #csrc pseudo asm instruction clear CSR bit.\n" +
+                        "                    #[11] MEIP: machine pending external interrupt\n" +
+                        "  jal interrupt_handler_c\n" +
+                        "\n" +
+                        "  # tp-offset in the context array is used to save mepc value. An it may be\n" +
+                        "  # modified by isr handler during preemtive task switching.\n" +
+                        "  ld a1,COOP_REG_TP(tp)\n" +
+                        "  csrw mepc,a1\n" +
+                        "  _restore_context(tp)\n" +
+                        "  mret\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
+                        "  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void write_encoding_h_file(String Project_Folder_File) {
+        String data =   "// See LICENSE for license details.\n" +
+                        "\n" +
+                        "#ifndef RISCV_CSR_ENCODING_H\n" +
+                        "#define RISCV_CSR_ENCODING_H\n" +
+                        "\n" +
+                        "/** Table of non-maskable exceptions */\n" +
+                        "#define EXCEPTION_InstrMisalign 0    // Instruction misalgined load\n" +
+                        "#define EXCEPTION_InstrFault    1    // Instruction access fault\n" +
+                        "#define EXCEPTION_InstrIllegal  2    // Illegal instruction\n" +
+                        "#define EXCEPTION_Breakpoint    3    // Breakpoint\n" +
+                        "#define EXCEPTION_LoadMisalign  4    // Load address misaligned\n" +
+                        "#define EXCEPTION_LoadFault     5    // Load access fault\n" +
+                        "#define EXCEPTION_StoreMisalign 6    // Store/AMO address misaligned\n" +
+                        "#define EXCEPTION_StoreFault    7    // Store/AMO access fault\n" +
+                        "#define EXCEPTION_CallFromUmode 8    // Environment call from U-mode\n" +
+                        "#define EXCEPTION_CallFromSmode 9    // Environment call from S-mode\n" +
+                        "#define EXCEPTION_CallFromHmode 10   // Environment call from H-mode\n" +
+                        "#define EXCEPTION_CallFromMmode 11   // Environment call from M-mode\n" +
+                        "#define EXCEPTION_InstrPageFault 12\n" +
+                        "#define EXCEPTION_LoadPageFault  13\n" +
+                        "#define EXCEPTION_reserved14     14\n" +
+                        "#define EXCEPTION_StorePageFault 15\n" +
+                        "#define EXCEPTION_StackOverflow  16   // Stack overflow\n" +
+                        "#define EXCEPTION_StackUnderflow 17  // Stack overflow\n" +
+                        "#define EXCEPTION_Total 18           // Table size\n" +
+                        "\n" +
+                        "\n" +
+                        "/** Return address */\n" +
+                        "#define COOP_REG_RA         0//(0*sizeof(uint64_t))\n" +
+                        "/** Saved registers */\n" +
+                        "#define COOP_REG_S0         8//(1*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S1         16//(2*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S2         24//(3*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S3         32//(4*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S4         40//(5*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S5         48//(6*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S6         56//(7*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S7         64//(8*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S8         72//(9*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S9         80//(10*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S10        88//(11*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_S11        96//(12*sizeof(uint64_t))\n" +
+                        "/** Stack pointer */\n" +
+                        "#define COOP_REG_SP         104//(13*sizeof(uint64_t))\n" +
+                        "/** Thread pointer */\n" +
+                        "#define COOP_REG_TP         112//(14*sizeof(uint64_t))\n" +
+                        "/** Return values */\n" +
+                        "#define COOP_REG_V0         120//(15*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_V1         128//(16*sizeof(uint64_t))\n" +
+                        "/** Function Arguments */\n" +
+                        "#define COOP_REG_A0         136//(17*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_A1         144//(18*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_A2         152//(19*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_A3         160//(20*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_A4         168//(21*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_A5         176//(22*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_A6         184//(23*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_A7         192//(24*sizeof(uint64_t))\n" +
+                        "/** Temporary registers */\n" +
+                        "#define COOP_REG_T0         200//(25*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_T1         208//(26*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_T2         216//(27*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_T3         224//(28*sizeof(uint64_t))\n" +
+                        "#define COOP_REG_T4         232//(29*sizeof(uint64_t))\n" +
+                        "/** Global pointer */\n" +
+                        "#define COOP_REG_GP         240//(30*sizeof(uint64_t))\n" +
+                        "\n" +
+                        "#define _save_context(TO) \\\n" +
+                        "  sd ra, COOP_REG_RA(TO); \\\n" +
+                        "  sd s0, COOP_REG_S0(TO); \\\n" +
+                        "  sd s1, COOP_REG_S1(TO); \\\n" +
+                        "  sd s2, COOP_REG_S2(TO); \\\n" +
+                        "  sd s3, COOP_REG_S3(TO); \\\n" +
+                        "  sd s4, COOP_REG_S4(TO); \\\n" +
+                        "  sd s5, COOP_REG_S5(TO); \\\n" +
+                        "  sd s6, COOP_REG_S6(TO); \\\n" +
+                        "  sd s7, COOP_REG_S7(TO); \\\n" +
+                        "  sd s8, COOP_REG_S8(TO); \\\n" +
+                        "  sd s9, COOP_REG_S9(TO); \\\n" +
+                        "  sd s10, COOP_REG_S10(TO); \\\n" +
+                        "  sd s11, COOP_REG_S11(TO); \\\n" +
+                        "  sd sp, COOP_REG_SP(TO); \\\n" +
+                        "  sd x16, COOP_REG_V0(TO); \\\n" +
+                        "  sd x17, COOP_REG_V1(TO); \\\n" +
+                        "  sd a0, COOP_REG_A0(TO); \\\n" +
+                        "  sd a1, COOP_REG_A1(TO); \\\n" +
+                        "  sd a2, COOP_REG_A2(TO); \\\n" +
+                        "  sd a3, COOP_REG_A3(TO); \\\n" +
+                        "  sd a4, COOP_REG_A4(TO); \\\n" +
+                        "  sd a5, COOP_REG_A5(TO); \\\n" +
+                        "  sd a6, COOP_REG_A6(TO); \\\n" +
+                        "  sd a7, COOP_REG_A7(TO); \\\n" +
+                        "  sd t0, COOP_REG_T0(TO); \\\n" +
+                        "  sd t1, COOP_REG_T1(TO); \\\n" +
+                        "  sd t2, COOP_REG_T2(TO); \\\n" +
+                        "  sd t3, COOP_REG_T3(TO); \\\n" +
+                        "  sd t4, COOP_REG_T4(TO); \\\n" +
+                        "  sd gp, COOP_REG_GP(TO);\n" +
+                        "\n" +
+                        "\n" +
+                        "#define _restore_context(FROM) \\\n" +
+                        "  ld ra, COOP_REG_RA(FROM); \\\n" +
+                        "  ld s0, COOP_REG_S0(FROM); \\\n" +
+                        "  ld s1, COOP_REG_S1(FROM); \\\n" +
+                        "  ld s2, COOP_REG_S2(FROM); \\\n" +
+                        "  ld s3, COOP_REG_S3(FROM); \\\n" +
+                        "  ld s4, COOP_REG_S4(FROM); \\\n" +
+                        "  ld s5, COOP_REG_S5(FROM); \\\n" +
+                        "  ld s6, COOP_REG_S6(FROM); \\\n" +
+                        "  ld s7, COOP_REG_S7(FROM); \\\n" +
+                        "  ld s8, COOP_REG_S8(FROM); \\\n" +
+                        "  ld s9, COOP_REG_S9(FROM); \\\n" +
+                        "  ld s10, COOP_REG_S10(FROM); \\\n" +
+                        "  ld s11, COOP_REG_S11(FROM); \\\n" +
+                        "  ld sp, COOP_REG_SP(FROM); \\\n" +
+                        "  ld x16, COOP_REG_V0(FROM); \\\n" +
+                        "  ld x17, COOP_REG_V1(FROM); \\\n" +
+                        "  ld a0, COOP_REG_A0(FROM); \\\n" +
+                        "  ld a1, COOP_REG_A1(FROM); \\\n" +
+                        "  ld a2, COOP_REG_A2(FROM); \\\n" +
+                        "  ld a3, COOP_REG_A3(FROM); \\\n" +
+                        "  ld a4, COOP_REG_A4(FROM); \\\n" +
+                        "  ld a5, COOP_REG_A5(FROM); \\\n" +
+                        "  ld a6, COOP_REG_A6(FROM); \\\n" +
+                        "  ld a7, COOP_REG_A7(FROM); \\\n" +
+                        "  ld t0, COOP_REG_T0(FROM); \\\n" +
+                        "  ld t1, COOP_REG_T1(FROM); \\\n" +
+                        "  ld t2, COOP_REG_T2(FROM); \\\n" +
+                        "  ld t3, COOP_REG_T3(FROM); \\\n" +
+                        "  ld t4, COOP_REG_T4(FROM); \\\n" +
+                        "  ld gp, COOP_REG_GP(FROM);\n" +
+                        "\n" +
+                        "\n" +
+                        "#define MSTATUS_IE          0x00000001\n" +
+                        "#define MSTATUS_PRV         0x00000006\n" +
+                        "#define MSTATUS_IE1         0x00000008\n" +
+                        "#define MSTATUS_PRV1        0x00000030\n" +
+                        "#define MSTATUS_IE2         0x00000040\n" +
+                        "#define MSTATUS_PRV2        0x00000180\n" +
+                        "#define MSTATUS_IE3         0x00000200\n" +
+                        "#define MSTATUS_PRV3        0x00000C00\n" +
+                        "#define MSTATUS_FS          0x00003000\n" +
+                        "#define MSTATUS_XS          0x0000C000\n" +
+                        "#define MSTATUS_MPRV        0x00010000\n" +
+                        "#define MSTATUS_VM          0x003E0000\n" +
+                        "#define MSTATUS32_SD        0x80000000\n" +
+                        "#define MSTATUS64_SD        0x8000000000000000\n" +
+                        "\n" +
+                        "\n" +
+                        "#endif";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void write_exceptions_c_file(String Project_Folder_File) {
+        String data =   "/*\n" +
+                        " *  Copyright 2018 Sergey Khabarov, sergeykhbr@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
+                        "\n" +
+                        "#include <string.h>\n" +
+                        "#include \"axi_maps.h\"\n" +
+                        "#include \"encoding.h\"\n" +
+                        "#include \"fw_api.h\"\n" +
+                        "\n" +
+                        "static const char EXCEPTION_TABLE_NAME[8] = \"extbl\";\n" +
+                        "\n" +
+                        "int get_mcause() {\n" +
+                        "    int ret;\n" +
+                        "    asm(\"csrr %0, mcause\" : \"=r\" (ret));\n" +
+                        "    return ret;\n" +
+                        "}\n" +
+                        "\n" +
+                        "int get_mepc() {\n" +
+                        "    int ret;\n" +
+                        "    asm(\"csrr %0, mepc\" : \"=r\" (ret));\n" +
+                        "    return ret;\n" +
+                        "}\n" +
+                        "\n" +
+                        "int get_mbadaddr() {\n" +
+                        "    int ret;\n" +
+                        "    asm(\"csrr %0, mbadaddr\" : \"=r\" (ret));\n" +
+                        "    return ret;\n" +
+                        "}\n" +
+                        "\n" +
+                        "void exception_instr_load_fault_c() {\n" +
+                        "    uint64_t mbadaddr = get_mbadaddr();\n" +
+                        "     printf_uart(\"Exception >> instr load fault (mbadaddr : %x)\", mbadaddr);\n" +
+                        "}\n" +
+                        "\n" +
+                        "void exception_load_fault_c() {\n" +
+                        "    uint64_t mbadaddr = get_mbadaddr();\n" +
+                        "    printf_uart(\"Exception >> load fault (mbadaddr : %x)\", mbadaddr);\n" +
+                        "}\n" +
+                        "\n" +
+                        "void exception_store_fault_c() {\n" +
+                        "    uint64_t mbadaddr = get_mbadaddr();\n" +
+                        "    printf_uart(\"Exception >> store fault (mbadaddr : %x)\", mbadaddr);\n" +
+                        "}\n" +
+                        "\n" +
+                        "void exception_stack_overflow_c() {\n" +
+                        "    uint64_t sp;\n" +
+                        "    // Save current stack pointer into debug regsiter\n" +
+                        "    asm(\"mv %0, sp\" : \"=r\" (sp));\n" +
+                        "    printf_uart(\"Exception >> stac overflow (sp : %x)\", sp);\n" +
+                        "}\n" +
+                        "\n" +
+                        "void exception_stack_underflow_c() {\n" +
+                        "    uint64_t sp;\n" +
+                        "    // Save current stack pointer into debug regsiter\n" +
+                        "    asm(\"mv %0, sp\" : \"=r\" (sp));\n" +
+                        "    printf_uart(\"Exception >> stac underflow (sp : %x)\", sp);\n" +
+                        "}\n" +
+                        "\n" +
+                        "void exception_handler_c() {\n" +
+                        "    struct io_per io_per_d;\n" +
+                        "    IRQ_HANDLER *tbl = fw_get_ram_data(EXCEPTION_TABLE_NAME);\n" +
+                        "\n" +
+                        "    io_per_d.registers = (volatile void *)ADDR_BUS0_XSLV_GPIO;\n" +
+                        "\n" +
+                        "    int idx = get_mcause();\n" +
+                        "    if (tbl[idx] == 0) {\n" +
+                        "        print_uart(\"mcause:\", 7);\n" +
+                        "        print_uart_hex(idx);\n" +
+                        "        print_uart(\",mepc:\", 6);\n" +
+                        "        print_uart_hex(get_mepc());\n" +
+                        "        print_uart(\"\\r\\n\", 2);\n" +
+                        "\n" +
+                        "        // Exception trap\n" +
+                        "        io_per_set_output(&io_per_d, LEDR, 0, LED_ON);\n" +
+                        "        io_per_set_output(&io_per_d, LEDR, 1, LED_ON);\n" +
+                        "        io_per_set_output(&io_per_d, LEDR, 2, LED_ON);\n" +
+                        "        io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
+                        "        while (1) {}\n" +
+                        "    } else {\n" +
+                        "        tbl[idx]();\n" +
+                        "    }\n" +
+                        "}\n" +
+                        "\n" +
+                        "void allocate_exception_table() {\n" +
+                        "    IRQ_HANDLER *extbl = (IRQ_HANDLER *)\n" +
+                        "        fw_malloc(EXCEPTION_Total * sizeof(IRQ_HANDLER));    \n" +
+                        "    fw_register_ram_data(EXCEPTION_TABLE_NAME, extbl);\n" +
+                        "\n" +
+                        "    extbl[EXCEPTION_InstrFault] = exception_instr_load_fault_c;\n" +
+                        "    extbl[EXCEPTION_LoadFault] = exception_load_fault_c;\n" +
+                        "    extbl[EXCEPTION_StoreFault] = exception_store_fault_c;\n" +
+                        "    extbl[EXCEPTION_StackOverflow] = exception_stack_overflow_c;\n" +
+                        "    extbl[EXCEPTION_StackUnderflow] = exception_stack_underflow_c;\n" +
+                        "}";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void write_fw_api_c_file(String Project_Folder_File) {
+        String data =   "/*\n" +
+                        " *  Copyright 2018 Sergey Khabarov, sergeykhbr@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
+                        "\n" +
+                        "#include <string.h>\n" +
+                        "#include \"axi_maps.h\"\n" +
+                        "#include \"encoding.h\"\n" +
+                        "#include \"fw_api.h\"\n" +
+                        "\n" +
+                        "int fw_get_cpuid() {\n" +
+                        "    int ret;\n" +
+                        "    asm(\"csrr %0, mhartid\" : \"=r\" (ret));\n" +
+                        "    return ret;\n" +
+                        "}\n" +
+                        "\n" +
+                        "void fw_register_isr_handler(int idx, IRQ_HANDLER f) {\n" +
+                        "    irqctrl_map *p_irqctrl = (irqctrl_map *)ADDR_BUS0_XSLV_IRQCTRL;\n" +
+                        "    IRQ_HANDLER *tbl;\n" +
+                        "    if (p_irqctrl->isr_table == 0) {\n" +
+                        "        p_irqctrl->isr_table = \n" +
+                        "            (uint64_t)fw_malloc(CFG_IRQ_TOTAL * sizeof(IRQ_HANDLER));\n" +
+                        "    }\n" +
+                        "    tbl = (IRQ_HANDLER *)p_irqctrl->isr_table;\n" +
+                        "    tbl[idx] = f;\n" +
+                        "}\n" +
+                        "\n" +
+                        "void fw_enable_isr(int idx) {\n" +
+                        "    irqctrl_map *p_irq = (irqctrl_map *)ADDR_BUS0_XSLV_IRQCTRL;\n" +
+                        "    uint32_t msk = p_irq->irq_mask;\n" +
+                        "    msk &= ~(1ul << idx);\n" +
+                        "    p_irq->irq_mask = msk;\n" +
+                        "}\n" +
+                        "\n" +
+                        "void fw_disable_isr(int idx) {\n" +
+                        "    irqctrl_map *p_irq = (irqctrl_map *)ADDR_BUS0_XSLV_IRQCTRL;\n" +
+                        "    p_irq->irq_mask |= (1ul << idx);\n" +
+                        "}";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void write_fw_api_h_file(String Project_Folder_File) {
+        String data =   "/*\n" +
+                        " *  Copyright 2018 Sergey Khabarov, sergeykhbr@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
+                        "\n" +
+                        "#include <inttypes.h>\n" +
+                        "#include <stdarg.h>\n" +
+                        "\n" +
+                        "#ifndef __TEST_NORF_SRC_GENERAL_H__\n" +
+                        "#define __TEST_NORF_SRC_GENERAL_H__\n" +
+                        "\n" +
+                        "typedef struct ram_data_type {\n" +
+                        "    char name[8];\n" +
+                        "    void *pattern;\n" +
+                        "} ram_data_type;\n" +
+                        "\n" +
+                        "typedef struct malloc_type {\n" +
+                        "    uint64_t end;\n" +
+                        "    uint64_t allocated_sz;\n" +
+                        "    ram_data_type data[128];\n" +
+                        "    int data_cnt;\n" +
+                        "} malloc_type;\n" +
+                        "\n" +
+                        "void fw_malloc_init();\n" +
+                        "void *fw_malloc(int size);\n" +
+                        "void fw_register_ram_data(const char *name, void *data);\n" +
+                        "void *fw_get_ram_data(const char *name);\n" +
+                        "\n" +
+                        "typedef void (*IRQ_HANDLER)(void);\n" +
+                        "\n" +
+                        "int fw_get_cpuid();\n" +
+                        "void fw_register_isr_handler(int idx, IRQ_HANDLER f);\n" +
+                        "void fw_enable_isr(int idx);\n" +
+                        "void fw_disable_isr(int idx);\n" +
+                        "\n" +
+                        "void print_uart(const char *buf, int sz);\n" +
+                        "void print_uart_hex(uint64_t val);\n" +
+                        "void printf_uart(const char *fmt, ... );\n" +
+                        "void uart_isr_init(void);\n" +
+                        "int uart_tx_nempty();\n" +
+                        "\n" +
+                        "void led_set(int output);\n" +
+                        "int is_simulation();\n" +
+                        "\n" +
+                        "#define DEV_NONE (~0ull)\n" +
+                        "uint64_t get_dev_bar(uint16_t vid, uint16_t did);\n" +
+                        "\n" +
+                        "#endif  // __TEST_NORF_SRC_GENERAL_H__";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void write_interrupts_c_file(String Project_Folder_File) {
+        String data =   "/*\n" +
+                        " *  Copyright 2018 Sergey Khabarov, sergeykhbr@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
+                        "\n" +
+                        "#include <string.h>\n" +
+                        "#include \"axi_maps.h\"\n" +
+                        "#include \"encoding.h\"\n" +
+                        "#include \"fw_api.h\"\n" +
+                        "\n" +
+                        "typedef union csr_mcause_type {\n" +
+                        "    struct bits_type {\n" +
+                        "        uint64_t code   : 63;   // 11 - Machine external interrupt\n" +
+                        "        uint64_t irq    : 1;\n" +
+                        "    } bits;\n" +
+                        "    uint64_t value;\n" +
+                        "} csr_mcause_type;\n" +
+                        "\n" +
+                        "/** Fatal Error Handler can be used to transmit dump image\n" +
+                        " *  or trigger watchdog\n" +
+                        " */\n" +
+                        "void fatal_error() {\n" +
+                        "    printf_uart(\"fatal_error()\\r\\n\");\n" +
+                        "    while (1) {}\n" +
+                        "}\n" +
+                        "\n" +
+                        "long interrupt_handler_c(long cause, long epc, long long regs[32]) {\n" +
+                        "    /**\n" +
+                        "     * Pending interrupt bit is cleared in the crt.S file by calling:\n" +
+                        "     *      csrc mip, MIP_MSIP\n" +
+                        "     * If we woudn't do it the interrupt handler will be called infinitly\n" +
+                        "     *\n" +
+                        "     * Rise interrupt from the software maybe done sending a self-IPI:\n" +
+                        "     *      csrwi mipi, 0\n" +
+                        "     */\n" +
+                        "    struct io_per io_per_d;\n" +
+                        "\n" +
+                        "    irqctrl_map *p_irqctrl = (irqctrl_map *)ADDR_BUS0_XSLV_IRQCTRL;\n" +
+                        "    io_per_d.registers = (volatile void *)ADDR_BUS0_XSLV_GPIO;\n" +
+                        "    IRQ_HANDLER *isr_table = (IRQ_HANDLER *)p_irqctrl->isr_table;\n" +
+                        "    uint32_t pending;\n" +
+                        "    csr_mcause_type mcause;\n" +
+                        "\n" +
+                        "    mcause.value = cause;\n" +
+                        "    p_irqctrl->dbg_cause = cause;\n" +
+                        "    p_irqctrl->dbg_epc = epc;\n" +
+                        "\n" +
+                        "    p_irqctrl->irq_lock = 1;\n" +
+                        "    pending = p_irqctrl->irq_pending;\n" +
+                        "    p_irqctrl->irq_clear = pending;\n" +
+                        "    p_irqctrl->irq_lock = 0;\n" +
+                        "\n" +
+                        "    if (mcause.bits.irq == 0x1 && mcause.bits.code == 11) {\n" +
+                        "        for (int i = 0; i < CFG_IRQ_TOTAL; i++) {\n" +
+                        "            if (pending & 0x1) {\n" +
+                        "                p_irqctrl->irq_cause_idx = i;\n" +
+                        "                isr_table[i]();\n" +
+                        "            }\n" +
+                        "            pending >>= 1;\n" +
+                        "        }\n" +
+                        "    } else {\n" +
+                        "        print_uart(\"mcause:\", 7);\n" +
+                        "        print_uart_hex(cause);\n" +
+                        "        print_uart(\",mepc:\", 6);\n" +
+                        "        print_uart_hex(epc);\n" +
+                        "        print_uart(\"\\r\\n\", 2);\n" +
+                        "        \n" +
+                        "        /// Exception trap\n" +
+                        "        io_per_set_output(&io_per_d, LEDR, 0, LED_ON);\n" +
+                        "        io_per_set_output(&io_per_d, LEDR, 1, LED_ON);\n" +
+                        "        io_per_set_output(&io_per_d, LEDR, 2, LED_ON);\n" +
+                        "        io_per_set_output(&io_per_d, RWD, 0, 0);\n" +
+                        "        while (1) {}\n" +
+                        "    }\n" +
+                        "\n" +
+                        "    return epc;\n" +
+                        "}";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void write_memanager_c_file(String Project_Folder_File) {
+        String data =   "/*\n" +
+                        " *  Copyright 2019 Sergey Khabarov, sergeykhbr@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
+                        "\n" +
+                        "#include <string.h>\n" +
+                        "#include <axi_maps.h>\n" +
+                        "#include \"fw_api.h\"\n" +
+                        "\n" +
+                        "void fw_malloc_init() {\n" +
+                        "    malloc_type *pool = (malloc_type *)ADDR_BUS0_XSLV_SRAM;\n" +
+                        "    // 8-bytes alignment\n" +
+                        "    pool->allocated_sz = (sizeof(malloc_type) + 7) & ~0x7ull;\n" +
+                        "    pool->end = (ADDR_BUS0_XSLV_SRAM + pool->allocated_sz);\n" +
+                        "    pool->data_cnt = 0;\n" +
+                        "    __sync_synchronize();   // gcc mem barrier to avoi re-ordering\n" +
+                        "}\n" +
+                        "\n" +
+                        "void *fw_malloc(int size) {\n" +
+                        "    malloc_type *pool = (malloc_type *)ADDR_BUS0_XSLV_SRAM;\n" +
+                        "    void *ret = (void *)pool->end;\n" +
+                        "    pool->allocated_sz += (size + 7) & ~0x7ull;\n" +
+                        "    pool->end = (ADDR_BUS0_XSLV_SRAM + pool->allocated_sz);\n" +
+                        "    return ret;  \n" +
+                        "}\n" +
+                        "\n" +
+                        "void fw_register_ram_data(const char *name, void *data) {\n" +
+                        "    malloc_type *pool = (malloc_type *)ADDR_BUS0_XSLV_SRAM;\n" +
+                        "    ram_data_type *p = &pool->data[pool->data_cnt++];\n" +
+                        "    memcpy(p->name, name, 8);\n" +
+                        "    p->pattern = data;\n" +
+                        "}\n" +
+                        "\n" +
+                        "void *fw_get_ram_data(const char *name) {\n" +
+                        "    malloc_type *pool = (malloc_type *)ADDR_BUS0_XSLV_SRAM;\n" +
+                        "    ram_data_type *p;\n" +
+                        "    for (int i = 0; i < pool->data_cnt; i++) {\n" +
+                        "        p = &pool->data[i];\n" +
+                        "        if (strcmp(name, p->name) == 0) {\n" +
+                        "            return p->pattern;\n" +
+                        "        }\n" +
+                        "    }\n" +
+                        "    return 0;\n" +
+                        "}";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void write_uart_c_file(String Project_Folder_File) {
+        String data =   "/*\n" +
+                        " *  Copyright 2018 Sergey Khabarov, sergeykhbr@gmail.com\n" +
+                        " *\n" +
+                        " *  Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        " *  you may not use this file except in compliance with the License.\n" +
+                        " *  You may obtain a copy of the License at\n" +
+                        " *\n" +
+                        " *      http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        " *\n" +
+                        " *  Unless required by applicable law or agreed to in writing, software\n" +
+                        " *  distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        " *  See the License for the specific language governing permissions and\n" +
+                        " *  limitations under the License.\n" +
+                        " */\n" +
+                        "\n" +
+                        "#include <inttypes.h>\n" +
+                        "#include <string.h>\n" +
+                        "#include <stdarg.h>\n" +
+                        "#include <axi_maps.h>\n" +
+                        "#include \"fw_api.h\"\n" +
+                        "\n" +
+                        "static const char UART1_NAME[8] = \"uart1\";\n" +
+                        "static const int UART_BUF_SZ = 4096;\n" +
+                        "\n" +
+                        "typedef void (*f_putch)(int, void**);\n" +
+                        "\n" +
+                        "\n" +
+                        "typedef struct uart_data_type {\n" +
+                        "    char *fifo;\n" +
+                        "    unsigned digs[32];\n" +
+                        "\n" +
+                        "    volatile int wrcnt;\n" +
+                        "    volatile int rdcnt;\n" +
+                        "} uart_data_type;\n" +
+                        "\n" +
+                        "static int buf_total(uart_data_type *p) {\n" +
+                        "    int total = p->wrcnt - p->rdcnt;\n" +
+                        "    if (total <= 0) {\n" +
+                        "        total += UART_BUF_SZ;\n" +
+                        "    }\n" +
+                        "    return total - 1;\n" +
+                        "}\n" +
+                        "\n" +
+                        "static uint8_t buf_get(uart_data_type *p) {\n" +
+                        "    if (++p->rdcnt >= UART_BUF_SZ) {\n" +
+                        "        p->rdcnt = 0;\n" +
+                        "    }\n" +
+                        "    return (uint8_t)p->fifo[p->rdcnt];\n" +
+                        "}\n" +
+                        "\n" +
+                        "void buf_put(uart_data_type *p, char s) {\n" +
+                        "    if (p->wrcnt == p->rdcnt) {\n" +
+                        "        return;\n" +
+                        "    }\n" +
+                        "    p->fifo[p->wrcnt] = s;\n" +
+                        "    if (++p->wrcnt >= UART_BUF_SZ) {\n" +
+                        "        p->wrcnt = 0;\n" +
+                        "    }\n" +
+                        "}\n" +
+                        "\n" +
+                        "void isr_uart1_tx() {\n" +
+                        "    uart_data_type *pdata = fw_get_ram_data(UART1_NAME);\n" +
+                        "    uart_map *uart = (uart_map *)ADDR_BUS0_XSLV_UART1;\n" +
+                        "\n" +
+                        "    while (buf_total(pdata)) {\n" +
+                        "        if (uart->status & UART_STATUS_TX_FULL) {\n" +
+                        "             break;\n" +
+                        "        }\n" +
+                        "        uart->data = buf_get(pdata);\n" +
+                        "    }\n" +
+                        "}\n" +
+                        "\n" +
+                        "int uart_tx_nempty() {\n" +
+                        "    uart_data_type *pdata = fw_get_ram_data(UART1_NAME);\n" +
+                        "    return buf_total(pdata);\n" +
+                        "}\n" +
+                        "\n" +
+                        "void uart_isr_init(void) {\n" +
+                        "    uart_map *uart = (uart_map *)ADDR_BUS0_XSLV_UART1;\n" +
+                        "    uart_data_type *pdata;\n" +
+                        "\n" +
+                        "    fw_register_isr_handler(CFG_IRQ_UART1, isr_uart1_tx);\n" +
+                        "\n" +
+                        "    pdata = fw_malloc(sizeof(uart_data_type));\n" +
+                        "    pdata->fifo = fw_malloc(UART_BUF_SZ);\n" +
+                        "    pdata->wrcnt = 1;\n" +
+                        "    pdata->rdcnt = 0;\n" +
+                        "    fw_register_ram_data(UART1_NAME, pdata);\n" +
+                        "\n" +
+                        "    // scaler is enabled in SRAM self test, duplicate it here\n" +
+                        "    uart->scaler = SYS_HZ / 115200 / 2;\n" +
+                        "    uart->status |= UART_CONTROL_TXIRQ_ENA;\n" +
+                        "\n" +
+                        "    fw_enable_isr(CFG_IRQ_UART1);\n" +
+                        "}\n" +
+                        "\n" +
+                        "\n" +
+                        "static void printnum(f_putch putch,\n" +
+                        "                     void **putdat,\n" +
+                        "                     uint64_t num,\n" +
+                        "                     unsigned base,\n" +
+                        "                     int width,\n" +
+                        "                     int padc) {\n" +
+                        "    uart_data_type *p = fw_get_ram_data(UART1_NAME);\n" +
+                        "    int pos = 0;\n" +
+                        "\n" +
+                        "    while (1) {\n" +
+                        "        p->digs[pos++] = num % base;\n" +
+                        "        if (num < base) {\n" +
+                        "            break;\n" +
+                        "        }\n" +
+                        "        num /= base;\n" +
+                        "    }\n" +
+                        "\n" +
+                        "    while (width-- > pos) {\n" +
+                        "        putch(padc, putdat);\n" +
+                        "    }\n" +
+                        "\n" +
+                        "    while (pos-- > 0) {\n" +
+                        "        putch(p->digs[pos] + (p->digs[pos] >= 10 ? 'a' - 10 : '0'), putdat);\n" +
+                        "    }\n" +
+                        "}\n" +
+                        "\n" +
+                        "static uint64_t getuint(va_list *ap, int lflag) {\n" +
+                        "    if (lflag >= 2) {\n" +
+                        "        return va_arg(*ap, unsigned long long);\n" +
+                        "    } else if (lflag) {\n" +
+                        "        return va_arg(*ap, unsigned long);\n" +
+                        "    }\n" +
+                        "    return va_arg(*ap, unsigned int);\n" +
+                        "}\n" +
+                        "\n" +
+                        "static int64_t getint(va_list *ap, int lflag) {\n" +
+                        "    if (lflag >= 2) {\n" +
+                        "        return va_arg(*ap, long long);\n" +
+                        "    } else if (lflag) {\n" +
+                        "        return va_arg(*ap, long);\n" +
+                        "    }\n" +
+                        "    return va_arg(*ap, int);\n" +
+                        "}\n" +
+                        "\n" +
+                        "void vprintfmt_lib(f_putch putch,\n" +
+                        "                   void **putdat,\n" +
+                        "                   const char *fmt,\n" +
+                        "                   va_list ap) {\n" +
+                        "    register const char* p;\n" +
+                        "    const char* last_fmt;\n" +
+                        "    register int ch;\n" +
+                        "    unsigned long long num;\n" +
+                        "    int base, lflag, width, precision;// altflag;\n" +
+                        "    char padc;\n" +
+                        "\n" +
+                        "    while (1) {\n" +
+                        "        while ((ch = *(unsigned char *) fmt) != '%') {\n" +
+                        "            if (ch == '\\0') {\n" +
+                        "                return;\n" +
+                        "            }\n" +
+                        "            fmt++;\n" +
+                        "            putch(ch, putdat);\n" +
+                        "        }\n" +
+                        "        fmt++;\n" +
+                        "\n" +
+                        "        // Process a %-escape sequence\n" +
+                        "        last_fmt = fmt;\n" +
+                        "        padc = ' ';\n" +
+                        "        width = -1;\n" +
+                        "        precision = -1;\n" +
+                        "        lflag = 0;\n" +
+                        "        //altflag = 0;\n" +
+                        "reswitch:\n" +
+                        "        switch (ch = *(unsigned char *) fmt++) {\n" +
+                        "        // flag to pad on the right\n" +
+                        "        case '-':\n" +
+                        "            padc = '-';\n" +
+                        "            goto reswitch;\n" +
+                        "      \n" +
+                        "        // flag to pad with 0's instead of spaces\n" +
+                        "        case '0':\n" +
+                        "            padc = '0';\n" +
+                        "            goto reswitch;\n" +
+                        "\n" +
+                        "        // width field\n" +
+                        "        case '1':\n" +
+                        "        case '2':\n" +
+                        "        case '3':\n" +
+                        "        case '4':\n" +
+                        "        case '5':\n" +
+                        "        case '6':\n" +
+                        "        case '7':\n" +
+                        "        case '8':\n" +
+                        "        case '9':\n" +
+                        "            for (precision = 0; ; ++fmt) {\n" +
+                        "                precision = precision * 10 + ch - '0';\n" +
+                        "                ch = *fmt;\n" +
+                        "                if (ch < '0' || ch > '9') {\n" +
+                        "                    break;\n" +
+                        "                }\n" +
+                        "            }\n" +
+                        "            goto process_precision;\n" +
+                        "\n" +
+                        "        case '*':\n" +
+                        "            precision = va_arg(ap, int);\n" +
+                        "            goto process_precision;\n" +
+                        "\n" +
+                        "        case '.':\n" +
+                        "            if (width < 0) {\n" +
+                        "                width = 0;\n" +
+                        "            }\n" +
+                        "            goto reswitch;\n" +
+                        "\n" +
+                        "        case '#':\n" +
+                        "            //altflag = 1;\n" +
+                        "            goto reswitch;\n" +
+                        "\n" +
+                        "process_precision:\n" +
+                        "            if (width < 0) {\n" +
+                        "                width = precision, precision = -1;\n" +
+                        "            }\n" +
+                        "            goto reswitch;\n" +
+                        "\n" +
+                        "        // long flag (doubled for long long)\n" +
+                        "        case 'l':\n" +
+                        "            lflag++;\n" +
+                        "            goto reswitch;\n" +
+                        "\n" +
+                        "        // character\n" +
+                        "        case 'c':\n" +
+                        "            putch(va_arg(ap, int), putdat);\n" +
+                        "            break;\n" +
+                        "\n" +
+                        "        // string\n" +
+                        "        case 's':\n" +
+                        "            if ((p = va_arg(ap, char *)) == 0) {\n" +
+                        "                p = \"(null)\";\n" +
+                        "            }\n" +
+                        "            if (width > 0 && padc != '-') {\n" +
+                        "                for (width -= (int)strnlen(p, precision); width > 0; width--) {\n" +
+                        "                    putch(padc, putdat);\n" +
+                        "                }\n" +
+                        "            }\n" +
+                        "            for (; (ch = *p) != '\\0' && (precision < 0 || --precision >= 0); width--) {\n" +
+                        "                putch(ch, putdat);\n" +
+                        "                p++;\n" +
+                        "            }\n" +
+                        "            for (; width > 0; width--) {\n" +
+                        "                putch(' ', putdat);\n" +
+                        "            }\n" +
+                        "            break;\n" +
+                        "\n" +
+                        "        // (signed) decimal\n" +
+                        "        case 'd':\n" +
+                        "            num = getint(&ap, lflag);\n" +
+                        "            if ((long long) num < 0) {\n" +
+                        "                putch('-', putdat);\n" +
+                        "                num = -(long long) num;\n" +
+                        "            }\n" +
+                        "            base = 10;\n" +
+                        "            goto signed_number;\n" +
+                        "\n" +
+                        "        // unsigned decimal\n" +
+                        "        case 'u':\n" +
+                        "            base = 10;\n" +
+                        "            goto unsigned_number;\n" +
+                        "\n" +
+                        "        // (unsigned) octal\n" +
+                        "        case 'o':\n" +
+                        "            // should do something with padding so it's always 3 octits\n" +
+                        "            base = 8;\n" +
+                        "            goto unsigned_number;\n" +
+                        "\n" +
+                        "        // pointer\n" +
+                        "        case 'p':\n" +
+                        "            //static_assert(sizeof(long) == sizeof(void*));\n" +
+                        "            lflag = 1;\n" +
+                        "            putch('0', putdat);\n" +
+                        "            putch('x', putdat);\n" +
+                        "            /* fall through to 'x' */\n" +
+                        "\n" +
+                        "        // (unsigned) hexadecimal\n" +
+                        "        case 'x':\n" +
+                        "            base = 16;\n" +
+                        "unsigned_number:\n" +
+                        "            num = getuint(&ap, lflag);\n" +
+                        "signed_number:\n" +
+                        "            printnum(putch, putdat, num, base, width, padc);\n" +
+                        "            break;\n" +
+                        "\n" +
+                        "        // escaped '%' character\n" +
+                        "        case '%':\n" +
+                        "            putch(ch, putdat);\n" +
+                        "            break;\n" +
+                        "      \n" +
+                        "        // unrecognized escape sequence - just print it literally\n" +
+                        "        default:\n" +
+                        "            putch('%', putdat);\n" +
+                        "            fmt = last_fmt;\n" +
+                        "            break;\n" +
+                        "        }\n" +
+                        "    }\n" +
+                        "}\n" +
+                        "\n" +
+                        "void print_uart(const char *buf, int sz) {\n" +
+                        "    uart_map *uart = (uart_map *)ADDR_BUS0_XSLV_UART1;\n" +
+                        "    for (int i = 0; i < sz; i++) {\n" +
+                        "        while (uart->status & UART_STATUS_TX_FULL) {}\n" +
+                        "        uart->data = buf[i];\n" +
+                        "    }\n" +
+                        "}\n" +
+                        "\n" +
+                        "void print_uart_hex(uint64_t val) {\n" +
+                        "    unsigned char t, s;\n" +
+                        "    uart_map *uart = (uart_map *)ADDR_BUS0_XSLV_UART1;\n" +
+                        "    for (int i = 0; i < 16; i++) {\n" +
+                        "        while (uart->status & UART_STATUS_TX_FULL) {}\n" +
+                        "        \n" +
+                        "        t = (unsigned char)((val >> ((15 - i) * 4)) & 0xf);\n" +
+                        "        if (t < 10) {\n" +
+                        "            s = t + '0';\n" +
+                        "        } else {\n" +
+                        "            s = (t - 10) + 'a';\n" +
+                        "        }\n" +
+                        "        uart->data = s;\n" +
+                        "    }\n" +
+                        "}\n" +
+                        "\n" +
+                        "#undef putchar\n" +
+                        "int putchar(int ch) {\n" +
+                        "    uart_data_type *p = fw_get_ram_data(UART1_NAME);\n" +
+                        "    buf_put(p, ch);\n" +
+                        "    return 0;\n" +
+                        "}\n" +
+                        "\n" +
+                        "void printf_uart(const char *fmt, ... ) {\n" +
+                        "    #ifdef PRINTF_UART_EN\n" +
+                        "    uart_data_type *pdata = fw_get_ram_data(UART1_NAME);\n" +
+                        "    uart_map *uart = (uart_map *)ADDR_BUS0_XSLV_UART1;\n" +
+                        "    int id = fw_get_cpuid() + 1;\n" +
+                        "\n" +
+                        "    // lock UART to current CPU\n" +
+                        "    while (uart->fwcpuid != id) {\n" +
+                        "        if (uart->fwcpuid != 0) {\n" +
+                        "            continue;\n" +
+                        "        }\n" +
+                        "        uart->fwcpuid = id;\n" +
+                        "    }\n" +
+                        "\n" +
+                        "    va_list arg;\n" +
+                        "    va_start(arg, fmt);\n" +
+                        "    vprintfmt_lib((f_putch)putchar, 0, fmt, arg);\n" +
+                        "    va_end(arg);\n" +
+                        "\n" +
+                        "    if (uart->status & UART_STATUS_TX_EMPTY) {\n" +
+                        "        if (buf_total(pdata)) {\n" +
+                        "            uart->data = buf_get(pdata);\n" +
+                        "        }\n" +
+                        "    }\n" +
+                        "    // free UART lock\n" +
+                        "    uart->fwcpuid = 0;\n" +
+                        "    #endif\n" +
+                        "}";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
     private void generate_test_vhd_file(String Project_Folder_File) {
         String data =   "";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
-    public void declareAndInitializeVariables() {
+    public void declareAndInitializeVariables(int TabN) {
         String Variable_temp;
         String typeOfVariable;
         String nameOfVariable;
         String C_DataType;
+        int[] Register_Type = new int[1];
+        String Tab;
+        switch (TabN) {
+            case 0:
+                Tab = "";
+                break;
+            case 1:
+                Tab = "\t";
+                break;
+            default :
+                Tab = "";
+                break;
+        }
         for (int i = 1; i < Data.size_Vaiables-1; i++) {
             Variable_temp = Data.Vaiables[i].replace(" ", "");
             nameOfVariable = Variable_temp.split(":")[0];
             typeOfVariable = Variable_temp.split(":")[1];
-            C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable);
-            if (!C_DataType.equals("Timer")) Data.C_code += C_DataType+" "+nameOfVariable+" = 0;\n";
+            C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable, Register_Type);
+            if (!C_DataType.equals("Timer")) Data.C_code += Tab+C_DataType+" "+nameOfVariable+" = 0;\n";
         }
     }
 }

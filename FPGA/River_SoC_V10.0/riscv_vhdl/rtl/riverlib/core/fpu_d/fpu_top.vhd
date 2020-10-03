@@ -105,6 +105,42 @@ architecture arch_FpuTop of FpuTop is
   );
   end component;
 
+  component Double2Single is generic (
+    async_reset : boolean
+  );
+  port (
+    i_nrst       : in std_logic;
+    i_clk        : in std_logic;
+    i_ena        : in std_logic;
+    i_signed     : in std_logic;
+    i_w32        : in std_logic;
+    i_a          : in std_logic_vector(63 downto 0);
+    o_res        : out std_logic_vector(63 downto 0);
+    o_overflow   : out std_logic;
+    o_underflow  : out std_logic;
+    o_valid      : out std_logic;
+    o_busy       : out std_logic
+  );
+  end component;
+  
+  component Single2Double is generic (
+    async_reset : boolean
+  );
+  port (
+    i_nrst       : in std_logic;
+    i_clk        : in std_logic;
+    i_ena        : in std_logic;
+    i_signed     : in std_logic;
+    i_w32        : in std_logic;
+    i_a          : in std_logic_vector(63 downto 0);
+    o_res        : out std_logic_vector(63 downto 0);
+    o_overflow   : out std_logic;
+    o_underflow  : out std_logic;
+    o_valid      : out std_logic;
+    o_busy       : out std_logic
+  );
+  end component;
+  
   component Double2Long is generic (
     async_reset : boolean
   );
@@ -154,6 +190,8 @@ architecture arch_FpuTop of FpuTop is
     ena_fadd : std_logic;
     ena_fdiv : std_logic;
     ena_fmul : std_logic;
+    ena_d2s : std_logic;
+    ena_s2d : std_logic;
     ena_d2l : std_logic;
     ena_l2d : std_logic;
     ena_w32 : std_logic;
@@ -165,7 +203,7 @@ architecture arch_FpuTop of FpuTop is
     (others => '0'),                                -- result
     '0', '0', '0',                                  -- ex_invalidop, ex_divbyzero, ex_overflow
     '0', '0', '0',                                  -- ex_underflow, ex_inexact, ena_fadd
-    '0', '0', '0', '0',                             -- ena_fdiv, ena_fmul, ena_d2l, ena_l2d
+    '0', '0', '0', '0', '0', '0',                   -- ena_fdiv, ena_fmul, ena_d2s, ena_s2d, ena_d2l, ena_l2d
     '0'                                             -- ena_w32
   );
 
@@ -204,6 +242,18 @@ architecture arch_FpuTop of FpuTop is
   signal w_overflow_d2l : std_logic;
   signal w_underflow_d2l : std_logic;
   signal w_busy_d2l : std_logic;
+  
+  signal wb_res_d2s : std_logic_vector(63 downto 0);
+  signal w_valid_d2s : std_logic;
+  signal w_overflow_d2s : std_logic;
+  signal w_underflow_d2s : std_logic;
+  signal w_busy_d2s : std_logic;
+  
+  signal wb_res_s2d : std_logic_vector(63 downto 0);
+  signal w_valid_s2d : std_logic;
+  signal w_overflow_s2d : std_logic;
+  signal w_underflow_s2d : std_logic;
+  signal w_busy_s2d : std_logic;
 
   signal wb_res_l2d : std_logic_vector(63 downto 0);
   signal w_valid_l2d : std_logic;
@@ -279,6 +329,38 @@ begin
       o_valid => w_valid_d2l,
       o_busy => w_busy_d2l
     );
+	 
+	 d2s_d0 : Double2Single generic map (
+      async_reset => async_reset
+    ) port map (
+      i_clk => i_clk,
+      i_nrst => i_nrst,
+      i_ena => r.ena_d2s,
+      i_signed => w_fcvt_signed,
+      i_w32 => r.ena_w32,
+      i_a => r.a,
+      o_res => wb_res_d2s,
+      o_overflow => w_overflow_d2s,
+      o_underflow => w_underflow_d2s,
+      o_valid => w_valid_d2s,
+      o_busy => w_busy_d2s
+    );
+	 
+	 s2d_d0 : Single2Double generic map (
+      async_reset => async_reset
+    ) port map (
+      i_clk => i_clk,
+      i_nrst => i_nrst,
+      i_ena => r.ena_s2d,
+      i_signed => w_fcvt_signed,
+      i_w32 => r.ena_w32,
+      i_a => r.a,
+      o_res => wb_res_s2d,
+      o_overflow => w_overflow_s2d,
+      o_underflow => w_underflow_s2d,
+      o_valid => w_valid_s2d,
+      o_busy => w_busy_s2d
+    );
 
     l2d_d0 : Long2Double generic map (
       async_reset => async_reset
@@ -302,7 +384,8 @@ begin
                 w_underflow_fdiv, w_busy_fdiv,
                 wb_res_fmul, w_valid_fmul, w_illegalop_fmul, w_overflow_fmul, w_busy_fmul,
                 wb_res_d2l, w_valid_d2l, w_overflow_d2l, w_underflow_d2l, w_busy_d2l,
-                wb_res_l2d, w_valid_l2d, w_busy_l2d)
+                wb_res_l2d, w_valid_l2d, w_busy_l2d, wb_res_d2s, w_valid_d2s, w_busy_d2s,
+					 wb_res_s2d, w_valid_s2d, w_busy_s2d)
     variable v : RegistersType;
     variable iv : std_logic_vector(Instr_FPU_Total-1 downto 0);
   begin
@@ -313,6 +396,8 @@ begin
     v.ena_fadd := '0';
     v.ena_fdiv := '0';
     v.ena_fmul := '0';
+    v.ena_d2s := '0';
+    v.ena_s2d := '0';
     v.ena_d2l := '0';
     v.ena_l2d := '0';
     v.ready := '0';
@@ -336,6 +421,8 @@ begin
                     or iv(Instr_FMIN_D - Instr_FADD_D);
         v.ena_fdiv := iv(Instr_FDIV_D - Instr_FADD_D);
         v.ena_fmul := iv(Instr_FMUL_D - Instr_FADD_D);
+        v.ena_d2s := iv(Instr_FCVT_S_D - Instr_FADD_D);
+        v.ena_s2d := iv(Instr_FCVT_D_S - Instr_FADD_D);
         v.ena_d2l := iv(Instr_FCVT_LU_D - Instr_FADD_D)
                     or iv(Instr_FCVT_L_D - Instr_FADD_D)
                     or iv(Instr_FCVT_WU_D - Instr_FADD_D)
@@ -352,6 +439,8 @@ begin
     end if;
 
     if r.busy = '1' and (r.ivec(Instr_FMOV_X_D - Instr_FADD_D)
+                        or r.ivec(Instr_FMOV_X_W - Instr_FADD_D)
+                        or r.ivec(Instr_FMOV_W_X - Instr_FADD_D)
                         or r.ivec(Instr_FMOV_D_X - Instr_FADD_D)) = '1' then
         v.busy := '0';
         v.ready := '1';
@@ -386,6 +475,18 @@ begin
         v.result := wb_res_d2l;
         v.ex_overflow := w_overflow_d2l;
         v.ex_underflow := w_underflow_d2l;
+    elsif w_valid_d2s = '1' then
+        v.busy := '0';
+        v.ready := '1';
+        v.result := wb_res_d2s;
+        v.ex_overflow := w_overflow_d2s;
+        v.ex_underflow := w_underflow_d2s;
+    elsif w_valid_s2d = '1' then
+        v.busy := '0';
+        v.ready := '1';
+        v.result := wb_res_s2d;
+        v.ex_overflow := w_overflow_s2d;
+        v.ex_underflow := w_underflow_s2d;
     elsif w_valid_l2d = '1' then
         v.busy := '0';
         v.ready := '1';

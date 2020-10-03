@@ -72,8 +72,6 @@ architecture behaviour of PID_Top is
 
 
 begin
-
-	rst <= not(nrst);
 	
 	--------------------------------------------------
 	-- Stage 1 (Error calculation)
@@ -163,9 +161,10 @@ begin
 	--------------------------------------------------
 	-- Stage Controller
 	--------------------------------------------------
-	process(clk, rst)
+	process(clk, nrst, TS)
 	begin
-		if rst = '1' then
+		if (nrst = '0') or (TS =  X"0000000000000000") then
+			rst      <= '1';
 			XOUT_R	<= '0';
 			S_XOUT	<= X"00000000";
 			S_XOUT_1	<= X"00000000";
@@ -178,6 +177,7 @@ begin
 			clk_Counter			<= X"0000000000000000";
 			Start_Calculating	<= '0';
 		elsif rising_edge(clk) then
+			rst      <= '0';
 			if TS /=  X"0000000000000000" then
 				clk_Counter		<= clk_Counter + X"0000000000000001";
 			end if;

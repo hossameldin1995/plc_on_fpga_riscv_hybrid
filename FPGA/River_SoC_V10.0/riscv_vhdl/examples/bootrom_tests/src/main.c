@@ -104,6 +104,12 @@ uint32_t inline float2hex(float x) {
     return *p;
 }
 
+float inline hex2float(uint32_t x) {
+    float *p;
+    p = (void*)&x;
+    return *p;
+}
+
 uint32_t check_arithmetic(uint32_t gpio_value, 
                           uint32_t int_mul,  uint32_t int_div, 
                           double double_mul, double double_div) {

@@ -710,6 +710,18 @@ begin
                         else
                             w_error := '1';
                         end if;
+                    when "0100000" =>
+                        if wb_instr(24 downto 20) = "00001" then
+                            wb_dec(Instr_FCVT_S_D) := '1';
+                        else
+                            w_error := '1';
+                        end if;
+                    when "0100001" =>
+                        if wb_instr(24 downto 20) = "00000" then
+                            wb_dec(Instr_FCVT_D_S) := '1';
+                        else
+                            w_error := '1';
+                        end if;
                     when "1010001" =>
                         if wb_opcode2 = "000" then
                             wb_dec(Instr_FLE_D) := '1';
@@ -750,9 +762,21 @@ begin
                         else
                             w_error := '1';
                         end if;
+						  when "1110000" =>
+                        if wb_instr(24 downto 20) = "00000" and wb_opcode2 = "000" then
+                            wb_dec(Instr_FMOV_X_W) := '1';
+                        else
+                            w_error := '1';
+                        end if;
                     when "1111001" =>
                         if wb_instr(24 downto 20) = "00000" and wb_opcode2 = "000" then
                             wb_dec(Instr_FMOV_D_X) := '1';
+                        else
+                            w_error := '1';
+                        end if;
+                    when "1111000" =>
+                        if wb_instr(24 downto 20) = "00000" and wb_opcode2 = "000" then
+                            wb_dec(Instr_FMOV_W_X) := '1';
                         else
                             w_error := '1';
                         end if;
@@ -820,7 +844,9 @@ begin
             or wb_dec(Instr_FCVT_D_W) or wb_dec(Instr_FCVT_D_WU)
             or wb_dec(Instr_FCVT_D_L) or wb_dec(Instr_FCVT_D_LU)
             or wb_dec(Instr_FMOV_D_X) or wb_dec(Instr_FLD)
-            or wb_dec(Instr_FSD) or wb_dec(Instr_FSGNJ_D);
+            or wb_dec(Instr_FSD) or wb_dec(Instr_FSGNJ_D)
+            or wb_dec(Instr_FCVT_S_D) or wb_dec(Instr_FCVT_D_S)
+            or wb_dec(Instr_FMOV_W_X) or wb_dec(Instr_FMOV_X_W);
         
         v.instr_unimplemented := w_error;
     elsif i_any_hold = '0' then

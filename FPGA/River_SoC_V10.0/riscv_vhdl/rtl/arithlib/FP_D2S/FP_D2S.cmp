@@ -1,0 +1,9 @@
+	component FP_D2S is
+		port (
+			clk    : in  std_logic                     := 'X';             -- clk
+			areset : in  std_logic                     := 'X';             -- reset
+			a      : in  std_logic_vector(63 downto 0) := (others => 'X'); -- a
+			q      : out std_logic_vector(31 downto 0)                     -- q
+		);
+	end component FP_D2S;
+

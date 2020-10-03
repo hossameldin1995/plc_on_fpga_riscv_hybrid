@@ -432,13 +432,13 @@ begin
         wb_radr2 := ('0' & i_d_instr(24 downto 20));
         wb_rdata2 := i_rdata2;
         if CFG_FPU_ENABLE and i_f64 = '1' then
-            if (wv(Instr_FMOV_D_X) or
+            if (wv(Instr_FMOV_D_X) or wv(Instr_FMOV_W_X) or
                 wv(Instr_FCVT_D_L) or wv(Instr_FCVT_D_LU) or
                 wv(Instr_FCVT_D_W) or wv(Instr_FCVT_D_WU)) = '0' then
                 wb_radr1 := ('1' & i_d_instr(19 downto 15));
                 wb_rdata1 := i_rfdata1;
             end if;
-            if wv(Instr_FMOV_X_D) = '0' then
+            if (wv(Instr_FMOV_X_D) or wv(Instr_FMOV_X_W)) = '0' then
                 wb_radr2 := ('1' & i_d_instr(24 downto 20));
                 wb_rdata2 := i_rfdata2;
             end if;
@@ -758,6 +758,7 @@ begin
         if CFG_FPU_ENABLE then
             v.multi_ivec_fpu := wv(Instr_FSGNJ_D downto Instr_FADD_D);
             if w_fpu_ena = '1' and (wv(Instr_FMOV_X_D) or wv(Instr_FEQ_D)
+                or wv(Instr_FMOV_X_W)
                 or wv(Instr_FLT_D) or wv(Instr_FLE_D)
                 or wv(Instr_FCVT_LU_D) or wv(Instr_FCVT_L_D)
                 or wv(Instr_FCVT_WU_D) or wv(Instr_FCVT_W_D)) = '0' then

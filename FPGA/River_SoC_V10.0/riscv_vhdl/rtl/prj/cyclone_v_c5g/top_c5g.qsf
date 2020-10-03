@@ -265,16 +265,7 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
 
-
-
-
-
-
-
-
-
-
-
+set_global_assignment -name VHDL_FILE config_c5g.vhd -library target
 set_global_assignment -name QIP_FILE ../../funcblocklib/PWM/CDC/CDC_Frq.qip
 set_global_assignment -name VERILOG_FILE ../../funcblocklib/time_measurement/SEG7_LUT.v
 set_global_assignment -name VERILOG_FILE ../../funcblocklib/time_measurement/SEG7_LUT_4.v
@@ -307,6 +298,8 @@ set_global_assignment -name VHDL_FILE ../../riverlib/core/fpu_d/fdiv_d.vhd -libr
 set_global_assignment -name VHDL_FILE ../../riverlib/core/fpu_d/fadd_d.vhd -library riverlib
 set_global_assignment -name VHDL_FILE ../../riverlib/core/fpu_d/divstage53.vhd -library riverlib
 set_global_assignment -name VHDL_FILE ../../riverlib/core/fpu_d/d2l_d.vhd -library riverlib
+set_global_assignment -name VHDL_FILE ../../riverlib/core/fpu_d/d2s_d.vhd -library riverlib
+set_global_assignment -name VHDL_FILE ../../riverlib/core/fpu_d/s2d_d.vhd -library riverlib
 set_global_assignment -name VHDL_FILE ../../riverlib/core/arith/shift.vhd -library riverlib
 set_global_assignment -name VHDL_FILE ../../riverlib/core/arith/int_mul.vhd -library riverlib
 set_global_assignment -name VHDL_FILE ../../riverlib/core/arith/int_div.vhd -library riverlib
@@ -352,13 +345,16 @@ set_global_assignment -name VHDL_FILE ../../ambalib/types_amba4.vhd -library amb
 set_global_assignment -name VHDL_FILE ../../ambalib/defslv.vhd -library ambalib
 set_global_assignment -name VHDL_FILE ../../ambalib/axislv.vhd -library ambalib
 set_global_assignment -name VHDL_FILE ../../ambalib/axictrl_bus0.vhd -library ambalib
-set_global_assignment -name VHDL_FILE config_c5g.vhd -library target
 set_global_assignment -name QIP_FILE ../../arithlib/FP_EQ_64/FP_EQ_64.qip
 set_global_assignment -name SIP_FILE ../../arithlib/FP_EQ_64/FP_EQ_64.sip
 set_global_assignment -name QIP_FILE ../../arithlib/FP_LT_64/FP_LT_64.qip
 set_global_assignment -name SIP_FILE ../../arithlib/FP_LT_64/FP_LT_64.sip
 set_global_assignment -name QIP_FILE ../../arithlib/FP_LE_64/FP_LE_64.qip
 set_global_assignment -name SIP_FILE ../../arithlib/FP_LE_64/FP_LE_64.sip
+set_global_assignment -name QIP_FILE ../../arithlib/FP_D2S/FP_D2S.qip
+set_global_assignment -name SIP_FILE ../../arithlib/FP_D2S/FP_D2S.sip
+set_global_assignment -name QIP_FILE ../../arithlib/FP_S2D/FP_S2D.qip
+set_global_assignment -name SIP_FILE ../../arithlib/FP_S2D/FP_S2D.sip
 set_global_assignment -name QIP_FILE ../../arithlib/FP_MAX_64/FP_MAX_64.qip
 set_global_assignment -name SIP_FILE ../../arithlib/FP_MAX_64/FP_MAX_64.sip
 set_global_assignment -name QIP_FILE ../../arithlib/FP_ADD_SUB_64/FP_ADD_SUB_64.qip
@@ -377,7 +373,8 @@ set_global_assignment -name QIP_FILE ../../arithlib/MUL/mul_int_20_7.qip
 set_global_assignment -name QIP_FILE ../../arithlib/DIV/div_int_20_17_speed.qip
 set_global_assignment -name QIP_FILE ../../arithlib/DIV/div_int_20_7_speed.qip
 set_global_assignment -name QIP_FILE ../../arithlib/MUL/mul_int_64.qip -library arithlib
-set_global_assignment -name SDC_FILE top_c5g.SDC
 set_global_assignment -name QIP_FILE ../../funcblocklib/PWM/CDC/CDC_DC.qip
 set_global_assignment -name QIP_FILE ../../funcblocklib/PWM/CDC/CDC_Q.qip
+set_global_assignment -name SDC_FILE top_c5g.SDC
+
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

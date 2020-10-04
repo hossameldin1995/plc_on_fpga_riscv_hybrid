@@ -55,6 +55,7 @@ public class compile_assembler extends Thread {
             int exitValue = new execute_command().execute_command(cmd, "        ", Data.deafult_out_window, jTextArea_Output_Tab);
             Data.Number_Of_Timers_Compiled = Data.Number_Of_Timers_In_Program;
             Data.Number_Of_PWMs_Compiled = Data.Number_Of_PWMs_In_Program;
+            Data.Number_Of_PIDs_Compiled = Data.Number_Of_PIDs_In_Program;
             Data.compiled_core = Data.core;
             if (exitValue == 0) {
                 hdl_compilation_state = Data.UPDATED;
@@ -70,7 +71,7 @@ public class compile_assembler extends Thread {
                 }
             } else {
                 jDialog_Loading.setVisible(false);
-                hdl_compilation_state = Data.FITTER;
+                hdl_compilation_state = Data.ANALYSIS_SYNTHESIS;
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Compiling did not Finished Successfully", "Compile As Software", JOptionPane.OK_OPTION, icon);
                 jTextArea_Output_Tab.append("  Compiling did not Finished Successfully\n");

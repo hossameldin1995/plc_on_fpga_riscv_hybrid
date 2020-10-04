@@ -14,3 +14,5 @@ Compiled Timers        = 0
 Timers in Program      = 0
 Compiled PWMs          = 14
 PWMs in Program        = 14
+Compiled PIDs          = 0
+PIDs in Program        = 0

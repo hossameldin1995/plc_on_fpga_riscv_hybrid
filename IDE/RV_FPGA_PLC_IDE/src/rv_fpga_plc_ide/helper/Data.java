@@ -43,8 +43,10 @@ public class Data {
     public static boolean is_bistable;
     public static boolean is_timer;
     public static boolean is_PWM;
+    public static boolean is_PID;
     public static boolean is_newVariable_timer;
     public static boolean is_newVariable_PWM;
+    public static boolean is_newVariable_PID;
     public static String Function_Name;
     
     public static File Project_Folder;
@@ -59,16 +61,23 @@ public class Data {
         "SINT", "INT", "DINT", "LINT", "USINT", "UINT", "UDINT", "ULINT", 
         "LREAL", 
         "TIME", 
-        "TON", "TOF", "PWM" 
+        "TON", "TOF", "PWM", "PID"
     };
     public static final String[] SUPPORTED_TYPE_CONVERSION = new String[]
     {
         "BOOL", 
         "SINT", "INT", "DINT", "LINT", "USINT", "UINT", "UDINT", "ULINT", 
+        "LREAL", 
+        "TIME"
     };
     public static final String[] SUPPORTED_PWM_FRQ_DC = new String[]
     {
         "SINT", "INT", "DINT", "USINT", "UINT", "UDINT"
+    };
+    public static final String[] SUPPORTED_PID_VARIABLES = new String[]
+    {
+        "SINT", "INT", "DINT", "USINT", "UINT", "UDINT", 
+        "LREAL"
     };
     
     public static final int NO_COMPILING = 0;
@@ -97,8 +106,8 @@ public class Data {
     public static int       CPU_RV32_Freq = F_100M;
     public static int       CPU_RV32_Timer_Freq = F_100M;
     
-    public static int       CPU_RV64_Freq = F_75M;
-    public static int       CPU_RV64_Timer_Freq = F_75M;
+    public static int       CPU_RV64_Freq = F_65M;
+    public static int       CPU_RV64_Timer_Freq = F_65M;
     public static int       PWM_RV64_HW_Freq = F_1M;
     
     public static boolean RequestDownload = false;
@@ -115,14 +124,19 @@ public class Data {
     public static int hdl_compilation_state_RV64_SW = NO_COMPILATION;
     public static int hdl_compilation_state_RV64_HW = NO_COMPILATION;
     
+    public static final int MAX_FB_NUMBER = 50;
     public static int Number_Of_Timers_Compiled = 0;
     public static int Number_Of_Timers_In_Program = 0;
     public static int Number_Of_Timers_In_Program_SW = 0;
-    public static String[] Name_of_Timers = new String[50];
+    public static String[] Name_of_Timers = new String[MAX_FB_NUMBER];
     
     public static int Number_Of_PWMs_Compiled = 0;
     public static int Number_Of_PWMs_In_Program = 0;
-    public static String[] Name_of_PWMs = new String[50];
+    public static String[] Name_of_PWMs = new String[MAX_FB_NUMBER];
+    
+    public static int Number_Of_PIDs_Compiled = 0;
+    public static int Number_Of_PIDs_In_Program = 0;
+    public static String[] Name_of_PIDs = new String[MAX_FB_NUMBER];
     
     public static int ALU_Support_Compiled_RV64_SW = 0;
     public static int ALU_Support_Compiled_RV64_HW = 0;

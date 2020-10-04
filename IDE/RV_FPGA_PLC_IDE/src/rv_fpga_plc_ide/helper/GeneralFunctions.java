@@ -145,6 +145,27 @@ public class GeneralFunctions {
             }
         }
     }
+    
+    public void write_file(String File_Name_Path, String data1, String data2, String data3) {
+        FileOutputStream fileOutSt = null;
+        try {
+            new File(File_Name_Path).delete();
+            fileOutSt = new FileOutputStream(File_Name_Path);
+            fileOutSt.write(data1.getBytes(), 0, data1.length());
+            fileOutSt.write(data2.getBytes(), 0, data2.length());
+            fileOutSt.write(data3.getBytes(), 0, data3.length());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                fileOutSt.close();
+            } catch (IOException ex) {
+                Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     public int bool2int(boolean bool) {
         if (bool) {
@@ -164,7 +185,9 @@ public class GeneralFunctions {
     
     public String convert_il_datatype_to_c_datatype(String IL_DataType, int[] Register_Type) {
         String C_DataType;
-        Data.is_fpu_RV64_enabeled = false;
+        
+        //Data.is_fpu_RV64_enabeled = false;
+        
         switch (IL_DataType) {
             case "BOOL":
                 C_DataType = "uint8_t";
@@ -205,14 +228,14 @@ public class GeneralFunctions {
             case "REAL":
                 C_DataType = "float";
                 Register_Type[0] = Data.FLOAT;
-                Data.is_fpu_RV64_enabeled = true;
-                Data.ALU_Support_In_Program_RV64_SW |= Data.MASK_FPU_RV64;
-                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_FPU_RV64;
+                //Data.is_fpu_RV64_enabeled = true;
+                //Data.ALU_Support_In_Program_RV64_SW |= Data.MASK_FPU_RV64;
+                //Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_FPU_RV64;
                 break;
             case "LREAL":
-                Data.is_fpu_RV64_enabeled = true;
-                Data.ALU_Support_In_Program_RV64_SW |= Data.MASK_FPU_RV64;
-                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_FPU_RV64;
+                //Data.is_fpu_RV64_enabeled = true;
+                //Data.ALU_Support_In_Program_RV64_SW |= Data.MASK_FPU_RV64;
+                //Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_FPU_RV64;
                 C_DataType = "double";
                 Register_Type[0] = Data.DOUBLE;
                 break;
@@ -230,6 +253,10 @@ public class GeneralFunctions {
                 break;
             case "PWM":
                 C_DataType = "Timer";
+                Register_Type[0] = Data.TIMER;
+                break;
+            case "PID":
+                C_DataType = "PID";
                 Register_Type[0] = Data.TIMER;
                 break;
             default:
@@ -257,11 +284,19 @@ public class GeneralFunctions {
         
         if (Data.Load_index_is_defined[Data.Load_index]) {
             if (Data.Current_Register_Type[Data.Load_index] == To_Register_Type[0]) {
-                Data.C_code += "\t\tvar" + Data.Load_index + " = ("+ To_Type_c +") var" + Data.Load_index + ";\n";
+                if (To_Register_Type[0] == Data.BOOL) {
+                    Data.C_code += "\t\tif(var" + Data.Load_index + ") var" + Data.Load_index + " = 1; else var"+Data.Load_index+" = 0;\n";
+                } else {
+                    Data.C_code += "\t\tvar" + Data.Load_index + " = ("+ To_Type_c +") var" + Data.Load_index + ";\n";
+                }
             } else {
                 Data.Current_Register_Count++;
                 Data.Load_index++;
-                Data.C_code += "\t\t"+To_Type_c+" var" + Data.Load_index + " = ("+ To_Type_c +") var" + (Data.Load_index-1) + ";\n";
+                if (To_Register_Type[0] == Data.BOOL) {
+                    Data.C_code += "\t\tuint8_t var"+ Data.Load_index +";\n\t\tif (var" + (Data.Load_index - 1) + ") var" + Data.Load_index + " = 1; else var"+Data.Load_index+" = 0;\n";
+                } else {
+                    Data.C_code += "\t\t"+To_Type_c+" var" + Data.Load_index + " = ("+ To_Type_c +") var" + (Data.Load_index-1) + ";\n";
+                }
                 Data.Load_index_is_defined[Data.Load_index] = true;
                 Data.Current_Register_Type[Data.Load_index] = To_Register_Type[0];
             }
@@ -272,8 +307,8 @@ public class GeneralFunctions {
         Data.EndTime = new Date();
         long deff = Data.EndTime.getTime() - Data.StartTime.getTime();
         long deff_h, deff_m, deff_s;
-        deff_s = deff/1000;
-        deff_m = deff/60000;
+        deff_s = (deff%1000)%60;
+        deff_m = (deff/60000)%60;
         deff_h = deff/3600000;
         
         if (deff_s < 10) res[0] = "0"+deff_s; 

@@ -253,3 +253,18 @@ Version 3.03
 Version 3.04
 ==========================================================================================================================
 1 - Updating project folder for IDE.
+
+Version 3.10
+==========================================================================================================================
+1 - Modefy the current register in compiling to re-define if there is change in register type.
+2 - Adding support to LREAL as instant input.
+3 - Detect the appropriate hardware ALU according to arethmetic operation FPU_Arithmetic or Int_Arithmetic.
+4 - Change R64 frequency to 65MHz
+5 - Change optimaization level for FPU enable to -O1 instead of -Ofast (unsupported instructions).
+6 - Adding support to write files more than 64KB (String limit in Java).
+7 - Fix compilation time display (display seconds and minuts for all time).
+8 - Adding new four instructions to FPU instructions (fcvt.s.d, fcvt.d.s, fmv.x.w, fmv.w.x) to IDE generator file
+9 - Finishing adding PID files into IDE.
+10 - Fix compilation in Quartus when unsuccessfull compilation happens.
+11 - Adding PID test project in IDE project folder.
+12 - Update IDE project (.rfpinfo) to have the PID function block info.

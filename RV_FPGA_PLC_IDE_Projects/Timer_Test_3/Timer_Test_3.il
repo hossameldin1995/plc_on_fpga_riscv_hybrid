@@ -20,7 +20,9 @@ PROGRAM Timer_Test_3
             Q  => %LEDG.1)
     R3 :
         LD     Elapsed_Time_1
+        TIME_TO_BOOL
         ST     %LEDR.0
         LD     Elapsed_Time_2
+        TIME_TO_BOOL
         ST     %LEDR.1
 END_PROGRAM

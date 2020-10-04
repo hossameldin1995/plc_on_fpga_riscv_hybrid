@@ -157,6 +157,9 @@ public class Write_Software_Files {
                         for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "#define ADDR_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+"		0x800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 5 + i, 2)+"000\n";
                         }
+                        for (int i = 0; ((i < Data.Number_Of_PIDs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
+                            data += "#define ADDR_BUS0_XSLV_PID_"+Data.Name_of_PIDs[i]+"		0x800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + Data.Number_Of_PWMs_In_Program + 5 + i, 2)+"000\n";
+                        }
                 data += "\n" +
                         "\n" +
                         "// Interrupt pins assignemts:\n" +
@@ -3045,11 +3048,11 @@ public class Write_Software_Files {
                         "\n" +
                         "FPU_ENABLED="+new GeneralFunctions().bool2int(Data.is_fpu_RV64_enabeled)+"\n" +
                         "\n" +
-                        "CFLAGS= -c -g -static -std=gnu99 -Ofast -fno-common -fno-builtin-printf\n" +
+                        "CFLAGS= -c -g -static -std=gnu99 -fno-common -fno-builtin-printf\n" +
                         "ifeq ($(FPU_ENABLED), 1)\n" +
-                        "  CFLAGS += -march=rv64imafd -DFPU_ENABLED\n" +
+                        "  CFLAGS += -march=rv64imafd -O1 -DFPU_ENABLED\n" +
                         "else\n" +
-                        "  CFLAGS += -march=rv64imac -mabi=lp64\n" +
+                        "  CFLAGS += -march=rv64imac -Ofast -mabi=lp64\n" +
                         "endif\n" +
                         "\n" +
                         "\n" +
@@ -4361,7 +4364,9 @@ public class Write_Software_Files {
             nameOfVariable = Variable_temp.split(":")[0];
             typeOfVariable = Variable_temp.split(":")[1];
             C_DataType = new GeneralFunctions().convert_il_datatype_to_c_datatype(typeOfVariable, Register_Type);
-            if (!C_DataType.equals("Timer")) Data.C_code += Tab+C_DataType+" "+nameOfVariable+" = 0;\n";
+            if (!C_DataType.equals("Timer") && !C_DataType.equals("PID")) {
+                Data.C_code += Tab+C_DataType+" "+nameOfVariable+" = 0;\n";
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 Project Name           = PWM_DIM_SEVEN
-Size of Program        = 60
-Max Size of Program    = 28
+Size of Program        = 67
+Max Size of Program    = 35
 Number of Rungs        = 2
-    Rung (1) Size      = 28
+    Rung (1) Size      = 35
     Rung (2) Size      = 28
 Number of Variables    = 14
 Core                   = 1
@@ -14,3 +14,5 @@ Compiled Timers        = 0
 Timers in Program      = 0
 Compiled PWMs          = 7
 PWMs in Program        = 7
+Compiled PIDs          = 0
+PIDs in Program        = 0

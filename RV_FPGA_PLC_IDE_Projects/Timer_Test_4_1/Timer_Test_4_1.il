@@ -12,5 +12,6 @@ PROGRAM Timer_Test_4_1
             Q  => %LEDG.0)
     R2 :
         LD     E_T
+        TIME_TO_BOOL
         ST     %LEDR.0
 END_PROGRAM

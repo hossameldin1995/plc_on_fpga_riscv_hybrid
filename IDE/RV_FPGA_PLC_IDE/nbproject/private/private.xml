@@ -14,12 +14,10 @@
         <group>
             <file>file:/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/rv_fpga_plc_ide/helper/RV64/compile_il/Software.java</file>
             <file>file:/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/rv_fpga_plc_ide/main/RV_FPGA_PLC_IDE.java</file>
-            <file>file:/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/rv_fpga_plc_ide/helper/RV32/compile_il/Hardware.java</file>
             <file>file:/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/rv_fpga_plc_ide/helper/Data.java</file>
             <file>file:/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/rv_fpga_plc_ide/helper/GeneralFunctions.java</file>
             <file>file:/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/rv_fpga_plc_ide/helper/RV64/Write_Generated_Files/Write_Hardware_Files.java</file>
             <file>file:/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/rv_fpga_plc_ide/helper/RV64/compile_il/Hardware.java</file>
-            <file>file:/home/hossameldin/Documents/RV_FPGA_PLC_Project/Work/IDE/RV_FPGA_PLC_IDE/src/rv_fpga_plc_ide/helper/RV32/compile_il/Software.java</file>
         </group>
     </open-files>
 </project-private>

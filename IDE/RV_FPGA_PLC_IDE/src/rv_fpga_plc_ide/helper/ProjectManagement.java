@@ -157,7 +157,9 @@ public class ProjectManagement {
                           "Compiled Timers        = "+Data.Number_Of_Timers_Compiled+"\n"+
                           "Timers in Program      = "+Data.Number_Of_Timers_In_Program+"\n"+
                           "Compiled PWMs          = "+Data.Number_Of_PWMs_Compiled+"\n"+
-                          "PWMs in Program        = "+Data.Number_Of_PWMs_In_Program;
+                          "PWMs in Program        = "+Data.Number_Of_PWMs_In_Program+"\n"+
+                          "Compiled PIDs          = "+Data.Number_Of_PIDs_Compiled+"\n"+
+                          "PIDs in Program        = "+Data.Number_Of_PIDs_In_Program;
             project_info.write(data.getBytes(), 0, data.length());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);
@@ -233,6 +235,8 @@ public class ProjectManagement {
             Data.Number_Of_Timers_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.Number_Of_PWMs_Compiled = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
             Data.Number_Of_PWMs_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            Data.Number_Of_PIDs_Compiled = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
+            Data.Number_Of_PIDs_In_Program = Integer.parseInt(info_file.readLine().replaceAll(" ", "").split("=")[1]);
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RV_FPGA_PLC_IDE.class.getName()).log(Level.SEVERE, null, ex);

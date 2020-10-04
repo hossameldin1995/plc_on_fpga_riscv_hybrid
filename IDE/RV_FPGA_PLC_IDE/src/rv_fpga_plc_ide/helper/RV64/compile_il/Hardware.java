@@ -89,7 +89,7 @@ public class Hardware {
         } else {
             Icon icon = UIManager.getIcon("OptionPane.errorIcon");
             jDialog_Loading.setVisible(false);
-            JOptionPane.showMessageDialog(parentComponent, "Not Successful", "Compile As Software", JOptionPane.OK_OPTION, icon);
+            JOptionPane.showMessageDialog(parentComponent, "Not Successful", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
             jTextArea_Output_Tab.append("Compilling did not Finished Successfully\n");
         }
     }
@@ -98,6 +98,7 @@ public class Hardware {
         boolean success = true;
         Data.Number_Of_Timers_In_Program = 0;
         Data.Number_Of_PWMs_In_Program = 0;
+        Data.Number_Of_PIDs_In_Program = 0;
         Data.C_code =   "/*****************************************************************************\n" +
                         " * @file\n" +
                         " * @author   Sergey Khabarov\n" +
@@ -143,6 +144,11 @@ public class Hardware {
                         "    return *p;\n" +
                         "}\n" +
                         "\n" +
+                        "float inline hex2float(uint32_t x) {\n" +
+                        "    float *p;\n" +
+                        "    p = (void*)&x;\n" +
+                        "    return *p;\n" +
+                        "}" +
                         "/*****************************************************************************\n" +
                         " * Main Function\n" +
                         " ****************************************************************************/\n" +
@@ -296,18 +302,12 @@ public class Hardware {
             } else if (il_inst.split(" ")[0].contains("MUL")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("MUL", "");
                 success = success && add_basic_c_command(parentComponent, Operand, "*", "", jDialog_Loading, false);
-                Data.is_mul_RV64_enabeled = true;
-                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_MUL_RV64;
             } else if (il_inst.split(" ")[0].contains("DIV")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("DIV", "");
                 success = success && add_basic_c_command(parentComponent, Operand, "/", "", jDialog_Loading, false);
-                Data.is_div_RV64_enabeled = true;
-                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_DIV_RV64;
             } else if (il_inst.split(" ")[0].contains("MOD")) {
                 String Operand = il_inst.replaceAll(" ", "").replaceAll("MOD", "");
                 success = success && add_basic_c_command(parentComponent, Operand, "%", "", jDialog_Loading, false);
-                Data.is_div_RV64_enabeled = true;
-                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_DIV_RV64;
             } else if (il_inst.split(" ")[0].contains("NOT")) {
                 Data.C_code += "\t\tvar"+(Data.Load_index)+" = ~var"+(Data.Load_index)+";\n";
             } else if (il_inst.split(" ")[0].contains("GT")) {
@@ -366,9 +366,12 @@ public class Hardware {
                 } else if (typeOfVariable.contains("PWM")) {
                     success = PWM_compile_hw(parentComponent, Function_Block_Name, il_inst, rung_i, program_i, jDialog_Loading);
                     program_i = program_i + 2;
+                } else if (typeOfVariable.contains("PID")) {
+                    success = PID_compile_hw(parentComponent, Function_Block_Name, il_inst, rung_i, program_i, jDialog_Loading);
+                    program_i = program_i + 8;
                 } else {
                     jDialog_Loading.setVisible(false);
-                    JOptionPane.showMessageDialog(parentComponent, "\""+typeOfVariable+"\" not supported yet", "Compile il", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(parentComponent, "\""+typeOfVariable+"\" not supported yet", "Compile il Hardware", JOptionPane.OK_OPTION);
                     success = false;
                 }
             } else {
@@ -423,7 +426,7 @@ public class Hardware {
                 }
             } else {
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
-                JOptionPane.showMessageDialog(parentComponent, "Time can't be invertes!", "Compile As Software", JOptionPane.OK_OPTION, icon);
+                JOptionPane.showMessageDialog(parentComponent, "Time can't be invertes!", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
                 success = false;
             }
         } else {
@@ -557,6 +560,8 @@ public class Hardware {
 
     private boolean add_basic_c_command(Component parentComponent, String Operand, String operation, String not, JDialog jDialog_Loading, boolean Support_BOOL) {
         boolean success = true;
+        boolean Enable_Arth_Int = false;
+        boolean Enable_Arth_Double = false;
         if (Operand.contains("(")) {
             Data.Load_index_Save[Data.Load_index][0] = operation;
             Data.Load_index_Save[Data.Load_index][1] = not;
@@ -574,6 +579,14 @@ public class Hardware {
                 ) {
                 if (Data.Current_Register_Type[Data.Load_index] == Data.Current_Register_Type[Data.Load_index+1]) {
                     Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+"var"+(Data.Load_index+1)+";\n";
+                    if  (
+                            Data.Current_Register_Type[Data.Load_index] != Data.FLOAT &&
+                            Data.Current_Register_Type[Data.Load_index] != Data.DOUBLE
+                        ) {
+                        Enable_Arth_Int = true;
+                    } else {
+                        Enable_Arth_Double = true;
+                    }
                 } else {
                     jDialog_Loading.setVisible(false);
                     Icon icon = UIManager.getIcon("OptionPane.errorIcon");
@@ -587,7 +600,6 @@ public class Hardware {
                 success = false;
             }
         } else {
-            int Instant_Operand;
             if (Operand.contains("%")){
                 Operand = Operand.replaceAll("%", "");
                 String offc = Operand.split("\\.")[1];
@@ -609,9 +621,10 @@ public class Hardware {
                 }
             } else {
                 try {
-                    Instant_Operand = Integer.parseInt(Operand);
+                    Integer.parseInt(Operand);
                     if  (Support_BOOL ||  Data.Current_Register_Type[Data.Load_index]   != Data.BOOL) {
-                        Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+Instant_Operand+";\n";
+                        Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+Operand+";\n";
+                        Enable_Arth_Int = true;
                     } else {
                         jDialog_Loading.setVisible(false);
                         Icon icon = UIManager.getIcon("OptionPane.errorIcon");
@@ -619,40 +632,68 @@ public class Hardware {
                         success = false;
                     }
                 } catch (NumberFormatException ex) {
-                    String Variable_temp;
-                    String nameOfVariable = "Variabe Not Found";
-                    String typeOfVariable = "Not Supported Type";
-                    for (int i = 1; i < Data.size_Vaiables-1; i++) {
-                        Variable_temp = Data.Vaiables[i].replace(" ", "");
-                        if (Variable_temp.contains(Operand)) {
-                            nameOfVariable = Variable_temp.split(":")[0];
-                            typeOfVariable = Variable_temp.split(":")[1];
-                            break;
-                        }
-                    }
-                    int Register_Type = new GeneralFunctions().getRegesterTypeFromStringType(typeOfVariable);
-                    if  (
-                            Support_BOOL ||
-                            (
-                                Data.Current_Register_Type[Data.Load_index]   != Data.BOOL &&
-                                Register_Type != Data.BOOL
-                            )
-                        ) {
-                        if (Data.Current_Register_Type[Data.Load_index] == Register_Type) {
-                            Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+nameOfVariable+";\n";
+                    try {
+                        Double.parseDouble(Operand);
+                        if  (Support_BOOL ||  Data.Current_Register_Type[Data.Load_index]   != Data.BOOL) {
+                            Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+Operand+";\n";
+                            Enable_Arth_Double = true;
                         } else {
                             jDialog_Loading.setVisible(false);
                             Icon icon = UIManager.getIcon("OptionPane.errorIcon");
-                            JOptionPane.showMessageDialog(parentComponent, "Can not make arithmetic operations on variable \""+nameOfVariable+"\"of type \""+typeOfVariable+"\"\nIncompatable types", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
+                            JOptionPane.showMessageDialog(parentComponent, "Operation ("+operation+") can not be berformed between BOOL types", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
                             success = false;
                         }
-                    } else {
-                        jDialog_Loading.setVisible(false);
-                        Icon icon = UIManager.getIcon("OptionPane.errorIcon");
-                        JOptionPane.showMessageDialog(parentComponent, "Operation ("+operation+") can not be berformed between BOOL types", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
-                        success = false;
+                    } catch (NumberFormatException ex1) {
+                        String Variable_temp;
+                        String nameOfVariable = "Variabe Not Found";
+                        String typeOfVariable = "Not Supported Type";
+                        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                            Variable_temp = Data.Vaiables[i].replace(" ", "");
+                            if (Variable_temp.contains(Operand)) {
+                                nameOfVariable = Variable_temp.split(":")[0];
+                                typeOfVariable = Variable_temp.split(":")[1];
+                                break;
+                            }
+                        }
+                        int Register_Type = new GeneralFunctions().getRegesterTypeFromStringType(typeOfVariable);
+                        if  (
+                                Support_BOOL ||
+                                (
+                                    Data.Current_Register_Type[Data.Load_index]   != Data.BOOL &&
+                                    Register_Type != Data.BOOL
+                                )
+                            ) {
+                            if (Data.Current_Register_Type[Data.Load_index] == Register_Type) {
+                                Data.C_code += "\t\tvar"+(Data.Load_index)+" "+operation+"= "+not+nameOfVariable+";\n";
+                            } else {
+                                jDialog_Loading.setVisible(false);
+                                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                                JOptionPane.showMessageDialog(parentComponent, "Can not make arithmetic operations on variable \""+nameOfVariable+"\"of type \""+typeOfVariable+"\"\nIncompatable types", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
+                                success = false;
+                            }
+                        } else {
+                            jDialog_Loading.setVisible(false);
+                            Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                            JOptionPane.showMessageDialog(parentComponent, "Operation ("+operation+") can not be berformed between BOOL types", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
+                            success = false;
+                        }
                     }
                 }
+            }
+        }
+        
+        if (Enable_Arth_Int) {
+            if (operation.equals("*")) {
+                Data.is_mul_RV64_enabeled = true;
+                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_MUL_RV64;
+            } else if (operation.equals("/") || operation.equals("%")) {
+                Data.is_div_RV64_enabeled = true;
+                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_DIV_RV64;
+            }
+        } else if (Enable_Arth_Double) {
+            if (operation.equals("*") || operation.equals("/") || operation.equals("%")) {
+                Data.is_fpu_RV64_enabeled = true;
+                Data.ALU_Support_In_Program_RV64_HW |= Data.MASK_FPU_RV64;
             }
         }
         return success;
@@ -686,7 +727,6 @@ public class Hardware {
                 success = false;
             }
         } else {
-            int Instant_Operand;
             if (Operand.contains("%")){
                 Operand = Operand.replaceAll("%", "");
                 String offc = Operand.split("\\.")[1];
@@ -712,46 +752,60 @@ public class Hardware {
                 }
             } else {
                 try {
-                    Instant_Operand = Integer.parseInt(Operand);
+                    Integer.parseInt(Operand);
                     if (Data.Current_Register_Type[Data.Load_index] == Data.BOOL) {
-                        Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+Instant_Operand+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
+                        Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+Operand+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
                     } else {
                         Data.Current_Register_Count++;
                         Data.Load_index++;
                         Data.C_code += "\t\tuint8_t var"+(Data.Load_index)+";\n";
-                        Data.C_code += "\t\tif (var"+(Data.Load_index-1)+" "+compare+" "+Instant_Operand+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
+                        Data.C_code += "\t\tif (var"+(Data.Load_index-1)+" "+compare+" "+Operand+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
                         Data.Load_index_is_defined[Data.Load_index] = true;
                         Data.Current_Register_Type[Data.Load_index] = Data.BOOL;
                     }
                 } catch (NumberFormatException ex) {
-                    String Variable_temp;
-                    String nameOfVariable = "Variabe Not Found";
-                    String typeOfVariable = "Not Supported Type";
-                    for (int i = 1; i < Data.size_Vaiables-1; i++) {
-                        Variable_temp = Data.Vaiables[i].replace(" ", "");
-                        if (Variable_temp.contains(Operand)) {
-                            nameOfVariable = Variable_temp.split(":")[0];
-                            typeOfVariable = Variable_temp.split(":")[1];
-                            break;
-                        }
-                    }
-                    int Register_Type = new GeneralFunctions().getRegesterTypeFromStringType(typeOfVariable);
-                    if (Data.Current_Register_Type[Data.Load_index] == Register_Type) {
+                    try {
+                        Double.parseDouble(Operand);
                         if (Data.Current_Register_Type[Data.Load_index] == Data.BOOL) {
-                            Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+nameOfVariable+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
+                            Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+Operand+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
                         } else {
                             Data.Current_Register_Count++;
                             Data.Load_index++;
                             Data.C_code += "\t\tuint8_t var"+(Data.Load_index)+";\n";
-                            Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+nameOfVariable+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
+                            Data.C_code += "\t\tif (var"+(Data.Load_index-1)+" "+compare+" "+Operand+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
                             Data.Load_index_is_defined[Data.Load_index] = true;
                             Data.Current_Register_Type[Data.Load_index] = Data.BOOL;
                         }
-                    } else {
-                        jDialog_Loading.setVisible(false);
-                        Icon icon = UIManager.getIcon("OptionPane.errorIcon");
-                        JOptionPane.showMessageDialog(parentComponent, "Incompatable type comparison ("+compare+") between types", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
-                        success = false;
+                    } catch (NumberFormatException ex1) {
+                        String Variable_temp;
+                        String nameOfVariable = "Variabe Not Found";
+                        String typeOfVariable = "Not Supported Type";
+                        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                            Variable_temp = Data.Vaiables[i].replace(" ", "");
+                            if (Variable_temp.contains(Operand)) {
+                                nameOfVariable = Variable_temp.split(":")[0];
+                                typeOfVariable = Variable_temp.split(":")[1];
+                                break;
+                            }
+                        }
+                        int Register_Type = new GeneralFunctions().getRegesterTypeFromStringType(typeOfVariable);
+                        if (Data.Current_Register_Type[Data.Load_index] == Register_Type) {
+                            if (Data.Current_Register_Type[Data.Load_index] == Data.BOOL) {
+                                Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+nameOfVariable+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
+                            } else {
+                                Data.Current_Register_Count++;
+                                Data.Load_index++;
+                                Data.C_code += "\t\tuint8_t var"+(Data.Load_index)+";\n";
+                                Data.C_code += "\t\tif (var"+(Data.Load_index)+" "+compare+" "+nameOfVariable+") var"+(Data.Load_index)+" = 1; else var"+(Data.Load_index)+" = 0;\n";
+                                Data.Load_index_is_defined[Data.Load_index] = true;
+                                Data.Current_Register_Type[Data.Load_index] = Data.BOOL;
+                            }
+                        } else {
+                            jDialog_Loading.setVisible(false);
+                            Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                            JOptionPane.showMessageDialog(parentComponent, "Incompatable type comparison ("+compare+") between types", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
+                            success = false;
+                        }
                     }
                 }
             }
@@ -772,7 +826,6 @@ public class Hardware {
                 
         Data.C_code += "\n\t\t// TON "+Timer_Name+"\n";
         String Operand = il_inst.split(":=")[1];
-        int Instant_Operand;
         if (Operand.contains("%")){
             Operand = Operand.replaceAll("%", "");
             String offc = Operand.split("\\.")[1];
@@ -794,7 +847,7 @@ public class Hardware {
             }
         } else {
             try {
-                Instant_Operand = Integer.parseInt(Operand);
+                Integer.parseInt(Operand);
                 Icon icon = UIManager.getIcon("OptionPane.errorIcon");
                 JOptionPane.showMessageDialog(parentComponent, "Can not add instanse TON.IN (BOOL Only)", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
                 success = false;
@@ -1076,5 +1129,486 @@ public class Hardware {
                     + "";
 
         return true;
+    }
+    
+    private boolean PID_compile_hw(Component parentComponent, String PID_Name, String il_inst, int rung_i, int program_i, JDialog jDialog_Loading) {
+        String nameOfVariable;
+        String typeOfVariable;
+        String[] il_inst_Arr = new String[1];
+        boolean success = true;
+        
+        String Process_Variable;
+        String Set_Point;
+        String X0;
+        String KP;
+        String TR;
+        String TD;
+        String Cycle;
+        String Period = "(ERROR PERIOD)";
+        String XOUT = "(ERROR XOUT)";
+                
+        Data.Name_of_PIDs[Data.Number_Of_PIDs_In_Program] = PID_Name;
+        Data.Number_Of_PIDs_In_Program++;
+                       
+        Data.C_code = new GeneralFunctions().insertStringAfter(Data.localVariables, "\tuint8_t first_pid_"+Data.Number_Of_PIDs_In_Program+";\n", Data.C_code);
+        Data.C_code = new GeneralFunctions().insertStringAfter(Data.localVariables, "\tpid_hw "+PID_Name+";\n", Data.C_code);
+        Data.C_code = new GeneralFunctions().insertStringAfter(Data.initializeLocalVariables, "\tfirst_pid_"+Data.Number_Of_PIDs_In_Program+" = true;\n", Data.C_code);
+        Data.C_code = new GeneralFunctions().insertStringAfter(Data.initializeLocalVariables, "\t"+PID_Name+".registers = (volatile void *)ADDR_BUS0_XSLV_PID_"+PID_Name+";\n", Data.C_code);
+        
+        Data.C_code += "\n\t\t// PID "+PID_Name+"\n";
+        
+        String Operand = il_inst.split(":=")[1]; // Auto
+        if (Operand.contains("%")){
+            Operand = Operand.replaceAll("%", "");
+            String offc = Operand.split("\\.")[1];
+            Operand = Operand.split("\\.")[0];
+            if (!Data.Load_index_is_defined[Data.Load_index]) {
+                Data.C_code += "\t\tuint8_t var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                Data.Load_index_is_defined[Data.Load_index] = true;
+                Data.Current_Register_Type[Data.Load_index] = Data.BOOL;
+            } else {
+                if (Data.Current_Register_Type[Data.Load_index] == Data.BOOL) {
+                    Data.C_code += "\t\tvar"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                } else {
+                    Data.Current_Register_Count++;
+                    Data.Load_index++;
+                    Data.C_code += "\t\tuint8_t var"+Data.Load_index+" = io_per_get_input(&io_per_d, "+Operand+", "+offc+");\n";
+                    Data.Load_index_is_defined[Data.Load_index] = true;
+                    Data.Current_Register_Type[Data.Load_index] = Data.BOOL;
+                }
+            }
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                Icon icon = UIManager.getIcon("OptionPane.errorIcon");
+                JOptionPane.showMessageDialog(parentComponent, "Can not add instanse PID.Auto (BOOL Only)", "Compile As Hardware", JOptionPane.OK_OPTION, icon);
+                success = false;
+            } catch (NumberFormatException ex) {
+                String Variable_temp;
+                typeOfVariable = "Not Supported Type";
+                nameOfVariable = "Variabe Not Found";
+                for (int i = 1; i < Data.size_Vaiables-1; i++) {
+                    Variable_temp = Data.Vaiables[i].replace(" ", "");
+                    if (Variable_temp.contains(Operand)) {
+                        nameOfVariable = Variable_temp.split(":")[0];
+                        typeOfVariable = Variable_temp.split(":")[1];
+                        break;
+                    }
+                }
+                if (typeOfVariable.equals("BOOL")) {
+                    if (!Data.Load_index_is_defined[Data.Load_index]) {
+                        Data.C_code += "\t\tuint8_t var"+Data.Load_index+" = "+nameOfVariable+";\n";
+                        Data.Load_index_is_defined[Data.Load_index] = true;
+                        Data.Current_Register_Type[Data.Load_index] = Data.BOOL;
+                    } else {
+                        if (Data.Current_Register_Type[Data.Load_index] == Data.BOOL) {
+                            Data.C_code += "\t\tvar"+Data.Load_index+" = "+nameOfVariable+";\n";
+                        } else {
+                            Data.Current_Register_Count++;
+                            Data.Load_index++;
+                            Data.C_code += "\t\tuint8_t var"+Data.Load_index+" = "+nameOfVariable+";\n";
+                            Data.Load_index_is_defined[Data.Load_index] = true;
+                            Data.Current_Register_Type[Data.Load_index] = Data.BOOL;
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(parentComponent, "Type of Variable\""+nameOfVariable+"\" should be \"BOOL\".", "Compile as Hardware", JOptionPane.OK_OPTION);
+                    return false;
+                }
+            }
+        }
+                       
+        program_i++; // Process Variable (PV)
+        il_inst = Data.Program_2D[rung_i][program_i];
+        il_inst_Arr[0] = il_inst;
+        new GeneralFunctions().remove_Spaces_Before_Strings(il_inst_Arr, 1);
+        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+        il_inst = il_inst.replaceAll(",", "");
+        Operand = il_inst.split(":=")[1];
+                        
+        typeOfVariable = "Not Supported Type";
+        nameOfVariable = "Variabe Not Found";
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+            if (Variable_temp.contains(Operand)) {
+                nameOfVariable = Variable_temp.split(":")[0];
+                typeOfVariable = Variable_temp.split(":")[1];
+                break;
+            }
+        }
+        
+        if (Operand.contains("%")){
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "Process Variable can't be BOOL.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else if (Operand.contains("T#")) {
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "Process Variable can't be TIME.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                Process_Variable = "(float)" + Operand;
+            } catch (NumberFormatException ex) {
+                try {
+                    Float.parseFloat(Operand);
+                    Process_Variable = "(float)" + Operand;
+                } catch (NumberFormatException ex1) {
+                    if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PID_VARIABLES)) {
+                        Process_Variable = "(float)" + Operand;
+                    } else {
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\" "+nameOfVariable+"\" is not correct.\nSee supported types for Process Variable.", "Compile il HW", JOptionPane.OK_OPTION);
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        program_i++; // Set Point (SP)
+        il_inst = Data.Program_2D[rung_i][program_i];
+        il_inst_Arr[0] = il_inst;
+        new GeneralFunctions().remove_Spaces_Before_Strings(il_inst_Arr, 1);
+        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+        il_inst = il_inst.replaceAll(",", "");
+        Operand = il_inst.split(":=")[1];
+                        
+        typeOfVariable = "Not Supported Type";
+        nameOfVariable = "Variabe Not Found";
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+            if (Variable_temp.contains(Operand)) {
+                nameOfVariable = Variable_temp.split(":")[0];
+                typeOfVariable = Variable_temp.split(":")[1];
+                break;
+            }
+        }
+        
+        if (Operand.contains("%")){
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "Set Point can't be BOOL.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else if (Operand.contains("T#")) {
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "Set Point can't be TIME.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                Set_Point = "(float)" + Operand;
+            } catch (NumberFormatException ex) {
+                try {
+                    Float.parseFloat(Operand);
+                    Set_Point = "(float)" + Operand;
+                } catch (NumberFormatException ex1) {
+                    if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PID_VARIABLES)) {
+                        Set_Point = "(float)" + Operand;
+                    } else {
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\" "+nameOfVariable+"\" is not correct.\nSee supported types for Set Point.", "Compile il HW", JOptionPane.OK_OPTION);
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        program_i++; // X0
+        il_inst = Data.Program_2D[rung_i][program_i];
+        il_inst_Arr[0] = il_inst;
+        new GeneralFunctions().remove_Spaces_Before_Strings(il_inst_Arr, 1);
+        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+        il_inst = il_inst.replaceAll(",", "");
+        Operand = il_inst.split(":=")[1];
+                        
+        typeOfVariable = "Not Supported Type";
+        nameOfVariable = "Variabe Not Found";
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+            if (Variable_temp.contains(Operand)) {
+                nameOfVariable = Variable_temp.split(":")[0];
+                typeOfVariable = Variable_temp.split(":")[1];
+                break;
+            }
+        }
+        
+        if (Operand.contains("%")){
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "X0 can't be BOOL.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else if (Operand.contains("T#")) {
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "X0 can't be TIME.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                X0 = "(float)" + Operand;
+            } catch (NumberFormatException ex) {
+                try {
+                    Float.parseFloat(Operand);
+                    X0 = "(float)" + Operand;
+                } catch (NumberFormatException ex1) {
+                    if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PID_VARIABLES)) {
+                        X0 = "(float)" + Operand;
+                    } else {
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\" "+nameOfVariable+"\" is not correct.\nSee supported types for X0.", "Compile il HW", JOptionPane.OK_OPTION);
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        program_i++; // KP
+        il_inst = Data.Program_2D[rung_i][program_i];
+        il_inst_Arr[0] = il_inst;
+        new GeneralFunctions().remove_Spaces_Before_Strings(il_inst_Arr, 1);
+        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+        il_inst = il_inst.replaceAll(",", "");
+        Operand = il_inst.split(":=")[1];
+                        
+        typeOfVariable = "Not Supported Type";
+        nameOfVariable = "Variabe Not Found";
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+            if (Variable_temp.contains(Operand)) {
+                nameOfVariable = Variable_temp.split(":")[0];
+                typeOfVariable = Variable_temp.split(":")[1];
+                break;
+            }
+        }
+        
+        if (Operand.contains("%")){
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "KP can't be BOOL.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else if (Operand.contains("T#")) {
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "KP can't be TIME.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                KP = "(float)" + Operand;
+            } catch (NumberFormatException ex) {
+                try {
+                    Float.parseFloat(Operand);
+                    KP = "(float)" + Operand;
+                } catch (NumberFormatException ex1) {
+                    if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PID_VARIABLES)) {
+                        KP = "(float)" + Operand;
+                    } else {
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\" "+nameOfVariable+"\" is not correct.\nSee supported types for KP.", "Compile il HW", JOptionPane.OK_OPTION);
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        program_i++; // TR
+        il_inst = Data.Program_2D[rung_i][program_i];
+        il_inst_Arr[0] = il_inst;
+        new GeneralFunctions().remove_Spaces_Before_Strings(il_inst_Arr, 1);
+        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+        il_inst = il_inst.replaceAll(",", "");
+        Operand = il_inst.split(":=")[1];
+                        
+        typeOfVariable = "Not Supported Type";
+        nameOfVariable = "Variabe Not Found";
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+            if (Variable_temp.contains(Operand)) {
+                nameOfVariable = Variable_temp.split(":")[0];
+                typeOfVariable = Variable_temp.split(":")[1];
+                break;
+            }
+        }
+        
+        if (Operand.contains("%")){
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "TR can't be BOOL.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else if (Operand.contains("T#")) {
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "TR can't be TIME.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                TR = "(float)" + Operand;
+            } catch (NumberFormatException ex) {
+                try {
+                    Float.parseFloat(Operand);
+                    TR = "(float)" + Operand;
+                } catch (NumberFormatException ex1) {
+                    if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PID_VARIABLES)) {
+                        TR = "(float)" + Operand;
+                    } else {
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\" "+nameOfVariable+"\" is not correct.\nSee supported types for TR.", "Compile il HW", JOptionPane.OK_OPTION);
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        program_i++; // TD
+        il_inst = Data.Program_2D[rung_i][program_i];
+        il_inst_Arr[0] = il_inst;
+        new GeneralFunctions().remove_Spaces_Before_Strings(il_inst_Arr, 1);
+        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+        il_inst = il_inst.replaceAll(",", "");
+        Operand = il_inst.split(":=")[1];
+                        
+        typeOfVariable = "Not Supported Type";
+        nameOfVariable = "Variabe Not Found";
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+            if (Variable_temp.contains(Operand)) {
+                nameOfVariable = Variable_temp.split(":")[0];
+                typeOfVariable = Variable_temp.split(":")[1];
+                break;
+            }
+        }
+        
+        if (Operand.contains("%")){
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "TD can't be BOOL.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else if (Operand.contains("T#")) {
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "TD can't be TIME.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                TD = "(float)" + Operand;
+            } catch (NumberFormatException ex) {
+                try {
+                    Float.parseFloat(Operand);
+                    TD = "(float)" + Operand;
+                } catch (NumberFormatException ex1) {
+                    if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PID_VARIABLES)) {
+                        TD = "(float)" + Operand;
+                    } else {
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\" "+nameOfVariable+"\" is not correct.\nSee supported types for TD.", "Compile il HW", JOptionPane.OK_OPTION);
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        program_i++; // Cycle
+        il_inst = Data.Program_2D[rung_i][program_i];
+        il_inst_Arr[0] = il_inst;
+        new GeneralFunctions().remove_Spaces_Before_Strings(il_inst_Arr, 1);
+        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+        il_inst = il_inst.replaceAll(",", "");
+        Operand = il_inst.split(":=")[1];
+                        
+        typeOfVariable = "No Type";
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+            if (Variable_temp.contains(Operand)) {
+                typeOfVariable = Variable_temp.split(":")[1];
+                break;
+            }
+        }
+                       
+        if (typeOfVariable.contains("TIME")) {
+            Cycle = Operand;
+        } else if (Operand.contains("T#")) {
+            double time_sec = new GeneralFunctions().getSecFromTimeFormat(Operand);
+            Period = time_sec+"";
+            long Number_of_Clocks = (long) (time_sec*(double)Data.CPU_RV64_Timer_Freq);
+            Cycle = "(uint64_t)"+Number_of_Clocks;
+        } else {
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "Cycle should be variable with type \"TIME\" or instant begins with T#.", "Compile il", JOptionPane.OK_OPTION);
+            return false;
+        }
+                        
+        program_i++; // XOUT
+        il_inst = Data.Program_2D[rung_i][program_i];
+        il_inst_Arr[0] = il_inst;
+        new GeneralFunctions().remove_Spaces_Before_Strings(il_inst_Arr, 1);
+        il_inst = il_inst_Arr[0].replaceAll(" ", "");
+        il_inst = il_inst.replaceAll(",", "");
+        Operand = il_inst.split("=>")[1].replace(")", "");
+                        
+        typeOfVariable = "Not Supported Type";
+        nameOfVariable = "Variabe Not Found";
+        for (int i = 1; i < Data.size_Vaiables-1; i++) {
+            String Variable_temp = Data.Vaiables[i].replace(" ", "");
+            if (Variable_temp.contains(Operand)) {
+                nameOfVariable = Variable_temp.split(":")[0];
+                typeOfVariable = Variable_temp.split(":")[1];
+                break;
+            }
+        }
+        
+        if (Operand.contains("%")){
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "XOUT can't be BOOL.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else if (Operand.contains("T#")) {
+            jDialog_Loading.setVisible(false);
+            JOptionPane.showMessageDialog(parentComponent, "XOUT can't be TIME.", "Compile il HW", JOptionPane.OK_OPTION);
+            return false;
+        } else {
+            try {
+                Integer.parseInt(Operand);
+                jDialog_Loading.setVisible(false);
+                JOptionPane.showMessageDialog(parentComponent, "XOUT can't be instant.", "Compile il HW", JOptionPane.OK_OPTION);
+            } catch (NumberFormatException ex) {
+                try {
+                    Float.parseFloat(Operand);
+                    jDialog_Loading.setVisible(false);
+                    JOptionPane.showMessageDialog(parentComponent, "XOUT can't be instant.", "Compile il HW", JOptionPane.OK_OPTION);
+                } catch (NumberFormatException ex1) {
+                    if (new GeneralFunctions().is_contain_str_arr(typeOfVariable, Data.SUPPORTED_PID_VARIABLES)) {
+                        XOUT = Operand;
+                    } else {
+                        jDialog_Loading.setVisible(false);
+                        JOptionPane.showMessageDialog(parentComponent, "Type of Variable\" "+nameOfVariable+"\" is not correct.\nSee supported types for XOUT.", "Compile il HW", JOptionPane.OK_OPTION);
+                        return false;
+                    }
+                }
+            }
+        }
+                       
+        Data.C_code +="\t\tif (var"+Data.Load_index+") { //Auto\n"
+                    + "\t\t\tuint32_t PV_32_"+Data.Number_Of_PIDs_In_Program+" = float2hex("+Process_Variable+");\n"
+                    + "\t\t\tuint32_t SP_32_"+Data.Number_Of_PIDs_In_Program+" = float2hex("+Set_Point+");\n"
+                    + "\t\t\tfloat KI_"+Data.Number_Of_PIDs_In_Program+" = "+KP+"/"+TR+";\n"
+                    + "\t\t\tfloat KD_"+Data.Number_Of_PIDs_In_Program+" = "+KP+"*"+TD+";\n"
+                    + "\t\t\tfloat b0_"+Data.Number_Of_PIDs_In_Program+" = ("+KP+")+(("+Period+"*KI_"+Data.Number_Of_PIDs_In_Program+")/2)+(KD_"+Data.Number_Of_PIDs_In_Program+"/"+Period+");\n"
+                    + "\t\t\tfloat b1_"+Data.Number_Of_PIDs_In_Program+" = (("+Period+"*KI_"+Data.Number_Of_PIDs_In_Program+")/2)-("+KP+")-((2*KD_"+Data.Number_Of_PIDs_In_Program+")/"+Period+");\n"
+                    + "\t\t\tfloat b2_"+Data.Number_Of_PIDs_In_Program+" = KD_"+Data.Number_Of_PIDs_In_Program+"/"+Period+";\n"
+                    + "\t\t\tuint32_t b0_32_"+Data.Number_Of_PIDs_In_Program+" = float2hex(b0_"+Data.Number_Of_PIDs_In_Program+");\n"
+                    + "\t\t\tuint32_t b1_32_"+Data.Number_Of_PIDs_In_Program+" = float2hex(b1_"+Data.Number_Of_PIDs_In_Program+");\n"
+                    + "\t\t\tuint32_t b2_32_"+Data.Number_Of_PIDs_In_Program+" = float2hex(b2_"+Data.Number_Of_PIDs_In_Program+");\n"
+                    + "\t\t\tif (first_pid_"+Data.Number_Of_PIDs_In_Program+") {\n"
+                    + "\t\t\t\tpid_hw_send_b0_b1(&"+PID_Name+", b0_32_"+Data.Number_Of_PIDs_In_Program+", b1_32_"+Data.Number_Of_PIDs_In_Program+");\n"
+                    + "\t\t\t\tpid_hw_send_b2(&"+PID_Name+", b2_32_"+Data.Number_Of_PIDs_In_Program+");\n"
+                    + "\t\t\t\tpid_hw_send_ts(&"+PID_Name+", "+Cycle+");\n"
+                    + "\t\t\t\tfirst_pid_"+Data.Number_Of_PIDs_In_Program+" = false;\n"
+                    + "\t\t\t} else {\n"
+                    + "\t\t\t\tif(pid_hw_recieve_XOUT_R(&"+PID_Name+")) {\n"
+                    + "\t\t\t\t\tpid_hw_send_pv_sp(&"+PID_Name+", PV_32_"+Data.Number_Of_PIDs_In_Program+", SP_32_"+Data.Number_Of_PIDs_In_Program+");\n"
+                    + "\t\t\t\t\t"+XOUT+" = hex2float(pid_hw_recieve_XOUT(&"+PID_Name+"));\n"
+                    + "\t\t\t\t\t//pid_hw_send_ts(&"+PID_Name+", "+Cycle+");\n"
+                    + "\t\t\t\t}\n"
+                    + "\t\t\t}\n"
+                    + "\t\t} else {\n"
+                    + "\t\t\t"+XOUT+" = "+X0+";\n"
+                    + "\t\t\t//pid_hw_send_ts(&"+PID_Name+", 0);\n"
+                    + "\t\t}\n"
+                    + "\n"
+                    + "";
+
+        return success;
     }
 }

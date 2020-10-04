@@ -62,6 +62,13 @@ public class Write_Hardware_Files {
         file = new File(Project_Folder+"arithlib/FP_SUB_32"); file.mkdirs();
         file = new File(Project_Folder+"arithlib/FP_SUB_32/FP_SUB_32"); file.mkdirs();
         file = new File(Project_Folder+"arithlib/FP_SUB_32/FP_SUB_32_sim"); file.mkdirs();
+        file = new File(Project_Folder+"arithlib/FP_S2D"); file.mkdirs();
+        file = new File(Project_Folder+"arithlib/FP_S2D/FP_S2D"); file.mkdirs();
+        file = new File(Project_Folder+"arithlib/FP_S2D/FP_S2D_sim"); file.mkdirs();
+        file = new File(Project_Folder+"arithlib/FP_D2S"); file.mkdirs();
+        file = new File(Project_Folder+"arithlib/FP_D2S/FP_D2S"); file.mkdirs();
+        file = new File(Project_Folder+"arithlib/FP_D2S/FP_D2S_sim"); file.mkdirs();
+        
         
         file = new File(Project_Folder+"commonlib"); file.mkdirs();
         
@@ -211,6 +218,8 @@ public class Write_Hardware_Files {
         generate_fadd_d_vhd_file(Project_Folder_File+"core/fpu_d/fadd_d.vhd");
         generate_divstage53_vhd_file(Project_Folder_File+"core/fpu_d/divstage53.vhd");
         generate_d2l_d_vhd_file(Project_Folder_File+"core/fpu_d/d2l_d.vhd");
+        generate_d2s_d_vhd_file(Project_Folder_File+"core/fpu_d/d2s_d.vhd");
+        generate_s2d_d_vhd_file(Project_Folder_File+"core/fpu_d/s2d_d.vhd");
         
         generate_shift_vhd_file(Project_Folder_File+"core/arith/shift.vhd");
         generate_int_div_vhd_file(Project_Folder_File+"core/arith/int_div.vhd");
@@ -232,38 +241,79 @@ public class Write_Hardware_Files {
         generate_FP_ADD_SUB_64_qip_file(Project_Folder_File+"FP_ADD_SUB_64/FP_ADD_SUB_64.qip");
         generate_FP_ADD_SUB_64_sip_file(Project_Folder_File+"FP_ADD_SUB_64/FP_ADD_SUB_64.sip");
         generate_FP_ADD_SUB_64_vhd_file(Project_Folder_File+"FP_ADD_SUB_64/FP_ADD_SUB_64.vhd");
+        generate_FP_ADD_SUB_64_0002_64_vhd_file(Project_Folder_File+"FP_ADD_SUB_64/FP_ADD_SUB_64/FP_ADD_SUB_64_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_ADD_SUB_64/FP_ADD_SUB_64/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_ADD_SUB_64/FP_ADD_SUB_64/dspba_library_package.vhd");
         
         generate_FP_EQ_64_qip_file(Project_Folder_File+"FP_EQ_64/FP_EQ_64.qip");
         generate_FP_EQ_64_sip_file(Project_Folder_File+"FP_EQ_64/FP_EQ_64.sip");
         generate_FP_EQ_64_vhd_file(Project_Folder_File+"FP_EQ_64/FP_EQ_64.vhd");
+        generate_FP_EQ_64_0002_vhd_file(Project_Folder_File+"FP_EQ_64/FP_EQ_64/FP_EQ_64_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_EQ_64/FP_EQ_64/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_EQ_64/FP_EQ_64/dspba_library_package.vhd");
         
         generate_FP_LE_64_qip_file(Project_Folder_File+"FP_LE_64/FP_LE_64.qip");
         generate_FP_LE_64_sip_file(Project_Folder_File+"FP_LE_64/FP_LE_64.sip");
         generate_FP_LE_64_vhd_file(Project_Folder_File+"FP_LE_64/FP_LE_64.vhd");
+        generate_FP_LE_64_0002_vhd_file(Project_Folder_File+"FP_LE_64/FP_LE_64/FP_LE_64_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_LE_64/FP_LE_64/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_LE_64/FP_LE_64/dspba_library_package.vhd");
         
         generate_FP_LT_64_qip_file(Project_Folder_File+"FP_LT_64/FP_LT_64.qip");
         generate_FP_LT_64_sip_file(Project_Folder_File+"FP_LT_64/FP_LT_64.sip");
         generate_FP_LT_64_vhd_file(Project_Folder_File+"FP_LT_64/FP_LT_64.vhd");
+        generate_FP_LT_64_0002_vhd_file(Project_Folder_File+"FP_LT_64/FP_LT_64/FP_LT_64_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_LT_64/FP_LT_64/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_LT_64/FP_LT_64/dspba_library_package.vhd");
         
         generate_FP_MAX_64_qip_file(Project_Folder_File+"FP_MAX_64/FP_MAX_64.qip");
         generate_FP_MAX_64_sip_file(Project_Folder_File+"FP_MAX_64/FP_MAX_64.sip");
         generate_FP_MAX_64_vhd_file(Project_Folder_File+"FP_MAX_64/FP_MAX_64.vhd");
+        generate_FP_MAX_64_0002_vhd_file(Project_Folder_File+"FP_MAX_64/FP_MAX_64/FP_MAX_64_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_MAX_64/FP_MAX_64/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_MAX_64/FP_MAX_64/dspba_library_package.vhd");
         
         generate_FP_MUL_64_qip_file(Project_Folder_File+"FP_MUL_64/FP_MUL_64.qip");
         generate_FP_MUL_64_sip_file(Project_Folder_File+"FP_MUL_64/FP_MUL_64.sip");
         generate_FP_MUL_64_vhd_file(Project_Folder_File+"FP_MUL_64/FP_MUL_64.vhd");
+        generate_FP_MUL_64_0002_vhd_file(Project_Folder_File+"FP_MUL_64/FP_MUL_64/FP_MUL_64_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_MUL_64/FP_MUL_64/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_MUL_64/FP_MUL_64/dspba_library_package.vhd");
         
         generate_FP_ADD_32_qip_file(Project_Folder_File+"FP_ADD_32/FP_ADD_32.qip");
         generate_FP_ADD_32_sip_file(Project_Folder_File+"FP_ADD_32/FP_ADD_32.sip");
         generate_FP_ADD_32_vhd_file(Project_Folder_File+"FP_ADD_32/FP_ADD_32.vhd");
+        generate_FP_ADD_32_0002_vhd_file(Project_Folder_File+"FP_ADD_32/FP_ADD_32/FP_ADD_32_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_ADD_32/FP_ADD_32/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_ADD_32/FP_ADD_32/dspba_library_package.vhd");
         
         generate_FP_SUB_32_qip_file(Project_Folder_File+"FP_SUB_32/FP_SUB_32.qip");
         generate_FP_SUB_32_sip_file(Project_Folder_File+"FP_SUB_32/FP_SUB_32.sip");
         generate_FP_SUB_32_vhd_file(Project_Folder_File+"FP_SUB_32/FP_SUB_32.vhd");
+        generate_FP_SUB_32_0002_vhd_file(Project_Folder_File+"FP_SUB_32/FP_SUB_32/FP_SUB_32_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_SUB_32/FP_SUB_32/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_SUB_32/FP_SUB_32/dspba_library_package.vhd");
         
         generate_FP_MUL_32_qip_file(Project_Folder_File+"FP_MUL_32/FP_MUL_32.qip");
         generate_FP_MUL_32_sip_file(Project_Folder_File+"FP_MUL_32/FP_MUL_32.sip");
         generate_FP_MUL_32_vhd_file(Project_Folder_File+"FP_MUL_32/FP_MUL_32.vhd");
+        generate_FP_MUL_32_0002_vhd_file(Project_Folder_File+"FP_MUL_32/FP_MUL_32/FP_MUL_32_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_MUL_32/FP_MUL_32/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_MUL_32/FP_MUL_32/dspba_library_package.vhd");
+        
+        generate_FP_S2D_qip_file(Project_Folder_File+"FP_S2D/FP_S2D.qip");
+        generate_FP_S2D_sip_file(Project_Folder_File+"FP_S2D/FP_S2D.sip");
+        generate_FP_S2D_vhd_file(Project_Folder_File+"FP_S2D/FP_S2D.vhd");
+        generate_FP_S2D_0002_vhd_file(Project_Folder_File+"FP_S2D/FP_S2D/FP_S2D_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_S2D/FP_S2D/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_S2D/FP_S2D/dspba_library_package.vhd");
+        
+        generate_FP_D2S_qip_file(Project_Folder_File+"FP_D2S/FP_D2S.qip");
+        generate_FP_D2S_sip_file(Project_Folder_File+"FP_D2S/FP_D2S.sip");
+        generate_FP_D2S_vhd_file(Project_Folder_File+"FP_D2S/FP_D2S.vhd");
+        generate_FP_D2S_0002_vhd_file(Project_Folder_File+"FP_D2S/FP_D2S/FP_D2S_0002.vhd");
+        generate_dspba_library_vhd_file(Project_Folder_File+"FP_D2S/FP_D2S/dspba_library.vhd");
+        generate_dspba_library_package_vhd_file(Project_Folder_File+"FP_D2S/FP_D2S/dspba_library_package.vhd");
     }
     
     private void generate_River_SoC_qpf_file(String Project_Folder_File) {
@@ -598,6 +648,8 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/fadd_d.vhd -library riverlib\n" +
                         "set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/divstage53.vhd -library riverlib\n" +
                         "set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/d2l_d.vhd -library riverlib\n" +
+                        "set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/d2s_d.vhd -library riverlib\n" +
+                        "set_global_assignment -name VHDL_FILE rtl/riverlib/core/fpu_d/s2d_d.vhd -library riverlib\n" +
                         "set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/shift.vhd -library riverlib\n" +
                         "set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/int_mul_cyclone_v.vhd -library riverlib\n" +
                         "set_global_assignment -name VHDL_FILE rtl/riverlib/core/arith/int_div.vhd -library riverlib\n" +
@@ -663,6 +715,10 @@ public class Write_Hardware_Files {
                         "set_global_assignment -name SIP_FILE rtl/arithlib/FP_MUL_32/FP_MUL_32.sip\n" +
                         "set_global_assignment -name QIP_FILE rtl/arithlib/FP_SUB_32/FP_SUB_32.qip\n" +
                         "set_global_assignment -name SIP_FILE rtl/arithlib/FP_SUB_32/FP_SUB_32.sip\n" +
+                        "set_global_assignment -name QIP_FILE rtl/arithlib/FP_D2S/FP_D2S.qip\n" +
+                        "set_global_assignment -name SIP_FILE rtl/arithlib/FP_D2S/FP_D2S.sip\n" +
+                        "set_global_assignment -name QIP_FILE rtl/arithlib/FP_S2D/FP_S2D.qip\n" +
+                        "set_global_assignment -name SIP_FILE rtl/arithlib/FP_S2D/FP_S2D.sip\n" +
                         "set_global_assignment -name QIP_FILE rtl/arithlib/MUL/mul_int_20_7.qip\n" +
                         "set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_20_17_speed.qip\n" +
                         "set_global_assignment -name QIP_FILE rtl/arithlib/DIV/div_int_20_7_speed.qip\n" +
@@ -958,6 +1014,9 @@ public class Write_Hardware_Files {
                         for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "-- 0x800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + 5 + i, 2)+"000		4  KB		PWM: "+Data.Name_of_PWMs[i]+"\n";
                         }
+                        for (int i = 0; ((i < Data.Number_Of_PIDs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
+                            data += "-- 0x800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + Data.Number_Of_PWMs_In_Program + 5 + i, 2)+"000		4  KB		PID: "+Data.Name_of_PIDs[i]+"\n";
+                        }
                 data += "\n" +
                         "--! Standard library\n" +
                         "library IEEE;\n" +
@@ -1252,6 +1311,20 @@ public class Write_Hardware_Files {
                                     "    cfg   	=> slv_cfg(CFG_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+"),\n" +
                                     "    i			=> axisi(CFG_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+"),\n" +
                                     "    o			=> axiso(CFG_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+")\n" +
+                                    "  );\n\n";
+                        }
+                        for (int i = 0; ((i < Data.Number_Of_PIDs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
+                            data += "  "+Data.Name_of_PIDs[i]+" : entity work.axi4_pid generic map (\n" +
+                                    "    async_reset => CFG_ASYNC_RESET,\n" +
+                                    "    xaddr    => 16#800"+new GeneralFunctions().dec2hex_str(Data.Number_Of_Timers_In_Program + Data.Number_Of_PWMs_In_Program + 5 + i, 2)+"#,\n" +
+                                    "    xmask    => 16#fffff#,\n" +
+                                    "    xirq     => 0\n" +
+                                    "  ) port map (\n" +
+                                    "    clk   	=> i_clk,\n" +
+                                    "    nrst  	=> w_glob_nrst,\n" +
+                                    "    cfg   	=> slv_cfg(CFG_BUS0_XSLV_PID_"+Data.Name_of_PIDs[i]+"),\n" +
+                                    "    i			=> axisi(CFG_BUS0_XSLV_PID_"+Data.Name_of_PIDs[i]+"),\n" +
+                                    "    o			=> axiso(CFG_BUS0_XSLV_PID_"+Data.Name_of_PIDs[i]+")\n" +
                                     "  );\n\n";
                         }
                 data += "end arch_riscv_soc;";
@@ -2966,9 +3039,12 @@ public class Write_Hardware_Files {
                         for (int i = 0; ((i < Data.Number_Of_PWMs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
                             data += "constant CFG_BUS0_XSLV_PWM_"+Data.Name_of_PWMs[i]+" : integer := "+(Data.Number_Of_Timers_In_Program+7+i)+";\n";
                         }
+                        for (int i = 0; ((i < Data.Number_Of_PIDs_In_Program) && (Data.Compiling_Type == Data.HW_COMPILING)); i++) {
+                            data += "constant CFG_BUS0_XSLV_PID_"+Data.Name_of_PIDs[i]+" : integer := "+(Data.Number_Of_Timers_In_Program+Data.Number_Of_PWMs_In_Program+7+i)+";\n";
+                        }
                         int NumberOfSlaves;
                         if (Data.Compiling_Type == Data.HW_COMPILING) {
-                            NumberOfSlaves = (7+Data.Number_Of_Timers_In_Program+Data.Number_Of_PWMs_In_Program);
+                            NumberOfSlaves = (7+Data.Number_Of_Timers_In_Program+Data.Number_Of_PWMs_In_Program+Data.Number_Of_PIDs_In_Program);
                         } else {
                             NumberOfSlaves = 7;
                         }
@@ -5844,8 +5920,6 @@ public class Write_Hardware_Files {
                         "\n" +
                         "\n" +
                         "begin\n" +
-                        "\n" +
-                        "	rst <= not(nrst);\n" +
                         "	\n" +
                         "	--------------------------------------------------\n" +
                         "	-- Stage 1 (Error calculation)\n" +
@@ -5935,9 +6009,10 @@ public class Write_Hardware_Files {
                         "	--------------------------------------------------\n" +
                         "	-- Stage Controller\n" +
                         "	--------------------------------------------------\n" +
-                        "	process(clk, rst)\n" +
+                        "	process(clk, nrst, TS)\n" +
                         "	begin\n" +
-                        "		if rst = '1' then\n" +
+                        "		if (nrst = '0') or (TS =  X\"0000000000000000\") then\n" +
+                        "			rst      <= '1';\n" +
                         "			XOUT_R	<= '0';\n" +
                         "			S_XOUT	<= X\"00000000\";\n" +
                         "			S_XOUT_1	<= X\"00000000\";\n" +
@@ -5950,6 +6025,7 @@ public class Write_Hardware_Files {
                         "			clk_Counter			<= X\"0000000000000000\";\n" +
                         "			Start_Calculating	<= '0';\n" +
                         "		elsif rising_edge(clk) then\n" +
+                        "			rst      <= '0';\n" +
                         "			if TS /=  X\"0000000000000000\" then\n" +
                         "				clk_Counter		<= clk_Counter + X\"0000000000000001\";\n" +
                         "			end if;\n" +
@@ -9714,24 +9790,28 @@ public class Write_Hardware_Files {
                         "  constant Instr_FCVT_D_WU : integer := 75;\n" +
                         "  constant Instr_FCVT_D_L : integer := 76;\n" +
                         "  constant Instr_FCVT_D_LU : integer := 77;\n" +
-                        "  constant Instr_FCVT_W_D : integer := 78;\n" +
-                        "  constant Instr_FCVT_WU_D : integer := 79;\n" +
-                        "  constant Instr_FCVT_L_D : integer := 80;\n" +
-                        "  constant Instr_FCVT_LU_D : integer := 81;\n" +
-                        "  constant Instr_FDIV_D : integer := 82;\n" +
-                        "  constant Instr_FEQ_D : integer := 83;\n" +
-                        "  constant Instr_FLD : integer := 84;\n" +
-                        "  constant Instr_FLE_D : integer := 85;\n" +
-                        "  constant Instr_FLT_D : integer := 86;\n" +
-                        "  constant Instr_FMAX_D : integer := 87;\n" +
-                        "  constant Instr_FMIN_D : integer := 88;\n" +
-                        "  constant Instr_FMOV_D_X : integer := 89;\n" +
-                        "  constant Instr_FMOV_X_D : integer := 90;\n" +
-                        "  constant Instr_FMUL_D : integer := 91;\n" +
-                        "  constant Instr_FSD : integer := 92;\n" +
-                        "  constant Instr_FSUB_D : integer := 93;\n" +
-                        "  constant Instr_FSGNJ_D : integer := 94;\n" +
-                        "  constant Instr_Total : integer := 95;\n" +
+                        "  constant Instr_FCVT_D_S : integer := 78;\n" +
+                        "  constant Instr_FCVT_S_D : integer := 79;\n" +
+                        "  constant Instr_FCVT_W_D : integer := 80;\n" +
+                        "  constant Instr_FCVT_WU_D : integer := 81;\n" +
+                        "  constant Instr_FCVT_L_D : integer := 82;\n" +
+                        "  constant Instr_FCVT_LU_D : integer := 83;\n" +
+                        "  constant Instr_FDIV_D : integer := 84;\n" +
+                        "  constant Instr_FEQ_D : integer := 85;\n" +
+                        "  constant Instr_FLD : integer := 86;\n" +
+                        "  constant Instr_FLE_D : integer := 87;\n" +
+                        "  constant Instr_FLT_D : integer := 88;\n" +
+                        "  constant Instr_FMAX_D : integer := 89;\n" +
+                        "  constant Instr_FMIN_D : integer := 90;\n" +
+                        "  constant Instr_FMOV_D_X : integer := 91;\n" +
+                        "  constant Instr_FMOV_W_X : integer := 92;\n" +
+                        "  constant Instr_FMOV_X_D : integer := 93;\n" +
+                        "  constant Instr_FMOV_X_W : integer := 94;\n" +
+                        "  constant Instr_FMUL_D : integer := 95;\n" +
+                        "  constant Instr_FSD : integer := 96;\n" +
+                        "  constant Instr_FSUB_D : integer := 97;\n" +
+                        "  constant Instr_FSGNJ_D : integer := 98;\n" +
+                        "  constant Instr_Total : integer := 99;\n" +
                         "\n" +
                         "  constant Instr_FPU_Total : integer := Instr_FSGNJ_D - Instr_FADD_D + 1;\n" +
                         "  --! @}\n" +
@@ -14867,13 +14947,13 @@ public class Write_Hardware_Files {
                         "        wb_radr2 := ('0' & i_d_instr(24 downto 20));\n" +
                         "        wb_rdata2 := i_rdata2;\n" +
                         "        if CFG_FPU_ENABLE and i_f64 = '1' then\n" +
-                        "            if (wv(Instr_FMOV_D_X) or\n" +
+                        "            if (wv(Instr_FMOV_D_X) or wv(Instr_FMOV_W_X) or\n" +
                         "                wv(Instr_FCVT_D_L) or wv(Instr_FCVT_D_LU) or\n" +
                         "                wv(Instr_FCVT_D_W) or wv(Instr_FCVT_D_WU)) = '0' then\n" +
                         "                wb_radr1 := ('1' & i_d_instr(19 downto 15));\n" +
                         "                wb_rdata1 := i_rfdata1;\n" +
                         "            end if;\n" +
-                        "            if wv(Instr_FMOV_X_D) = '0' then\n" +
+                        "            if (wv(Instr_FMOV_X_D) or wv(Instr_FMOV_X_W)) = '0' then\n" +
                         "                wb_radr2 := ('1' & i_d_instr(24 downto 20));\n" +
                         "                wb_rdata2 := i_rfdata2;\n" +
                         "            end if;\n" +
@@ -15193,6 +15273,7 @@ public class Write_Hardware_Files {
                         "        if CFG_FPU_ENABLE then\n" +
                         "            v.multi_ivec_fpu := wv(Instr_FSGNJ_D downto Instr_FADD_D);\n" +
                         "            if w_fpu_ena = '1' and (wv(Instr_FMOV_X_D) or wv(Instr_FEQ_D)\n" +
+                        "                or wv(Instr_FMOV_X_W)\n" +
                         "                or wv(Instr_FLT_D) or wv(Instr_FLE_D)\n" +
                         "                or wv(Instr_FCVT_LU_D) or wv(Instr_FCVT_L_D)\n" +
                         "                or wv(Instr_FCVT_WU_D) or wv(Instr_FCVT_W_D)) = '0' then\n" +
@@ -16124,6 +16205,18 @@ public class Write_Hardware_Files {
                         "                        else\n" +
                         "                            w_error := '1';\n" +
                         "                        end if;\n" +
+                        "                    when \"0100000\" =>\n" +
+                        "                        if wb_instr(24 downto 20) = \"00001\" then\n" +
+                        "                            wb_dec(Instr_FCVT_S_D) := '1';\n" +
+                        "                        else\n" +
+                        "                            w_error := '1';\n" +
+                        "                        end if;\n" +
+                        "                    when \"0100001\" =>\n" +
+                        "                        if wb_instr(24 downto 20) = \"00000\" then\n" +
+                        "                            wb_dec(Instr_FCVT_D_S) := '1';\n" +
+                        "                        else\n" +
+                        "                            w_error := '1';\n" +
+                        "                        end if;\n" +
                         "                    when \"1010001\" =>\n" +
                         "                        if wb_opcode2 = \"000\" then\n" +
                         "                            wb_dec(Instr_FLE_D) := '1';\n" +
@@ -16164,9 +16257,21 @@ public class Write_Hardware_Files {
                         "                        else\n" +
                         "                            w_error := '1';\n" +
                         "                        end if;\n" +
+                        "						  when \"1110000\" =>\n" +
+                        "                        if wb_instr(24 downto 20) = \"00000\" and wb_opcode2 = \"000\" then\n" +
+                        "                            wb_dec(Instr_FMOV_X_W) := '1';\n" +
+                        "                        else\n" +
+                        "                            w_error := '1';\n" +
+                        "                        end if;\n" +
                         "                    when \"1111001\" =>\n" +
                         "                        if wb_instr(24 downto 20) = \"00000\" and wb_opcode2 = \"000\" then\n" +
                         "                            wb_dec(Instr_FMOV_D_X) := '1';\n" +
+                        "                        else\n" +
+                        "                            w_error := '1';\n" +
+                        "                        end if;\n" +
+                        "                    when \"1111000\" =>\n" +
+                        "                        if wb_instr(24 downto 20) = \"00000\" and wb_opcode2 = \"000\" then\n" +
+                        "                            wb_dec(Instr_FMOV_W_X) := '1';\n" +
                         "                        else\n" +
                         "                            w_error := '1';\n" +
                         "                        end if;\n" +
@@ -16234,7 +16339,9 @@ public class Write_Hardware_Files {
                         "            or wb_dec(Instr_FCVT_D_W) or wb_dec(Instr_FCVT_D_WU)\n" +
                         "            or wb_dec(Instr_FCVT_D_L) or wb_dec(Instr_FCVT_D_LU)\n" +
                         "            or wb_dec(Instr_FMOV_D_X) or wb_dec(Instr_FLD)\n" +
-                        "            or wb_dec(Instr_FSD) or wb_dec(Instr_FSGNJ_D);\n" +
+                        "            or wb_dec(Instr_FSD) or wb_dec(Instr_FSGNJ_D)\n" +
+                        "            or wb_dec(Instr_FCVT_S_D) or wb_dec(Instr_FCVT_D_S)\n" +
+                        "            or wb_dec(Instr_FMOV_W_X) or wb_dec(Instr_FMOV_X_W);\n" +
                         "        \n" +
                         "        v.instr_unimplemented := w_error;\n" +
                         "    elsif i_any_hold = '0' then\n" +
@@ -18034,6 +18141,42 @@ public class Write_Hardware_Files {
                         "  );\n" +
                         "  end component;\n" +
                         "\n" +
+                        "  component Double2Single is generic (\n" +
+                        "    async_reset : boolean\n" +
+                        "  );\n" +
+                        "  port (\n" +
+                        "    i_nrst       : in std_logic;\n" +
+                        "    i_clk        : in std_logic;\n" +
+                        "    i_ena        : in std_logic;\n" +
+                        "    i_signed     : in std_logic;\n" +
+                        "    i_w32        : in std_logic;\n" +
+                        "    i_a          : in std_logic_vector(63 downto 0);\n" +
+                        "    o_res        : out std_logic_vector(63 downto 0);\n" +
+                        "    o_overflow   : out std_logic;\n" +
+                        "    o_underflow  : out std_logic;\n" +
+                        "    o_valid      : out std_logic;\n" +
+                        "    o_busy       : out std_logic\n" +
+                        "  );\n" +
+                        "  end component;\n" +
+                        "  \n" +
+                        "  component Single2Double is generic (\n" +
+                        "    async_reset : boolean\n" +
+                        "  );\n" +
+                        "  port (\n" +
+                        "    i_nrst       : in std_logic;\n" +
+                        "    i_clk        : in std_logic;\n" +
+                        "    i_ena        : in std_logic;\n" +
+                        "    i_signed     : in std_logic;\n" +
+                        "    i_w32        : in std_logic;\n" +
+                        "    i_a          : in std_logic_vector(63 downto 0);\n" +
+                        "    o_res        : out std_logic_vector(63 downto 0);\n" +
+                        "    o_overflow   : out std_logic;\n" +
+                        "    o_underflow  : out std_logic;\n" +
+                        "    o_valid      : out std_logic;\n" +
+                        "    o_busy       : out std_logic\n" +
+                        "  );\n" +
+                        "  end component;\n" +
+                        "  \n" +
                         "  component Double2Long is generic (\n" +
                         "    async_reset : boolean\n" +
                         "  );\n" +
@@ -18083,6 +18226,8 @@ public class Write_Hardware_Files {
                         "    ena_fadd : std_logic;\n" +
                         "    ena_fdiv : std_logic;\n" +
                         "    ena_fmul : std_logic;\n" +
+                        "    ena_d2s : std_logic;\n" +
+                        "    ena_s2d : std_logic;\n" +
                         "    ena_d2l : std_logic;\n" +
                         "    ena_l2d : std_logic;\n" +
                         "    ena_w32 : std_logic;\n" +
@@ -18094,7 +18239,7 @@ public class Write_Hardware_Files {
                         "    (others => '0'),                                -- result\n" +
                         "    '0', '0', '0',                                  -- ex_invalidop, ex_divbyzero, ex_overflow\n" +
                         "    '0', '0', '0',                                  -- ex_underflow, ex_inexact, ena_fadd\n" +
-                        "    '0', '0', '0', '0',                             -- ena_fdiv, ena_fmul, ena_d2l, ena_l2d\n" +
+                        "    '0', '0', '0', '0', '0', '0',                   -- ena_fdiv, ena_fmul, ena_d2s, ena_s2d, ena_d2l, ena_l2d\n" +
                         "    '0'                                             -- ena_w32\n" +
                         "  );\n" +
                         "\n" +
@@ -18133,6 +18278,18 @@ public class Write_Hardware_Files {
                         "  signal w_overflow_d2l : std_logic;\n" +
                         "  signal w_underflow_d2l : std_logic;\n" +
                         "  signal w_busy_d2l : std_logic;\n" +
+                        "  \n" +
+                        "  signal wb_res_d2s : std_logic_vector(63 downto 0);\n" +
+                        "  signal w_valid_d2s : std_logic;\n" +
+                        "  signal w_overflow_d2s : std_logic;\n" +
+                        "  signal w_underflow_d2s : std_logic;\n" +
+                        "  signal w_busy_d2s : std_logic;\n" +
+                        "  \n" +
+                        "  signal wb_res_s2d : std_logic_vector(63 downto 0);\n" +
+                        "  signal w_valid_s2d : std_logic;\n" +
+                        "  signal w_overflow_s2d : std_logic;\n" +
+                        "  signal w_underflow_s2d : std_logic;\n" +
+                        "  signal w_busy_s2d : std_logic;\n" +
                         "\n" +
                         "  signal wb_res_l2d : std_logic_vector(63 downto 0);\n" +
                         "  signal w_valid_l2d : std_logic;\n" +
@@ -18208,6 +18365,38 @@ public class Write_Hardware_Files {
                         "      o_valid => w_valid_d2l,\n" +
                         "      o_busy => w_busy_d2l\n" +
                         "    );\n" +
+                        "	 \n" +
+                        "	 d2s_d0 : Double2Single generic map (\n" +
+                        "      async_reset => async_reset\n" +
+                        "    ) port map (\n" +
+                        "      i_clk => i_clk,\n" +
+                        "      i_nrst => i_nrst,\n" +
+                        "      i_ena => r.ena_d2s,\n" +
+                        "      i_signed => w_fcvt_signed,\n" +
+                        "      i_w32 => r.ena_w32,\n" +
+                        "      i_a => r.a,\n" +
+                        "      o_res => wb_res_d2s,\n" +
+                        "      o_overflow => w_overflow_d2s,\n" +
+                        "      o_underflow => w_underflow_d2s,\n" +
+                        "      o_valid => w_valid_d2s,\n" +
+                        "      o_busy => w_busy_d2s\n" +
+                        "    );\n" +
+                        "	 \n" +
+                        "	 s2d_d0 : Single2Double generic map (\n" +
+                        "      async_reset => async_reset\n" +
+                        "    ) port map (\n" +
+                        "      i_clk => i_clk,\n" +
+                        "      i_nrst => i_nrst,\n" +
+                        "      i_ena => r.ena_s2d,\n" +
+                        "      i_signed => w_fcvt_signed,\n" +
+                        "      i_w32 => r.ena_w32,\n" +
+                        "      i_a => r.a,\n" +
+                        "      o_res => wb_res_s2d,\n" +
+                        "      o_overflow => w_overflow_s2d,\n" +
+                        "      o_underflow => w_underflow_s2d,\n" +
+                        "      o_valid => w_valid_s2d,\n" +
+                        "      o_busy => w_busy_s2d\n" +
+                        "    );\n" +
                         "\n" +
                         "    l2d_d0 : Long2Double generic map (\n" +
                         "      async_reset => async_reset\n" +
@@ -18231,7 +18420,8 @@ public class Write_Hardware_Files {
                         "                w_underflow_fdiv, w_busy_fdiv,\n" +
                         "                wb_res_fmul, w_valid_fmul, w_illegalop_fmul, w_overflow_fmul, w_busy_fmul,\n" +
                         "                wb_res_d2l, w_valid_d2l, w_overflow_d2l, w_underflow_d2l, w_busy_d2l,\n" +
-                        "                wb_res_l2d, w_valid_l2d, w_busy_l2d)\n" +
+                        "                wb_res_l2d, w_valid_l2d, w_busy_l2d, wb_res_d2s, w_valid_d2s, w_busy_d2s,\n" +
+                        "					 wb_res_s2d, w_valid_s2d, w_busy_s2d)\n" +
                         "    variable v : RegistersType;\n" +
                         "    variable iv : std_logic_vector(Instr_FPU_Total-1 downto 0);\n" +
                         "  begin\n" +
@@ -18242,6 +18432,8 @@ public class Write_Hardware_Files {
                         "    v.ena_fadd := '0';\n" +
                         "    v.ena_fdiv := '0';\n" +
                         "    v.ena_fmul := '0';\n" +
+                        "    v.ena_d2s := '0';\n" +
+                        "    v.ena_s2d := '0';\n" +
                         "    v.ena_d2l := '0';\n" +
                         "    v.ena_l2d := '0';\n" +
                         "    v.ready := '0';\n" +
@@ -18265,6 +18457,8 @@ public class Write_Hardware_Files {
                         "                    or iv(Instr_FMIN_D - Instr_FADD_D);\n" +
                         "        v.ena_fdiv := iv(Instr_FDIV_D - Instr_FADD_D);\n" +
                         "        v.ena_fmul := iv(Instr_FMUL_D - Instr_FADD_D);\n" +
+                        "        v.ena_d2s := iv(Instr_FCVT_S_D - Instr_FADD_D);\n" +
+                        "        v.ena_s2d := iv(Instr_FCVT_D_S - Instr_FADD_D);\n" +
                         "        v.ena_d2l := iv(Instr_FCVT_LU_D - Instr_FADD_D)\n" +
                         "                    or iv(Instr_FCVT_L_D - Instr_FADD_D)\n" +
                         "                    or iv(Instr_FCVT_WU_D - Instr_FADD_D)\n" +
@@ -18281,6 +18475,8 @@ public class Write_Hardware_Files {
                         "    end if;\n" +
                         "\n" +
                         "    if r.busy = '1' and (r.ivec(Instr_FMOV_X_D - Instr_FADD_D)\n" +
+                        "                        or r.ivec(Instr_FMOV_X_W - Instr_FADD_D)\n" +
+                        "                        or r.ivec(Instr_FMOV_W_X - Instr_FADD_D)\n" +
                         "                        or r.ivec(Instr_FMOV_D_X - Instr_FADD_D)) = '1' then\n" +
                         "        v.busy := '0';\n" +
                         "        v.ready := '1';\n" +
@@ -18315,6 +18511,18 @@ public class Write_Hardware_Files {
                         "        v.result := wb_res_d2l;\n" +
                         "        v.ex_overflow := w_overflow_d2l;\n" +
                         "        v.ex_underflow := w_underflow_d2l;\n" +
+                        "    elsif w_valid_d2s = '1' then\n" +
+                        "        v.busy := '0';\n" +
+                        "        v.ready := '1';\n" +
+                        "        v.result := wb_res_d2s;\n" +
+                        "        v.ex_overflow := w_overflow_d2s;\n" +
+                        "        v.ex_underflow := w_underflow_d2s;\n" +
+                        "    elsif w_valid_s2d = '1' then\n" +
+                        "        v.busy := '0';\n" +
+                        "        v.ready := '1';\n" +
+                        "        v.result := wb_res_s2d;\n" +
+                        "        v.ex_overflow := w_overflow_s2d;\n" +
+                        "        v.ex_underflow := w_underflow_s2d;\n" +
                         "    elsif w_valid_l2d = '1' then\n" +
                         "        v.busy := '0';\n" +
                         "        v.ready := '1';\n" +
@@ -18361,8 +18569,8 @@ public class Write_Hardware_Files {
                         "  end process;\n" +
                         "\n" +
                         "end;";
-                                new GeneralFunctions().write_file(Project_Folder_File, data);
-                            }
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
 
     private void generate_fmul_d_vhd_file(String Project_Folder_File) {
         String data =   "--!\n" +
@@ -19523,6 +19731,189 @@ public class Write_Hardware_Files {
                         "        r <= rin;\n" +
                         "     end if; \n" +
                         "  end process;\n" +
+                        "\n" +
+                        "end;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
+    private void generate_d2s_d_vhd_file(String Project_Folder_File) {
+        String data =   "--!\n" +
+                        "--! Copyright 2019 Sergey Khabarov, sergeykhbr@gmail.com\n" +
+                        "--!\n" +
+                        "--! Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        "--! you may not use this file except in compliance with the License.\n" +
+                        "--! You may obtain a copy of the License at\n" +
+                        "--!\n" +
+                        "--!     http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        "--!\n" +
+                        "--! Unless required by applicable law or agreed to in writing, software\n" +
+                        "--! distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        "--! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        "--! See the License for the specific language governing permissions and\n" +
+                        "--! limitations under the License.\n" +
+                        "--!\n" +
+                        "\n" +
+                        "library ieee;\n" +
+                        "use ieee.std_logic_1164.all;\n" +
+                        "library commonlib;\n" +
+                        "use commonlib.types_common.all;\n" +
+                        "\n" +
+                        "entity Double2Single is \n" +
+                        "  generic (\n" +
+                        "    async_reset : boolean\n" +
+                        "  );\n" +
+                        "  port (\n" +
+                        "    i_nrst       : in std_logic;\n" +
+                        "    i_clk        : in std_logic;\n" +
+                        "    i_ena        : in std_logic;\n" +
+                        "    i_signed     : in std_logic;\n" +
+                        "    i_w32        : in std_logic;\n" +
+                        "    i_a          : in std_logic_vector(63 downto 0);\n" +
+                        "    o_res        : out std_logic_vector(63 downto 0);\n" +
+                        "    o_overflow   : out std_logic;\n" +
+                        "    o_underflow  : out std_logic;\n" +
+                        "    o_valid      : out std_logic;\n" +
+                        "    o_busy       : out std_logic\n" +
+                        "  );\n" +
+                        "end; \n" +
+                        " \n" +
+                        "architecture arch_Double2Single of Double2Single is\n" +
+                        "\n" +
+                        "	component FP_D2S is\n" +
+                        "		port (\n" +
+                        "			clk    : in  std_logic                     := '0';             --    clk.clk\n" +
+                        "			areset : in  std_logic                     := '0';             -- areset.reset\n" +
+                        "			a      : in  std_logic_vector(63 downto 0) := (others => '0'); --      a.a\n" +
+                        "			q      : out std_logic_vector(31 downto 0)                     --      q.q\n" +
+                        "		);\n" +
+                        "	end component;\n" +
+                        "	\n" +
+                        "	signal reset    : std_logic;\n" +
+                        "	signal o_res_32 : std_logic_vector(31 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "	reset   <= not(i_nrst);\n" +
+                        "	o_overflow  <= '0';\n" +
+                        "	o_underflow <= '0';\n" +
+                        "	\n" +
+                        "	FP_D2S_COMP : FP_D2S \n" +
+                        "	port map(\n" +
+                        "		clk    => i_clk,\n" +
+                        "		areset => reset,\n" +
+                        "		a      => i_a,\n" +
+                        "		q      => o_res_32\n" +
+                        "   );\n" +
+                        "	 \n" +
+                        "	o_res(31 downto 0 ) <= o_res_32;\n" +
+                        "	o_res(63 downto 32) <= (others => '0');\n" +
+                        "	o_busy              <= '0';\n" +
+                        "\n" +
+                        "	process(i_nrst, i_clk)\n" +
+                        "	begin\n" +
+                        "		if i_nrst = '0' then\n" +
+                        "			o_valid <= '0';\n" +
+                        "		elsif rising_edge(i_clk) then\n" +
+                        "			if i_ena = '1' then\n" +
+                        "				o_valid <= '1';\n" +
+                        "			else\n" +
+                        "				o_valid <= '0';\n" +
+                        "			end if;\n" +
+                        "		end if;\n" +
+                        "    end process;\n" +
+                        "\n" +
+                        "  \n" +
+                        "\n" +
+                        "end;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
+    private void generate_s2d_d_vhd_file(String Project_Folder_File) {
+        String data =   "--!\n" +
+                        "--! Copyright 2019 Sergey Khabarov, sergeykhbr@gmail.com\n" +
+                        "--!\n" +
+                        "--! Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        "--! you may not use this file except in compliance with the License.\n" +
+                        "--! You may obtain a copy of the License at\n" +
+                        "--!\n" +
+                        "--!     http://www.apache.org/licenses/LICENSE-2.0\n" +
+                        "--!\n" +
+                        "--! Unless required by applicable law or agreed to in writing, software\n" +
+                        "--! distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        "--! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        "--! See the License for the specific language governing permissions and\n" +
+                        "--! limitations under the License.\n" +
+                        "--!\n" +
+                        "\n" +
+                        "library ieee;\n" +
+                        "use ieee.std_logic_1164.all;\n" +
+                        "library commonlib;\n" +
+                        "use commonlib.types_common.all;\n" +
+                        "\n" +
+                        "entity Single2Double is \n" +
+                        "  generic (\n" +
+                        "    async_reset : boolean\n" +
+                        "  );\n" +
+                        "  port (\n" +
+                        "    i_nrst       : in std_logic;\n" +
+                        "    i_clk        : in std_logic;\n" +
+                        "    i_ena        : in std_logic;\n" +
+                        "    i_signed     : in std_logic;\n" +
+                        "    i_w32        : in std_logic;\n" +
+                        "    i_a          : in std_logic_vector(63 downto 0);\n" +
+                        "    o_res        : out std_logic_vector(63 downto 0);\n" +
+                        "    o_overflow   : out std_logic;\n" +
+                        "    o_underflow  : out std_logic;\n" +
+                        "    o_valid      : out std_logic;\n" +
+                        "    o_busy       : out std_logic\n" +
+                        "  );\n" +
+                        "end; \n" +
+                        " \n" +
+                        "architecture arch_Single2Double of Single2Double is\n" +
+                        "\n" +
+                        "	component FP_S2D is\n" +
+                        "		port (\n" +
+                        "			clk    : in  std_logic                     := '0';             --    clk.clk\n" +
+                        "			areset : in  std_logic                     := '0';             -- areset.reset\n" +
+                        "			a      : in  std_logic_vector(31 downto 0) := (others => '0'); --      a.a\n" +
+                        "			q      : out std_logic_vector(63 downto 0)                     --      q.q\n" +
+                        "		);\n" +
+                        "	end component;\n" +
+                        "	\n" +
+                        "	signal reset  : std_logic;\n" +
+                        "	signal i_a_32 : std_logic_vector(31 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "	reset   <= not(i_nrst);\n" +
+                        "	o_overflow  <= '0';\n" +
+                        "	o_underflow <= '0';\n" +
+                        "	o_busy <= '0';\n" +
+                        "	\n" +
+                        "	FP_S2D_COMP : FP_S2D \n" +
+                        "	port map(\n" +
+                        "		clk    => i_clk,\n" +
+                        "		areset => reset,\n" +
+                        "		a      => i_a_32,\n" +
+                        "		q      => o_res\n" +
+                        "   );\n" +
+                        "	 \n" +
+                        "	i_a_32 <= i_a(31 downto 0);\n" +
+                        "\n" +
+                        "	process(i_nrst, i_clk)\n" +
+                        "	begin\n" +
+                        "		if i_nrst = '0' then\n" +
+                        "			o_valid     <= '0';\n" +
+                        "		elsif rising_edge(i_clk) then\n" +
+                        "			if i_ena = '1' then\n" +
+                        "				o_valid <= '1';\n" +
+                        "			else\n" +
+                        "				o_valid <= '0';\n" +
+                        "			end if;\n" +
+                        "		end if;\n" +
+                        "    end process;\n" +
+                        "\n" +
+                        "  \n" +
                         "\n" +
                         "end;";
         new GeneralFunctions().write_file(Project_Folder_File, data);
@@ -21242,6 +21633,2232 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
 
+    private void generate_FP_ADD_SUB_64_0002_64_vhd_file(String Project_Folder_File) {
+        String data1 =  "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_ADD_SUB_64_0002\n" +
+                        "-- VHDL created on Thu Jun 25 09:18:55 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_ADD_SUB_64_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        b : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        opSel : in std_logic_vector(0 downto 0);  -- ufix1\n" +
+                        "        q : out std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_ADD_SUB_64_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_ADD_SUB_64_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signB_uid6_fpAddSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal restB_uid7_fpAddSubTest_b : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal invSignB_uid8_fpAddSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal muxSignB_uid9_fpAddSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal muxSignB_uid9_fpAddSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal bOperand_uid10_fpAddSubTest_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal expFracX_uid15_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal expFracY_uid16_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal xGTEy_uid17_fpAddSubTest_ieeeAdd_a : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal xGTEy_uid17_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal xGTEy_uid17_fpAddSubTest_ieeeAdd_o : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal xGTEy_uid17_fpAddSubTest_ieeeAdd_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracY_uid18_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expY_uid19_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal sigY_uid20_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal ypn_uid21_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal aSig_uid25_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal aSig_uid25_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal bSig_uid26_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal bSig_uid26_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal cstAllZWE_uid29_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal exp_aSig_uid30_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal exp_aSig_uid30_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_aSig_uid31_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal frac_aSig_uid31_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid33_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid34_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid35_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_aSig_uid36_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_aSig_uid37_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_aSig_uid37_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid38_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid39_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_aSig_uid40_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal exp_bSig_uid44_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal exp_bSig_uid44_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_bSig_uid45_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal frac_bSig_uid45_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid47_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_bSig_uid50_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_bSig_uid50_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_bSig_uid51_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_bSig_uid51_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid52_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_bSig_uid54_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_bSig_uid54_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigA_uid59_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigB_uid60_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal effSub_uid61_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracBz_uid65_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracBz_uid65_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal oFracB_uid68_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal expAmExpB_uid69_fpAddSubTest_ieeeAdd_a : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expAmExpB_uid69_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expAmExpB_uid69_fpAddSubTest_ieeeAdd_o : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expAmExpB_uid69_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal cWFP2_uid70_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal shiftedOut_uid72_fpAddSubTest_ieeeAdd_a : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal shiftedOut_uid72_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal shiftedOut_uid72_fpAddSubTest_ieeeAdd_o : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal shiftedOut_uid72_fpAddSubTest_ieeeAdd_c : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal padConst_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (53 downto 0);\n" +
+                        "    signal rightPaddedIn_uid74_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal iShiftedOut_uid76_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal alignFracBPostShiftOut_uid77_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal alignFracBPostShiftOut_uid77_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invCmpEQ_stickyBits_cZwF_uid81_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal effSubInvSticky_uid83_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal zocst_uid85_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracAAddOp_uid86_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal fracBAddOp_uid89_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal fracBAddOpPostXor_uid90_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal fracBAddOpPostXor_uid90_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal fracAddResult_uid91_fpAddSubTest_ieeeAdd_a : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal fracAddResult_uid91_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal fracAddResult_uid91_fpAddSubTest_ieeeAdd_o : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal fracAddResult_uid91_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal fracGRS_uid93_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal cAmA_uid95_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal aMinusA_uid96_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracPostNorm_uid98_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal oneCST_uid99_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal expInc_uid100_fpAddSubTest_ieeeAdd_a : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expInc_uid100_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expInc_uid100_fpAddSubTest_ieeeAdd_o : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expInc_uid100_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expPostNorm_uid101_fpAddSubTest_ieeeAdd_a : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal expPostNorm_uid101_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal expPostNorm_uid101_fpAddSubTest_ieeeAdd_o : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal expPostNorm_uid101_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal Sticky0_uid102_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Sticky0_uid102_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Sticky1_uid103_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal Sticky1_uid103_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Round_uid104_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal Round_uid104_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Guard_uid105_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal Guard_uid105_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal LSB_uid106_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal LSB_uid106_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rndBitCond_uid107_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal cRBit_uid108_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal rBi_uid109_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rBi_uid109_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal roundBit_uid110_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (54 downto 0);\n" +
+                        "    signal fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal expFracR_uid112_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (65 downto 0);\n" +
+                        "    signal rndExpFrac_uid113_fpAddSubTest_ieeeAdd_a : STD_LOGIC_VECTOR (66 downto 0);\n" +
+                        "    signal rndExpFrac_uid113_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (66 downto 0);\n" +
+                        "    signal rndExpFrac_uid113_fpAddSubTest_ieeeAdd_o : STD_LOGIC_VECTOR (66 downto 0);\n" +
+                        "    signal rndExpFrac_uid113_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (66 downto 0);\n" +
+                        "    signal wEP2AllOwE_uid114_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal rndExp_uid115_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (65 downto 0);\n" +
+                        "    signal rndExp_uid115_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal rOvfEQMax_uid116_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rndExpFracOvfBits_uid118_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (65 downto 0);\n" +
+                        "    signal rndExpFracOvfBits_uid118_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rOvfExtraBits_uid119_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rOvf_uid120_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rOvf_uid120_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal wEP2AllZ_uid121_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal rUdfEQMin_uid122_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rUdfExtraBit_uid123_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (65 downto 0);\n" +
+                        "    signal rUdfExtraBit_uid123_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rUdf_uid124_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rUdf_uid124_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracRPreExc_uid125_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal fracRPreExc_uid125_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expRPreExc_uid126_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal expRPreExc_uid126_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal regInputs_uid127_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal regInputs_uid127_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRZeroVInC_uid128_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal excRZero_uid129_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rInfOvf_uid130_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRInfVInC_uid131_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal excRInf_uid132_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRNaN2_uid133_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excAIBISub_uid134_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRNaN_uid135_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal concExc_uid136_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal excREnc_uid137_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal invAMinusA_uid138_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRReg_uid139_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigBBInf_uid140_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigAAInf_uid141_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRInf_uid142_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excAZBZSigASigB_uid143_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excBZARSigA_uid144_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRZero_uid145_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExcRNaN_uid147_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRPostExc_uid148_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneFracRPostExc2_uid149_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal fracRPostExc_uid152_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracRPostExc_uid152_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expRPostExc_uid156_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal expRPostExc_uid156_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal R_uid157_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal zs_uid159_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal rVStage_uid160_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal mO_uid162_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (6 downto 0);\n" +
+                        "    signal vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (24 downto 0);\n" +
+                        "    signal vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (24 downto 0);\n" +
+                        "    signal cStage_uid164_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal zs_uid167_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal zs_uid173_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal zs_uid179_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal zs_uid185_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal vCount_uid187_lzCountVal_uid94_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vCount_uid187_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rVStage_uid192_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vCount_uid193_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid194_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal wIntCst_uid198_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (6 downto 0);\n" +
+                        "    signal shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_a : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_o : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rightShiftStage0Idx1Rng32_uid200_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (74 downto 0);\n" +
+                        "    signal rightShiftStage0Idx1_uid202_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage0Idx2Rng64_uid203_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (42 downto 0);\n" +
+                        "    signal rightShiftStage0Idx2Pad64_uid204_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal rightShiftStage0Idx2_uid205_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage0Idx3Rng96_uid206_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal rightShiftStage0Idx3Pad96_uid207_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (95 downto 0);\n" +
+                        "    signal rightShiftStage0Idx3_uid208_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage1Idx1Rng8_uid211_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (98 downto 0);\n" +
+                        "    signal rightShiftStage1Idx1_uid213_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage1Idx2Rng16_uid214_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (90 downto 0);\n" +
+                        "    signal rightShiftStage1Idx2_uid216_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage1Idx3Rng24_uid217_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (82 downto 0);\n" +
+                        "    signal rightShiftStage1Idx3Pad24_uid218_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal rightShiftStage1Idx3_uid219_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage2Idx1Rng2_uid222_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (104 downto 0);\n" +
+                        "    signal rightShiftStage2Idx1_uid224_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage2Idx2Rng4_uid225_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (102 downto 0);\n" +
+                        "    signal rightShiftStage2Idx2_uid227_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage2Idx3Rng6_uid228_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (100 downto 0);\n" +
+                        "    signal rightShiftStage2Idx3Pad6_uid229_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal rightShiftStage2Idx3_uid230_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage3Idx1Rng1_uid233_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (105 downto 0);\n" +
+                        "    signal rightShiftStage3Idx1_uid235_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal zeroOutCst_uid238_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (106 downto 0);\n" +
+                        "    signal leftShiftStage0Idx1Rng16_uid244_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (40 downto 0);\n" +
+                        "    signal leftShiftStage0Idx1Rng16_uid244_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (40 downto 0);\n" +
+                        "    signal leftShiftStage0Idx1_uid245_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage0Idx2_uid248_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3Pad48_uid249_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (47 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3Rng48_uid250_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3Rng48_uid250_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3_uid251_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage1Idx1Rng4_uid255_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal leftShiftStage1Idx1Rng4_uid255_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal leftShiftStage1Idx1_uid256_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage1Idx2Rng8_uid258_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal leftShiftStage1Idx2Rng8_uid258_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal leftShiftStage1Idx2_uid259_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3Pad12_uid260_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3Rng12_uid261_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (44 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3Rng12_uid261_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (44 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3_uid262_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage2Idx1Rng1_uid266_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal leftShiftStage2Idx1Rng1_uid266_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal leftShiftStage2Idx1_uid267_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage2Idx2Rng2_uid269_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (54 downto 0);\n" +
+                        "    signal leftShiftStage2Idx2Rng2_uid269_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (54 downto 0);\n" +
+                        "    signal leftShiftStage2Idx2_uid270_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage2Idx3Pad3_uid271_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal leftShiftStage2Idx3Rng3_uid272_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (53 downto 0);\n" +
+                        "    signal leftShiftStage2Idx3Rng3_uid272_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (53 downto 0);\n" +
+                        "    signal leftShiftStage2Idx3_uid273_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_in : STD_LOGIC_VECTOR (6 downto 0);\n" +
+                        "    signal rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_d : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_e : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_c : STD_LOGIC_VECTOR (54 downto 0);\n" +
+                        "    signal rVStage_uid168_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal rVStage_uid168_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select_d : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal redist0_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b_1_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal redist1_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal redist2_stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q : STD_LOGIC_VECTOR (54 downto 0);\n" +
+                        "    signal redist3_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal redist4_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_d_1_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal redist5_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_e_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist6_vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist7_vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist8_vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist9_vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b_2_q : STD_LOGIC_VECTOR (24 downto 0);\n" +
+                        "    signal redist10_vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist11_signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist12_regInputs_uid127_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist13_expRPreExc_uid126_fpAddSubTest_ieeeAdd_b_1_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal redist14_fracRPreExc_uid125_fpAddSubTest_ieeeAdd_b_1_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal redist15_fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_b_1_q : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal redist16_aMinusA_uid96_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist17_fracGRS_uid93_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (56 downto 0);\n" +
+                        "    signal redist18_rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_b_1_q : STD_LOGIC_VECTOR (55 downto 0);\n" +
+                        "    signal redist19_cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist20_shiftedOut_uid72_fpAddSubTest_ieeeAdd_c_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist21_effSub_uid61_fpAddSubTest_ieeeAdd_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist22_sigB_uid60_fpAddSubTest_ieeeAdd_b_3_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist23_sigB_uid60_fpAddSubTest_ieeeAdd_b_6_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist24_sigA_uid59_fpAddSubTest_ieeeAdd_b_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist25_sigA_uid59_fpAddSubTest_ieeeAdd_b_7_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist26_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_6_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist27_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_8_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist28_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_6_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist29_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_8_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist30_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_6_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist31_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_8_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist32_excN_aSig_uid37_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist33_excI_aSig_uid36_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist34_fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q_3_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist35_excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal redist37_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_inputreg_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_outputreg_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_outputreg_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_reset0 : std_logic;\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_ia : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_aa : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_ab : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_iq : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_i : UNSIGNED (1 downto 0);\n" +
+                        "    attribute preserve : boolean;\n";
+        String data2 =  "    attribute preserve of redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_i : signal is true;\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_wraddr_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_last_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmp_b : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmp_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmpReg_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_notEnable_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_nor_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_sticky_ena_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    attribute preserve_syn_only : boolean;\n" +
+                        "    attribute preserve_syn_only of redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_sticky_ena_q : signal is true;\n" +
+                        "    signal redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_enaAnd_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- cAmA_uid95_fpAddSubTest_ieeeAdd(CONSTANT,94)\n" +
+                        "    cAmA_uid95_fpAddSubTest_ieeeAdd_q <= \"111001\";\n" +
+                        "\n" +
+                        "    -- zs_uid159_lzCountVal_uid94_fpAddSubTest_ieeeAdd(CONSTANT,158)\n" +
+                        "    zs_uid159_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"00000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- signB_uid6_fpAddSubTest(BITSELECT,5)@0\n" +
+                        "    signB_uid6_fpAddSubTest_b <= STD_LOGIC_VECTOR(b(63 downto 63));\n" +
+                        "\n" +
+                        "    -- invSignB_uid8_fpAddSubTest(LOGICAL,7)@0\n" +
+                        "    invSignB_uid8_fpAddSubTest_q <= not (signB_uid6_fpAddSubTest_b);\n" +
+                        "\n" +
+                        "    -- muxSignB_uid9_fpAddSubTest(MUX,8)@0\n" +
+                        "    muxSignB_uid9_fpAddSubTest_s <= opSel;\n" +
+                        "    muxSignB_uid9_fpAddSubTest_combproc: PROCESS (muxSignB_uid9_fpAddSubTest_s, invSignB_uid8_fpAddSubTest_q, signB_uid6_fpAddSubTest_b)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (muxSignB_uid9_fpAddSubTest_s) IS\n" +
+                        "            WHEN \"0\" => muxSignB_uid9_fpAddSubTest_q <= invSignB_uid8_fpAddSubTest_q;\n" +
+                        "            WHEN \"1\" => muxSignB_uid9_fpAddSubTest_q <= signB_uid6_fpAddSubTest_b;\n" +
+                        "            WHEN OTHERS => muxSignB_uid9_fpAddSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- restB_uid7_fpAddSubTest(BITSELECT,6)@0\n" +
+                        "    restB_uid7_fpAddSubTest_b <= b(62 downto 0);\n" +
+                        "\n" +
+                        "    -- bOperand_uid10_fpAddSubTest(BITJOIN,9)@0\n" +
+                        "    bOperand_uid10_fpAddSubTest_q <= muxSignB_uid9_fpAddSubTest_q & restB_uid7_fpAddSubTest_b;\n" +
+                        "\n" +
+                        "    -- sigY_uid20_fpAddSubTest_ieeeAdd(BITSELECT,19)@0\n" +
+                        "    sigY_uid20_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(bOperand_uid10_fpAddSubTest_q(63 downto 63));\n" +
+                        "\n" +
+                        "    -- expY_uid19_fpAddSubTest_ieeeAdd(BITSELECT,18)@0\n" +
+                        "    expY_uid19_fpAddSubTest_ieeeAdd_b <= bOperand_uid10_fpAddSubTest_q(62 downto 52);\n" +
+                        "\n" +
+                        "    -- fracY_uid18_fpAddSubTest_ieeeAdd(BITSELECT,17)@0\n" +
+                        "    fracY_uid18_fpAddSubTest_ieeeAdd_b <= bOperand_uid10_fpAddSubTest_q(51 downto 0);\n" +
+                        "\n" +
+                        "    -- ypn_uid21_fpAddSubTest_ieeeAdd(BITJOIN,20)@0\n" +
+                        "    ypn_uid21_fpAddSubTest_ieeeAdd_q <= sigY_uid20_fpAddSubTest_ieeeAdd_b & expY_uid19_fpAddSubTest_ieeeAdd_b & fracY_uid18_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- expFracY_uid16_fpAddSubTest_ieeeAdd(BITSELECT,15)@0\n" +
+                        "    expFracY_uid16_fpAddSubTest_ieeeAdd_b <= bOperand_uid10_fpAddSubTest_q(62 downto 0);\n" +
+                        "\n" +
+                        "    -- expFracX_uid15_fpAddSubTest_ieeeAdd(BITSELECT,14)@0\n" +
+                        "    expFracX_uid15_fpAddSubTest_ieeeAdd_b <= a(62 downto 0);\n" +
+                        "\n" +
+                        "    -- xGTEy_uid17_fpAddSubTest_ieeeAdd(COMPARE,16)@0\n" +
+                        "    xGTEy_uid17_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR(\"00\" & expFracX_uid15_fpAddSubTest_ieeeAdd_b);\n" +
+                        "    xGTEy_uid17_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(\"00\" & expFracY_uid16_fpAddSubTest_ieeeAdd_b);\n" +
+                        "    xGTEy_uid17_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(xGTEy_uid17_fpAddSubTest_ieeeAdd_a) - UNSIGNED(xGTEy_uid17_fpAddSubTest_ieeeAdd_b));\n" +
+                        "    xGTEy_uid17_fpAddSubTest_ieeeAdd_n(0) <= not (xGTEy_uid17_fpAddSubTest_ieeeAdd_o(64));\n" +
+                        "\n" +
+                        "    -- bSig_uid26_fpAddSubTest_ieeeAdd(MUX,25)@0 + 1\n" +
+                        "    bSig_uid26_fpAddSubTest_ieeeAdd_s <= xGTEy_uid17_fpAddSubTest_ieeeAdd_n;\n" +
+                        "    bSig_uid26_fpAddSubTest_ieeeAdd_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            bSig_uid26_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (bSig_uid26_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "                WHEN \"0\" => bSig_uid26_fpAddSubTest_ieeeAdd_q <= a;\n" +
+                        "                WHEN \"1\" => bSig_uid26_fpAddSubTest_ieeeAdd_q <= ypn_uid21_fpAddSubTest_ieeeAdd_q;\n" +
+                        "                WHEN OTHERS => bSig_uid26_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- sigB_uid60_fpAddSubTest_ieeeAdd(BITSELECT,59)@1\n" +
+                        "    sigB_uid60_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(bSig_uid26_fpAddSubTest_ieeeAdd_q(63 downto 63));\n" +
+                        "\n" +
+                        "    -- redist22_sigB_uid60_fpAddSubTest_ieeeAdd_b_3(DELAY,305)\n" +
+                        "    redist22_sigB_uid60_fpAddSubTest_ieeeAdd_b_3 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => sigB_uid60_fpAddSubTest_ieeeAdd_b, xout => redist22_sigB_uid60_fpAddSubTest_ieeeAdd_b_3_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- aSig_uid25_fpAddSubTest_ieeeAdd(MUX,24)@0\n" +
+                        "    aSig_uid25_fpAddSubTest_ieeeAdd_s <= xGTEy_uid17_fpAddSubTest_ieeeAdd_n;\n" +
+                        "    aSig_uid25_fpAddSubTest_ieeeAdd_combproc: PROCESS (aSig_uid25_fpAddSubTest_ieeeAdd_s, ypn_uid21_fpAddSubTest_ieeeAdd_q, a)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (aSig_uid25_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"0\" => aSig_uid25_fpAddSubTest_ieeeAdd_q <= ypn_uid21_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"1\" => aSig_uid25_fpAddSubTest_ieeeAdd_q <= a;\n" +
+                        "            WHEN OTHERS => aSig_uid25_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- sigA_uid59_fpAddSubTest_ieeeAdd(BITSELECT,58)@0\n" +
+                        "    sigA_uid59_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(aSig_uid25_fpAddSubTest_ieeeAdd_q(63 downto 63));\n" +
+                        "\n" +
+                        "    -- redist24_sigA_uid59_fpAddSubTest_ieeeAdd_b_4(DELAY,307)\n" +
+                        "    redist24_sigA_uid59_fpAddSubTest_ieeeAdd_b_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 4, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => sigA_uid59_fpAddSubTest_ieeeAdd_b, xout => redist24_sigA_uid59_fpAddSubTest_ieeeAdd_b_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- effSub_uid61_fpAddSubTest_ieeeAdd(LOGICAL,60)@4\n" +
+                        "    effSub_uid61_fpAddSubTest_ieeeAdd_q <= redist24_sigA_uid59_fpAddSubTest_ieeeAdd_b_4_q xor redist22_sigB_uid60_fpAddSubTest_ieeeAdd_b_3_q;\n" +
+                        "\n" +
+                        "    -- exp_bSig_uid44_fpAddSubTest_ieeeAdd(BITSELECT,43)@1\n" +
+                        "    exp_bSig_uid44_fpAddSubTest_ieeeAdd_in <= bSig_uid26_fpAddSubTest_ieeeAdd_q(62 downto 0);\n" +
+                        "    exp_bSig_uid44_fpAddSubTest_ieeeAdd_b <= exp_bSig_uid44_fpAddSubTest_ieeeAdd_in(62 downto 52);\n" +
+                        "\n" +
+                        "    -- exp_aSig_uid30_fpAddSubTest_ieeeAdd(BITSELECT,29)@0\n" +
+                        "    exp_aSig_uid30_fpAddSubTest_ieeeAdd_in <= aSig_uid25_fpAddSubTest_ieeeAdd_q(62 downto 0);\n" +
+                        "    exp_aSig_uid30_fpAddSubTest_ieeeAdd_b <= exp_aSig_uid30_fpAddSubTest_ieeeAdd_in(62 downto 52);\n" +
+                        "\n" +
+                        "    -- redist37_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1(DELAY,320)\n" +
+                        "    redist37_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 11, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => exp_aSig_uid30_fpAddSubTest_ieeeAdd_b, xout => redist37_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expAmExpB_uid69_fpAddSubTest_ieeeAdd(SUB,68)@1\n" +
+                        "    expAmExpB_uid69_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR(\"0\" & redist37_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1_q);\n" +
+                        "    expAmExpB_uid69_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(\"0\" & exp_bSig_uid44_fpAddSubTest_ieeeAdd_b);\n" +
+                        "    expAmExpB_uid69_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(expAmExpB_uid69_fpAddSubTest_ieeeAdd_a) - UNSIGNED(expAmExpB_uid69_fpAddSubTest_ieeeAdd_b));\n" +
+                        "    expAmExpB_uid69_fpAddSubTest_ieeeAdd_q <= expAmExpB_uid69_fpAddSubTest_ieeeAdd_o(11 downto 0);\n" +
+                        "\n" +
+                        "    -- cWFP2_uid70_fpAddSubTest_ieeeAdd(CONSTANT,69)\n" +
+                        "    cWFP2_uid70_fpAddSubTest_ieeeAdd_q <= \"110110\";\n" +
+                        "\n" +
+                        "    -- shiftedOut_uid72_fpAddSubTest_ieeeAdd(COMPARE,71)@1 + 1\n" +
+                        "    shiftedOut_uid72_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR(\"00000000\" & cWFP2_uid70_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    shiftedOut_uid72_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(\"00\" & expAmExpB_uid69_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    shiftedOut_uid72_fpAddSubTest_ieeeAdd_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            shiftedOut_uid72_fpAddSubTest_ieeeAdd_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            shiftedOut_uid72_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(shiftedOut_uid72_fpAddSubTest_ieeeAdd_a) - UNSIGNED(shiftedOut_uid72_fpAddSubTest_ieeeAdd_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    shiftedOut_uid72_fpAddSubTest_ieeeAdd_c(0) <= shiftedOut_uid72_fpAddSubTest_ieeeAdd_o(13);\n" +
+                        "\n" +
+                        "    -- redist20_shiftedOut_uid72_fpAddSubTest_ieeeAdd_c_2(DELAY,303)\n" +
+                        "    redist20_shiftedOut_uid72_fpAddSubTest_ieeeAdd_c_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => shiftedOut_uid72_fpAddSubTest_ieeeAdd_c, xout => redist20_shiftedOut_uid72_fpAddSubTest_ieeeAdd_c_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- iShiftedOut_uid76_fpAddSubTest_ieeeAdd(LOGICAL,75)@3\n" +
+                        "    iShiftedOut_uid76_fpAddSubTest_ieeeAdd_q <= not (redist20_shiftedOut_uid72_fpAddSubTest_ieeeAdd_c_2_q);\n" +
+                        "\n" +
+                        "    -- zeroOutCst_uid238_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(CONSTANT,237)\n" +
+                        "    zeroOutCst_uid238_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= \"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage3Idx1Rng1_uid233_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,232)@2\n" +
+                        "    rightShiftStage3Idx1Rng1_uid233_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q(106 downto 1);\n" +
+                        "\n" +
+                        "    -- rightShiftStage3Idx1_uid235_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,234)@2\n" +
+                        "    rightShiftStage3Idx1_uid235_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= GND_q & rightShiftStage3Idx1Rng1_uid233_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx3Pad6_uid229_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(CONSTANT,228)\n" +
+                        "    rightShiftStage2Idx3Pad6_uid229_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= \"000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx3Rng6_uid228_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,227)@2\n" +
+                        "    rightShiftStage2Idx3Rng6_uid228_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q(106 downto 6);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx3_uid230_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,229)@2\n" +
+                        "    rightShiftStage2Idx3_uid230_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage2Idx3Pad6_uid229_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q & rightShiftStage2Idx3Rng6_uid228_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- zs_uid179_lzCountVal_uid94_fpAddSubTest_ieeeAdd(CONSTANT,178)\n" +
+                        "    zs_uid179_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"0000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx2Rng4_uid225_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,224)@2\n" +
+                        "    rightShiftStage2Idx2Rng4_uid225_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q(106 downto 4);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx2_uid227_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,226)@2\n" +
+                        "    rightShiftStage2Idx2_uid227_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= zs_uid179_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q & rightShiftStage2Idx2Rng4_uid225_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- zs_uid185_lzCountVal_uid94_fpAddSubTest_ieeeAdd(CONSTANT,184)\n" +
+                        "    zs_uid185_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"00\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx1Rng2_uid222_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,221)@2\n" +
+                        "    rightShiftStage2Idx1Rng2_uid222_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q(106 downto 2);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx1_uid224_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,223)@2\n" +
+                        "    rightShiftStage2Idx1_uid224_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= zs_uid185_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q & rightShiftStage2Idx1Rng2_uid222_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx3Pad24_uid218_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(CONSTANT,217)\n" +
+                        "    rightShiftStage1Idx3Pad24_uid218_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= \"000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx3Rng24_uid217_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,216)@2\n" +
+                        "    rightShiftStage1Idx3Rng24_uid217_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q(106 downto 24);\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx3_uid219_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,218)@2\n" +
+                        "    rightShiftStage1Idx3_uid219_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage1Idx3Pad24_uid218_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q & rightShiftStage1Idx3Rng24_uid217_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- zs_uid167_lzCountVal_uid94_fpAddSubTest_ieeeAdd(CONSTANT,166)\n" +
+                        "    zs_uid167_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"0000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx2Rng16_uid214_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,213)@2\n" +
+                        "    rightShiftStage1Idx2Rng16_uid214_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q(106 downto 16);\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx2_uid216_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,215)@2\n" +
+                        "    rightShiftStage1Idx2_uid216_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= zs_uid167_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q & rightShiftStage1Idx2Rng16_uid214_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- zs_uid173_lzCountVal_uid94_fpAddSubTest_ieeeAdd(CONSTANT,172)\n" +
+                        "    zs_uid173_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"00000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx1Rng8_uid211_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,210)@2\n" +
+                        "    rightShiftStage1Idx1Rng8_uid211_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q(106 downto 8);\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx1_uid213_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,212)@2\n" +
+                        "    rightShiftStage1Idx1_uid213_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= zs_uid173_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q & rightShiftStage1Idx1Rng8_uid211_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx3Pad96_uid207_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(CONSTANT,206)\n" +
+                        "    rightShiftStage0Idx3Pad96_uid207_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= \"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx3Rng96_uid206_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,205)@1\n" +
+                        "    rightShiftStage0Idx3Rng96_uid206_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightPaddedIn_uid74_fpAddSubTest_ieeeAdd_q(106 downto 96);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx3_uid208_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,207)@1\n" +
+                        "    rightShiftStage0Idx3_uid208_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage0Idx3Pad96_uid207_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q & rightShiftStage0Idx3Rng96_uid206_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx2Pad64_uid204_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(CONSTANT,203)\n" +
+                        "    rightShiftStage0Idx2Pad64_uid204_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= \"0000000000000000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx2Rng64_uid203_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,202)@1\n" +
+                        "    rightShiftStage0Idx2Rng64_uid203_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightPaddedIn_uid74_fpAddSubTest_ieeeAdd_q(106 downto 64);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx2_uid205_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,204)@1\n" +
+                        "    rightShiftStage0Idx2_uid205_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage0Idx2Pad64_uid204_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q & rightShiftStage0Idx2Rng64_uid203_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx1Rng32_uid200_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITSELECT,199)@1\n" +
+                        "    rightShiftStage0Idx1Rng32_uid200_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= rightPaddedIn_uid74_fpAddSubTest_ieeeAdd_q(106 downto 32);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx1_uid202_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(BITJOIN,201)@1\n" +
+                        "    rightShiftStage0Idx1_uid202_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= zs_uid159_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q & rightShiftStage0Idx1Rng32_uid200_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid29_fpAddSubTest_ieeeAdd(CONSTANT,28)\n" +
+                        "    cstAllZWE_uid29_fpAddSubTest_ieeeAdd_q <= \"00000000000\";\n" +
+                        "\n" +
+                        "    -- excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd(LOGICAL,45)@1\n" +
+                        "    excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN exp_bSig_uid44_fpAddSubTest_ieeeAdd_b = cstAllZWE_uid29_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd(LOGICAL,52)@1\n" +
+                        "    InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q <= not (excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q);\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid28_fpAddSubTest_ieeeAdd(CONSTANT,27)\n" +
+                        "    cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q <= \"0000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- frac_bSig_uid45_fpAddSubTest_ieeeAdd(BITSELECT,44)@1\n" +
+                        "    frac_bSig_uid45_fpAddSubTest_ieeeAdd_in <= bSig_uid26_fpAddSubTest_ieeeAdd_q(51 downto 0);\n" +
+                        "    frac_bSig_uid45_fpAddSubTest_ieeeAdd_b <= frac_bSig_uid45_fpAddSubTest_ieeeAdd_in(51 downto 0);\n" +
+                        "\n" +
+                        "    -- fracBz_uid65_fpAddSubTest_ieeeAdd(MUX,64)@1\n" +
+                        "    fracBz_uid65_fpAddSubTest_ieeeAdd_s <= excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    fracBz_uid65_fpAddSubTest_ieeeAdd_combproc: PROCESS (fracBz_uid65_fpAddSubTest_ieeeAdd_s, frac_bSig_uid45_fpAddSubTest_ieeeAdd_b, cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (fracBz_uid65_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"0\" => fracBz_uid65_fpAddSubTest_ieeeAdd_q <= frac_bSig_uid45_fpAddSubTest_ieeeAdd_b;\n" +
+                        "            WHEN \"1\" => fracBz_uid65_fpAddSubTest_ieeeAdd_q <= cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => fracBz_uid65_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oFracB_uid68_fpAddSubTest_ieeeAdd(BITJOIN,67)@1\n" +
+                        "    oFracB_uid68_fpAddSubTest_ieeeAdd_q <= InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q & fracBz_uid65_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- padConst_uid73_fpAddSubTest_ieeeAdd(CONSTANT,72)\n" +
+                        "    padConst_uid73_fpAddSubTest_ieeeAdd_q <= \"000000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightPaddedIn_uid74_fpAddSubTest_ieeeAdd(BITJOIN,73)@1\n" +
+                        "    rightPaddedIn_uid74_fpAddSubTest_ieeeAdd_q <= oFracB_uid68_fpAddSubTest_ieeeAdd_q & padConst_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select(BITSELECT,276)@1\n" +
+                        "    rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_in <= expAmExpB_uid69_fpAddSubTest_ieeeAdd_q(6 downto 0);\n" +
+                        "    rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_b <= rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_in(6 downto 5);\n" +
+                        "    rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_c <= rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_in(4 downto 3);\n" +
+                        "    rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_d <= rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_in(2 downto 1);\n" +
+                        "    rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_e <= rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_in(0 downto 0);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(MUX,209)@1 + 1\n" +
+                        "    rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s <= rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_b;\n" +
+                        "    rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "                WHEN \"00\" => rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightPaddedIn_uid74_fpAddSubTest_ieeeAdd_q;\n" +
+                        "                WHEN \"01\" => rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage0Idx1_uid202_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "                WHEN \"10\" => rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage0Idx2_uid205_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "                WHEN \"11\" => rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage0Idx3_uid208_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "                WHEN OTHERS => rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- redist3_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_c_1(DELAY,286)\n" +
+                        "    redist3_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_c_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 2, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_c, xout => redist3_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(MUX,220)@2\n" +
+                        "    rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s <= redist3_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q;\n" +
+                        "    rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_combproc: PROCESS (rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s, rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q, rightShiftStage1Idx1_uid213_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q, rightShiftStage1Idx2_uid216_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q, rightShiftStage1Idx3_uid219_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"00\" => rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage0_uid210_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"01\" => rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage1Idx1_uid213_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"10\" => rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage1Idx2_uid216_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"11\" => rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage1Idx3_uid219_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- redist4_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_d_1(DELAY,287)\n" +
+                        "    redist4_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_d_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 2, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_d, xout => redist4_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_d_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(MUX,231)@2\n" +
+                        "    rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s <= redist4_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_d_1_q;\n" +
+                        "    rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_combproc: PROCESS (rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s, rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q, rightShiftStage2Idx1_uid224_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q, rightShiftStage2Idx2_uid227_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q, rightShiftStage2Idx3_uid230_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"00\" => rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage1_uid221_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"01\" => rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage2Idx1_uid224_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"10\" => rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage2Idx2_uid227_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"11\" => rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage2Idx3_uid230_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- redist5_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_e_1(DELAY,288)\n" +
+                        "    redist5_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_e_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_e, xout => redist5_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_e_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(MUX,236)@2\n" +
+                        "    rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s <= redist5_rightShiftStageSel6Dto5_uid209_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_merged_bit_select_e_1_q;\n" +
+                        "    rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_combproc: PROCESS (rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s, rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q, rightShiftStage3Idx1_uid235_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"0\" => rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage2_uid232_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"1\" => rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage3Idx1_uid235_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- wIntCst_uid198_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(CONSTANT,197)\n" +
+                        "    wIntCst_uid198_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= \"1101011\";\n" +
+                        "\n" +
+                        "    -- shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(COMPARE,198)@1 + 1\n" +
+                        "    shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR(\"00\" & expAmExpB_uid69_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(\"0000000\" & wIntCst_uid198_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_a) - UNSIGNED(shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_n(0) <= not (shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_o(13));\n" +
+                        "\n" +
+                        "    -- r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd(MUX,238)@2 + 1\n" +
+                        "    r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s <= shiftedOut_uid199_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_n;\n" +
+                        "    r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "                WHEN \"0\" => r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= rightShiftStage3_uid237_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "                WHEN \"1\" => r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= zeroOutCst_uid238_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q;\n" +
+                        "                WHEN OTHERS => r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- alignFracBPostShiftOut_uid77_fpAddSubTest_ieeeAdd(LOGICAL,76)@3\n" +
+                        "    alignFracBPostShiftOut_uid77_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((106 downto 1 => iShiftedOut_uid76_fpAddSubTest_ieeeAdd_q(0)) & iShiftedOut_uid76_fpAddSubTest_ieeeAdd_q));\n" +
+                        "    alignFracBPostShiftOut_uid77_fpAddSubTest_ieeeAdd_q <= r_uid239_alignmentShifter_uid73_fpAddSubTest_ieeeAdd_q and alignFracBPostShiftOut_uid77_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select(BITSELECT,277)@3\n" +
+                        "    stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_b <= alignFracBPostShiftOut_uid77_fpAddSubTest_ieeeAdd_q(51 downto 0);\n" +
+                        "    stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_c <= alignFracBPostShiftOut_uid77_fpAddSubTest_ieeeAdd_q(106 downto 52);\n" +
+                        "\n" +
+                        "    -- redist2_stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_c_1(DELAY,285)\n" +
+                        "    redist2_stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_c_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 55, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_c, xout => redist2_stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracBAddOp_uid89_fpAddSubTest_ieeeAdd(BITJOIN,88)@4\n" +
+                        "    fracBAddOp_uid89_fpAddSubTest_ieeeAdd_q <= GND_q & redist2_stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q;\n" +
+                        "\n" +
+                        "    -- fracBAddOpPostXor_uid90_fpAddSubTest_ieeeAdd(LOGICAL,89)@4\n" +
+                        "    fracBAddOpPostXor_uid90_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((55 downto 1 => effSub_uid61_fpAddSubTest_ieeeAdd_q(0)) & effSub_uid61_fpAddSubTest_ieeeAdd_q));\n" +
+                        "    fracBAddOpPostXor_uid90_fpAddSubTest_ieeeAdd_q <= fracBAddOp_uid89_fpAddSubTest_ieeeAdd_q xor fracBAddOpPostXor_uid90_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- zocst_uid85_fpAddSubTest_ieeeAdd(CONSTANT,84)\n" +
+                        "    zocst_uid85_fpAddSubTest_ieeeAdd_q <= \"01\";\n" +
+                        "\n" +
+                        "    -- frac_aSig_uid31_fpAddSubTest_ieeeAdd(BITSELECT,30)@0\n" +
+                        "    frac_aSig_uid31_fpAddSubTest_ieeeAdd_in <= aSig_uid25_fpAddSubTest_ieeeAdd_q(51 downto 0);\n" +
+                        "    frac_aSig_uid31_fpAddSubTest_ieeeAdd_b <= frac_aSig_uid31_fpAddSubTest_ieeeAdd_in(51 downto 0);\n" +
+                        "\n" +
+                        "    -- redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_inputreg(DELAY,322)\n" +
+                        "    redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_inputreg : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 52, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => frac_aSig_uid31_fpAddSubTest_ieeeAdd_b, xout => redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_inputreg_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4(DELAY,319)\n" +
+                        "    redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 52, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_inputreg_q, xout => redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_outputreg(DELAY,323)\n" +
+                        "    redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_outputreg : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 52, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_q, xout => redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_outputreg_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd(LOGICAL,79)@3 + 1\n" +
+                        "    cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_qi <= \"1\" WHEN stickyBits_uid78_fpAddSubTest_ieeeAdd_merged_bit_select_b = cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "    cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_qi, xout => cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- effSubInvSticky_uid83_fpAddSubTest_ieeeAdd(LOGICAL,82)@4\n" +
+                        "    effSubInvSticky_uid83_fpAddSubTest_ieeeAdd_q <= effSub_uid61_fpAddSubTest_ieeeAdd_q and cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- fracAAddOp_uid86_fpAddSubTest_ieeeAdd(BITJOIN,85)@4\n" +
+                        "    fracAAddOp_uid86_fpAddSubTest_ieeeAdd_q <= zocst_uid85_fpAddSubTest_ieeeAdd_q & redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_outputreg_q & GND_q & effSubInvSticky_uid83_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- fracAddResult_uid91_fpAddSubTest_ieeeAdd(ADD,90)@4\n" +
+                        "    fracAddResult_uid91_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR(\"0\" & fracAAddOp_uid86_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    fracAddResult_uid91_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(\"0\" & fracBAddOpPostXor_uid90_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    fracAddResult_uid91_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(fracAddResult_uid91_fpAddSubTest_ieeeAdd_a) + UNSIGNED(fracAddResult_uid91_fpAddSubTest_ieeeAdd_b));\n" +
+                        "    fracAddResult_uid91_fpAddSubTest_ieeeAdd_q <= fracAddResult_uid91_fpAddSubTest_ieeeAdd_o(56 downto 0);\n" +
+                        "\n" +
+                        "    -- rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd(BITSELECT,91)@4\n" +
+                        "    rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_in <= fracAddResult_uid91_fpAddSubTest_ieeeAdd_q(55 downto 0);\n" +
+                        "    rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_b <= rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_in(55 downto 0);\n" +
+                        "\n" +
+                        "    -- redist18_rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_b_1(DELAY,301)\n" +
+                        "    redist18_rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 56, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_b, xout => redist18_rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist19_cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_q_2(DELAY,302)\n" +
+                        "    redist19_cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_q, xout => redist19_cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- invCmpEQ_stickyBits_cZwF_uid81_fpAddSubTest_ieeeAdd(LOGICAL,80)@5\n" +
+                        "    invCmpEQ_stickyBits_cZwF_uid81_fpAddSubTest_ieeeAdd_q <= not (redist19_cmpEQ_stickyBits_cZwF_uid80_fpAddSubTest_ieeeAdd_q_2_q);\n" +
+                        "\n" +
+                        "    -- fracGRS_uid93_fpAddSubTest_ieeeAdd(BITJOIN,92)@5\n" +
+                        "    fracGRS_uid93_fpAddSubTest_ieeeAdd_q <= redist18_rangeFracAddResultMwfp3Dto0_uid92_fpAddSubTest_ieeeAdd_b_1_q & invCmpEQ_stickyBits_cZwF_uid81_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- rVStage_uid160_lzCountVal_uid94_fpAddSubTest_ieeeAdd(BITSELECT,159)@5\n" +
+                        "    rVStage_uid160_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b <= fracGRS_uid93_fpAddSubTest_ieeeAdd_q(56 downto 25);\n" +
+                        "\n" +
+                        "    -- vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd(LOGICAL,160)@5\n" +
+                        "    vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN rVStage_uid160_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b = zs_uid159_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- redist10_vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2(DELAY,293)\n" +
+                        "    redist10_vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q, xout => redist10_vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd(BITSELECT,162)@5\n" +
+                        "    vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_in <= fracGRS_uid93_fpAddSubTest_ieeeAdd_q(24 downto 0);\n" +
+                        "    vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b <= vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_in(24 downto 0);\n" +
+                        "\n" +
+                        "    -- mO_uid162_lzCountVal_uid94_fpAddSubTest_ieeeAdd(CONSTANT,161)\n" +
+                        "    mO_uid162_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"1111111\";\n" +
+                        "\n" +
+                        "    -- cStage_uid164_lzCountVal_uid94_fpAddSubTest_ieeeAdd(BITJOIN,163)@5\n" +
+                        "    cStage_uid164_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b & mO_uid162_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd(MUX,165)@5\n" +
+                        "    vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s <= vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_combproc: PROCESS (vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s, rVStage_uid160_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b, cStage_uid164_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= rVStage_uid160_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b;\n" +
+                        "            WHEN \"1\" => vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= cStage_uid164_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid168_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select(BITSELECT,278)@5\n" +
+                        "    rVStage_uid168_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b <= vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(31 downto 16);\n" +
+                        "    rVStage_uid168_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c <= vStagei_uid166_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(15 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd(LOGICAL,168)@5\n" +
+                        "    vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN rVStage_uid168_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b = zs_uid167_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- redist8_vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2(DELAY,291)\n" +
+                        "    redist8_vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q, xout => redist8_vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd(MUX,171)@5 + 1\n" +
+                        "    vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s <= vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "                WHEN \"0\" => vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= rVStage_uid168_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b;\n" +
+                        "                WHEN \"1\" => vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= rVStage_uid168_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c;\n" +
+                        "                WHEN OTHERS => vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select(BITSELECT,279)@6\n" +
+                        "    rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b <= vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(15 downto 8);\n" +
+                        "    rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c <= vStagei_uid172_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(7 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd(LOGICAL,174)@6\n" +
+                        "    vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b = zs_uid173_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- redist7_vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1(DELAY,290)\n" +
+                        "    redist7_vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q, xout => redist7_vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd(MUX,177)@6\n" +
+                        "    vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s <= vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_combproc: PROCESS (vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s, rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b, rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b;\n" +
+                        "            WHEN \"1\" => vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= rVStage_uid174_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c;\n" +
+                        "            WHEN OTHERS => vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select(BITSELECT,280)@6\n" +
+                        "    rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b <= vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(7 downto 4);\n" +
+                        "    rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c <= vStagei_uid178_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(3 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd(LOGICAL,180)@6\n" +
+                        "    vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b = zs_uid179_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- redist6_vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1(DELAY,289)\n" +
+                        "    redist6_vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q, xout => redist6_vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd(MUX,183)@6\n" +
+                        "    vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s <= vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_combproc: PROCESS (vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s, rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b, rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b;\n" +
+                        "            WHEN \"1\" => vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= rVStage_uid180_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c;\n" +
+                        "            WHEN OTHERS => vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select(BITSELECT,281)@6\n" +
+                        "    rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b <= vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(3 downto 2);\n" +
+                        "    rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c <= vStagei_uid184_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(1 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid187_lzCountVal_uid94_fpAddSubTest_ieeeAdd(LOGICAL,186)@6 + 1\n" +
+                        "    vCount_uid187_lzCountVal_uid94_fpAddSubTest_ieeeAdd_qi <= \"1\" WHEN rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b = zs_uid185_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "    vCount_uid187_lzCountVal_uid94_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vCount_uid187_lzCountVal_uid94_fpAddSubTest_ieeeAdd_qi, xout => vCount_uid187_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist1_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c_1(DELAY,284)\n" +
+                        "    redist1_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 2, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c, xout => redist1_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist0_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b_1(DELAY,283)\n" +
+                        "    redist0_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 2, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b, xout => redist0_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd(MUX,189)@7\n" +
+                        "    vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s <= vCount_uid187_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_combproc: PROCESS (vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s, redist0_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b_1_q, redist1_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= redist0_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_b_1_q;\n" +
+                        "            WHEN \"1\" => vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= redist1_rVStage_uid186_lzCountVal_uid94_fpAddSubTest_ieeeAdd_merged_bit_select_c_1_q;\n" +
+                        "            WHEN OTHERS => vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid192_lzCountVal_uid94_fpAddSubTest_ieeeAdd(BITSELECT,191)@7\n" +
+                        "    rVStage_uid192_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b <= vStagei_uid190_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(1 downto 1);\n" +
+                        "\n" +
+                        "    -- vCount_uid193_lzCountVal_uid94_fpAddSubTest_ieeeAdd(LOGICAL,192)@7\n" +
+                        "    vCount_uid193_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN rVStage_uid192_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b = GND_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- r_uid194_lzCountVal_uid94_fpAddSubTest_ieeeAdd(BITJOIN,193)@7\n" +
+                        "    r_uid194_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q <= redist10_vCount_uid161_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2_q & redist8_vCount_uid169_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_2_q & redist7_vCount_uid175_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1_q & redist6_vCount_uid181_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q_1_q & vCount_uid187_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q & vCount_uid193_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- aMinusA_uid96_fpAddSubTest_ieeeAdd(LOGICAL,95)@7\n" +
+                        "    aMinusA_uid96_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN r_uid194_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q = cAmA_uid95_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- invAMinusA_uid138_fpAddSubTest_ieeeAdd(LOGICAL,137)@7\n" +
+                        "    invAMinusA_uid138_fpAddSubTest_ieeeAdd_q <= not (aMinusA_uid96_fpAddSubTest_ieeeAdd_q);\n" +
+                        "\n" +
+                        "    -- redist25_sigA_uid59_fpAddSubTest_ieeeAdd_b_7(DELAY,308)\n" +
+                        "    redist25_sigA_uid59_fpAddSubTest_ieeeAdd_b_7 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist24_sigA_uid59_fpAddSubTest_ieeeAdd_b_4_q, xout => redist25_sigA_uid59_fpAddSubTest_ieeeAdd_b_7_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid27_fpAddSubTest_ieeeAdd(CONSTANT,26)\n" +
+                        "    cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q <= \"11111111111\";\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid47_fpAddSubTest_ieeeAdd(LOGICAL,46)@1\n" +
+                        "    expXIsMax_uid47_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN exp_bSig_uid44_fpAddSubTest_ieeeAdd_b = cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid52_fpAddSubTest_ieeeAdd(LOGICAL,51)@1\n" +
+                        "    invExpXIsMax_uid52_fpAddSubTest_ieeeAdd_q <= not (expXIsMax_uid47_fpAddSubTest_ieeeAdd_q);\n" +
+                        "\n" +
+                        "    -- excR_bSig_uid54_fpAddSubTest_ieeeAdd(LOGICAL,53)@1 + 1\n" +
+                        "    excR_bSig_uid54_fpAddSubTest_ieeeAdd_qi <= InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q and invExpXIsMax_uid52_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    excR_bSig_uid54_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excR_bSig_uid54_fpAddSubTest_ieeeAdd_qi, xout => excR_bSig_uid54_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist26_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_6(DELAY,309)\n" +
+                        "    redist26_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_6 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 5, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excR_bSig_uid54_fpAddSubTest_ieeeAdd_q, xout => redist26_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_6_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_notEnable(LOGICAL,331)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_notEnable_q <= STD_LOGIC_VECTOR(not (VCC_q));\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_nor(LOGICAL,332)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_nor_q <= not (redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_notEnable_q or redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_sticky_ena_q);\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_last(CONSTANT,328)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_last_q <= \"010\";\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmp(LOGICAL,329)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmp_b <= STD_LOGIC_VECTOR(\"0\" & redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_q);\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmp_q <= \"1\" WHEN redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_last_q = redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmp_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmpReg(REG,330)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmpReg_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmpReg_q <= \"0\";\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmpReg_q <= STD_LOGIC_VECTOR(redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmp_q);\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_sticky_ena(REG,333)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_sticky_ena_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_sticky_ena_q <= \"0\";\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            IF (redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_nor_q = \"1\") THEN\n" +
+                        "                redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_sticky_ena_q <= STD_LOGIC_VECTOR(redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_cmpReg_q);\n" +
+                        "            END IF;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_enaAnd(LOGICAL,334)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_enaAnd_q <= redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_sticky_ena_q and VCC_q;\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt(COUNTER,326)\n" +
+                        "    -- low=0, high=3, step=1, init=0\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_i <= TO_UNSIGNED(0, 2);\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_i <= redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_i + 1;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_q <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(RESIZE(redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_i, 2)));\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_wraddr(REG,327)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_wraddr_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_wraddr_q <= \"11\";\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_wraddr_q <= STD_LOGIC_VECTOR(redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_q);\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem(DUALMEM,325)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_ia <= STD_LOGIC_VECTOR(redist37_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1_q);\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_aa <= redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_wraddr_q;\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_ab <= redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_rdcnt_q;\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_reset0 <= areset;\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_dmem : altera_syncram\n" +
+                        "    GENERIC MAP (\n" +
+                        "        ram_block_type => \"MLAB\",\n" +
+                        "        operation_mode => \"DUAL_PORT\",\n" +
+                        "        width_a => 11,\n" +
+                        "        widthad_a => 2,\n" +
+                        "        numwords_a => 4,\n" +
+                        "        width_b => 11,\n" +
+                        "        widthad_b => 2,\n" +
+                        "        numwords_b => 4,\n" +
+                        "        lpm_type => \"altera_syncram\",\n" +
+                        "        width_byteena_a => 1,\n" +
+                        "        address_reg_b => \"CLOCK0\",\n" +
+                        "        indata_reg_b => \"CLOCK0\",\n" +
+                        "        rdcontrol_reg_b => \"CLOCK0\",\n" +
+                        "        byteena_reg_b => \"CLOCK0\",\n" +
+                        "        outdata_reg_b => \"CLOCK1\",\n" +
+                        "        outdata_aclr_b => \"CLEAR1\",\n" +
+                        "        clock_enable_input_a => \"NORMAL\",\n" +
+                        "        clock_enable_input_b => \"NORMAL\",\n" +
+                        "        clock_enable_output_b => \"NORMAL\",\n" +
+                        "        read_during_write_mode_mixed_ports => \"DONT_CARE\",\n" +
+                        "        power_up_uninitialized => \"TRUE\",\n" +
+                        "        intended_device_family => \"Cyclone V\"\n" +
+                        "    )\n" +
+                        "    PORT MAP (\n" +
+                        "        clocken1 => redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_enaAnd_q(0),\n" +
+                        "        clocken0 => VCC_q(0),\n" +
+                        "        clock0 => clk,\n" +
+                        "        aclr1 => redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_reset0,\n" +
+                        "        clock1 => clk,\n" +
+                        "        address_a => redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_aa,\n" +
+                        "        data_a => redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_ia,\n" +
+                        "        wren_a => VCC_q(0),\n" +
+                        "        address_b => redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_ab,\n" +
+                        "        q_b => redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_iq\n" +
+                        "    );\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_q <= redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_iq(10 downto 0);\n" +
+                        "\n" +
+                        "    -- redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_outputreg(DELAY,324)\n" +
+                        "    redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_outputreg : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 11, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_mem_q, xout => redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_outputreg_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid33_fpAddSubTest_ieeeAdd(LOGICAL,32)@7\n" +
+                        "    expXIsMax_uid33_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_outputreg_q = cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid38_fpAddSubTest_ieeeAdd(LOGICAL,37)@7\n" +
+                        "    invExpXIsMax_uid38_fpAddSubTest_ieeeAdd_q <= not (expXIsMax_uid33_fpAddSubTest_ieeeAdd_q);\n" +
+                        "\n" +
+                        "    -- excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd(LOGICAL,31)@7\n" +
+                        "    excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_outputreg_q = cstAllZWE_uid29_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid39_fpAddSubTest_ieeeAdd(LOGICAL,38)@7\n" +
+                        "    InvExpXIsZero_uid39_fpAddSubTest_ieeeAdd_q <= not (excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q);\n" +
+                        "\n" +
+                        "    -- excR_aSig_uid40_fpAddSubTest_ieeeAdd(LOGICAL,39)@7\n" +
+                        "    excR_aSig_uid40_fpAddSubTest_ieeeAdd_q <= InvExpXIsZero_uid39_fpAddSubTest_ieeeAdd_q and invExpXIsMax_uid38_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- signRReg_uid139_fpAddSubTest_ieeeAdd(LOGICAL,138)@7\n" +
+                        "    signRReg_uid139_fpAddSubTest_ieeeAdd_q <= excR_aSig_uid40_fpAddSubTest_ieeeAdd_q and redist26_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_6_q and redist25_sigA_uid59_fpAddSubTest_ieeeAdd_b_7_q and invAMinusA_uid138_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- redist23_sigB_uid60_fpAddSubTest_ieeeAdd_b_6(DELAY,306)\n" +
+                        "    redist23_sigB_uid60_fpAddSubTest_ieeeAdd_b_6 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist22_sigB_uid60_fpAddSubTest_ieeeAdd_b_3_q, xout => redist23_sigB_uid60_fpAddSubTest_ieeeAdd_b_6_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist30_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_6(DELAY,313)\n" +
+                        "    redist30_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_6 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 6, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q, xout => redist30_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_6_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excAZBZSigASigB_uid143_fpAddSubTest_ieeeAdd(LOGICAL,142)@7\n" +
+                        "    excAZBZSigASigB_uid143_fpAddSubTest_ieeeAdd_q <= excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q and redist30_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_6_q and redist25_sigA_uid59_fpAddSubTest_ieeeAdd_b_7_q and redist23_sigB_uid60_fpAddSubTest_ieeeAdd_b_6_q;\n" +
+                        "\n" +
+                        "    -- excBZARSigA_uid144_fpAddSubTest_ieeeAdd(LOGICAL,143)@7\n" +
+                        "    excBZARSigA_uid144_fpAddSubTest_ieeeAdd_q <= redist30_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_6_q and excR_aSig_uid40_fpAddSubTest_ieeeAdd_q and redist25_sigA_uid59_fpAddSubTest_ieeeAdd_b_7_q;\n" +
+                        "\n" +
+                        "    -- signRZero_uid145_fpAddSubTest_ieeeAdd(LOGICAL,144)@7\n" +
+                        "    signRZero_uid145_fpAddSubTest_ieeeAdd_q <= excBZARSigA_uid144_fpAddSubTest_ieeeAdd_q or excAZBZSigASigB_uid143_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid48_fpAddSubTest_ieeeAdd(LOGICAL,47)@1\n" +
+                        "    fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q = frac_bSig_uid45_fpAddSubTest_ieeeAdd_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excI_bSig_uid50_fpAddSubTest_ieeeAdd(LOGICAL,49)@1 + 1\n" +
+                        "    excI_bSig_uid50_fpAddSubTest_ieeeAdd_qi <= expXIsMax_uid47_fpAddSubTest_ieeeAdd_q and fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    excI_bSig_uid50_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excI_bSig_uid50_fpAddSubTest_ieeeAdd_qi, xout => excI_bSig_uid50_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist28_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_6(DELAY,311)\n" +
+                        "    redist28_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_6 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 5, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excI_bSig_uid50_fpAddSubTest_ieeeAdd_q, xout => redist28_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_6_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- sigBBInf_uid140_fpAddSubTest_ieeeAdd(LOGICAL,139)@7\n" +
+                        "    sigBBInf_uid140_fpAddSubTest_ieeeAdd_q <= redist23_sigB_uid60_fpAddSubTest_ieeeAdd_b_6_q and redist28_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_6_q;\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid34_fpAddSubTest_ieeeAdd(LOGICAL,33)@4 + 1\n" +
+                        "    fracXIsZero_uid34_fpAddSubTest_ieeeAdd_qi <= \"1\" WHEN cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q = redist36_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_4_outputreg_q ELSE \"0\";\n" +
+                        "    fracXIsZero_uid34_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid34_fpAddSubTest_ieeeAdd_qi, xout => fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist34_fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q_3(DELAY,317)\n" +
+                        "    redist34_fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q_3 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q, xout => redist34_fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q_3_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excI_aSig_uid36_fpAddSubTest_ieeeAdd(LOGICAL,35)@7\n" +
+                        "    excI_aSig_uid36_fpAddSubTest_ieeeAdd_q <= expXIsMax_uid33_fpAddSubTest_ieeeAdd_q and redist34_fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q_3_q;\n" +
+                        "\n" +
+                        "    -- sigAAInf_uid141_fpAddSubTest_ieeeAdd(LOGICAL,140)@7\n" +
+                        "    sigAAInf_uid141_fpAddSubTest_ieeeAdd_q <= redist25_sigA_uid59_fpAddSubTest_ieeeAdd_b_7_q and excI_aSig_uid36_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- signRInf_uid142_fpAddSubTest_ieeeAdd(LOGICAL,141)@7\n" +
+                        "    signRInf_uid142_fpAddSubTest_ieeeAdd_q <= sigAAInf_uid141_fpAddSubTest_ieeeAdd_q or sigBBInf_uid140_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd(LOGICAL,145)@7 + 1\n" +
+                        "    signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_qi <= signRInf_uid142_fpAddSubTest_ieeeAdd_q or signRZero_uid145_fpAddSubTest_ieeeAdd_q or signRReg_uid139_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_qi, xout => signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist11_signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_q_2(DELAY,294)\n" +
+                        "    redist11_signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_q, xout => redist11_signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd(LOGICAL,48)@1\n" +
+                        "    fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd_q <= not (fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q);\n" +
+                        "\n" +
+                        "    -- excN_bSig_uid51_fpAddSubTest_ieeeAdd(LOGICAL,50)@1 + 1\n" +
+                        "    excN_bSig_uid51_fpAddSubTest_ieeeAdd_qi <= expXIsMax_uid47_fpAddSubTest_ieeeAdd_q and fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    excN_bSig_uid51_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excN_bSig_uid51_fpAddSubTest_ieeeAdd_qi, xout => excN_bSig_uid51_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist27_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_8(DELAY,310)\n" +
+                        "    redist27_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_8 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 7, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excN_bSig_uid51_fpAddSubTest_ieeeAdd_q, xout => redist27_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_8_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid35_fpAddSubTest_ieeeAdd(LOGICAL,34)@7\n" +
+                        "    fracXIsNotZero_uid35_fpAddSubTest_ieeeAdd_q <= not (redist34_fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q_3_q);\n" +
+                        "\n" +
+                        "    -- excN_aSig_uid37_fpAddSubTest_ieeeAdd(LOGICAL,36)@7 + 1\n" +
+                        "    excN_aSig_uid37_fpAddSubTest_ieeeAdd_qi <= expXIsMax_uid33_fpAddSubTest_ieeeAdd_q and fracXIsNotZero_uid35_fpAddSubTest_ieeeAdd_q;\n";
+        String data3 =  "    excN_aSig_uid37_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excN_aSig_uid37_fpAddSubTest_ieeeAdd_qi, xout => excN_aSig_uid37_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist32_excN_aSig_uid37_fpAddSubTest_ieeeAdd_q_2(DELAY,315)\n" +
+                        "    redist32_excN_aSig_uid37_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excN_aSig_uid37_fpAddSubTest_ieeeAdd_q, xout => redist32_excN_aSig_uid37_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excRNaN2_uid133_fpAddSubTest_ieeeAdd(LOGICAL,132)@9\n" +
+                        "    excRNaN2_uid133_fpAddSubTest_ieeeAdd_q <= redist32_excN_aSig_uid37_fpAddSubTest_ieeeAdd_q_2_q or redist27_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_8_q;\n" +
+                        "\n" +
+                        "    -- redist21_effSub_uid61_fpAddSubTest_ieeeAdd_q_5(DELAY,304)\n" +
+                        "    redist21_effSub_uid61_fpAddSubTest_ieeeAdd_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 5, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => effSub_uid61_fpAddSubTest_ieeeAdd_q, xout => redist21_effSub_uid61_fpAddSubTest_ieeeAdd_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist29_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_8(DELAY,312)\n" +
+                        "    redist29_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_8 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist28_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_6_q, xout => redist29_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_8_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist33_excI_aSig_uid36_fpAddSubTest_ieeeAdd_q_2(DELAY,316)\n" +
+                        "    redist33_excI_aSig_uid36_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excI_aSig_uid36_fpAddSubTest_ieeeAdd_q, xout => redist33_excI_aSig_uid36_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excAIBISub_uid134_fpAddSubTest_ieeeAdd(LOGICAL,133)@9\n" +
+                        "    excAIBISub_uid134_fpAddSubTest_ieeeAdd_q <= redist33_excI_aSig_uid36_fpAddSubTest_ieeeAdd_q_2_q and redist29_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_8_q and redist21_effSub_uid61_fpAddSubTest_ieeeAdd_q_5_q;\n" +
+                        "\n" +
+                        "    -- excRNaN_uid135_fpAddSubTest_ieeeAdd(LOGICAL,134)@9\n" +
+                        "    excRNaN_uid135_fpAddSubTest_ieeeAdd_q <= excAIBISub_uid134_fpAddSubTest_ieeeAdd_q or excRNaN2_uid133_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- invExcRNaN_uid147_fpAddSubTest_ieeeAdd(LOGICAL,146)@9\n" +
+                        "    invExcRNaN_uid147_fpAddSubTest_ieeeAdd_q <= not (excRNaN_uid135_fpAddSubTest_ieeeAdd_q);\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- signRPostExc_uid148_fpAddSubTest_ieeeAdd(LOGICAL,147)@9\n" +
+                        "    signRPostExc_uid148_fpAddSubTest_ieeeAdd_q <= invExcRNaN_uid147_fpAddSubTest_ieeeAdd_q and redist11_signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_q_2_q;\n" +
+                        "\n" +
+                        "    -- cRBit_uid108_fpAddSubTest_ieeeAdd(CONSTANT,107)\n" +
+                        "    cRBit_uid108_fpAddSubTest_ieeeAdd_q <= \"01000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx3Rng3_uid272_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITSELECT,271)@7\n" +
+                        "    leftShiftStage2Idx3Rng3_uid272_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in <= leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(53 downto 0);\n" +
+                        "    leftShiftStage2Idx3Rng3_uid272_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b <= leftShiftStage2Idx3Rng3_uid272_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in(53 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx3Pad3_uid271_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(CONSTANT,270)\n" +
+                        "    leftShiftStage2Idx3Pad3_uid271_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= \"000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx3_uid273_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITJOIN,272)@7\n" +
+                        "    leftShiftStage2Idx3_uid273_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage2Idx3Rng3_uid272_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b & leftShiftStage2Idx3Pad3_uid271_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx2Rng2_uid269_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITSELECT,268)@7\n" +
+                        "    leftShiftStage2Idx2Rng2_uid269_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in <= leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(54 downto 0);\n" +
+                        "    leftShiftStage2Idx2Rng2_uid269_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b <= leftShiftStage2Idx2Rng2_uid269_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in(54 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx2_uid270_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITJOIN,269)@7\n" +
+                        "    leftShiftStage2Idx2_uid270_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage2Idx2Rng2_uid269_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b & zs_uid185_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx1Rng1_uid266_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITSELECT,265)@7\n" +
+                        "    leftShiftStage2Idx1Rng1_uid266_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in <= leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(55 downto 0);\n" +
+                        "    leftShiftStage2Idx1Rng1_uid266_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b <= leftShiftStage2Idx1Rng1_uid266_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in(55 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx1_uid267_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITJOIN,266)@7\n" +
+                        "    leftShiftStage2Idx1_uid267_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage2Idx1Rng1_uid266_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b & GND_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx3Rng12_uid261_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITSELECT,260)@7\n" +
+                        "    leftShiftStage1Idx3Rng12_uid261_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in <= leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(44 downto 0);\n" +
+                        "    leftShiftStage1Idx3Rng12_uid261_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b <= leftShiftStage1Idx3Rng12_uid261_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in(44 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx3Pad12_uid260_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(CONSTANT,259)\n" +
+                        "    leftShiftStage1Idx3Pad12_uid260_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= \"000000000000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx3_uid262_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITJOIN,261)@7\n" +
+                        "    leftShiftStage1Idx3_uid262_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage1Idx3Rng12_uid261_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b & leftShiftStage1Idx3Pad12_uid260_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx2Rng8_uid258_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITSELECT,257)@7\n" +
+                        "    leftShiftStage1Idx2Rng8_uid258_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in <= leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(48 downto 0);\n" +
+                        "    leftShiftStage1Idx2Rng8_uid258_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b <= leftShiftStage1Idx2Rng8_uid258_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in(48 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx2_uid259_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITJOIN,258)@7\n" +
+                        "    leftShiftStage1Idx2_uid259_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage1Idx2Rng8_uid258_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b & zs_uid173_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx1Rng4_uid255_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITSELECT,254)@7\n" +
+                        "    leftShiftStage1Idx1Rng4_uid255_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in <= leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(52 downto 0);\n" +
+                        "    leftShiftStage1Idx1Rng4_uid255_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b <= leftShiftStage1Idx1Rng4_uid255_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in(52 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx1_uid256_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITJOIN,255)@7\n" +
+                        "    leftShiftStage1Idx1_uid256_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage1Idx1Rng4_uid255_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b & zs_uid179_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx3Rng48_uid250_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITSELECT,249)@7\n" +
+                        "    leftShiftStage0Idx3Rng48_uid250_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in <= redist17_fracGRS_uid93_fpAddSubTest_ieeeAdd_q_2_q(8 downto 0);\n" +
+                        "    leftShiftStage0Idx3Rng48_uid250_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b <= leftShiftStage0Idx3Rng48_uid250_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in(8 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx3Pad48_uid249_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(CONSTANT,248)\n" +
+                        "    leftShiftStage0Idx3Pad48_uid249_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= \"000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx3_uid251_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITJOIN,250)@7\n" +
+                        "    leftShiftStage0Idx3_uid251_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage0Idx3Rng48_uid250_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b & leftShiftStage0Idx3Pad48_uid249_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- redist9_vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b_2(DELAY,292)\n" +
+                        "    redist9_vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 25, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b, xout => redist9_vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx2_uid248_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITJOIN,247)@7\n" +
+                        "    leftShiftStage0Idx2_uid248_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= redist9_vStage_uid163_lzCountVal_uid94_fpAddSubTest_ieeeAdd_b_2_q & zs_uid159_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx1Rng16_uid244_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITSELECT,243)@7\n" +
+                        "    leftShiftStage0Idx1Rng16_uid244_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in <= redist17_fracGRS_uid93_fpAddSubTest_ieeeAdd_q_2_q(40 downto 0);\n" +
+                        "    leftShiftStage0Idx1Rng16_uid244_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b <= leftShiftStage0Idx1Rng16_uid244_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_in(40 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx1_uid245_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(BITJOIN,244)@7\n" +
+                        "    leftShiftStage0Idx1_uid245_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage0Idx1Rng16_uid244_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_b & zs_uid167_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- redist17_fracGRS_uid93_fpAddSubTest_ieeeAdd_q_2(DELAY,300)\n" +
+                        "    redist17_fracGRS_uid93_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 57, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracGRS_uid93_fpAddSubTest_ieeeAdd_q, xout => redist17_fracGRS_uid93_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(MUX,252)@7\n" +
+                        "    leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s <= leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select_b;\n" +
+                        "    leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_combproc: PROCESS (leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s, redist17_fracGRS_uid93_fpAddSubTest_ieeeAdd_q_2_q, leftShiftStage0Idx1_uid245_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q, leftShiftStage0Idx2_uid248_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q, leftShiftStage0Idx3_uid251_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"00\" => leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= redist17_fracGRS_uid93_fpAddSubTest_ieeeAdd_q_2_q;\n" +
+                        "            WHEN \"01\" => leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage0Idx1_uid245_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"10\" => leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage0Idx2_uid248_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"11\" => leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage0Idx3_uid251_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(MUX,263)@7\n" +
+                        "    leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s <= leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select_c;\n" +
+                        "    leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_combproc: PROCESS (leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s, leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q, leftShiftStage1Idx1_uid256_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q, leftShiftStage1Idx2_uid259_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q, leftShiftStage1Idx3_uid262_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"00\" => leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage0_uid253_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"01\" => leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage1Idx1_uid256_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"10\" => leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage1Idx2_uid259_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"11\" => leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage1Idx3_uid262_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select(BITSELECT,282)@7\n" +
+                        "    leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select_b <= r_uid194_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(5 downto 4);\n" +
+                        "    leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select_c <= r_uid194_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(3 downto 2);\n" +
+                        "    leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select_d <= r_uid194_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q(1 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd(MUX,274)@7\n" +
+                        "    leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s <= leftShiftStageSel5Dto4_uid252_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_merged_bit_select_d;\n" +
+                        "    leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_combproc: PROCESS (leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s, leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q, leftShiftStage2Idx1_uid267_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q, leftShiftStage2Idx2_uid270_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q, leftShiftStage2Idx3_uid273_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"00\" => leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage1_uid264_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"01\" => leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage2Idx1_uid267_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"10\" => leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage2Idx2_uid270_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"11\" => leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= leftShiftStage2Idx3_uid273_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- LSB_uid106_fpAddSubTest_ieeeAdd(BITSELECT,105)@7\n" +
+                        "    LSB_uid106_fpAddSubTest_ieeeAdd_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(4 downto 0));\n" +
+                        "    LSB_uid106_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(LSB_uid106_fpAddSubTest_ieeeAdd_in(4 downto 4));\n" +
+                        "\n" +
+                        "    -- Guard_uid105_fpAddSubTest_ieeeAdd(BITSELECT,104)@7\n" +
+                        "    Guard_uid105_fpAddSubTest_ieeeAdd_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(3 downto 0));\n" +
+                        "    Guard_uid105_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(Guard_uid105_fpAddSubTest_ieeeAdd_in(3 downto 3));\n" +
+                        "\n" +
+                        "    -- Round_uid104_fpAddSubTest_ieeeAdd(BITSELECT,103)@7\n" +
+                        "    Round_uid104_fpAddSubTest_ieeeAdd_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(2 downto 0));\n" +
+                        "    Round_uid104_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(Round_uid104_fpAddSubTest_ieeeAdd_in(2 downto 2));\n" +
+                        "\n" +
+                        "    -- Sticky1_uid103_fpAddSubTest_ieeeAdd(BITSELECT,102)@7\n" +
+                        "    Sticky1_uid103_fpAddSubTest_ieeeAdd_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(1 downto 0));\n" +
+                        "    Sticky1_uid103_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(Sticky1_uid103_fpAddSubTest_ieeeAdd_in(1 downto 1));\n" +
+                        "\n" +
+                        "    -- Sticky0_uid102_fpAddSubTest_ieeeAdd(BITSELECT,101)@7\n" +
+                        "    Sticky0_uid102_fpAddSubTest_ieeeAdd_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(0 downto 0));\n" +
+                        "    Sticky0_uid102_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(Sticky0_uid102_fpAddSubTest_ieeeAdd_in(0 downto 0));\n" +
+                        "\n" +
+                        "    -- rndBitCond_uid107_fpAddSubTest_ieeeAdd(BITJOIN,106)@7\n" +
+                        "    rndBitCond_uid107_fpAddSubTest_ieeeAdd_q <= LSB_uid106_fpAddSubTest_ieeeAdd_b & Guard_uid105_fpAddSubTest_ieeeAdd_b & Round_uid104_fpAddSubTest_ieeeAdd_b & Sticky1_uid103_fpAddSubTest_ieeeAdd_b & Sticky0_uid102_fpAddSubTest_ieeeAdd_b;\n" +
+                        "\n" +
+                        "    -- rBi_uid109_fpAddSubTest_ieeeAdd(LOGICAL,108)@7 + 1\n" +
+                        "    rBi_uid109_fpAddSubTest_ieeeAdd_qi <= \"1\" WHEN rndBitCond_uid107_fpAddSubTest_ieeeAdd_q = cRBit_uid108_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "    rBi_uid109_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rBi_uid109_fpAddSubTest_ieeeAdd_qi, xout => rBi_uid109_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- roundBit_uid110_fpAddSubTest_ieeeAdd(LOGICAL,109)@8\n" +
+                        "    roundBit_uid110_fpAddSubTest_ieeeAdd_q <= not (rBi_uid109_fpAddSubTest_ieeeAdd_q);\n" +
+                        "\n" +
+                        "    -- oneCST_uid99_fpAddSubTest_ieeeAdd(CONSTANT,98)\n" +
+                        "    oneCST_uid99_fpAddSubTest_ieeeAdd_q <= \"00000000001\";\n" +
+                        "\n" +
+                        "    -- expInc_uid100_fpAddSubTest_ieeeAdd(ADD,99)@7\n" +
+                        "    expInc_uid100_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR(\"0\" & redist38_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_7_outputreg_q);\n" +
+                        "    expInc_uid100_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(\"0\" & oneCST_uid99_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    expInc_uid100_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(expInc_uid100_fpAddSubTest_ieeeAdd_a) + UNSIGNED(expInc_uid100_fpAddSubTest_ieeeAdd_b));\n" +
+                        "    expInc_uid100_fpAddSubTest_ieeeAdd_q <= expInc_uid100_fpAddSubTest_ieeeAdd_o(11 downto 0);\n" +
+                        "\n" +
+                        "    -- expPostNorm_uid101_fpAddSubTest_ieeeAdd(SUB,100)@7 + 1\n" +
+                        "    expPostNorm_uid101_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR(\"0\" & expInc_uid100_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    expPostNorm_uid101_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(\"0000000\" & r_uid194_lzCountVal_uid94_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    expPostNorm_uid101_fpAddSubTest_ieeeAdd_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expPostNorm_uid101_fpAddSubTest_ieeeAdd_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expPostNorm_uid101_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(expPostNorm_uid101_fpAddSubTest_ieeeAdd_a) - UNSIGNED(expPostNorm_uid101_fpAddSubTest_ieeeAdd_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expPostNorm_uid101_fpAddSubTest_ieeeAdd_q <= expPostNorm_uid101_fpAddSubTest_ieeeAdd_o(12 downto 0);\n" +
+                        "\n" +
+                        "    -- fracPostNorm_uid98_fpAddSubTest_ieeeAdd(BITSELECT,97)@7\n" +
+                        "    fracPostNorm_uid98_fpAddSubTest_ieeeAdd_b <= leftShiftStage2_uid275_fracPostNormExt_uid97_fpAddSubTest_ieeeAdd_q(56 downto 1);\n" +
+                        "\n" +
+                        "    -- fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd(BITSELECT,110)@7\n" +
+                        "    fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_in <= fracPostNorm_uid98_fpAddSubTest_ieeeAdd_b(54 downto 0);\n" +
+                        "    fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_b <= fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_in(54 downto 2);\n" +
+                        "\n" +
+                        "    -- redist15_fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_b_1(DELAY,298)\n" +
+                        "    redist15_fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 53, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_b, xout => redist15_fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expFracR_uid112_fpAddSubTest_ieeeAdd(BITJOIN,111)@8\n" +
+                        "    expFracR_uid112_fpAddSubTest_ieeeAdd_q <= expPostNorm_uid101_fpAddSubTest_ieeeAdd_q & redist15_fracPostNormRndRange_uid111_fpAddSubTest_ieeeAdd_b_1_q;\n" +
+                        "\n" +
+                        "    -- rndExpFrac_uid113_fpAddSubTest_ieeeAdd(ADD,112)@8\n" +
+                        "    rndExpFrac_uid113_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR(\"0\" & expFracR_uid112_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    rndExpFrac_uid113_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(\"000000000000000000000000000000000000000000000000000000000000000000\" & roundBit_uid110_fpAddSubTest_ieeeAdd_q);\n" +
+                        "    rndExpFrac_uid113_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(rndExpFrac_uid113_fpAddSubTest_ieeeAdd_a) + UNSIGNED(rndExpFrac_uid113_fpAddSubTest_ieeeAdd_b));\n" +
+                        "    rndExpFrac_uid113_fpAddSubTest_ieeeAdd_q <= rndExpFrac_uid113_fpAddSubTest_ieeeAdd_o(66 downto 0);\n" +
+                        "\n" +
+                        "    -- expRPreExc_uid126_fpAddSubTest_ieeeAdd(BITSELECT,125)@8\n" +
+                        "    expRPreExc_uid126_fpAddSubTest_ieeeAdd_in <= rndExpFrac_uid113_fpAddSubTest_ieeeAdd_q(63 downto 0);\n" +
+                        "    expRPreExc_uid126_fpAddSubTest_ieeeAdd_b <= expRPreExc_uid126_fpAddSubTest_ieeeAdd_in(63 downto 53);\n" +
+                        "\n" +
+                        "    -- redist13_expRPreExc_uid126_fpAddSubTest_ieeeAdd_b_1(DELAY,296)\n" +
+                        "    redist13_expRPreExc_uid126_fpAddSubTest_ieeeAdd_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 11, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expRPreExc_uid126_fpAddSubTest_ieeeAdd_b, xout => redist13_expRPreExc_uid126_fpAddSubTest_ieeeAdd_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rndExpFracOvfBits_uid118_fpAddSubTest_ieeeAdd(BITSELECT,117)@8\n" +
+                        "    rndExpFracOvfBits_uid118_fpAddSubTest_ieeeAdd_in <= rndExpFrac_uid113_fpAddSubTest_ieeeAdd_q(65 downto 0);\n" +
+                        "    rndExpFracOvfBits_uid118_fpAddSubTest_ieeeAdd_b <= rndExpFracOvfBits_uid118_fpAddSubTest_ieeeAdd_in(65 downto 64);\n" +
+                        "\n" +
+                        "    -- rOvfExtraBits_uid119_fpAddSubTest_ieeeAdd(LOGICAL,118)@8\n" +
+                        "    rOvfExtraBits_uid119_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN rndExpFracOvfBits_uid118_fpAddSubTest_ieeeAdd_b = zocst_uid85_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- wEP2AllOwE_uid114_fpAddSubTest_ieeeAdd(CONSTANT,113)\n" +
+                        "    wEP2AllOwE_uid114_fpAddSubTest_ieeeAdd_q <= \"0011111111111\";\n" +
+                        "\n" +
+                        "    -- rndExp_uid115_fpAddSubTest_ieeeAdd(BITSELECT,114)@8\n" +
+                        "    rndExp_uid115_fpAddSubTest_ieeeAdd_in <= rndExpFrac_uid113_fpAddSubTest_ieeeAdd_q(65 downto 0);\n" +
+                        "    rndExp_uid115_fpAddSubTest_ieeeAdd_b <= rndExp_uid115_fpAddSubTest_ieeeAdd_in(65 downto 53);\n" +
+                        "\n" +
+                        "    -- rOvfEQMax_uid116_fpAddSubTest_ieeeAdd(LOGICAL,115)@8\n" +
+                        "    rOvfEQMax_uid116_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN rndExp_uid115_fpAddSubTest_ieeeAdd_b = wEP2AllOwE_uid114_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- rOvf_uid120_fpAddSubTest_ieeeAdd(LOGICAL,119)@8 + 1\n" +
+                        "    rOvf_uid120_fpAddSubTest_ieeeAdd_qi <= rOvfEQMax_uid116_fpAddSubTest_ieeeAdd_q or rOvfExtraBits_uid119_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    rOvf_uid120_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rOvf_uid120_fpAddSubTest_ieeeAdd_qi, xout => rOvf_uid120_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- regInputs_uid127_fpAddSubTest_ieeeAdd(LOGICAL,126)@7 + 1\n" +
+                        "    regInputs_uid127_fpAddSubTest_ieeeAdd_qi <= excR_aSig_uid40_fpAddSubTest_ieeeAdd_q and redist26_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_6_q;\n" +
+                        "    regInputs_uid127_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => regInputs_uid127_fpAddSubTest_ieeeAdd_qi, xout => regInputs_uid127_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist12_regInputs_uid127_fpAddSubTest_ieeeAdd_q_2(DELAY,295)\n" +
+                        "    redist12_regInputs_uid127_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => regInputs_uid127_fpAddSubTest_ieeeAdd_q, xout => redist12_regInputs_uid127_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rInfOvf_uid130_fpAddSubTest_ieeeAdd(LOGICAL,129)@9\n" +
+                        "    rInfOvf_uid130_fpAddSubTest_ieeeAdd_q <= redist12_regInputs_uid127_fpAddSubTest_ieeeAdd_q_2_q and rOvf_uid120_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- excRInfVInC_uid131_fpAddSubTest_ieeeAdd(BITJOIN,130)@9\n" +
+                        "    excRInfVInC_uid131_fpAddSubTest_ieeeAdd_q <= rInfOvf_uid130_fpAddSubTest_ieeeAdd_q & redist27_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_8_q & redist32_excN_aSig_uid37_fpAddSubTest_ieeeAdd_q_2_q & redist29_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_8_q & redist33_excI_aSig_uid36_fpAddSubTest_ieeeAdd_q_2_q & redist21_effSub_uid61_fpAddSubTest_ieeeAdd_q_5_q;\n" +
+                        "\n" +
+                        "    -- excRInf_uid132_fpAddSubTest_ieeeAdd(LOOKUP,131)@9\n" +
+                        "    excRInf_uid132_fpAddSubTest_ieeeAdd_combproc: PROCESS (excRInfVInC_uid131_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (excRInfVInC_uid131_fpAddSubTest_ieeeAdd_q) IS\n" +
+                        "            WHEN \"000000\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"000001\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"000010\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"000011\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"000100\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"000101\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"000110\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"000111\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"001000\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"001001\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"001010\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"001011\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"001100\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"001101\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"001110\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"001111\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"010000\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"010001\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"010010\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"010011\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"010100\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"010101\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"010110\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"010111\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"011000\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"011001\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"011010\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"011011\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"011100\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"011101\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"011110\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"011111\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"100000\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"100001\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"100010\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"100011\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"100100\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"100101\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"100110\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"100111\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"101000\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"101001\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"101010\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"101011\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"101100\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"101101\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"101110\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"101111\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"110000\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"110001\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"110010\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"110011\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"110100\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"110101\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"110110\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"110111\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"111000\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"111001\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"111010\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"111011\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"111100\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"111101\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"111110\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"111111\" => excRInf_uid132_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excRInf_uid132_fpAddSubTest_ieeeAdd_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- redist16_aMinusA_uid96_fpAddSubTest_ieeeAdd_q_2(DELAY,299)\n" +
+                        "    redist16_aMinusA_uid96_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => aMinusA_uid96_fpAddSubTest_ieeeAdd_q, xout => redist16_aMinusA_uid96_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rUdfExtraBit_uid123_fpAddSubTest_ieeeAdd(BITSELECT,122)@8\n" +
+                        "    rUdfExtraBit_uid123_fpAddSubTest_ieeeAdd_in <= STD_LOGIC_VECTOR(rndExpFrac_uid113_fpAddSubTest_ieeeAdd_q(65 downto 0));\n" +
+                        "    rUdfExtraBit_uid123_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR(rUdfExtraBit_uid123_fpAddSubTest_ieeeAdd_in(65 downto 65));\n" +
+                        "\n" +
+                        "    -- wEP2AllZ_uid121_fpAddSubTest_ieeeAdd(CONSTANT,120)\n" +
+                        "    wEP2AllZ_uid121_fpAddSubTest_ieeeAdd_q <= \"0000000000000\";\n" +
+                        "\n" +
+                        "    -- rUdfEQMin_uid122_fpAddSubTest_ieeeAdd(LOGICAL,121)@8\n" +
+                        "    rUdfEQMin_uid122_fpAddSubTest_ieeeAdd_q <= \"1\" WHEN rndExp_uid115_fpAddSubTest_ieeeAdd_b = wEP2AllZ_uid121_fpAddSubTest_ieeeAdd_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- rUdf_uid124_fpAddSubTest_ieeeAdd(LOGICAL,123)@8 + 1\n" +
+                        "    rUdf_uid124_fpAddSubTest_ieeeAdd_qi <= rUdfEQMin_uid122_fpAddSubTest_ieeeAdd_q or rUdfExtraBit_uid123_fpAddSubTest_ieeeAdd_b;\n" +
+                        "    rUdf_uid124_fpAddSubTest_ieeeAdd_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rUdf_uid124_fpAddSubTest_ieeeAdd_qi, xout => rUdf_uid124_fpAddSubTest_ieeeAdd_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist31_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_8(DELAY,314)\n" +
+                        "    redist31_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_8 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist30_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_6_q, xout => redist31_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_8_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist35_excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q_2(DELAY,318)\n" +
+                        "    redist35_excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q, xout => redist35_excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excRZeroVInC_uid128_fpAddSubTest_ieeeAdd(BITJOIN,127)@9\n" +
+                        "    excRZeroVInC_uid128_fpAddSubTest_ieeeAdd_q <= redist16_aMinusA_uid96_fpAddSubTest_ieeeAdd_q_2_q & rUdf_uid124_fpAddSubTest_ieeeAdd_q & redist12_regInputs_uid127_fpAddSubTest_ieeeAdd_q_2_q & redist31_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_8_q & redist35_excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q_2_q;\n" +
+                        "\n" +
+                        "    -- excRZero_uid129_fpAddSubTest_ieeeAdd(LOOKUP,128)@9\n" +
+                        "    excRZero_uid129_fpAddSubTest_ieeeAdd_combproc: PROCESS (excRZeroVInC_uid128_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (excRZeroVInC_uid128_fpAddSubTest_ieeeAdd_q) IS\n" +
+                        "            WHEN \"00000\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"00001\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"00010\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"00011\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"00100\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"00101\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"00110\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"00111\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"01000\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"01001\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"01010\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"01011\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"01100\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"01101\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"01110\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"01111\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"10000\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"10001\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"10010\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"10011\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"10100\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"10101\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"10110\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"10111\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"11000\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"11001\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"11010\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"11011\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"11100\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"1\";\n" +
+                        "            WHEN \"11101\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"11110\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN \"11111\" => excRZero_uid129_fpAddSubTest_ieeeAdd_q <= \"0\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excRZero_uid129_fpAddSubTest_ieeeAdd_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- concExc_uid136_fpAddSubTest_ieeeAdd(BITJOIN,135)@9\n" +
+                        "    concExc_uid136_fpAddSubTest_ieeeAdd_q <= excRNaN_uid135_fpAddSubTest_ieeeAdd_q & excRInf_uid132_fpAddSubTest_ieeeAdd_q & excRZero_uid129_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- excREnc_uid137_fpAddSubTest_ieeeAdd(LOOKUP,136)@9\n" +
+                        "    excREnc_uid137_fpAddSubTest_ieeeAdd_combproc: PROCESS (concExc_uid136_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (concExc_uid136_fpAddSubTest_ieeeAdd_q) IS\n" +
+                        "            WHEN \"000\" => excREnc_uid137_fpAddSubTest_ieeeAdd_q <= \"01\";\n" +
+                        "            WHEN \"001\" => excREnc_uid137_fpAddSubTest_ieeeAdd_q <= \"00\";\n" +
+                        "            WHEN \"010\" => excREnc_uid137_fpAddSubTest_ieeeAdd_q <= \"10\";\n" +
+                        "            WHEN \"011\" => excREnc_uid137_fpAddSubTest_ieeeAdd_q <= \"10\";\n" +
+                        "            WHEN \"100\" => excREnc_uid137_fpAddSubTest_ieeeAdd_q <= \"11\";\n" +
+                        "            WHEN \"101\" => excREnc_uid137_fpAddSubTest_ieeeAdd_q <= \"11\";\n" +
+                        "            WHEN \"110\" => excREnc_uid137_fpAddSubTest_ieeeAdd_q <= \"11\";\n" +
+                        "            WHEN \"111\" => excREnc_uid137_fpAddSubTest_ieeeAdd_q <= \"11\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excREnc_uid137_fpAddSubTest_ieeeAdd_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- expRPostExc_uid156_fpAddSubTest_ieeeAdd(MUX,155)@9\n" +
+                        "    expRPostExc_uid156_fpAddSubTest_ieeeAdd_s <= excREnc_uid137_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    expRPostExc_uid156_fpAddSubTest_ieeeAdd_combproc: PROCESS (expRPostExc_uid156_fpAddSubTest_ieeeAdd_s, cstAllZWE_uid29_fpAddSubTest_ieeeAdd_q, redist13_expRPreExc_uid126_fpAddSubTest_ieeeAdd_b_1_q, cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (expRPostExc_uid156_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"00\" => expRPostExc_uid156_fpAddSubTest_ieeeAdd_q <= cstAllZWE_uid29_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"01\" => expRPostExc_uid156_fpAddSubTest_ieeeAdd_q <= redist13_expRPreExc_uid126_fpAddSubTest_ieeeAdd_b_1_q;\n" +
+                        "            WHEN \"10\" => expRPostExc_uid156_fpAddSubTest_ieeeAdd_q <= cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"11\" => expRPostExc_uid156_fpAddSubTest_ieeeAdd_q <= cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => expRPostExc_uid156_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oneFracRPostExc2_uid149_fpAddSubTest_ieeeAdd(CONSTANT,148)\n" +
+                        "    oneFracRPostExc2_uid149_fpAddSubTest_ieeeAdd_q <= \"0000000000000000000000000000000000000000000000000001\";\n" +
+                        "\n" +
+                        "    -- fracRPreExc_uid125_fpAddSubTest_ieeeAdd(BITSELECT,124)@8\n" +
+                        "    fracRPreExc_uid125_fpAddSubTest_ieeeAdd_in <= rndExpFrac_uid113_fpAddSubTest_ieeeAdd_q(52 downto 0);\n" +
+                        "    fracRPreExc_uid125_fpAddSubTest_ieeeAdd_b <= fracRPreExc_uid125_fpAddSubTest_ieeeAdd_in(52 downto 1);\n" +
+                        "\n" +
+                        "    -- redist14_fracRPreExc_uid125_fpAddSubTest_ieeeAdd_b_1(DELAY,297)\n" +
+                        "    redist14_fracRPreExc_uid125_fpAddSubTest_ieeeAdd_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 52, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracRPreExc_uid125_fpAddSubTest_ieeeAdd_b, xout => redist14_fracRPreExc_uid125_fpAddSubTest_ieeeAdd_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracRPostExc_uid152_fpAddSubTest_ieeeAdd(MUX,151)@9\n" +
+                        "    fracRPostExc_uid152_fpAddSubTest_ieeeAdd_s <= excREnc_uid137_fpAddSubTest_ieeeAdd_q;\n" +
+                        "    fracRPostExc_uid152_fpAddSubTest_ieeeAdd_combproc: PROCESS (fracRPostExc_uid152_fpAddSubTest_ieeeAdd_s, cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q, redist14_fracRPreExc_uid125_fpAddSubTest_ieeeAdd_b_1_q, oneFracRPostExc2_uid149_fpAddSubTest_ieeeAdd_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (fracRPostExc_uid152_fpAddSubTest_ieeeAdd_s) IS\n" +
+                        "            WHEN \"00\" => fracRPostExc_uid152_fpAddSubTest_ieeeAdd_q <= cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"01\" => fracRPostExc_uid152_fpAddSubTest_ieeeAdd_q <= redist14_fracRPreExc_uid125_fpAddSubTest_ieeeAdd_b_1_q;\n" +
+                        "            WHEN \"10\" => fracRPostExc_uid152_fpAddSubTest_ieeeAdd_q <= cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN \"11\" => fracRPostExc_uid152_fpAddSubTest_ieeeAdd_q <= oneFracRPostExc2_uid149_fpAddSubTest_ieeeAdd_q;\n" +
+                        "            WHEN OTHERS => fracRPostExc_uid152_fpAddSubTest_ieeeAdd_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- R_uid157_fpAddSubTest_ieeeAdd(BITJOIN,156)@9\n" +
+                        "    R_uid157_fpAddSubTest_ieeeAdd_q <= signRPostExc_uid148_fpAddSubTest_ieeeAdd_q & expRPostExc_uid156_fpAddSubTest_ieeeAdd_q & fracRPostExc_uid152_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@9\n" +
+                        "    q <= R_uid157_fpAddSubTest_ieeeAdd_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data1, data2, data3);
+    }
+    
+    private void generate_dspba_library_vhd_file(String Project_Folder_File) {
+        String data =   "-- Legal Notice: Copyright 2017 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel  Corporation's design tools,  logic functions and other\n" +
+                        "-- software and tools,  and its AMPP  partner logic functions, and  any output\n" +
+                        "-- files  any of the  foregoing  device programming or simulation files),  and\n" +
+                        "-- any associated  documentation or information are expressly subject  to  the\n" +
+                        "-- terms and conditions  of the Intel FPGA Software License Agreement,\n" +
+                        "-- Intel  MegaCore  Function  License  Agreement, or other applicable license\n" +
+                        "-- agreement,  including,  without limitation,  that your use  is for the sole\n" +
+                        "-- purpose of  programming  logic  devices  manufactured by Intel and sold by\n" +
+                        "-- Intel or its authorized  distributors.  Please  refer  to  the  applicable\n" +
+                        "-- agreement for further details.\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "entity dspba_delay is\n" +
+                        "    generic (\n" +
+                        "        width : natural := 8;\n" +
+                        "        depth : natural := 1;\n" +
+                        "        reset_high : std_logic := '1';\n" +
+                        "        reset_kind : string := \"ASYNC\"\n" +
+                        "    );\n" +
+                        "    port (\n" +
+                        "        clk   : in  std_logic;\n" +
+                        "        aclr  : in  std_logic;\n" +
+                        "        ena   : in  std_logic := '1';\n" +
+                        "        xin   : in  std_logic_vector(width-1 downto 0);\n" +
+                        "        xout  : out std_logic_vector(width-1 downto 0)\n" +
+                        "    );\n" +
+                        "end dspba_delay;\n" +
+                        "\n" +
+                        "architecture delay of dspba_delay is\n" +
+                        "    type delay_array is array (depth downto 0) of std_logic_vector(width-1 downto 0);\n" +
+                        "    signal delay_signals : delay_array;\n" +
+                        "begin\n" +
+                        "    delay_signals(depth) <= xin;\n" +
+                        "\n" +
+                        "    delay_block: if 0 < depth generate\n" +
+                        "    begin\n" +
+                        "        delay_loop: for i in depth-1 downto 0 generate\n" +
+                        "        begin\n" +
+                        "            async_reset: if reset_kind = \"ASYNC\" generate\n" +
+                        "                process(clk, aclr)\n" +
+                        "                begin\n" +
+                        "                    if aclr=reset_high then\n" +
+                        "                        delay_signals(i) <= (others => '0');\n" +
+                        "                    elsif clk'event and clk='1' then\n" +
+                        "                        if ena='1' then\n" +
+                        "                            delay_signals(i) <= delay_signals(i + 1);\n" +
+                        "                        end if;\n" +
+                        "                    end if;\n" +
+                        "                end process;\n" +
+                        "            end generate;\n" +
+                        "\n" +
+                        "            sync_reset: if reset_kind = \"SYNC\" generate\n" +
+                        "                process(clk)\n" +
+                        "                begin\n" +
+                        "                    if clk'event and clk='1' then\n" +
+                        "                        if aclr=reset_high then\n" +
+                        "                            delay_signals(i) <= (others => '0');\n" +
+                        "                        elsif ena='1' then\n" +
+                        "                            delay_signals(i) <= delay_signals(i + 1);\n" +
+                        "                        end if;\n" +
+                        "                    end if;\n" +
+                        "                end process;\n" +
+                        "            end generate;\n" +
+                        "\n" +
+                        "            no_reset: if reset_kind = \"NONE\" generate\n" +
+                        "                process(clk)\n" +
+                        "                begin\n" +
+                        "                    if clk'event and clk='1' then\n" +
+                        "                        if ena='1' then\n" +
+                        "                            delay_signals(i) <= delay_signals(i + 1);\n" +
+                        "                        end if;\n" +
+                        "                    end if;\n" +
+                        "                end process;\n" +
+                        "            end generate;\n" +
+                        "        end generate;\n" +
+                        "    end generate;\n" +
+                        "\n" +
+                        "    xout <= delay_signals(0);\n" +
+                        "end delay;\n" +
+                        "\n" +
+                        "--------------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "entity dspba_sync_reg is\n" +
+                        "    generic (\n" +
+                        "        width1 : natural := 8;\n" +
+                        "        init_value : std_logic_vector;\n" +
+                        "        width2 : natural := 8;\n" +
+                        "        depth : natural := 2;\n" +
+                        "        pulse_multiplier : natural := 1;\n" +
+                        "        counter_width : natural := 8;\n" +
+                        "        reset1_high : std_logic := '1';\n" +
+                        "        reset2_high : std_logic := '1';\n" +
+                        "        reset_kind : string := \"ASYNC\"\n" +
+                        "    );\n" +
+                        "    port (\n" +
+                        "        clk1    : in std_logic;\n" +
+                        "        aclr1   : in std_logic;\n" +
+                        "        ena     : in std_logic_vector(0 downto 0);\n" +
+                        "        xin     : in std_logic_vector(width1-1 downto 0);\n" +
+                        "        xout    : out std_logic_vector(width1-1 downto 0);\n" +
+                        "        clk2    : in std_logic;\n" +
+                        "        aclr2   : in std_logic;\n" +
+                        "        sxout   : out std_logic_vector(width2-1 downto 0)\n" +
+                        "    );\n" +
+                        "end entity;\n" +
+                        "\n" +
+                        "architecture sync_reg of dspba_sync_reg is\n" +
+                        "    type bit_array is array (depth-1 downto 0) of std_logic;\n" +
+                        "\n" +
+                        "    signal iclk_enable : std_logic;\n" +
+                        "    signal iclk_data : std_logic_vector(width1-1 downto 0);\n" +
+                        "    signal oclk_data : std_logic_vector(width2-1 downto 0); \n" +
+                        "\n" +
+                        "    -- For Synthesis this means: preserve this registers and do not merge any other flip-flops with synchronizer flip-flops \n" +
+                        "    -- For TimeQuest this means: identify these flip-flops as synchronizer to enable automatic MTBF analysis\n" +
+                        "    signal sync_regs : bit_array;\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of sync_regs : signal is \"-name ADV_NETLIST_OPT_ALLOWED NEVER_ALLOW; -name SYNCHRONIZER_IDENTIFICATION FORCED; -name DONT_MERGE_REGISTER ON; -name PRESERVE_REGISTER ON\";\n" +
+                        "\n" +
+                        "    signal oclk_enable : std_logic;\n" +
+                        "\n" +
+                        "    constant init_value_internal : std_logic_vector(width1-1 downto 0) := init_value;\n" +
+                        "    \n" +
+                        "    signal counter : UNSIGNED(counter_width-1 downto 0);\n" +
+                        "    signal ena_internal : std_logic;\n" +
+                        "begin\n" +
+                        "    oclk_enable <= sync_regs(depth-1);  \n" +
+                        "\n" +
+                        "    no_multiplication: if pulse_multiplier=1 generate\n" +
+                        "        ena_internal <= ena(0);\n" +
+                        "    end generate;\n" +
+                        "\n" +
+                        "    async_reset: if reset_kind=\"ASYNC\" generate\n" +
+                        "        \n" +
+                        "        multiply_ena: if pulse_multiplier>1 generate\n" +
+                        "            ena_internal <= '1' when counter>0 else ena(0);\n" +
+                        "            process (clk1, aclr1)\n" +
+                        "	        begin	\n" +
+                        "                if aclr1=reset1_high then\n" +
+                        "                    counter <= (others => '0');\n" +
+                        "                elsif clk1'event and clk1='1' then\n" +
+                        "                    if counter>0 then\n" +
+                        "                        if counter=pulse_multiplier-1 then\n" +
+                        "                            counter <= (others => '0');\n" +
+                        "                        else \n" +
+                        "                            counter <= counter + TO_UNSIGNED(1, counter_width);\n" +
+                        "                        end if;\n" +
+                        "                    else\n" +
+                        "                        if ena(0)='1' then\n" +
+                        "                            counter <= TO_UNSIGNED(1, counter_width);\n" +
+                        "                        end if;\n" +
+                        "                    end if;\n" +
+                        "                end if;\n" +
+                        "            end process;\n" +
+                        "        end generate;\n" +
+                        "        \n" +
+                        "        process (clk1, aclr1)\n" +
+                        "        begin\n" +
+                        "            if aclr1=reset1_high then\n" +
+                        "                iclk_enable <= '0';\n" +
+                        "                iclk_data <= init_value_internal;\n" +
+                        "            elsif clk1'event and clk1='1' then\n" +
+                        "                iclk_enable <= ena_internal;\n" +
+                        "                if ena(0)='1' then\n" +
+                        "                    iclk_data <= xin;\n" +
+                        "                end if;\n" +
+                        "            end if;\n" +
+                        "        end process;\n" +
+                        "        \n" +
+                        "        sync_reg_loop: for i in 0 to depth-1 generate\n" +
+                        "            process (clk2, aclr2) \n" +
+                        "            begin\n" +
+                        "                if aclr2=reset2_high then\n" +
+                        "                    sync_regs(i) <= '0';\n" +
+                        "                elsif clk2'event and clk2='1' then\n" +
+                        "                    if i>0 then\n" +
+                        "                        sync_regs(i) <= sync_regs(i-1); \n" +
+                        "                    else\n" +
+                        "                        sync_regs(i) <= iclk_enable; \n" +
+                        "                    end if;\n" +
+                        "                end if;\n" +
+                        "            end process;\n" +
+                        "        end generate;\n" +
+                        "    \n" +
+                        "        process (clk2, aclr2)\n" +
+                        "        begin\n" +
+                        "            if aclr2=reset2_high then\n" +
+                        "                oclk_data <= init_value_internal(width2-1 downto 0);\n" +
+                        "            elsif clk2'event and clk2='1' then\n" +
+                        "                if oclk_enable='1' then\n" +
+                        "                    oclk_data <= iclk_data(width2-1 downto 0);\n" +
+                        "                end if;\n" +
+                        "            end if;\n" +
+                        "        end process;\n" +
+                        "    end generate;\n" +
+                        "\n" +
+                        "    sync_reset: if reset_kind=\"SYNC\" generate\n" +
+                        "\n" +
+                        "        multiply_ena: if pulse_multiplier>1 generate\n" +
+                        "            ena_internal <= '1' when counter>0 else ena(0);\n" +
+                        "            process (clk1)\n" +
+                        "	        begin\n" +
+                        "                if clk1'event and clk1='1' then\n" +
+                        "                    if aclr1=reset1_high then\n" +
+                        "                        counter <= (others => '0');\n" +
+                        "                    else\n" +
+                        "                        if counter>0 then\n" +
+                        "                            if counter=pulse_multiplier-1 then\n" +
+                        "                                counter <= (others => '0');\n" +
+                        "                            else \n" +
+                        "                                counter <= counter + TO_UNSIGNED(1, counter_width);\n" +
+                        "                            end if;\n" +
+                        "                        else\n" +
+                        "                            if ena(0)='1' then\n" +
+                        "                                counter <= TO_UNSIGNED(1, counter_width);\n" +
+                        "                            end if;\n" +
+                        "                        end if;\n" +
+                        "                    end if;\n" +
+                        "                end if;\n" +
+                        "            end process;\n" +
+                        "        end generate;\n" +
+                        "\n" +
+                        "        process (clk1)\n" +
+                        "        begin\n" +
+                        "            if clk1'event and clk1='1' then\n" +
+                        "                if aclr1=reset1_high then\n" +
+                        "                    iclk_enable <= '0';\n" +
+                        "                    iclk_data <= init_value_internal;\n" +
+                        "                else \n" +
+                        "                    iclk_enable <= ena_internal;\n" +
+                        "                    if ena(0)='1' then\n" +
+                        "                        iclk_data <= xin;\n" +
+                        "                    end if;\n" +
+                        "                end if;\n" +
+                        "            end if;\n" +
+                        "        end process;\n" +
+                        "        \n" +
+                        "        sync_reg_loop: for i in 0 to depth-1 generate\n" +
+                        "            process (clk2) \n" +
+                        "            begin\n" +
+                        "                if clk2'event and clk2='1' then\n" +
+                        "                    if aclr2=reset2_high then\n" +
+                        "                        sync_regs(i) <= '0';\n" +
+                        "                    else \n" +
+                        "                        if i>0 then\n" +
+                        "                            sync_regs(i) <= sync_regs(i-1); \n" +
+                        "                        else\n" +
+                        "                            sync_regs(i) <= iclk_enable; \n" +
+                        "                        end if;\n" +
+                        "                    end if;\n" +
+                        "                end if;\n" +
+                        "            end process;\n" +
+                        "        end generate;\n" +
+                        "    \n" +
+                        "        process (clk2)\n" +
+                        "        begin\n" +
+                        "            if clk2'event and clk2='1' then\n" +
+                        "                if aclr2=reset2_high then\n" +
+                        "                    oclk_data <= init_value_internal(width2-1 downto 0);\n" +
+                        "                elsif oclk_enable='1' then\n" +
+                        "                    oclk_data <= iclk_data(width2-1 downto 0);\n" +
+                        "                end if;\n" +
+                        "            end if;\n" +
+                        "        end process;\n" +
+                        "    end generate;\n" +
+                        "\n" +
+                        "    none_reset: if reset_kind=\"NONE\" generate\n" +
+                        "        \n" +
+                        "        multiply_ena: if pulse_multiplier>1 generate\n" +
+                        "            ena_internal <= '1' when counter>0 else ena(0);\n" +
+                        "            process (clk1, aclr1) \n" +
+                        "	        begin\n" +
+                        "                if clk1'event and clk1='1' then\n" +
+                        "                    if counter>0 then\n" +
+                        "                        if counter=pulse_multiplier-1 then\n" +
+                        "                            counter <= (others => '0');\n" +
+                        "                        else \n" +
+                        "                            counter <= counter + TO_UNSIGNED(1, counter_width);\n" +
+                        "                        end if;\n" +
+                        "                    else\n" +
+                        "                        if ena(0)='1' then\n" +
+                        "                            counter <= TO_UNSIGNED(1, counter_width);\n" +
+                        "                        end if;\n" +
+                        "                    end if;\n" +
+                        "                end if;\n" +
+                        "            end process;\n" +
+                        "        end generate;\n" +
+                        "\n" +
+                        "        process (clk1)\n" +
+                        "        begin\n" +
+                        "            if clk1'event and clk1='1' then\n" +
+                        "                iclk_enable <= ena_internal;\n" +
+                        "                if ena(0)='1' then\n" +
+                        "                    iclk_data <= xin;\n" +
+                        "                end if;\n" +
+                        "            end if;\n" +
+                        "        end process;\n" +
+                        "        \n" +
+                        "        sync_reg_loop: for i in 0 to depth-1 generate\n" +
+                        "            process (clk2) \n" +
+                        "            begin\n" +
+                        "                if clk2'event and clk2='1' then\n" +
+                        "                    if i>0 then\n" +
+                        "                        sync_regs(i) <= sync_regs(i-1); \n" +
+                        "                    else\n" +
+                        "                        sync_regs(i) <= iclk_enable; \n" +
+                        "                    end if;\n" +
+                        "                end if;\n" +
+                        "            end process;\n" +
+                        "        end generate;\n" +
+                        "    \n" +
+                        "        process (clk2)\n" +
+                        "        begin\n" +
+                        "            if clk2'event and clk2='1' then\n" +
+                        "                if oclk_enable='1' then\n" +
+                        "                    oclk_data <= iclk_data(width2-1 downto 0);\n" +
+                        "                end if;\n" +
+                        "            end if;\n" +
+                        "        end process;\n" +
+                        "    end generate;\n" +
+                        "\n" +
+                        "    xout <= iclk_data;\n" +
+                        "    sxout <= oclk_data;\n" +
+                        "\n" +
+                        "end sync_reg;\n" +
+                        "\n" +
+                        "--------------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "library ieee;\n" +
+                        "use ieee.std_logic_1164.all;\n" +
+                        "use ieee.numeric_std.all;\n" +
+                        "\n" +
+                        "entity dspba_pipe is\n" +
+                        "    generic(\n" +
+                        "        num_bits   : positive  := 8;\n" +
+                        "        num_stages : natural   := 0;\n" +
+                        "        init_value : std_logic := 'X'\n" +
+                        "    );\n" +
+                        "    port(\n" +
+                        "        clk: in    std_logic;\n" +
+                        "        d  : in    std_logic_vector(num_bits-1 downto 0);\n" +
+                        "        q  :   out std_logic_vector(num_bits-1 downto 0)\n" +
+                        "    );\n" +
+                        "end entity dspba_pipe;\n" +
+                        "\n" +
+                        "architecture rtl of dspba_pipe is\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of rtl : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION off\";\n" +
+                        "\n" +
+                        "    type stage_array_type is array(0 to num_stages) of std_logic_vector(num_bits-1 downto 0);\n" +
+                        "    signal stage_array : stage_array_type := (others => (others => init_value));\n" +
+                        "begin\n" +
+                        "    stage_array(0) <= d;\n" +
+                        "\n" +
+                        "    g_pipe : for i in 1 to num_stages generate\n" +
+                        "        p_stage : process (clk) is\n" +
+                        "        begin\n" +
+                        "            if rising_edge(clk) then\n" +
+                        "                stage_array(i) <= stage_array(i-1);\n" +
+                        "            end if;\n" +
+                        "        end process p_stage;\n" +
+                        "    end generate g_pipe;\n" +
+                        "\n" +
+                        "    q <= stage_array(num_stages);\n" +
+                        "\n" +
+                        "end rtl;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
+    private void generate_dspba_library_package_vhd_file(String Project_Folder_File) {
+        String data =   "-- Legal Notice: Copyright 2017 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel  Corporation's design tools,  logic functions and other\n" +
+                        "-- software and tools,  and its AMPP  partner logic functions, and  any output\n" +
+                        "-- files  any of the  foregoing  device programming or simulation files),  and\n" +
+                        "-- any associated  documentation or information are expressly subject  to  the\n" +
+                        "-- terms and conditions  of the Intel FPGA Software License Agreement,\n" +
+                        "-- Intel  MegaCore  Function  License  Agreement, or other applicable license\n" +
+                        "-- agreement,  including,  without limitation,  that your use  is for the sole\n" +
+                        "-- purpose of  programming  logic  devices  manufactured by Intel and sold by\n" +
+                        "-- Intel or its authorized  distributors.  Please  refer  to  the  applicable\n" +
+                        "-- agreement for further details.\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "\n" +
+                        "package dspba_library_package is\n" +
+                        "\n" +
+                        "    component dspba_delay is\n" +
+                        "        generic (\n" +
+                        "            width : natural := 8;\n" +
+                        "            depth : natural := 1;\n" +
+                        "            reset_high : std_logic := '1';\n" +
+                        "            reset_kind : string := \"ASYNC\" \n" +
+                        "        );\n" +
+                        "        port (\n" +
+                        "            clk   : in  std_logic;\n" +
+                        "            aclr  : in  std_logic;\n" +
+                        "            ena   : in  std_logic := '1';\n" +
+                        "            xin   : in  std_logic_vector(width-1 downto 0);\n" +
+                        "            xout  : out std_logic_vector(width-1 downto 0)\n" +
+                        "        );\n" +
+                        "    end component;\n" +
+                        "\n" +
+                        "    component dspba_sync_reg is\n" +
+                        "        generic (\n" +
+                        "            width1 : natural := 8;\n" +
+                        "            width2 : natural := 8;\n" +
+                        "            depth : natural := 2;\n" +
+                        "            init_value : std_logic_vector;\n" +
+                        "            pulse_multiplier : natural := 1;\n" +
+                        "            counter_width : natural := 8;\n" +
+                        "            reset1_high : std_logic := '1';\n" +
+                        "            reset2_high : std_logic := '1';\n" +
+                        "            reset_kind : string := \"ASYNC\"\n" +
+                        "        );\n" +
+                        "        port (\n" +
+                        "            clk1    : in std_logic;\n" +
+                        "            aclr1   : in std_logic;\n" +
+                        "            ena     : in std_logic_vector(0 downto 0);\n" +
+                        "            xin     : in std_logic_vector(width1-1 downto 0);\n" +
+                        "            xout    : out std_logic_vector(width1-1 downto 0);\n" +
+                        "            clk2    : in std_logic;\n" +
+                        "            aclr2   : in std_logic;\n" +
+                        "            sxout   : out std_logic_vector(width2-1 downto 0)\n" +
+                        "        );\n" +
+                        "    end component;\n" +
+                        "\n" +
+                        "    component dspba_pipe is\n" +
+                        "        generic(\n" +
+                        "            num_bits   : positive;\n" +
+                        "            num_stages : natural;\n" +
+                        "            init_value : std_logic := 'X'\n" +
+                        "        );\n" +
+                        "        port(\n" +
+                        "            clk: in    std_logic;\n" +
+                        "            d  : in    std_logic_vector(num_bits-1 downto 0);\n" +
+                        "            q  :   out std_logic_vector(num_bits-1 downto 0)\n" +
+                        "        );\n" +
+                        "    end component dspba_pipe;\n" +
+                        "\n" +
+                        "end dspba_library_package;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
     private void generate_FP_EQ_64_qip_file(String Project_Folder_File) {
         String data =   "set_global_assignment -entity \"FP_EQ_64\" -library \"FP_EQ_64\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
                         "set_global_assignment -entity \"FP_EQ_64\" -library \"FP_EQ_64\" -name IP_TOOL_VERSION \"18.0\"\n" +
@@ -21459,6 +24076,169 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
 
+    private void generate_FP_EQ_64_0002_vhd_file(String Project_Folder_File) {
+        String data =   "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_EQ_64_0002\n" +
+                        "-- VHDL created on Tue Jul 21 19:11:42 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_EQ_64_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        b : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        q : out std_logic_vector(0 downto 0);  -- ufix1\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_EQ_64_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_EQ_64_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cstAllOWE_uid6_fpCompareTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal cstZeroWF_uid7_fpCompareTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal cstAllZWE_uid8_fpCompareTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal excZ_x_uid11_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid12_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid13_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid14_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_x_uid16_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excZ_y_uid25_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid26_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid27_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid28_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_y_uid30_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneIsNaN_uid34_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal bothZero_uid54_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rCmp_uid57_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid58_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rPostExc_uid59_fpCompareTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rPostExc_uid59_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal exp_x_uid9_fpCompareTest_merged_bit_select_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal exp_x_uid9_fpCompareTest_merged_bit_select_c : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal exp_y_uid23_fpCompareTest_merged_bit_select_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal exp_y_uid23_fpCompareTest_merged_bit_select_c : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid8_fpCompareTest(CONSTANT,7)\n" +
+                        "    cstAllZWE_uid8_fpCompareTest_q <= \"00000000000\";\n" +
+                        "\n" +
+                        "    -- exp_y_uid23_fpCompareTest_merged_bit_select(BITSELECT,61)@0\n" +
+                        "    exp_y_uid23_fpCompareTest_merged_bit_select_b <= STD_LOGIC_VECTOR(b(62 downto 52));\n" +
+                        "    exp_y_uid23_fpCompareTest_merged_bit_select_c <= STD_LOGIC_VECTOR(b(51 downto 0));\n" +
+                        "\n" +
+                        "    -- excZ_y_uid25_fpCompareTest(LOGICAL,24)@0\n" +
+                        "    excZ_y_uid25_fpCompareTest_q <= \"1\" WHEN exp_y_uid23_fpCompareTest_merged_bit_select_b = cstAllZWE_uid8_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- exp_x_uid9_fpCompareTest_merged_bit_select(BITSELECT,60)@0\n" +
+                        "    exp_x_uid9_fpCompareTest_merged_bit_select_b <= STD_LOGIC_VECTOR(a(62 downto 52));\n" +
+                        "    exp_x_uid9_fpCompareTest_merged_bit_select_c <= STD_LOGIC_VECTOR(a(51 downto 0));\n" +
+                        "\n" +
+                        "    -- excZ_x_uid11_fpCompareTest(LOGICAL,10)@0\n" +
+                        "    excZ_x_uid11_fpCompareTest_q <= \"1\" WHEN exp_x_uid9_fpCompareTest_merged_bit_select_b = cstAllZWE_uid8_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- bothZero_uid54_fpCompareTest(LOGICAL,53)@0\n" +
+                        "    bothZero_uid54_fpCompareTest_q <= excZ_x_uid11_fpCompareTest_q and excZ_y_uid25_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- rCmp_uid57_fpCompareTest(LOGICAL,56)@0\n" +
+                        "    rCmp_uid57_fpCompareTest_q <= \"1\" WHEN a = b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- r_uid58_fpCompareTest(LOGICAL,57)@0\n" +
+                        "    r_uid58_fpCompareTest_q <= rCmp_uid57_fpCompareTest_q or bothZero_uid54_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid7_fpCompareTest(CONSTANT,6)\n" +
+                        "    cstZeroWF_uid7_fpCompareTest_q <= \"0000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid27_fpCompareTest(LOGICAL,26)@0\n" +
+                        "    fracXIsZero_uid27_fpCompareTest_q <= \"1\" WHEN cstZeroWF_uid7_fpCompareTest_q = exp_y_uid23_fpCompareTest_merged_bit_select_c ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid28_fpCompareTest(LOGICAL,27)@0\n" +
+                        "    fracXIsNotZero_uid28_fpCompareTest_q <= not (fracXIsZero_uid27_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid6_fpCompareTest(CONSTANT,5)\n" +
+                        "    cstAllOWE_uid6_fpCompareTest_q <= \"11111111111\";\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid26_fpCompareTest(LOGICAL,25)@0\n" +
+                        "    expXIsMax_uid26_fpCompareTest_q <= \"1\" WHEN exp_y_uid23_fpCompareTest_merged_bit_select_b = cstAllOWE_uid6_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_y_uid30_fpCompareTest(LOGICAL,29)@0\n" +
+                        "    excN_y_uid30_fpCompareTest_q <= expXIsMax_uid26_fpCompareTest_q and fracXIsNotZero_uid28_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid13_fpCompareTest(LOGICAL,12)@0\n" +
+                        "    fracXIsZero_uid13_fpCompareTest_q <= \"1\" WHEN cstZeroWF_uid7_fpCompareTest_q = exp_x_uid9_fpCompareTest_merged_bit_select_c ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid14_fpCompareTest(LOGICAL,13)@0\n" +
+                        "    fracXIsNotZero_uid14_fpCompareTest_q <= not (fracXIsZero_uid13_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid12_fpCompareTest(LOGICAL,11)@0\n" +
+                        "    expXIsMax_uid12_fpCompareTest_q <= \"1\" WHEN exp_x_uid9_fpCompareTest_merged_bit_select_b = cstAllOWE_uid6_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_x_uid16_fpCompareTest(LOGICAL,15)@0\n" +
+                        "    excN_x_uid16_fpCompareTest_q <= expXIsMax_uid12_fpCompareTest_q and fracXIsNotZero_uid14_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- oneIsNaN_uid34_fpCompareTest(LOGICAL,33)@0\n" +
+                        "    oneIsNaN_uid34_fpCompareTest_q <= excN_x_uid16_fpCompareTest_q or excN_y_uid30_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- rPostExc_uid59_fpCompareTest(MUX,58)@0\n" +
+                        "    rPostExc_uid59_fpCompareTest_s <= oneIsNaN_uid34_fpCompareTest_q;\n" +
+                        "    rPostExc_uid59_fpCompareTest_combproc: PROCESS (rPostExc_uid59_fpCompareTest_s, r_uid58_fpCompareTest_q, GND_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rPostExc_uid59_fpCompareTest_s) IS\n" +
+                        "            WHEN \"0\" => rPostExc_uid59_fpCompareTest_q <= r_uid58_fpCompareTest_q;\n" +
+                        "            WHEN \"1\" => rPostExc_uid59_fpCompareTest_q <= GND_q;\n" +
+                        "            WHEN OTHERS => rPostExc_uid59_fpCompareTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@0\n" +
+                        "    q <= rPostExc_uid59_fpCompareTest_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
     private void generate_FP_LE_64_qip_file(String Project_Folder_File) {
         String data =   "set_global_assignment -entity \"FP_LE_64\" -library \"FP_LE_64\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
                         "set_global_assignment -entity \"FP_LE_64\" -library \"FP_LE_64\" -name IP_TOOL_VERSION \"18.0\"\n" +
@@ -21673,6 +24453,278 @@ public class Write_Hardware_Files {
                         "-- Retrieval info: </instance>\n" +
                         "-- IPFS_FILES : FP_LE_64.vho\n" +
                         "-- RELATED_FILES: FP_LE_64.vhd, dspba_library_package.vhd, dspba_library.vhd, FP_LE_64_0002.vhd";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
+    private void generate_FP_LE_64_0002_vhd_file(String Project_Folder_File) {
+        String data =   "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_LE_64_0002\n" +
+                        "-- VHDL created on Sun Jun 21 03:56:53 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_LE_64_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        b : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        q : out std_logic_vector(0 downto 0);  -- ufix1\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_LE_64_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_LE_64_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cstAllOWE_uid6_fpCompareTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal cstZeroWF_uid7_fpCompareTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal cstAllZWE_uid8_fpCompareTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal exp_x_uid9_fpCompareTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_x_uid10_fpCompareTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal excZ_x_uid11_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid12_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid13_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid14_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_x_uid16_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal exp_y_uid23_fpCompareTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_y_uid24_fpCompareTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal excZ_y_uid25_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid26_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid27_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid28_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_y_uid30_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneIsNaN_uid34_fpCompareTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneIsNaN_uid34_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal xNotZero_uid39_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal yNotZero_uid40_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXPS_uid41_fpCompareTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal fracXPS_uid41_fpCompareTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal fracYPS_uid42_fpCompareTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal fracYPS_uid42_fpCompareTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expFracX_uid43_fpCompareTest_q : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal expFracY_uid45_fpCompareTest_q : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal efxGTEefy_uid49_fpCompareTest_a : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxGTEefy_uid49_fpCompareTest_b : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxGTEefy_uid49_fpCompareTest_o : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxGTEefy_uid49_fpCompareTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal efxLTEefy_uid50_fpCompareTest_a : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxLTEefy_uid50_fpCompareTest_b : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxLTEefy_uid50_fpCompareTest_o : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxLTEefy_uid50_fpCompareTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal zeroInputs_uid51_fpCompareTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal zeroInputs_uid51_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signX_uid52_fpCompareTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signY_uid53_fpCompareTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal two_uid54_fpCompareTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal concSXSY_uid55_fpCompareTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal sxLTsy_uid56_fpCompareTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sxLTsy_uid56_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal xorSigns_uid57_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sxEQsy_uid58_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expFracCompMux_uid59_fpCompareTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expFracCompMux_uid59_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sxEQsyExpFracCompMux_uid60_fpCompareTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sxEQsyExpFracCompMux_uid60_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid61_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rPostExc_uid62_fpCompareTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rPostExc_uid62_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid8_fpCompareTest(CONSTANT,7)\n" +
+                        "    cstAllZWE_uid8_fpCompareTest_q <= \"00000000000\";\n" +
+                        "\n" +
+                        "    -- exp_y_uid23_fpCompareTest(BITSELECT,22)@0\n" +
+                        "    exp_y_uid23_fpCompareTest_b <= b(62 downto 52);\n" +
+                        "\n" +
+                        "    -- excZ_y_uid25_fpCompareTest(LOGICAL,24)@0\n" +
+                        "    excZ_y_uid25_fpCompareTest_q <= \"1\" WHEN exp_y_uid23_fpCompareTest_b = cstAllZWE_uid8_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- exp_x_uid9_fpCompareTest(BITSELECT,8)@0\n" +
+                        "    exp_x_uid9_fpCompareTest_b <= a(62 downto 52);\n" +
+                        "\n" +
+                        "    -- excZ_x_uid11_fpCompareTest(LOGICAL,10)@0\n" +
+                        "    excZ_x_uid11_fpCompareTest_q <= \"1\" WHEN exp_x_uid9_fpCompareTest_b = cstAllZWE_uid8_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- zeroInputs_uid51_fpCompareTest(LOGICAL,50)@0 + 1\n" +
+                        "    zeroInputs_uid51_fpCompareTest_qi <= excZ_x_uid11_fpCompareTest_q and excZ_y_uid25_fpCompareTest_q;\n" +
+                        "    zeroInputs_uid51_fpCompareTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => zeroInputs_uid51_fpCompareTest_qi, xout => zeroInputs_uid51_fpCompareTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- two_uid54_fpCompareTest(CONSTANT,53)\n" +
+                        "    two_uid54_fpCompareTest_q <= \"10\";\n" +
+                        "\n" +
+                        "    -- signX_uid52_fpCompareTest(BITSELECT,51)@0\n" +
+                        "    signX_uid52_fpCompareTest_b <= STD_LOGIC_VECTOR(a(63 downto 63));\n" +
+                        "\n" +
+                        "    -- signY_uid53_fpCompareTest(BITSELECT,52)@0\n" +
+                        "    signY_uid53_fpCompareTest_b <= STD_LOGIC_VECTOR(b(63 downto 63));\n" +
+                        "\n" +
+                        "    -- concSXSY_uid55_fpCompareTest(BITJOIN,54)@0\n" +
+                        "    concSXSY_uid55_fpCompareTest_q <= signX_uid52_fpCompareTest_b & signY_uid53_fpCompareTest_b;\n" +
+                        "\n" +
+                        "    -- sxLTsy_uid56_fpCompareTest(LOGICAL,55)@0 + 1\n" +
+                        "    sxLTsy_uid56_fpCompareTest_qi <= \"1\" WHEN concSXSY_uid55_fpCompareTest_q = two_uid54_fpCompareTest_q ELSE \"0\";\n" +
+                        "    sxLTsy_uid56_fpCompareTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => sxLTsy_uid56_fpCompareTest_qi, xout => sxLTsy_uid56_fpCompareTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- yNotZero_uid40_fpCompareTest(LOGICAL,39)@0\n" +
+                        "    yNotZero_uid40_fpCompareTest_q <= not (excZ_y_uid25_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- frac_y_uid24_fpCompareTest(BITSELECT,23)@0\n" +
+                        "    frac_y_uid24_fpCompareTest_b <= b(51 downto 0);\n" +
+                        "\n" +
+                        "    -- fracYPS_uid42_fpCompareTest(LOGICAL,41)@0\n" +
+                        "    fracYPS_uid42_fpCompareTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((51 downto 1 => yNotZero_uid40_fpCompareTest_q(0)) & yNotZero_uid40_fpCompareTest_q));\n" +
+                        "    fracYPS_uid42_fpCompareTest_q <= frac_y_uid24_fpCompareTest_b and fracYPS_uid42_fpCompareTest_b;\n" +
+                        "\n" +
+                        "    -- expFracY_uid45_fpCompareTest(BITJOIN,44)@0\n" +
+                        "    expFracY_uid45_fpCompareTest_q <= exp_y_uid23_fpCompareTest_b & fracYPS_uid42_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- xNotZero_uid39_fpCompareTest(LOGICAL,38)@0\n" +
+                        "    xNotZero_uid39_fpCompareTest_q <= not (excZ_x_uid11_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- frac_x_uid10_fpCompareTest(BITSELECT,9)@0\n" +
+                        "    frac_x_uid10_fpCompareTest_b <= a(51 downto 0);\n" +
+                        "\n" +
+                        "    -- fracXPS_uid41_fpCompareTest(LOGICAL,40)@0\n" +
+                        "    fracXPS_uid41_fpCompareTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((51 downto 1 => xNotZero_uid39_fpCompareTest_q(0)) & xNotZero_uid39_fpCompareTest_q));\n" +
+                        "    fracXPS_uid41_fpCompareTest_q <= frac_x_uid10_fpCompareTest_b and fracXPS_uid41_fpCompareTest_b;\n" +
+                        "\n" +
+                        "    -- expFracX_uid43_fpCompareTest(BITJOIN,42)@0\n" +
+                        "    expFracX_uid43_fpCompareTest_q <= exp_x_uid9_fpCompareTest_b & fracXPS_uid41_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- efxGTEefy_uid49_fpCompareTest(COMPARE,48)@0\n" +
+                        "    efxGTEefy_uid49_fpCompareTest_a <= STD_LOGIC_VECTOR(\"00\" & expFracX_uid43_fpCompareTest_q);\n" +
+                        "    efxGTEefy_uid49_fpCompareTest_b <= STD_LOGIC_VECTOR(\"00\" & expFracY_uid45_fpCompareTest_q);\n" +
+                        "    efxGTEefy_uid49_fpCompareTest_o <= STD_LOGIC_VECTOR(UNSIGNED(efxGTEefy_uid49_fpCompareTest_a) - UNSIGNED(efxGTEefy_uid49_fpCompareTest_b));\n" +
+                        "    efxGTEefy_uid49_fpCompareTest_n(0) <= not (efxGTEefy_uid49_fpCompareTest_o(64));\n" +
+                        "\n" +
+                        "    -- efxLTEefy_uid50_fpCompareTest(COMPARE,49)@0\n" +
+                        "    efxLTEefy_uid50_fpCompareTest_a <= STD_LOGIC_VECTOR(\"00\" & expFracY_uid45_fpCompareTest_q);\n" +
+                        "    efxLTEefy_uid50_fpCompareTest_b <= STD_LOGIC_VECTOR(\"00\" & expFracX_uid43_fpCompareTest_q);\n" +
+                        "    efxLTEefy_uid50_fpCompareTest_o <= STD_LOGIC_VECTOR(UNSIGNED(efxLTEefy_uid50_fpCompareTest_a) - UNSIGNED(efxLTEefy_uid50_fpCompareTest_b));\n" +
+                        "    efxLTEefy_uid50_fpCompareTest_n(0) <= not (efxLTEefy_uid50_fpCompareTest_o(64));\n" +
+                        "\n" +
+                        "    -- expFracCompMux_uid59_fpCompareTest(MUX,58)@0\n" +
+                        "    expFracCompMux_uid59_fpCompareTest_s <= signX_uid52_fpCompareTest_b;\n" +
+                        "    expFracCompMux_uid59_fpCompareTest_combproc: PROCESS (expFracCompMux_uid59_fpCompareTest_s, efxLTEefy_uid50_fpCompareTest_n, efxGTEefy_uid49_fpCompareTest_n)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (expFracCompMux_uid59_fpCompareTest_s) IS\n" +
+                        "            WHEN \"0\" => expFracCompMux_uid59_fpCompareTest_q <= efxLTEefy_uid50_fpCompareTest_n;\n" +
+                        "            WHEN \"1\" => expFracCompMux_uid59_fpCompareTest_q <= efxGTEefy_uid49_fpCompareTest_n;\n" +
+                        "            WHEN OTHERS => expFracCompMux_uid59_fpCompareTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- xorSigns_uid57_fpCompareTest(LOGICAL,56)@0\n" +
+                        "    xorSigns_uid57_fpCompareTest_q <= signX_uid52_fpCompareTest_b xor signY_uid53_fpCompareTest_b;\n" +
+                        "\n" +
+                        "    -- sxEQsy_uid58_fpCompareTest(LOGICAL,57)@0\n" +
+                        "    sxEQsy_uid58_fpCompareTest_q <= not (xorSigns_uid57_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- sxEQsyExpFracCompMux_uid60_fpCompareTest(LOGICAL,59)@0 + 1\n" +
+                        "    sxEQsyExpFracCompMux_uid60_fpCompareTest_qi <= sxEQsy_uid58_fpCompareTest_q and expFracCompMux_uid59_fpCompareTest_q;\n" +
+                        "    sxEQsyExpFracCompMux_uid60_fpCompareTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => sxEQsyExpFracCompMux_uid60_fpCompareTest_qi, xout => sxEQsyExpFracCompMux_uid60_fpCompareTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- r_uid61_fpCompareTest(LOGICAL,60)@1\n" +
+                        "    r_uid61_fpCompareTest_q <= sxEQsyExpFracCompMux_uid60_fpCompareTest_q or sxLTsy_uid56_fpCompareTest_q or zeroInputs_uid51_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid7_fpCompareTest(CONSTANT,6)\n" +
+                        "    cstZeroWF_uid7_fpCompareTest_q <= \"0000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid27_fpCompareTest(LOGICAL,26)@0\n" +
+                        "    fracXIsZero_uid27_fpCompareTest_q <= \"1\" WHEN cstZeroWF_uid7_fpCompareTest_q = frac_y_uid24_fpCompareTest_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid28_fpCompareTest(LOGICAL,27)@0\n" +
+                        "    fracXIsNotZero_uid28_fpCompareTest_q <= not (fracXIsZero_uid27_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid6_fpCompareTest(CONSTANT,5)\n" +
+                        "    cstAllOWE_uid6_fpCompareTest_q <= \"11111111111\";\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid26_fpCompareTest(LOGICAL,25)@0\n" +
+                        "    expXIsMax_uid26_fpCompareTest_q <= \"1\" WHEN exp_y_uid23_fpCompareTest_b = cstAllOWE_uid6_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_y_uid30_fpCompareTest(LOGICAL,29)@0\n" +
+                        "    excN_y_uid30_fpCompareTest_q <= expXIsMax_uid26_fpCompareTest_q and fracXIsNotZero_uid28_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid13_fpCompareTest(LOGICAL,12)@0\n" +
+                        "    fracXIsZero_uid13_fpCompareTest_q <= \"1\" WHEN cstZeroWF_uid7_fpCompareTest_q = frac_x_uid10_fpCompareTest_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid14_fpCompareTest(LOGICAL,13)@0\n" +
+                        "    fracXIsNotZero_uid14_fpCompareTest_q <= not (fracXIsZero_uid13_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid12_fpCompareTest(LOGICAL,11)@0\n" +
+                        "    expXIsMax_uid12_fpCompareTest_q <= \"1\" WHEN exp_x_uid9_fpCompareTest_b = cstAllOWE_uid6_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_x_uid16_fpCompareTest(LOGICAL,15)@0\n" +
+                        "    excN_x_uid16_fpCompareTest_q <= expXIsMax_uid12_fpCompareTest_q and fracXIsNotZero_uid14_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- oneIsNaN_uid34_fpCompareTest(LOGICAL,33)@0 + 1\n" +
+                        "    oneIsNaN_uid34_fpCompareTest_qi <= excN_x_uid16_fpCompareTest_q or excN_y_uid30_fpCompareTest_q;\n" +
+                        "    oneIsNaN_uid34_fpCompareTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => oneIsNaN_uid34_fpCompareTest_qi, xout => oneIsNaN_uid34_fpCompareTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- rPostExc_uid62_fpCompareTest(MUX,61)@1\n" +
+                        "    rPostExc_uid62_fpCompareTest_s <= oneIsNaN_uid34_fpCompareTest_q;\n" +
+                        "    rPostExc_uid62_fpCompareTest_combproc: PROCESS (rPostExc_uid62_fpCompareTest_s, r_uid61_fpCompareTest_q, GND_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rPostExc_uid62_fpCompareTest_s) IS\n" +
+                        "            WHEN \"0\" => rPostExc_uid62_fpCompareTest_q <= r_uid61_fpCompareTest_q;\n" +
+                        "            WHEN \"1\" => rPostExc_uid62_fpCompareTest_q <= GND_q;\n" +
+                        "            WHEN OTHERS => rPostExc_uid62_fpCompareTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@1\n" +
+                        "    q <= rPostExc_uid62_fpCompareTest_q;\n" +
+                        "\n" +
+                        "END normal;";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
     
@@ -21893,6 +24945,278 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
 
+    private void generate_FP_LT_64_0002_vhd_file(String Project_Folder_File) {
+        String data =   "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_LT_64_0002\n" +
+                        "-- VHDL created on Sun Jun 21 03:54:41 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_LT_64_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        b : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        q : out std_logic_vector(0 downto 0);  -- ufix1\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_LT_64_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_LT_64_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cstAllOWE_uid6_fpCompareTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal cstZeroWF_uid7_fpCompareTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal cstAllZWE_uid8_fpCompareTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal exp_x_uid9_fpCompareTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_x_uid10_fpCompareTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal excZ_x_uid11_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid12_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid13_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid14_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_x_uid16_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal exp_y_uid23_fpCompareTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_y_uid24_fpCompareTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal excZ_y_uid25_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid26_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid27_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid28_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_y_uid30_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneIsNaN_uid34_fpCompareTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneIsNaN_uid34_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal xNotZero_uid39_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal yNotZero_uid40_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXPS_uid41_fpCompareTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal fracXPS_uid41_fpCompareTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal fracYPS_uid42_fpCompareTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal fracYPS_uid42_fpCompareTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expFracX_uid43_fpCompareTest_q : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal expFracY_uid45_fpCompareTest_q : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal efxGTefy_uid47_fpCompareTest_a : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxGTefy_uid47_fpCompareTest_b : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxGTefy_uid47_fpCompareTest_o : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxGTefy_uid47_fpCompareTest_c : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal efxLTefy_uid48_fpCompareTest_a : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxLTefy_uid48_fpCompareTest_b : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxLTefy_uid48_fpCompareTest_o : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxLTefy_uid48_fpCompareTest_c : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signX_uid52_fpCompareTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signY_uid53_fpCompareTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal two_uid54_fpCompareTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal concSXSY_uid55_fpCompareTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal sxLTsy_uid56_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal xorSigns_uid57_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sxEQsy_uid58_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expFracCompMux_uid59_fpCompareTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expFracCompMux_uid59_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneNonZero_uid62_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rc2_uid63_fpCompareTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rc2_uid63_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sxEQsyExpFracCompMux_uid64_fpCompareTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sxEQsyExpFracCompMux_uid64_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid65_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rPostExc_uid66_fpCompareTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rPostExc_uid66_fpCompareTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid8_fpCompareTest(CONSTANT,7)\n" +
+                        "    cstAllZWE_uid8_fpCompareTest_q <= \"00000000000\";\n" +
+                        "\n" +
+                        "    -- exp_y_uid23_fpCompareTest(BITSELECT,22)@0\n" +
+                        "    exp_y_uid23_fpCompareTest_b <= b(62 downto 52);\n" +
+                        "\n" +
+                        "    -- excZ_y_uid25_fpCompareTest(LOGICAL,24)@0\n" +
+                        "    excZ_y_uid25_fpCompareTest_q <= \"1\" WHEN exp_y_uid23_fpCompareTest_b = cstAllZWE_uid8_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- yNotZero_uid40_fpCompareTest(LOGICAL,39)@0\n" +
+                        "    yNotZero_uid40_fpCompareTest_q <= not (excZ_y_uid25_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- exp_x_uid9_fpCompareTest(BITSELECT,8)@0\n" +
+                        "    exp_x_uid9_fpCompareTest_b <= a(62 downto 52);\n" +
+                        "\n" +
+                        "    -- excZ_x_uid11_fpCompareTest(LOGICAL,10)@0\n" +
+                        "    excZ_x_uid11_fpCompareTest_q <= \"1\" WHEN exp_x_uid9_fpCompareTest_b = cstAllZWE_uid8_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- xNotZero_uid39_fpCompareTest(LOGICAL,38)@0\n" +
+                        "    xNotZero_uid39_fpCompareTest_q <= not (excZ_x_uid11_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- oneNonZero_uid62_fpCompareTest(LOGICAL,61)@0\n" +
+                        "    oneNonZero_uid62_fpCompareTest_q <= xNotZero_uid39_fpCompareTest_q or yNotZero_uid40_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- two_uid54_fpCompareTest(CONSTANT,53)\n" +
+                        "    two_uid54_fpCompareTest_q <= \"10\";\n" +
+                        "\n" +
+                        "    -- signX_uid52_fpCompareTest(BITSELECT,51)@0\n" +
+                        "    signX_uid52_fpCompareTest_b <= STD_LOGIC_VECTOR(a(63 downto 63));\n" +
+                        "\n" +
+                        "    -- signY_uid53_fpCompareTest(BITSELECT,52)@0\n" +
+                        "    signY_uid53_fpCompareTest_b <= STD_LOGIC_VECTOR(b(63 downto 63));\n" +
+                        "\n" +
+                        "    -- concSXSY_uid55_fpCompareTest(BITJOIN,54)@0\n" +
+                        "    concSXSY_uid55_fpCompareTest_q <= signX_uid52_fpCompareTest_b & signY_uid53_fpCompareTest_b;\n" +
+                        "\n" +
+                        "    -- sxLTsy_uid56_fpCompareTest(LOGICAL,55)@0\n" +
+                        "    sxLTsy_uid56_fpCompareTest_q <= \"1\" WHEN concSXSY_uid55_fpCompareTest_q = two_uid54_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- rc2_uid63_fpCompareTest(LOGICAL,62)@0 + 1\n" +
+                        "    rc2_uid63_fpCompareTest_qi <= sxLTsy_uid56_fpCompareTest_q and oneNonZero_uid62_fpCompareTest_q;\n" +
+                        "    rc2_uid63_fpCompareTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => rc2_uid63_fpCompareTest_qi, xout => rc2_uid63_fpCompareTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- frac_x_uid10_fpCompareTest(BITSELECT,9)@0\n" +
+                        "    frac_x_uid10_fpCompareTest_b <= a(51 downto 0);\n" +
+                        "\n" +
+                        "    -- fracXPS_uid41_fpCompareTest(LOGICAL,40)@0\n" +
+                        "    fracXPS_uid41_fpCompareTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((51 downto 1 => xNotZero_uid39_fpCompareTest_q(0)) & xNotZero_uid39_fpCompareTest_q));\n" +
+                        "    fracXPS_uid41_fpCompareTest_q <= frac_x_uid10_fpCompareTest_b and fracXPS_uid41_fpCompareTest_b;\n" +
+                        "\n" +
+                        "    -- expFracX_uid43_fpCompareTest(BITJOIN,42)@0\n" +
+                        "    expFracX_uid43_fpCompareTest_q <= exp_x_uid9_fpCompareTest_b & fracXPS_uid41_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- frac_y_uid24_fpCompareTest(BITSELECT,23)@0\n" +
+                        "    frac_y_uid24_fpCompareTest_b <= b(51 downto 0);\n" +
+                        "\n" +
+                        "    -- fracYPS_uid42_fpCompareTest(LOGICAL,41)@0\n" +
+                        "    fracYPS_uid42_fpCompareTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((51 downto 1 => yNotZero_uid40_fpCompareTest_q(0)) & yNotZero_uid40_fpCompareTest_q));\n" +
+                        "    fracYPS_uid42_fpCompareTest_q <= frac_y_uid24_fpCompareTest_b and fracYPS_uid42_fpCompareTest_b;\n" +
+                        "\n" +
+                        "    -- expFracY_uid45_fpCompareTest(BITJOIN,44)@0\n" +
+                        "    expFracY_uid45_fpCompareTest_q <= exp_y_uid23_fpCompareTest_b & fracYPS_uid42_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- efxGTefy_uid47_fpCompareTest(COMPARE,46)@0\n" +
+                        "    efxGTefy_uid47_fpCompareTest_a <= STD_LOGIC_VECTOR(\"00\" & expFracY_uid45_fpCompareTest_q);\n" +
+                        "    efxGTefy_uid47_fpCompareTest_b <= STD_LOGIC_VECTOR(\"00\" & expFracX_uid43_fpCompareTest_q);\n" +
+                        "    efxGTefy_uid47_fpCompareTest_o <= STD_LOGIC_VECTOR(UNSIGNED(efxGTefy_uid47_fpCompareTest_a) - UNSIGNED(efxGTefy_uid47_fpCompareTest_b));\n" +
+                        "    efxGTefy_uid47_fpCompareTest_c(0) <= efxGTefy_uid47_fpCompareTest_o(64);\n" +
+                        "\n" +
+                        "    -- efxLTefy_uid48_fpCompareTest(COMPARE,47)@0\n" +
+                        "    efxLTefy_uid48_fpCompareTest_a <= STD_LOGIC_VECTOR(\"00\" & expFracX_uid43_fpCompareTest_q);\n" +
+                        "    efxLTefy_uid48_fpCompareTest_b <= STD_LOGIC_VECTOR(\"00\" & expFracY_uid45_fpCompareTest_q);\n" +
+                        "    efxLTefy_uid48_fpCompareTest_o <= STD_LOGIC_VECTOR(UNSIGNED(efxLTefy_uid48_fpCompareTest_a) - UNSIGNED(efxLTefy_uid48_fpCompareTest_b));\n" +
+                        "    efxLTefy_uid48_fpCompareTest_c(0) <= efxLTefy_uid48_fpCompareTest_o(64);\n" +
+                        "\n" +
+                        "    -- expFracCompMux_uid59_fpCompareTest(MUX,58)@0\n" +
+                        "    expFracCompMux_uid59_fpCompareTest_s <= signX_uid52_fpCompareTest_b;\n" +
+                        "    expFracCompMux_uid59_fpCompareTest_combproc: PROCESS (expFracCompMux_uid59_fpCompareTest_s, efxLTefy_uid48_fpCompareTest_c, efxGTefy_uid47_fpCompareTest_c)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (expFracCompMux_uid59_fpCompareTest_s) IS\n" +
+                        "            WHEN \"0\" => expFracCompMux_uid59_fpCompareTest_q <= efxLTefy_uid48_fpCompareTest_c;\n" +
+                        "            WHEN \"1\" => expFracCompMux_uid59_fpCompareTest_q <= efxGTefy_uid47_fpCompareTest_c;\n" +
+                        "            WHEN OTHERS => expFracCompMux_uid59_fpCompareTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- xorSigns_uid57_fpCompareTest(LOGICAL,56)@0\n" +
+                        "    xorSigns_uid57_fpCompareTest_q <= signX_uid52_fpCompareTest_b xor signY_uid53_fpCompareTest_b;\n" +
+                        "\n" +
+                        "    -- sxEQsy_uid58_fpCompareTest(LOGICAL,57)@0\n" +
+                        "    sxEQsy_uid58_fpCompareTest_q <= not (xorSigns_uid57_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- sxEQsyExpFracCompMux_uid64_fpCompareTest(LOGICAL,63)@0 + 1\n" +
+                        "    sxEQsyExpFracCompMux_uid64_fpCompareTest_qi <= sxEQsy_uid58_fpCompareTest_q and expFracCompMux_uid59_fpCompareTest_q;\n" +
+                        "    sxEQsyExpFracCompMux_uid64_fpCompareTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => sxEQsyExpFracCompMux_uid64_fpCompareTest_qi, xout => sxEQsyExpFracCompMux_uid64_fpCompareTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- r_uid65_fpCompareTest(LOGICAL,64)@1\n" +
+                        "    r_uid65_fpCompareTest_q <= sxEQsyExpFracCompMux_uid64_fpCompareTest_q or rc2_uid63_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid7_fpCompareTest(CONSTANT,6)\n" +
+                        "    cstZeroWF_uid7_fpCompareTest_q <= \"0000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid27_fpCompareTest(LOGICAL,26)@0\n" +
+                        "    fracXIsZero_uid27_fpCompareTest_q <= \"1\" WHEN cstZeroWF_uid7_fpCompareTest_q = frac_y_uid24_fpCompareTest_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid28_fpCompareTest(LOGICAL,27)@0\n" +
+                        "    fracXIsNotZero_uid28_fpCompareTest_q <= not (fracXIsZero_uid27_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid6_fpCompareTest(CONSTANT,5)\n" +
+                        "    cstAllOWE_uid6_fpCompareTest_q <= \"11111111111\";\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid26_fpCompareTest(LOGICAL,25)@0\n" +
+                        "    expXIsMax_uid26_fpCompareTest_q <= \"1\" WHEN exp_y_uid23_fpCompareTest_b = cstAllOWE_uid6_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_y_uid30_fpCompareTest(LOGICAL,29)@0\n" +
+                        "    excN_y_uid30_fpCompareTest_q <= expXIsMax_uid26_fpCompareTest_q and fracXIsNotZero_uid28_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid13_fpCompareTest(LOGICAL,12)@0\n" +
+                        "    fracXIsZero_uid13_fpCompareTest_q <= \"1\" WHEN cstZeroWF_uid7_fpCompareTest_q = frac_x_uid10_fpCompareTest_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid14_fpCompareTest(LOGICAL,13)@0\n" +
+                        "    fracXIsNotZero_uid14_fpCompareTest_q <= not (fracXIsZero_uid13_fpCompareTest_q);\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid12_fpCompareTest(LOGICAL,11)@0\n" +
+                        "    expXIsMax_uid12_fpCompareTest_q <= \"1\" WHEN exp_x_uid9_fpCompareTest_b = cstAllOWE_uid6_fpCompareTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_x_uid16_fpCompareTest(LOGICAL,15)@0\n" +
+                        "    excN_x_uid16_fpCompareTest_q <= expXIsMax_uid12_fpCompareTest_q and fracXIsNotZero_uid14_fpCompareTest_q;\n" +
+                        "\n" +
+                        "    -- oneIsNaN_uid34_fpCompareTest(LOGICAL,33)@0 + 1\n" +
+                        "    oneIsNaN_uid34_fpCompareTest_qi <= excN_x_uid16_fpCompareTest_q or excN_y_uid30_fpCompareTest_q;\n" +
+                        "    oneIsNaN_uid34_fpCompareTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => oneIsNaN_uid34_fpCompareTest_qi, xout => oneIsNaN_uid34_fpCompareTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- rPostExc_uid66_fpCompareTest(MUX,65)@1\n" +
+                        "    rPostExc_uid66_fpCompareTest_s <= oneIsNaN_uid34_fpCompareTest_q;\n" +
+                        "    rPostExc_uid66_fpCompareTest_combproc: PROCESS (rPostExc_uid66_fpCompareTest_s, r_uid65_fpCompareTest_q, GND_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rPostExc_uid66_fpCompareTest_s) IS\n" +
+                        "            WHEN \"0\" => rPostExc_uid66_fpCompareTest_q <= r_uid65_fpCompareTest_q;\n" +
+                        "            WHEN \"1\" => rPostExc_uid66_fpCompareTest_q <= GND_q;\n" +
+                        "            WHEN OTHERS => rPostExc_uid66_fpCompareTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@1\n" +
+                        "    q <= rPostExc_uid66_fpCompareTest_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
     private void generate_FP_MAX_64_qip_file(String Project_Folder_File) {
         String data =   "set_global_assignment -entity \"FP_MAX_64\" -library \"FP_MAX_64\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
                         "set_global_assignment -entity \"FP_MAX_64\" -library \"FP_MAX_64\" -name IP_TOOL_VERSION \"18.0\"\n" +
@@ -22110,6 +25434,254 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
 
+    private void generate_FP_MAX_64_0002_vhd_file(String Project_Folder_File) {
+        String data =   "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_MAX_64_0002\n" +
+                        "-- VHDL created on Sun Jun 21 03:58:58 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_MAX_64_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        b : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        q : out std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_MAX_64_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_MAX_64_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cstAllOWE_uid6_fpMaxTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal cstZeroWF_uid7_fpMaxTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal exp_x_uid9_fpMaxTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_x_uid10_fpMaxTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expXIsMax_uid12_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid13_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid14_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_x_uid16_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal exp_y_uid23_fpMaxTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_y_uid24_fpMaxTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expXIsMax_uid26_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid27_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid28_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_y_uid30_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal nanOut_uid34_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneIsNaN_uid35_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExcYN_uid37_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal yNotNaN_uid39_fpMaxTest_a : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal yNotNaN_uid39_fpMaxTest_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal invExcXN_uid41_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal xNotNaN_uid43_fpMaxTest_a : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal xNotNaN_uid43_fpMaxTest_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal oneNaNOutput_uid44_fpMaxTest_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal expFracX_uid47_fpMaxTest_q : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal expFracY_uid51_fpMaxTest_q : STD_LOGIC_VECTOR (62 downto 0);\n" +
+                        "    signal signX_uid53_fpMaxTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signY_uid54_fpMaxTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal efxGTefy_uid55_fpMaxTest_a : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxGTefy_uid55_fpMaxTest_b : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxGTefy_uid55_fpMaxTest_o : STD_LOGIC_VECTOR (64 downto 0);\n" +
+                        "    signal efxGTefy_uid55_fpMaxTest_c : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invSX_uid56_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invEfxGTefy_uid58_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal xNegyNegYGTX_uid59_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal xPosyPosXGtY_uid60_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal xPosYNeg_uid61_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal selX_uid62_fpMaxTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid63_fpMaxTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid63_fpMaxTest_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal concOneIsNaNNaNOut_uid64_fpMaxTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracNaN_uid65_fpMaxTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal rPostNaNP_r3_uid67_fpMaxTest_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal rPostNaN_uid72_fpMaxTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rPostNaN_uid72_fpMaxTest_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- frac_y_uid24_fpMaxTest(BITSELECT,23)@0\n" +
+                        "    frac_y_uid24_fpMaxTest_b <= b(51 downto 0);\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid7_fpMaxTest(CONSTANT,6)\n" +
+                        "    cstZeroWF_uid7_fpMaxTest_q <= \"0000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid27_fpMaxTest(LOGICAL,26)@0\n" +
+                        "    fracXIsZero_uid27_fpMaxTest_q <= \"1\" WHEN cstZeroWF_uid7_fpMaxTest_q = frac_y_uid24_fpMaxTest_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid28_fpMaxTest(LOGICAL,27)@0\n" +
+                        "    fracXIsNotZero_uid28_fpMaxTest_q <= not (fracXIsZero_uid27_fpMaxTest_q);\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid6_fpMaxTest(CONSTANT,5)\n" +
+                        "    cstAllOWE_uid6_fpMaxTest_q <= \"11111111111\";\n" +
+                        "\n" +
+                        "    -- exp_y_uid23_fpMaxTest(BITSELECT,22)@0\n" +
+                        "    exp_y_uid23_fpMaxTest_b <= b(62 downto 52);\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid26_fpMaxTest(LOGICAL,25)@0\n" +
+                        "    expXIsMax_uid26_fpMaxTest_q <= \"1\" WHEN exp_y_uid23_fpMaxTest_b = cstAllOWE_uid6_fpMaxTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_y_uid30_fpMaxTest(LOGICAL,29)@0\n" +
+                        "    excN_y_uid30_fpMaxTest_q <= expXIsMax_uid26_fpMaxTest_q and fracXIsNotZero_uid28_fpMaxTest_q;\n" +
+                        "\n" +
+                        "    -- invExcYN_uid37_fpMaxTest(LOGICAL,36)@0\n" +
+                        "    invExcYN_uid37_fpMaxTest_q <= not (excN_y_uid30_fpMaxTest_q);\n" +
+                        "\n" +
+                        "    -- yNotNaN_uid39_fpMaxTest(LOGICAL,38)@0\n" +
+                        "    yNotNaN_uid39_fpMaxTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((63 downto 1 => invExcYN_uid37_fpMaxTest_q(0)) & invExcYN_uid37_fpMaxTest_q));\n" +
+                        "    yNotNaN_uid39_fpMaxTest_q <= yNotNaN_uid39_fpMaxTest_a and b;\n" +
+                        "\n" +
+                        "    -- frac_x_uid10_fpMaxTest(BITSELECT,9)@0\n" +
+                        "    frac_x_uid10_fpMaxTest_b <= a(51 downto 0);\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid13_fpMaxTest(LOGICAL,12)@0\n" +
+                        "    fracXIsZero_uid13_fpMaxTest_q <= \"1\" WHEN cstZeroWF_uid7_fpMaxTest_q = frac_x_uid10_fpMaxTest_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid14_fpMaxTest(LOGICAL,13)@0\n" +
+                        "    fracXIsNotZero_uid14_fpMaxTest_q <= not (fracXIsZero_uid13_fpMaxTest_q);\n" +
+                        "\n" +
+                        "    -- exp_x_uid9_fpMaxTest(BITSELECT,8)@0\n" +
+                        "    exp_x_uid9_fpMaxTest_b <= a(62 downto 52);\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid12_fpMaxTest(LOGICAL,11)@0\n" +
+                        "    expXIsMax_uid12_fpMaxTest_q <= \"1\" WHEN exp_x_uid9_fpMaxTest_b = cstAllOWE_uid6_fpMaxTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_x_uid16_fpMaxTest(LOGICAL,15)@0\n" +
+                        "    excN_x_uid16_fpMaxTest_q <= expXIsMax_uid12_fpMaxTest_q and fracXIsNotZero_uid14_fpMaxTest_q;\n" +
+                        "\n" +
+                        "    -- invExcXN_uid41_fpMaxTest(LOGICAL,40)@0\n" +
+                        "    invExcXN_uid41_fpMaxTest_q <= not (excN_x_uid16_fpMaxTest_q);\n" +
+                        "\n" +
+                        "    -- xNotNaN_uid43_fpMaxTest(LOGICAL,42)@0\n" +
+                        "    xNotNaN_uid43_fpMaxTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((63 downto 1 => invExcXN_uid41_fpMaxTest_q(0)) & invExcXN_uid41_fpMaxTest_q));\n" +
+                        "    xNotNaN_uid43_fpMaxTest_q <= xNotNaN_uid43_fpMaxTest_a and a;\n" +
+                        "\n" +
+                        "    -- oneNaNOutput_uid44_fpMaxTest(LOGICAL,43)@0\n" +
+                        "    oneNaNOutput_uid44_fpMaxTest_q <= xNotNaN_uid43_fpMaxTest_q or yNotNaN_uid39_fpMaxTest_q;\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- fracNaN_uid65_fpMaxTest(CONSTANT,64)\n" +
+                        "    fracNaN_uid65_fpMaxTest_q <= \"0000000000000000000000000000000000000000000000000001\";\n" +
+                        "\n" +
+                        "    -- rPostNaNP_r3_uid67_fpMaxTest(BITJOIN,66)@0\n" +
+                        "    rPostNaNP_r3_uid67_fpMaxTest_q <= GND_q & cstAllOWE_uid6_fpMaxTest_q & fracNaN_uid65_fpMaxTest_q;\n" +
+                        "\n" +
+                        "    -- expFracX_uid47_fpMaxTest(BITJOIN,46)@0\n" +
+                        "    expFracX_uid47_fpMaxTest_q <= exp_x_uid9_fpMaxTest_b & frac_x_uid10_fpMaxTest_b;\n" +
+                        "\n" +
+                        "    -- expFracY_uid51_fpMaxTest(BITJOIN,50)@0\n" +
+                        "    expFracY_uid51_fpMaxTest_q <= exp_y_uid23_fpMaxTest_b & frac_y_uid24_fpMaxTest_b;\n" +
+                        "\n" +
+                        "    -- efxGTefy_uid55_fpMaxTest(COMPARE,54)@0\n" +
+                        "    efxGTefy_uid55_fpMaxTest_a <= STD_LOGIC_VECTOR(\"00\" & expFracY_uid51_fpMaxTest_q);\n" +
+                        "    efxGTefy_uid55_fpMaxTest_b <= STD_LOGIC_VECTOR(\"00\" & expFracX_uid47_fpMaxTest_q);\n" +
+                        "    efxGTefy_uid55_fpMaxTest_o <= STD_LOGIC_VECTOR(UNSIGNED(efxGTefy_uid55_fpMaxTest_a) - UNSIGNED(efxGTefy_uid55_fpMaxTest_b));\n" +
+                        "    efxGTefy_uid55_fpMaxTest_c(0) <= efxGTefy_uid55_fpMaxTest_o(64);\n" +
+                        "\n" +
+                        "    -- invEfxGTefy_uid58_fpMaxTest(LOGICAL,57)@0\n" +
+                        "    invEfxGTefy_uid58_fpMaxTest_q <= not (efxGTefy_uid55_fpMaxTest_c);\n" +
+                        "\n" +
+                        "    -- signY_uid54_fpMaxTest(BITSELECT,53)@0\n" +
+                        "    signY_uid54_fpMaxTest_b <= STD_LOGIC_VECTOR(b(63 downto 63));\n" +
+                        "\n" +
+                        "    -- signX_uid53_fpMaxTest(BITSELECT,52)@0\n" +
+                        "    signX_uid53_fpMaxTest_b <= STD_LOGIC_VECTOR(a(63 downto 63));\n" +
+                        "\n" +
+                        "    -- xNegyNegYGTX_uid59_fpMaxTest(LOGICAL,58)@0\n" +
+                        "    xNegyNegYGTX_uid59_fpMaxTest_q <= signX_uid53_fpMaxTest_b and signY_uid54_fpMaxTest_b and invEfxGTefy_uid58_fpMaxTest_q;\n" +
+                        "\n" +
+                        "    -- invSX_uid56_fpMaxTest(LOGICAL,55)@0\n" +
+                        "    invSX_uid56_fpMaxTest_q <= not (signX_uid53_fpMaxTest_b);\n" +
+                        "\n" +
+                        "    -- xPosyPosXGtY_uid60_fpMaxTest(LOGICAL,59)@0\n" +
+                        "    xPosyPosXGtY_uid60_fpMaxTest_q <= invSX_uid56_fpMaxTest_q and invSX_uid56_fpMaxTest_q and efxGTefy_uid55_fpMaxTest_c;\n" +
+                        "\n" +
+                        "    -- xPosYNeg_uid61_fpMaxTest(LOGICAL,60)@0\n" +
+                        "    xPosYNeg_uid61_fpMaxTest_q <= invSX_uid56_fpMaxTest_q and signY_uid54_fpMaxTest_b;\n" +
+                        "\n" +
+                        "    -- selX_uid62_fpMaxTest(LOGICAL,61)@0\n" +
+                        "    selX_uid62_fpMaxTest_q <= xPosYNeg_uid61_fpMaxTest_q or xPosyPosXGtY_uid60_fpMaxTest_q or xNegyNegYGTX_uid59_fpMaxTest_q;\n" +
+                        "\n" +
+                        "    -- r_uid63_fpMaxTest(MUX,62)@0\n" +
+                        "    r_uid63_fpMaxTest_s <= selX_uid62_fpMaxTest_q;\n" +
+                        "    r_uid63_fpMaxTest_combproc: PROCESS (r_uid63_fpMaxTest_s, b, a)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (r_uid63_fpMaxTest_s) IS\n" +
+                        "            WHEN \"0\" => r_uid63_fpMaxTest_q <= b;\n" +
+                        "            WHEN \"1\" => r_uid63_fpMaxTest_q <= a;\n" +
+                        "            WHEN OTHERS => r_uid63_fpMaxTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oneIsNaN_uid35_fpMaxTest(LOGICAL,34)@0\n" +
+                        "    oneIsNaN_uid35_fpMaxTest_q <= excN_x_uid16_fpMaxTest_q xor excN_y_uid30_fpMaxTest_q;\n" +
+                        "\n" +
+                        "    -- nanOut_uid34_fpMaxTest(LOGICAL,33)@0\n" +
+                        "    nanOut_uid34_fpMaxTest_q <= excN_x_uid16_fpMaxTest_q and excN_y_uid30_fpMaxTest_q;\n" +
+                        "\n" +
+                        "    -- concOneIsNaNNaNOut_uid64_fpMaxTest(BITJOIN,63)@0\n" +
+                        "    concOneIsNaNNaNOut_uid64_fpMaxTest_q <= oneIsNaN_uid35_fpMaxTest_q & nanOut_uid34_fpMaxTest_q;\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- rPostNaN_uid72_fpMaxTest(MUX,71)@0\n" +
+                        "    rPostNaN_uid72_fpMaxTest_s <= concOneIsNaNNaNOut_uid64_fpMaxTest_q;\n" +
+                        "    rPostNaN_uid72_fpMaxTest_combproc: PROCESS (rPostNaN_uid72_fpMaxTest_s, r_uid63_fpMaxTest_q, rPostNaNP_r3_uid67_fpMaxTest_q, oneNaNOutput_uid44_fpMaxTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rPostNaN_uid72_fpMaxTest_s) IS\n" +
+                        "            WHEN \"00\" => rPostNaN_uid72_fpMaxTest_q <= r_uid63_fpMaxTest_q;\n" +
+                        "            WHEN \"01\" => rPostNaN_uid72_fpMaxTest_q <= rPostNaNP_r3_uid67_fpMaxTest_q;\n" +
+                        "            WHEN \"10\" => rPostNaN_uid72_fpMaxTest_q <= oneNaNOutput_uid44_fpMaxTest_q;\n" +
+                        "            WHEN \"11\" => rPostNaN_uid72_fpMaxTest_q <= rPostNaNP_r3_uid67_fpMaxTest_q;\n" +
+                        "            WHEN OTHERS => rPostNaN_uid72_fpMaxTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@0\n" +
+                        "    q <= rPostNaN_uid72_fpMaxTest_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
     private void generate_FP_MUL_64_qip_file(String Project_Folder_File) {
         String data =   "set_global_assignment -entity \"FP_MUL_64\" -library \"FP_MUL_64\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
                         "set_global_assignment -entity \"FP_MUL_64\" -library \"FP_MUL_64\" -name IP_TOOL_VERSION \"18.0\"\n" +
@@ -22327,6 +25899,835 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
 
+    private void generate_FP_MUL_64_0002_vhd_file(String Project_Folder_File) {
+        String data =   "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_MUL_64_0002\n" +
+                        "-- VHDL created on Thu Jun 25 13:10:29 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_MUL_64_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        b : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        q : out std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_MUL_64_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_MUL_64_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expX_uid6_fpMulTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal expY_uid7_fpMulTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal signX_uid8_fpMulTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signY_uid9_fpMulTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cstAllOWE_uid10_fpMulTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal cstZeroWF_uid11_fpMulTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal cstAllZWE_uid12_fpMulTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_x_uid14_fpMulTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal excZ_x_uid15_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excZ_x_uid15_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid16_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid16_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid17_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid17_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid18_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_x_uid19_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_x_uid20_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid21_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid22_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_x_uid23_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal frac_y_uid28_fpMulTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal excZ_y_uid29_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excZ_y_uid29_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid30_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid30_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid31_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid31_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid32_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_y_uid33_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_y_uid34_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid35_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid36_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_y_uid37_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal ofracX_uid40_fpMulTest_q : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal ofracY_uid43_fpMulTest_q : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal expSum_uid44_fpMulTest_a : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expSum_uid44_fpMulTest_b : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expSum_uid44_fpMulTest_o : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expSum_uid44_fpMulTest_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal biasInc_uid45_fpMulTest_q : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal expSumMBias_uid46_fpMulTest_a : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expSumMBias_uid46_fpMulTest_b : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expSumMBias_uid46_fpMulTest_o : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expSumMBias_uid46_fpMulTest_q : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal signR_uid48_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signR_uid48_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal normalizeBit_uid49_fpMulTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracRPostNormHigh_uid51_fpMulTest_in : STD_LOGIC_VECTOR (104 downto 0);\n" +
+                        "    signal fracRPostNormHigh_uid51_fpMulTest_b : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal fracRPostNormLow_uid52_fpMulTest_in : STD_LOGIC_VECTOR (103 downto 0);\n" +
+                        "    signal fracRPostNormLow_uid52_fpMulTest_b : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal fracRPostNorm_uid53_fpMulTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracRPostNorm_uid53_fpMulTest_q : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal stickyRange_uid54_fpMulTest_in : STD_LOGIC_VECTOR (50 downto 0);\n" +
+                        "    signal stickyRange_uid54_fpMulTest_b : STD_LOGIC_VECTOR (50 downto 0);\n" +
+                        "    signal extraStickyBitOfProd_uid55_fpMulTest_in : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal extraStickyBitOfProd_uid55_fpMulTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal extraStickyBit_uid56_fpMulTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal extraStickyBit_uid56_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal stickyExtendedRange_uid57_fpMulTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal stickyRangeComparator_uid59_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal stickyRangeComparator_uid59_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sticky_uid60_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracRPostNorm1dto0_uid61_fpMulTest_in : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracRPostNorm1dto0_uid61_fpMulTest_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal lrs_uid62_fpMulTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal roundBitDetectionConstant_uid63_fpMulTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal roundBitDetectionPattern_uid64_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal roundBit_uid65_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expFracPreRound_uid66_fpMulTest_q : STD_LOGIC_VECTOR (66 downto 0);\n" +
+                        "    signal roundBitAndNormalizationOp_uid68_fpMulTest_q : STD_LOGIC_VECTOR (54 downto 0);\n" +
+                        "    signal expFracRPostRounding_uid69_fpMulTest_a : STD_LOGIC_VECTOR (68 downto 0);\n" +
+                        "    signal expFracRPostRounding_uid69_fpMulTest_b : STD_LOGIC_VECTOR (68 downto 0);\n" +
+                        "    signal expFracRPostRounding_uid69_fpMulTest_o : STD_LOGIC_VECTOR (68 downto 0);\n" +
+                        "    signal expFracRPostRounding_uid69_fpMulTest_q : STD_LOGIC_VECTOR (67 downto 0);\n" +
+                        "    signal fracRPreExc_uid70_fpMulTest_in : STD_LOGIC_VECTOR (52 downto 0);\n" +
+                        "    signal fracRPreExc_uid70_fpMulTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expRPreExcExt_uid71_fpMulTest_b : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expRPreExc_uid72_fpMulTest_in : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal expRPreExc_uid72_fpMulTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal expUdf_uid73_fpMulTest_a : STD_LOGIC_VECTOR (16 downto 0);\n" +
+                        "    signal expUdf_uid73_fpMulTest_b : STD_LOGIC_VECTOR (16 downto 0);\n" +
+                        "    signal expUdf_uid73_fpMulTest_o : STD_LOGIC_VECTOR (16 downto 0);\n" +
+                        "    signal expUdf_uid73_fpMulTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expOvf_uid75_fpMulTest_a : STD_LOGIC_VECTOR (16 downto 0);\n" +
+                        "    signal expOvf_uid75_fpMulTest_b : STD_LOGIC_VECTOR (16 downto 0);\n" +
+                        "    signal expOvf_uid75_fpMulTest_o : STD_LOGIC_VECTOR (16 downto 0);\n" +
+                        "    signal expOvf_uid75_fpMulTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXZAndExcYZ_uid76_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXZAndExcYR_uid77_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excYZAndExcXR_uid78_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excZC3_uid79_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRZero_uid80_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXIAndExcYI_uid81_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXRAndExcYI_uid82_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excYRAndExcXI_uid83_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal ExcROvfAndInReg_uid84_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRInf_uid85_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excYZAndExcXI_uid86_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXZAndExcYI_uid87_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal ZeroTimesInf_uid88_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRNaN_uid89_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal concExc_uid90_fpMulTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal excREnc_uid91_fpMulTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal oneFracRPostExc2_uid92_fpMulTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal fracRPostExc_uid95_fpMulTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracRPostExc_uid95_fpMulTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expRPostExc_uid100_fpMulTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal expRPostExc_uid100_fpMulTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal invExcRNaN_uid101_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRPostExc_uid102_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal R_uid103_fpMulTest_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "    signal aboveLeftY_mergedSignalTM_uid111_prod_uid47_fpMulTest_q : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal rightBottomX_mergedSignalTM_uid115_prod_uid47_fpMulTest_q : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal add0_uid129_prod_uid47_fpMulTest_q : STD_LOGIC_VECTOR (107 downto 0);\n" +
+                        "    signal add1sumAHighB_uid132_prod_uid47_fpMulTest_a : STD_LOGIC_VECTOR (81 downto 0);\n" +
+                        "    signal add1sumAHighB_uid132_prod_uid47_fpMulTest_b : STD_LOGIC_VECTOR (81 downto 0);\n" +
+                        "    signal add1sumAHighB_uid132_prod_uid47_fpMulTest_o : STD_LOGIC_VECTOR (81 downto 0);\n" +
+                        "    signal add1sumAHighB_uid132_prod_uid47_fpMulTest_q : STD_LOGIC_VECTOR (81 downto 0);\n" +
+                        "    signal add1_uid133_prod_uid47_fpMulTest_q : STD_LOGIC_VECTOR (108 downto 0);\n" +
+                        "    signal osig_uid134_prod_uid47_fpMulTest_in : STD_LOGIC_VECTOR (107 downto 0);\n" +
+                        "    signal osig_uid134_prod_uid47_fpMulTest_b : STD_LOGIC_VECTOR (105 downto 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_reset : std_logic;\n" +
+                        "    type topProd_uid107_prod_uid47_fpMulTest_cma_a0type is array(NATURAL range <>) of UNSIGNED(26 downto 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_a0 : topProd_uid107_prod_uid47_fpMulTest_cma_a0type(0 to 0);\n" +
+                        "    attribute preserve : boolean;\n" +
+                        "    attribute preserve of topProd_uid107_prod_uid47_fpMulTest_cma_a0 : signal is true;\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_c0 : topProd_uid107_prod_uid47_fpMulTest_cma_a0type(0 to 0);\n" +
+                        "    attribute preserve of topProd_uid107_prod_uid47_fpMulTest_cma_c0 : signal is true;\n" +
+                        "    type topProd_uid107_prod_uid47_fpMulTest_cma_ptype is array(NATURAL range <>) of UNSIGNED(53 downto 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_p : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_u : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_w : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_x : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_y : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_s : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_qq : STD_LOGIC_VECTOR (53 downto 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_q : STD_LOGIC_VECTOR (53 downto 0);\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_ena0 : std_logic;\n" +
+                        "    signal topProd_uid107_prod_uid47_fpMulTest_cma_ena1 : std_logic;\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_reset : std_logic;\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_a0 : topProd_uid107_prod_uid47_fpMulTest_cma_a0type(0 to 0);\n" +
+                        "    attribute preserve of sm0_uid128_prod_uid47_fpMulTest_cma_a0 : signal is true;\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_c0 : topProd_uid107_prod_uid47_fpMulTest_cma_a0type(0 to 0);\n" +
+                        "    attribute preserve of sm0_uid128_prod_uid47_fpMulTest_cma_c0 : signal is true;\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_p : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_u : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_w : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_x : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_y : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_s : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_qq : STD_LOGIC_VECTOR (53 downto 0);\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_q : STD_LOGIC_VECTOR (53 downto 0);\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_ena0 : std_logic;\n" +
+                        "    signal sm0_uid128_prod_uid47_fpMulTest_cma_ena1 : std_logic;\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_reset : std_logic;\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_a0 : topProd_uid107_prod_uid47_fpMulTest_cma_a0type(0 to 1);\n" +
+                        "    attribute preserve of multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_a0 : signal is true;\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_c0 : topProd_uid107_prod_uid47_fpMulTest_cma_a0type(0 to 1);\n" +
+                        "    attribute preserve of multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_c0 : signal is true;\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_p : topProd_uid107_prod_uid47_fpMulTest_cma_ptype(0 to 1);\n" +
+                        "    type multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_utype is array(NATURAL range <>) of UNSIGNED(54 downto 0);\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_u : multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_utype(0 to 1);\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_w : multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_utype(0 to 0);\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_x : multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_utype(0 to 0);\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_y : multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_utype(0 to 0);\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_s : multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_utype(0 to 0);\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_qq : STD_LOGIC_VECTOR (54 downto 0);\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_q : STD_LOGIC_VECTOR (54 downto 0);\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_ena0 : std_logic;\n" +
+                        "    signal multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_ena1 : std_logic;\n" +
+                        "    signal topRangeX_uid105_prod_uid47_fpMulTest_merged_bit_select_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal topRangeX_uid105_prod_uid47_fpMulTest_merged_bit_select_c : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal topRangeY_uid106_prod_uid47_fpMulTest_merged_bit_select_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal topRangeY_uid106_prod_uid47_fpMulTest_merged_bit_select_c : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal lowRangeB_uid130_prod_uid47_fpMulTest_merged_bit_select_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal lowRangeB_uid130_prod_uid47_fpMulTest_merged_bit_select_c : STD_LOGIC_VECTOR (80 downto 0);\n" +
+                        "    signal redist0_osig_uid134_prod_uid47_fpMulTest_b_1_q : STD_LOGIC_VECTOR (105 downto 0);\n" +
+                        "    signal redist1_expRPreExc_uid72_fpMulTest_b_1_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal redist2_fracRPreExc_uid70_fpMulTest_b_1_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal redist3_normalizeBit_uid49_fpMulTest_b_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist4_signR_uid48_fpMulTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist5_expSum_uid44_fpMulTest_q_3_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal redist6_fracXIsZero_uid31_fpMulTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist7_expXIsMax_uid30_fpMulTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist8_excZ_y_uid29_fpMulTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist9_fracXIsZero_uid17_fpMulTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist10_expXIsMax_uid16_fpMulTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist11_excZ_x_uid15_fpMulTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- frac_x_uid14_fpMulTest(BITSELECT,13)@0\n" +
+                        "    frac_x_uid14_fpMulTest_b <= a(51 downto 0);\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid11_fpMulTest(CONSTANT,10)\n" +
+                        "    cstZeroWF_uid11_fpMulTest_q <= \"0000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid17_fpMulTest(LOGICAL,16)@0 + 1\n" +
+                        "    fracXIsZero_uid17_fpMulTest_qi <= \"1\" WHEN cstZeroWF_uid11_fpMulTest_q = frac_x_uid14_fpMulTest_b ELSE \"0\";\n" +
+                        "    fracXIsZero_uid17_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid17_fpMulTest_qi, xout => fracXIsZero_uid17_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist9_fracXIsZero_uid17_fpMulTest_q_5(DELAY,150)\n" +
+                        "    redist9_fracXIsZero_uid17_fpMulTest_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 4, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid17_fpMulTest_q, xout => redist9_fracXIsZero_uid17_fpMulTest_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid10_fpMulTest(CONSTANT,9)\n" +
+                        "    cstAllOWE_uid10_fpMulTest_q <= \"11111111111\";\n" +
+                        "\n" +
+                        "    -- expX_uid6_fpMulTest(BITSELECT,5)@0\n" +
+                        "    expX_uid6_fpMulTest_b <= a(62 downto 52);\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid16_fpMulTest(LOGICAL,15)@0 + 1\n" +
+                        "    expXIsMax_uid16_fpMulTest_qi <= \"1\" WHEN expX_uid6_fpMulTest_b = cstAllOWE_uid10_fpMulTest_q ELSE \"0\";\n" +
+                        "    expXIsMax_uid16_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid16_fpMulTest_qi, xout => expXIsMax_uid16_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist10_expXIsMax_uid16_fpMulTest_q_5(DELAY,151)\n" +
+                        "    redist10_expXIsMax_uid16_fpMulTest_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 4, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid16_fpMulTest_q, xout => redist10_expXIsMax_uid16_fpMulTest_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excI_x_uid19_fpMulTest(LOGICAL,18)@5\n" +
+                        "    excI_x_uid19_fpMulTest_q <= redist10_expXIsMax_uid16_fpMulTest_q_5_q and redist9_fracXIsZero_uid17_fpMulTest_q_5_q;\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid12_fpMulTest(CONSTANT,11)\n" +
+                        "    cstAllZWE_uid12_fpMulTest_q <= \"00000000000\";\n" +
+                        "\n" +
+                        "    -- expY_uid7_fpMulTest(BITSELECT,6)@0\n" +
+                        "    expY_uid7_fpMulTest_b <= b(62 downto 52);\n" +
+                        "\n" +
+                        "    -- excZ_y_uid29_fpMulTest(LOGICAL,28)@0 + 1\n" +
+                        "    excZ_y_uid29_fpMulTest_qi <= \"1\" WHEN expY_uid7_fpMulTest_b = cstAllZWE_uid12_fpMulTest_q ELSE \"0\";\n" +
+                        "    excZ_y_uid29_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_y_uid29_fpMulTest_qi, xout => excZ_y_uid29_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist8_excZ_y_uid29_fpMulTest_q_5(DELAY,149)\n" +
+                        "    redist8_excZ_y_uid29_fpMulTest_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 4, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_y_uid29_fpMulTest_q, xout => redist8_excZ_y_uid29_fpMulTest_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excYZAndExcXI_uid86_fpMulTest(LOGICAL,85)@5\n" +
+                        "    excYZAndExcXI_uid86_fpMulTest_q <= redist8_excZ_y_uid29_fpMulTest_q_5_q and excI_x_uid19_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- frac_y_uid28_fpMulTest(BITSELECT,27)@0\n" +
+                        "    frac_y_uid28_fpMulTest_b <= b(51 downto 0);\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid31_fpMulTest(LOGICAL,30)@0 + 1\n" +
+                        "    fracXIsZero_uid31_fpMulTest_qi <= \"1\" WHEN cstZeroWF_uid11_fpMulTest_q = frac_y_uid28_fpMulTest_b ELSE \"0\";\n" +
+                        "    fracXIsZero_uid31_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid31_fpMulTest_qi, xout => fracXIsZero_uid31_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist6_fracXIsZero_uid31_fpMulTest_q_5(DELAY,147)\n" +
+                        "    redist6_fracXIsZero_uid31_fpMulTest_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 4, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid31_fpMulTest_q, xout => redist6_fracXIsZero_uid31_fpMulTest_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid30_fpMulTest(LOGICAL,29)@0 + 1\n" +
+                        "    expXIsMax_uid30_fpMulTest_qi <= \"1\" WHEN expY_uid7_fpMulTest_b = cstAllOWE_uid10_fpMulTest_q ELSE \"0\";\n" +
+                        "    expXIsMax_uid30_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid30_fpMulTest_qi, xout => expXIsMax_uid30_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist7_expXIsMax_uid30_fpMulTest_q_5(DELAY,148)\n" +
+                        "    redist7_expXIsMax_uid30_fpMulTest_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 4, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid30_fpMulTest_q, xout => redist7_expXIsMax_uid30_fpMulTest_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excI_y_uid33_fpMulTest(LOGICAL,32)@5\n" +
+                        "    excI_y_uid33_fpMulTest_q <= redist7_expXIsMax_uid30_fpMulTest_q_5_q and redist6_fracXIsZero_uid31_fpMulTest_q_5_q;\n" +
+                        "\n" +
+                        "    -- excZ_x_uid15_fpMulTest(LOGICAL,14)@0 + 1\n" +
+                        "    excZ_x_uid15_fpMulTest_qi <= \"1\" WHEN expX_uid6_fpMulTest_b = cstAllZWE_uid12_fpMulTest_q ELSE \"0\";\n" +
+                        "    excZ_x_uid15_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_x_uid15_fpMulTest_qi, xout => excZ_x_uid15_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist11_excZ_x_uid15_fpMulTest_q_5(DELAY,152)\n" +
+                        "    redist11_excZ_x_uid15_fpMulTest_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 4, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_x_uid15_fpMulTest_q, xout => redist11_excZ_x_uid15_fpMulTest_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excXZAndExcYI_uid87_fpMulTest(LOGICAL,86)@5\n" +
+                        "    excXZAndExcYI_uid87_fpMulTest_q <= redist11_excZ_x_uid15_fpMulTest_q_5_q and excI_y_uid33_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- ZeroTimesInf_uid88_fpMulTest(LOGICAL,87)@5\n" +
+                        "    ZeroTimesInf_uid88_fpMulTest_q <= excXZAndExcYI_uid87_fpMulTest_q or excYZAndExcXI_uid86_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid32_fpMulTest(LOGICAL,31)@5\n" +
+                        "    fracXIsNotZero_uid32_fpMulTest_q <= not (redist6_fracXIsZero_uid31_fpMulTest_q_5_q);\n" +
+                        "\n" +
+                        "    -- excN_y_uid34_fpMulTest(LOGICAL,33)@5\n" +
+                        "    excN_y_uid34_fpMulTest_q <= redist7_expXIsMax_uid30_fpMulTest_q_5_q and fracXIsNotZero_uid32_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid18_fpMulTest(LOGICAL,17)@5\n" +
+                        "    fracXIsNotZero_uid18_fpMulTest_q <= not (redist9_fracXIsZero_uid17_fpMulTest_q_5_q);\n" +
+                        "\n" +
+                        "    -- excN_x_uid20_fpMulTest(LOGICAL,19)@5\n" +
+                        "    excN_x_uid20_fpMulTest_q <= redist10_expXIsMax_uid16_fpMulTest_q_5_q and fracXIsNotZero_uid18_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excRNaN_uid89_fpMulTest(LOGICAL,88)@5\n" +
+                        "    excRNaN_uid89_fpMulTest_q <= excN_x_uid20_fpMulTest_q or excN_y_uid34_fpMulTest_q or ZeroTimesInf_uid88_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- invExcRNaN_uid101_fpMulTest(LOGICAL,100)@5\n" +
+                        "    invExcRNaN_uid101_fpMulTest_q <= not (excRNaN_uid89_fpMulTest_q);\n" +
+                        "\n" +
+                        "    -- signY_uid9_fpMulTest(BITSELECT,8)@0\n" +
+                        "    signY_uid9_fpMulTest_b <= STD_LOGIC_VECTOR(b(63 downto 63));\n" +
+                        "\n" +
+                        "    -- signX_uid8_fpMulTest(BITSELECT,7)@0\n" +
+                        "    signX_uid8_fpMulTest_b <= STD_LOGIC_VECTOR(a(63 downto 63));\n" +
+                        "\n" +
+                        "    -- signR_uid48_fpMulTest(LOGICAL,47)@0 + 1\n" +
+                        "    signR_uid48_fpMulTest_qi <= signX_uid8_fpMulTest_b xor signY_uid9_fpMulTest_b;\n" +
+                        "    signR_uid48_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => signR_uid48_fpMulTest_qi, xout => signR_uid48_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist4_signR_uid48_fpMulTest_q_5(DELAY,145)\n" +
+                        "    redist4_signR_uid48_fpMulTest_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 4, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => signR_uid48_fpMulTest_q, xout => redist4_signR_uid48_fpMulTest_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- signRPostExc_uid102_fpMulTest(LOGICAL,101)@5\n" +
+                        "    signRPostExc_uid102_fpMulTest_q <= redist4_signR_uid48_fpMulTest_q_5_q and invExcRNaN_uid101_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- ofracX_uid40_fpMulTest(BITJOIN,39)@0\n" +
+                        "    ofracX_uid40_fpMulTest_q <= VCC_q & frac_x_uid14_fpMulTest_b;\n" +
+                        "\n" +
+                        "    -- topRangeX_uid105_prod_uid47_fpMulTest_merged_bit_select(BITSELECT,138)@0\n" +
+                        "    topRangeX_uid105_prod_uid47_fpMulTest_merged_bit_select_b <= ofracX_uid40_fpMulTest_q(52 downto 26);\n" +
+                        "    topRangeX_uid105_prod_uid47_fpMulTest_merged_bit_select_c <= ofracX_uid40_fpMulTest_q(25 downto 0);\n" +
+                        "\n" +
+                        "    -- aboveLeftY_mergedSignalTM_uid111_prod_uid47_fpMulTest(BITJOIN,110)@0\n" +
+                        "    aboveLeftY_mergedSignalTM_uid111_prod_uid47_fpMulTest_q <= topRangeY_uid106_prod_uid47_fpMulTest_merged_bit_select_c & GND_q;\n" +
+                        "\n" +
+                        "    -- rightBottomX_mergedSignalTM_uid115_prod_uid47_fpMulTest(BITJOIN,114)@0\n" +
+                        "    rightBottomX_mergedSignalTM_uid115_prod_uid47_fpMulTest_q <= topRangeX_uid105_prod_uid47_fpMulTest_merged_bit_select_c & GND_q;\n" +
+                        "\n" +
+                        "    -- ofracY_uid43_fpMulTest(BITJOIN,42)@0\n" +
+                        "    ofracY_uid43_fpMulTest_q <= VCC_q & frac_y_uid28_fpMulTest_b;\n" +
+                        "\n" +
+                        "    -- topRangeY_uid106_prod_uid47_fpMulTest_merged_bit_select(BITSELECT,139)@0\n" +
+                        "    topRangeY_uid106_prod_uid47_fpMulTest_merged_bit_select_b <= ofracY_uid43_fpMulTest_q(52 downto 26);\n" +
+                        "    topRangeY_uid106_prod_uid47_fpMulTest_merged_bit_select_c <= ofracY_uid43_fpMulTest_q(25 downto 0);\n" +
+                        "\n" +
+                        "    -- multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma(CHAINMULTADD,137)@0 + 2\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_reset <= areset;\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_ena0 <= '1';\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_ena1 <= multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_ena0;\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_p(0) <= multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_a0(0) * multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_c0(0);\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_p(1) <= multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_a0(1) * multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_c0(1);\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_u(0) <= RESIZE(multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_p(0),55);\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_u(1) <= RESIZE(multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_p(1),55);\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_w(0) <= multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_u(0) + multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_u(1);\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_x(0) <= multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_w(0);\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_y(0) <= multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_x(0);\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_chainmultadd_input: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_a0 <= (others => (others => '0'));\n" +
+                        "            multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_c0 <= (others => (others => '0'));\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            IF (multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_ena0 = '1') THEN\n" +
+                        "                multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_a0(0) <= RESIZE(UNSIGNED(topRangeY_uid106_prod_uid47_fpMulTest_merged_bit_select_b),27);\n" +
+                        "                multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_a0(1) <= RESIZE(UNSIGNED(aboveLeftY_mergedSignalTM_uid111_prod_uid47_fpMulTest_q),27);\n" +
+                        "                multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_c0(0) <= RESIZE(UNSIGNED(rightBottomX_mergedSignalTM_uid115_prod_uid47_fpMulTest_q),27);\n" +
+                        "                multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_c0(1) <= RESIZE(UNSIGNED(topRangeX_uid105_prod_uid47_fpMulTest_merged_bit_select_b),27);\n" +
+                        "            END IF;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_chainmultadd_output: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_s <= (others => (others => '0'));\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            IF (multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_ena1 = '1') THEN\n" +
+                        "                multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_s(0) <= multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_y(0);\n" +
+                        "            END IF;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 55, depth => 0, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => STD_LOGIC_VECTOR(multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_s(0)(54 downto 0)), xout => multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_qq, clk => clk, aclr => areset );\n" +
+                        "    multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_q <= STD_LOGIC_VECTOR(multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_qq(54 downto 0));\n" +
+                        "\n" +
+                        "    -- add1sumAHighB_uid132_prod_uid47_fpMulTest(ADD,131)@2\n" +
+                        "    add1sumAHighB_uid132_prod_uid47_fpMulTest_a <= STD_LOGIC_VECTOR(\"000000000000000000000000000\" & multSumOfTwoTS_uid118_prod_uid47_fpMulTest_cma_q);\n" +
+                        "    add1sumAHighB_uid132_prod_uid47_fpMulTest_b <= STD_LOGIC_VECTOR(\"0\" & lowRangeB_uid130_prod_uid47_fpMulTest_merged_bit_select_c);\n" +
+                        "    add1sumAHighB_uid132_prod_uid47_fpMulTest_o <= STD_LOGIC_VECTOR(UNSIGNED(add1sumAHighB_uid132_prod_uid47_fpMulTest_a) + UNSIGNED(add1sumAHighB_uid132_prod_uid47_fpMulTest_b));\n" +
+                        "    add1sumAHighB_uid132_prod_uid47_fpMulTest_q <= add1sumAHighB_uid132_prod_uid47_fpMulTest_o(81 downto 0);\n" +
+                        "\n" +
+                        "    -- topProd_uid107_prod_uid47_fpMulTest_cma(CHAINMULTADD,135)@0 + 2\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_reset <= areset;\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_ena0 <= '1';\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_ena1 <= topProd_uid107_prod_uid47_fpMulTest_cma_ena0;\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_p(0) <= topProd_uid107_prod_uid47_fpMulTest_cma_a0(0) * topProd_uid107_prod_uid47_fpMulTest_cma_c0(0);\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_u(0) <= RESIZE(topProd_uid107_prod_uid47_fpMulTest_cma_p(0),54);\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_w(0) <= topProd_uid107_prod_uid47_fpMulTest_cma_u(0);\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_x(0) <= topProd_uid107_prod_uid47_fpMulTest_cma_w(0);\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_y(0) <= topProd_uid107_prod_uid47_fpMulTest_cma_x(0);\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_chainmultadd_input: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            topProd_uid107_prod_uid47_fpMulTest_cma_a0 <= (others => (others => '0'));\n" +
+                        "            topProd_uid107_prod_uid47_fpMulTest_cma_c0 <= (others => (others => '0'));\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            IF (topProd_uid107_prod_uid47_fpMulTest_cma_ena0 = '1') THEN\n" +
+                        "                topProd_uid107_prod_uid47_fpMulTest_cma_a0(0) <= RESIZE(UNSIGNED(topRangeX_uid105_prod_uid47_fpMulTest_merged_bit_select_b),27);\n" +
+                        "                topProd_uid107_prod_uid47_fpMulTest_cma_c0(0) <= RESIZE(UNSIGNED(topRangeY_uid106_prod_uid47_fpMulTest_merged_bit_select_b),27);\n" +
+                        "            END IF;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_chainmultadd_output: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            topProd_uid107_prod_uid47_fpMulTest_cma_s <= (others => (others => '0'));\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            IF (topProd_uid107_prod_uid47_fpMulTest_cma_ena1 = '1') THEN\n" +
+                        "                topProd_uid107_prod_uid47_fpMulTest_cma_s(0) <= topProd_uid107_prod_uid47_fpMulTest_cma_y(0);\n" +
+                        "            END IF;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 54, depth => 0, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => STD_LOGIC_VECTOR(topProd_uid107_prod_uid47_fpMulTest_cma_s(0)(53 downto 0)), xout => topProd_uid107_prod_uid47_fpMulTest_cma_qq, clk => clk, aclr => areset );\n" +
+                        "    topProd_uid107_prod_uid47_fpMulTest_cma_q <= STD_LOGIC_VECTOR(topProd_uid107_prod_uid47_fpMulTest_cma_qq(53 downto 0));\n" +
+                        "\n" +
+                        "    -- sm0_uid128_prod_uid47_fpMulTest_cma(CHAINMULTADD,136)@0 + 2\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_reset <= areset;\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_ena0 <= '1';\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_ena1 <= sm0_uid128_prod_uid47_fpMulTest_cma_ena0;\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_p(0) <= sm0_uid128_prod_uid47_fpMulTest_cma_a0(0) * sm0_uid128_prod_uid47_fpMulTest_cma_c0(0);\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_u(0) <= RESIZE(sm0_uid128_prod_uid47_fpMulTest_cma_p(0),54);\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_w(0) <= sm0_uid128_prod_uid47_fpMulTest_cma_u(0);\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_x(0) <= sm0_uid128_prod_uid47_fpMulTest_cma_w(0);\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_y(0) <= sm0_uid128_prod_uid47_fpMulTest_cma_x(0);\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_chainmultadd_input: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            sm0_uid128_prod_uid47_fpMulTest_cma_a0 <= (others => (others => '0'));\n" +
+                        "            sm0_uid128_prod_uid47_fpMulTest_cma_c0 <= (others => (others => '0'));\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            IF (sm0_uid128_prod_uid47_fpMulTest_cma_ena0 = '1') THEN\n" +
+                        "                sm0_uid128_prod_uid47_fpMulTest_cma_a0(0) <= RESIZE(UNSIGNED(rightBottomX_mergedSignalTM_uid115_prod_uid47_fpMulTest_q),27);\n" +
+                        "                sm0_uid128_prod_uid47_fpMulTest_cma_c0(0) <= RESIZE(UNSIGNED(aboveLeftY_mergedSignalTM_uid111_prod_uid47_fpMulTest_q),27);\n" +
+                        "            END IF;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_chainmultadd_output: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            sm0_uid128_prod_uid47_fpMulTest_cma_s <= (others => (others => '0'));\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            IF (sm0_uid128_prod_uid47_fpMulTest_cma_ena1 = '1') THEN\n" +
+                        "                sm0_uid128_prod_uid47_fpMulTest_cma_s(0) <= sm0_uid128_prod_uid47_fpMulTest_cma_y(0);\n" +
+                        "            END IF;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 54, depth => 0, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => STD_LOGIC_VECTOR(sm0_uid128_prod_uid47_fpMulTest_cma_s(0)(53 downto 0)), xout => sm0_uid128_prod_uid47_fpMulTest_cma_qq, clk => clk, aclr => areset );\n" +
+                        "    sm0_uid128_prod_uid47_fpMulTest_cma_q <= STD_LOGIC_VECTOR(sm0_uid128_prod_uid47_fpMulTest_cma_qq(53 downto 0));\n" +
+                        "\n" +
+                        "    -- add0_uid129_prod_uid47_fpMulTest(BITJOIN,128)@2\n" +
+                        "    add0_uid129_prod_uid47_fpMulTest_q <= topProd_uid107_prod_uid47_fpMulTest_cma_q & sm0_uid128_prod_uid47_fpMulTest_cma_q;\n" +
+                        "\n" +
+                        "    -- lowRangeB_uid130_prod_uid47_fpMulTest_merged_bit_select(BITSELECT,140)@2\n" +
+                        "    lowRangeB_uid130_prod_uid47_fpMulTest_merged_bit_select_b <= add0_uid129_prod_uid47_fpMulTest_q(26 downto 0);\n" +
+                        "    lowRangeB_uid130_prod_uid47_fpMulTest_merged_bit_select_c <= add0_uid129_prod_uid47_fpMulTest_q(107 downto 27);\n" +
+                        "\n" +
+                        "    -- add1_uid133_prod_uid47_fpMulTest(BITJOIN,132)@2\n" +
+                        "    add1_uid133_prod_uid47_fpMulTest_q <= add1sumAHighB_uid132_prod_uid47_fpMulTest_q & lowRangeB_uid130_prod_uid47_fpMulTest_merged_bit_select_b;\n" +
+                        "\n" +
+                        "    -- osig_uid134_prod_uid47_fpMulTest(BITSELECT,133)@2\n" +
+                        "    osig_uid134_prod_uid47_fpMulTest_in <= add1_uid133_prod_uid47_fpMulTest_q(107 downto 0);\n" +
+                        "    osig_uid134_prod_uid47_fpMulTest_b <= osig_uid134_prod_uid47_fpMulTest_in(107 downto 2);\n" +
+                        "\n" +
+                        "    -- redist0_osig_uid134_prod_uid47_fpMulTest_b_1(DELAY,141)\n" +
+                        "    redist0_osig_uid134_prod_uid47_fpMulTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 106, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => osig_uid134_prod_uid47_fpMulTest_b, xout => redist0_osig_uid134_prod_uid47_fpMulTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- normalizeBit_uid49_fpMulTest(BITSELECT,48)@3\n" +
+                        "    normalizeBit_uid49_fpMulTest_b <= STD_LOGIC_VECTOR(redist0_osig_uid134_prod_uid47_fpMulTest_b_1_q(105 downto 105));\n" +
+                        "\n" +
+                        "    -- redist3_normalizeBit_uid49_fpMulTest_b_1(DELAY,144)\n" +
+                        "    redist3_normalizeBit_uid49_fpMulTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => normalizeBit_uid49_fpMulTest_b, xout => redist3_normalizeBit_uid49_fpMulTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- roundBitDetectionConstant_uid63_fpMulTest(CONSTANT,62)\n" +
+                        "    roundBitDetectionConstant_uid63_fpMulTest_q <= \"010\";\n" +
+                        "\n" +
+                        "    -- fracRPostNormHigh_uid51_fpMulTest(BITSELECT,50)@3\n" +
+                        "    fracRPostNormHigh_uid51_fpMulTest_in <= redist0_osig_uid134_prod_uid47_fpMulTest_b_1_q(104 downto 0);\n" +
+                        "    fracRPostNormHigh_uid51_fpMulTest_b <= fracRPostNormHigh_uid51_fpMulTest_in(104 downto 52);\n" +
+                        "\n" +
+                        "    -- fracRPostNormLow_uid52_fpMulTest(BITSELECT,51)@3\n" +
+                        "    fracRPostNormLow_uid52_fpMulTest_in <= redist0_osig_uid134_prod_uid47_fpMulTest_b_1_q(103 downto 0);\n" +
+                        "    fracRPostNormLow_uid52_fpMulTest_b <= fracRPostNormLow_uid52_fpMulTest_in(103 downto 51);\n" +
+                        "\n" +
+                        "    -- fracRPostNorm_uid53_fpMulTest(MUX,52)@3 + 1\n" +
+                        "    fracRPostNorm_uid53_fpMulTest_s <= normalizeBit_uid49_fpMulTest_b;\n" +
+                        "    fracRPostNorm_uid53_fpMulTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            fracRPostNorm_uid53_fpMulTest_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (fracRPostNorm_uid53_fpMulTest_s) IS\n" +
+                        "                WHEN \"0\" => fracRPostNorm_uid53_fpMulTest_q <= fracRPostNormLow_uid52_fpMulTest_b;\n" +
+                        "                WHEN \"1\" => fracRPostNorm_uid53_fpMulTest_q <= fracRPostNormHigh_uid51_fpMulTest_b;\n" +
+                        "                WHEN OTHERS => fracRPostNorm_uid53_fpMulTest_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- fracRPostNorm1dto0_uid61_fpMulTest(BITSELECT,60)@4\n" +
+                        "    fracRPostNorm1dto0_uid61_fpMulTest_in <= fracRPostNorm_uid53_fpMulTest_q(1 downto 0);\n" +
+                        "    fracRPostNorm1dto0_uid61_fpMulTest_b <= fracRPostNorm1dto0_uid61_fpMulTest_in(1 downto 0);\n" +
+                        "\n" +
+                        "    -- extraStickyBitOfProd_uid55_fpMulTest(BITSELECT,54)@3\n" +
+                        "    extraStickyBitOfProd_uid55_fpMulTest_in <= STD_LOGIC_VECTOR(redist0_osig_uid134_prod_uid47_fpMulTest_b_1_q(51 downto 0));\n" +
+                        "    extraStickyBitOfProd_uid55_fpMulTest_b <= STD_LOGIC_VECTOR(extraStickyBitOfProd_uid55_fpMulTest_in(51 downto 51));\n" +
+                        "\n" +
+                        "    -- extraStickyBit_uid56_fpMulTest(MUX,55)@3\n" +
+                        "    extraStickyBit_uid56_fpMulTest_s <= normalizeBit_uid49_fpMulTest_b;\n" +
+                        "    extraStickyBit_uid56_fpMulTest_combproc: PROCESS (extraStickyBit_uid56_fpMulTest_s, GND_q, extraStickyBitOfProd_uid55_fpMulTest_b)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (extraStickyBit_uid56_fpMulTest_s) IS\n" +
+                        "            WHEN \"0\" => extraStickyBit_uid56_fpMulTest_q <= GND_q;\n" +
+                        "            WHEN \"1\" => extraStickyBit_uid56_fpMulTest_q <= extraStickyBitOfProd_uid55_fpMulTest_b;\n" +
+                        "            WHEN OTHERS => extraStickyBit_uid56_fpMulTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- stickyRange_uid54_fpMulTest(BITSELECT,53)@3\n" +
+                        "    stickyRange_uid54_fpMulTest_in <= redist0_osig_uid134_prod_uid47_fpMulTest_b_1_q(50 downto 0);\n" +
+                        "    stickyRange_uid54_fpMulTest_b <= stickyRange_uid54_fpMulTest_in(50 downto 0);\n" +
+                        "\n" +
+                        "    -- stickyExtendedRange_uid57_fpMulTest(BITJOIN,56)@3\n" +
+                        "    stickyExtendedRange_uid57_fpMulTest_q <= extraStickyBit_uid56_fpMulTest_q & stickyRange_uid54_fpMulTest_b;\n" +
+                        "\n" +
+                        "    -- stickyRangeComparator_uid59_fpMulTest(LOGICAL,58)@3 + 1\n" +
+                        "    stickyRangeComparator_uid59_fpMulTest_qi <= \"1\" WHEN stickyExtendedRange_uid57_fpMulTest_q = cstZeroWF_uid11_fpMulTest_q ELSE \"0\";\n" +
+                        "    stickyRangeComparator_uid59_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => stickyRangeComparator_uid59_fpMulTest_qi, xout => stickyRangeComparator_uid59_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- sticky_uid60_fpMulTest(LOGICAL,59)@4\n" +
+                        "    sticky_uid60_fpMulTest_q <= not (stickyRangeComparator_uid59_fpMulTest_q);\n" +
+                        "\n" +
+                        "    -- lrs_uid62_fpMulTest(BITJOIN,61)@4\n" +
+                        "    lrs_uid62_fpMulTest_q <= fracRPostNorm1dto0_uid61_fpMulTest_b & sticky_uid60_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- roundBitDetectionPattern_uid64_fpMulTest(LOGICAL,63)@4\n" +
+                        "    roundBitDetectionPattern_uid64_fpMulTest_q <= \"1\" WHEN lrs_uid62_fpMulTest_q = roundBitDetectionConstant_uid63_fpMulTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- roundBit_uid65_fpMulTest(LOGICAL,64)@4\n" +
+                        "    roundBit_uid65_fpMulTest_q <= not (roundBitDetectionPattern_uid64_fpMulTest_q);\n" +
+                        "\n" +
+                        "    -- roundBitAndNormalizationOp_uid68_fpMulTest(BITJOIN,67)@4\n" +
+                        "    roundBitAndNormalizationOp_uid68_fpMulTest_q <= GND_q & redist3_normalizeBit_uid49_fpMulTest_b_1_q & cstZeroWF_uid11_fpMulTest_q & roundBit_uid65_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- biasInc_uid45_fpMulTest(CONSTANT,44)\n" +
+                        "    biasInc_uid45_fpMulTest_q <= \"0001111111111\";\n" +
+                        "\n" +
+                        "    -- expSum_uid44_fpMulTest(ADD,43)@0 + 1\n" +
+                        "    expSum_uid44_fpMulTest_a <= STD_LOGIC_VECTOR(\"0\" & expX_uid6_fpMulTest_b);\n" +
+                        "    expSum_uid44_fpMulTest_b <= STD_LOGIC_VECTOR(\"0\" & expY_uid7_fpMulTest_b);\n" +
+                        "    expSum_uid44_fpMulTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expSum_uid44_fpMulTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expSum_uid44_fpMulTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expSum_uid44_fpMulTest_a) + UNSIGNED(expSum_uid44_fpMulTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expSum_uid44_fpMulTest_q <= expSum_uid44_fpMulTest_o(11 downto 0);\n" +
+                        "\n" +
+                        "    -- redist5_expSum_uid44_fpMulTest_q_3(DELAY,146)\n" +
+                        "    redist5_expSum_uid44_fpMulTest_q_3 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 12, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expSum_uid44_fpMulTest_q, xout => redist5_expSum_uid44_fpMulTest_q_3_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expSumMBias_uid46_fpMulTest(SUB,45)@3 + 1\n" +
+                        "    expSumMBias_uid46_fpMulTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"000\" & redist5_expSum_uid44_fpMulTest_q_3_q));\n" +
+                        "    expSumMBias_uid46_fpMulTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((14 downto 13 => biasInc_uid45_fpMulTest_q(12)) & biasInc_uid45_fpMulTest_q));\n" +
+                        "    expSumMBias_uid46_fpMulTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expSumMBias_uid46_fpMulTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expSumMBias_uid46_fpMulTest_o <= STD_LOGIC_VECTOR(SIGNED(expSumMBias_uid46_fpMulTest_a) - SIGNED(expSumMBias_uid46_fpMulTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expSumMBias_uid46_fpMulTest_q <= expSumMBias_uid46_fpMulTest_o(13 downto 0);\n" +
+                        "\n" +
+                        "    -- expFracPreRound_uid66_fpMulTest(BITJOIN,65)@4\n" +
+                        "    expFracPreRound_uid66_fpMulTest_q <= expSumMBias_uid46_fpMulTest_q & fracRPostNorm_uid53_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- expFracRPostRounding_uid69_fpMulTest(ADD,68)@4\n" +
+                        "    expFracRPostRounding_uid69_fpMulTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((68 downto 67 => expFracPreRound_uid66_fpMulTest_q(66)) & expFracPreRound_uid66_fpMulTest_q));\n" +
+                        "    expFracRPostRounding_uid69_fpMulTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"00000000000000\" & roundBitAndNormalizationOp_uid68_fpMulTest_q));\n" +
+                        "    expFracRPostRounding_uid69_fpMulTest_o <= STD_LOGIC_VECTOR(SIGNED(expFracRPostRounding_uid69_fpMulTest_a) + SIGNED(expFracRPostRounding_uid69_fpMulTest_b));\n" +
+                        "    expFracRPostRounding_uid69_fpMulTest_q <= expFracRPostRounding_uid69_fpMulTest_o(67 downto 0);\n" +
+                        "\n" +
+                        "    -- expRPreExcExt_uid71_fpMulTest(BITSELECT,70)@4\n" +
+                        "    expRPreExcExt_uid71_fpMulTest_b <= STD_LOGIC_VECTOR(expFracRPostRounding_uid69_fpMulTest_q(67 downto 53));\n" +
+                        "\n" +
+                        "    -- expRPreExc_uid72_fpMulTest(BITSELECT,71)@4\n" +
+                        "    expRPreExc_uid72_fpMulTest_in <= expRPreExcExt_uid71_fpMulTest_b(10 downto 0);\n" +
+                        "    expRPreExc_uid72_fpMulTest_b <= expRPreExc_uid72_fpMulTest_in(10 downto 0);\n" +
+                        "\n" +
+                        "    -- redist1_expRPreExc_uid72_fpMulTest_b_1(DELAY,142)\n" +
+                        "    redist1_expRPreExc_uid72_fpMulTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 11, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expRPreExc_uid72_fpMulTest_b, xout => redist1_expRPreExc_uid72_fpMulTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expOvf_uid75_fpMulTest(COMPARE,74)@4 + 1\n" +
+                        "    expOvf_uid75_fpMulTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((16 downto 15 => expRPreExcExt_uid71_fpMulTest_b(14)) & expRPreExcExt_uid71_fpMulTest_b));\n" +
+                        "    expOvf_uid75_fpMulTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"000000\" & cstAllOWE_uid10_fpMulTest_q));\n" +
+                        "    expOvf_uid75_fpMulTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expOvf_uid75_fpMulTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expOvf_uid75_fpMulTest_o <= STD_LOGIC_VECTOR(SIGNED(expOvf_uid75_fpMulTest_a) - SIGNED(expOvf_uid75_fpMulTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expOvf_uid75_fpMulTest_n(0) <= not (expOvf_uid75_fpMulTest_o(16));\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid35_fpMulTest(LOGICAL,34)@5\n" +
+                        "    invExpXIsMax_uid35_fpMulTest_q <= not (redist7_expXIsMax_uid30_fpMulTest_q_5_q);\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid36_fpMulTest(LOGICAL,35)@5\n" +
+                        "    InvExpXIsZero_uid36_fpMulTest_q <= not (redist8_excZ_y_uid29_fpMulTest_q_5_q);\n" +
+                        "\n" +
+                        "    -- excR_y_uid37_fpMulTest(LOGICAL,36)@5\n" +
+                        "    excR_y_uid37_fpMulTest_q <= InvExpXIsZero_uid36_fpMulTest_q and invExpXIsMax_uid35_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid21_fpMulTest(LOGICAL,20)@5\n" +
+                        "    invExpXIsMax_uid21_fpMulTest_q <= not (redist10_expXIsMax_uid16_fpMulTest_q_5_q);\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid22_fpMulTest(LOGICAL,21)@5\n" +
+                        "    InvExpXIsZero_uid22_fpMulTest_q <= not (redist11_excZ_x_uid15_fpMulTest_q_5_q);\n" +
+                        "\n" +
+                        "    -- excR_x_uid23_fpMulTest(LOGICAL,22)@5\n" +
+                        "    excR_x_uid23_fpMulTest_q <= InvExpXIsZero_uid22_fpMulTest_q and invExpXIsMax_uid21_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- ExcROvfAndInReg_uid84_fpMulTest(LOGICAL,83)@5\n" +
+                        "    ExcROvfAndInReg_uid84_fpMulTest_q <= excR_x_uid23_fpMulTest_q and excR_y_uid37_fpMulTest_q and expOvf_uid75_fpMulTest_n;\n" +
+                        "\n" +
+                        "    -- excYRAndExcXI_uid83_fpMulTest(LOGICAL,82)@5\n" +
+                        "    excYRAndExcXI_uid83_fpMulTest_q <= excR_y_uid37_fpMulTest_q and excI_x_uid19_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excXRAndExcYI_uid82_fpMulTest(LOGICAL,81)@5\n" +
+                        "    excXRAndExcYI_uid82_fpMulTest_q <= excR_x_uid23_fpMulTest_q and excI_y_uid33_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excXIAndExcYI_uid81_fpMulTest(LOGICAL,80)@5\n" +
+                        "    excXIAndExcYI_uid81_fpMulTest_q <= excI_x_uid19_fpMulTest_q and excI_y_uid33_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excRInf_uid85_fpMulTest(LOGICAL,84)@5\n" +
+                        "    excRInf_uid85_fpMulTest_q <= excXIAndExcYI_uid81_fpMulTest_q or excXRAndExcYI_uid82_fpMulTest_q or excYRAndExcXI_uid83_fpMulTest_q or ExcROvfAndInReg_uid84_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- expUdf_uid73_fpMulTest(COMPARE,72)@4 + 1\n" +
+                        "    expUdf_uid73_fpMulTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"0000000000000000\" & GND_q));\n" +
+                        "    expUdf_uid73_fpMulTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((16 downto 15 => expRPreExcExt_uid71_fpMulTest_b(14)) & expRPreExcExt_uid71_fpMulTest_b));\n" +
+                        "    expUdf_uid73_fpMulTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expUdf_uid73_fpMulTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expUdf_uid73_fpMulTest_o <= STD_LOGIC_VECTOR(SIGNED(expUdf_uid73_fpMulTest_a) - SIGNED(expUdf_uid73_fpMulTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expUdf_uid73_fpMulTest_n(0) <= not (expUdf_uid73_fpMulTest_o(16));\n" +
+                        "\n" +
+                        "    -- excZC3_uid79_fpMulTest(LOGICAL,78)@5\n" +
+                        "    excZC3_uid79_fpMulTest_q <= excR_x_uid23_fpMulTest_q and excR_y_uid37_fpMulTest_q and expUdf_uid73_fpMulTest_n;\n" +
+                        "\n" +
+                        "    -- excYZAndExcXR_uid78_fpMulTest(LOGICAL,77)@5\n" +
+                        "    excYZAndExcXR_uid78_fpMulTest_q <= redist8_excZ_y_uid29_fpMulTest_q_5_q and excR_x_uid23_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excXZAndExcYR_uid77_fpMulTest(LOGICAL,76)@5\n" +
+                        "    excXZAndExcYR_uid77_fpMulTest_q <= redist11_excZ_x_uid15_fpMulTest_q_5_q and excR_y_uid37_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excXZAndExcYZ_uid76_fpMulTest(LOGICAL,75)@5\n" +
+                        "    excXZAndExcYZ_uid76_fpMulTest_q <= redist11_excZ_x_uid15_fpMulTest_q_5_q and redist8_excZ_y_uid29_fpMulTest_q_5_q;\n" +
+                        "\n" +
+                        "    -- excRZero_uid80_fpMulTest(LOGICAL,79)@5\n" +
+                        "    excRZero_uid80_fpMulTest_q <= excXZAndExcYZ_uid76_fpMulTest_q or excXZAndExcYR_uid77_fpMulTest_q or excYZAndExcXR_uid78_fpMulTest_q or excZC3_uid79_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- concExc_uid90_fpMulTest(BITJOIN,89)@5\n" +
+                        "    concExc_uid90_fpMulTest_q <= excRNaN_uid89_fpMulTest_q & excRInf_uid85_fpMulTest_q & excRZero_uid80_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excREnc_uid91_fpMulTest(LOOKUP,90)@5\n" +
+                        "    excREnc_uid91_fpMulTest_combproc: PROCESS (concExc_uid90_fpMulTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (concExc_uid90_fpMulTest_q) IS\n" +
+                        "            WHEN \"000\" => excREnc_uid91_fpMulTest_q <= \"01\";\n" +
+                        "            WHEN \"001\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN \"010\" => excREnc_uid91_fpMulTest_q <= \"10\";\n" +
+                        "            WHEN \"011\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN \"100\" => excREnc_uid91_fpMulTest_q <= \"11\";\n" +
+                        "            WHEN \"101\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN \"110\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN \"111\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excREnc_uid91_fpMulTest_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- expRPostExc_uid100_fpMulTest(MUX,99)@5\n" +
+                        "    expRPostExc_uid100_fpMulTest_s <= excREnc_uid91_fpMulTest_q;\n" +
+                        "    expRPostExc_uid100_fpMulTest_combproc: PROCESS (expRPostExc_uid100_fpMulTest_s, cstAllZWE_uid12_fpMulTest_q, redist1_expRPreExc_uid72_fpMulTest_b_1_q, cstAllOWE_uid10_fpMulTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (expRPostExc_uid100_fpMulTest_s) IS\n" +
+                        "            WHEN \"00\" => expRPostExc_uid100_fpMulTest_q <= cstAllZWE_uid12_fpMulTest_q;\n" +
+                        "            WHEN \"01\" => expRPostExc_uid100_fpMulTest_q <= redist1_expRPreExc_uid72_fpMulTest_b_1_q;\n" +
+                        "            WHEN \"10\" => expRPostExc_uid100_fpMulTest_q <= cstAllOWE_uid10_fpMulTest_q;\n" +
+                        "            WHEN \"11\" => expRPostExc_uid100_fpMulTest_q <= cstAllOWE_uid10_fpMulTest_q;\n" +
+                        "            WHEN OTHERS => expRPostExc_uid100_fpMulTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oneFracRPostExc2_uid92_fpMulTest(CONSTANT,91)\n" +
+                        "    oneFracRPostExc2_uid92_fpMulTest_q <= \"0000000000000000000000000000000000000000000000000001\";\n" +
+                        "\n" +
+                        "    -- fracRPreExc_uid70_fpMulTest(BITSELECT,69)@4\n" +
+                        "    fracRPreExc_uid70_fpMulTest_in <= expFracRPostRounding_uid69_fpMulTest_q(52 downto 0);\n" +
+                        "    fracRPreExc_uid70_fpMulTest_b <= fracRPreExc_uid70_fpMulTest_in(52 downto 1);\n" +
+                        "\n" +
+                        "    -- redist2_fracRPreExc_uid70_fpMulTest_b_1(DELAY,143)\n" +
+                        "    redist2_fracRPreExc_uid70_fpMulTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 52, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracRPreExc_uid70_fpMulTest_b, xout => redist2_fracRPreExc_uid70_fpMulTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracRPostExc_uid95_fpMulTest(MUX,94)@5\n" +
+                        "    fracRPostExc_uid95_fpMulTest_s <= excREnc_uid91_fpMulTest_q;\n" +
+                        "    fracRPostExc_uid95_fpMulTest_combproc: PROCESS (fracRPostExc_uid95_fpMulTest_s, cstZeroWF_uid11_fpMulTest_q, redist2_fracRPreExc_uid70_fpMulTest_b_1_q, oneFracRPostExc2_uid92_fpMulTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (fracRPostExc_uid95_fpMulTest_s) IS\n" +
+                        "            WHEN \"00\" => fracRPostExc_uid95_fpMulTest_q <= cstZeroWF_uid11_fpMulTest_q;\n" +
+                        "            WHEN \"01\" => fracRPostExc_uid95_fpMulTest_q <= redist2_fracRPreExc_uid70_fpMulTest_b_1_q;\n" +
+                        "            WHEN \"10\" => fracRPostExc_uid95_fpMulTest_q <= cstZeroWF_uid11_fpMulTest_q;\n" +
+                        "            WHEN \"11\" => fracRPostExc_uid95_fpMulTest_q <= oneFracRPostExc2_uid92_fpMulTest_q;\n" +
+                        "            WHEN OTHERS => fracRPostExc_uid95_fpMulTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- R_uid103_fpMulTest(BITJOIN,102)@5\n" +
+                        "    R_uid103_fpMulTest_q <= signRPostExc_uid102_fpMulTest_q & expRPostExc_uid100_fpMulTest_q & fracRPostExc_uid95_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@5\n" +
+                        "    q <= R_uid103_fpMulTest_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+    
     private void generate_FP_ADD_32_qip_file(String Project_Folder_File) {
         String data =   "set_global_assignment -entity \"FP_ADD_32\" -library \"FP_ADD_32\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
                         "set_global_assignment -entity \"FP_ADD_32\" -library \"FP_ADD_32\" -name IP_TOOL_VERSION \"18.0\"\n" +
@@ -22544,6 +26945,1421 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
 
+    private void generate_FP_ADD_32_0002_vhd_file(String Project_Folder_File) {
+        String data1 =  "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_ADD_32_0002\n" +
+                        "-- VHDL created on Fri Jul 24 01:37:02 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_ADD_32_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        b : in std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        q : out std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_ADD_32_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_ADD_32_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expFracX_uid6_fpAddTest_b : STD_LOGIC_VECTOR (30 downto 0);\n" +
+                        "    signal expFracY_uid7_fpAddTest_b : STD_LOGIC_VECTOR (30 downto 0);\n" +
+                        "    signal xGTEy_uid8_fpAddTest_a : STD_LOGIC_VECTOR (32 downto 0);\n" +
+                        "    signal xGTEy_uid8_fpAddTest_b : STD_LOGIC_VECTOR (32 downto 0);\n" +
+                        "    signal xGTEy_uid8_fpAddTest_o : STD_LOGIC_VECTOR (32 downto 0);\n" +
+                        "    signal xGTEy_uid8_fpAddTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracY_uid9_fpAddTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal expY_uid10_fpAddTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal sigY_uid11_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal ypn_uid12_fpAddTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal aSig_uid16_fpAddTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal aSig_uid16_fpAddTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal bSig_uid17_fpAddTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal bSig_uid17_fpAddTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal cstAllOWE_uid18_fpAddTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal cstZeroWF_uid19_fpAddTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal cstAllZWE_uid20_fpAddTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal exp_aSig_uid21_fpAddTest_in : STD_LOGIC_VECTOR (30 downto 0);\n" +
+                        "    signal exp_aSig_uid21_fpAddTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal frac_aSig_uid22_fpAddTest_in : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal frac_aSig_uid22_fpAddTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal excZ_aSig_uid16_uid23_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excZ_aSig_uid16_uid23_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid24_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid24_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid25_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid25_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid26_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_aSig_uid27_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_aSig_uid28_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_aSig_uid28_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid29_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid30_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_aSig_uid31_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal exp_bSig_uid35_fpAddTest_in : STD_LOGIC_VECTOR (30 downto 0);\n" +
+                        "    signal exp_bSig_uid35_fpAddTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal frac_bSig_uid36_fpAddTest_in : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal frac_bSig_uid36_fpAddTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal excZ_bSig_uid17_uid37_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid38_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid38_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid39_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid39_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid40_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_bSig_uid41_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_bSig_uid42_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_bSig_uid42_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid43_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid44_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_bSig_uid45_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigA_uid50_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigB_uid51_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal effSub_uid52_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal effSub_uid52_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracBz_uid56_fpAddTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracBz_uid56_fpAddTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal oFracB_uid59_fpAddTest_q : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal expAmExpB_uid60_fpAddTest_a : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expAmExpB_uid60_fpAddTest_b : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expAmExpB_uid60_fpAddTest_o : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expAmExpB_uid60_fpAddTest_q : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal cWFP2_uid61_fpAddTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal shiftedOut_uid63_fpAddTest_a : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid63_fpAddTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid63_fpAddTest_o : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid63_fpAddTest_c : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal padConst_uid64_fpAddTest_q : STD_LOGIC_VECTOR (24 downto 0);\n" +
+                        "    signal rightPaddedIn_uid65_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal iShiftedOut_uid67_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal alignFracBPostShiftOut_uid68_fpAddTest_b : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal alignFracBPostShiftOut_uid68_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal cmpEQ_stickyBits_cZwF_uid71_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cmpEQ_stickyBits_cZwF_uid71_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invCmpEQ_stickyBits_cZwF_uid72_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal effSubInvSticky_uid74_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal zocst_uid76_fpAddTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracAAddOp_uid77_fpAddTest_q : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracBAddOp_uid80_fpAddTest_q : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracBAddOpPostXor_uid81_fpAddTest_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracBAddOpPostXor_uid81_fpAddTest_q : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracAddResult_uid82_fpAddTest_a : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal fracAddResult_uid82_fpAddTest_b : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal fracAddResult_uid82_fpAddTest_o : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal fracAddResult_uid82_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal rangeFracAddResultMwfp3Dto0_uid83_fpAddTest_in : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal rangeFracAddResultMwfp3Dto0_uid83_fpAddTest_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracGRS_uid84_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal cAmA_uid86_fpAddTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal aMinusA_uid87_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracPostNorm_uid89_fpAddTest_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal oneCST_uid90_fpAddTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal expInc_uid91_fpAddTest_a : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expInc_uid91_fpAddTest_b : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expInc_uid91_fpAddTest_o : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expInc_uid91_fpAddTest_q : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expPostNorm_uid92_fpAddTest_a : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal expPostNorm_uid92_fpAddTest_b : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal expPostNorm_uid92_fpAddTest_o : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal expPostNorm_uid92_fpAddTest_q : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal Sticky0_uid93_fpAddTest_in : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Sticky0_uid93_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Sticky1_uid94_fpAddTest_in : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal Sticky1_uid94_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Round_uid95_fpAddTest_in : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal Round_uid95_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Guard_uid96_fpAddTest_in : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal Guard_uid96_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal LSB_uid97_fpAddTest_in : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal LSB_uid97_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rndBitCond_uid98_fpAddTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal cRBit_uid99_fpAddTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal rBi_uid100_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal roundBit_uid101_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracPostNormRndRange_uid102_fpAddTest_in : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal fracPostNormRndRange_uid102_fpAddTest_b : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal expFracR_uid103_fpAddTest_q : STD_LOGIC_VECTOR (33 downto 0);\n" +
+                        "    signal rndExpFrac_uid104_fpAddTest_a : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal rndExpFrac_uid104_fpAddTest_b : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal rndExpFrac_uid104_fpAddTest_o : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal rndExpFrac_uid104_fpAddTest_q : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal wEP2AllOwE_uid105_fpAddTest_q : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal rndExp_uid106_fpAddTest_in : STD_LOGIC_VECTOR (33 downto 0);\n" +
+                        "    signal rndExp_uid106_fpAddTest_b : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal rOvfEQMax_uid107_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rndExpFracOvfBits_uid109_fpAddTest_in : STD_LOGIC_VECTOR (33 downto 0);\n" +
+                        "    signal rndExpFracOvfBits_uid109_fpAddTest_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rOvfExtraBits_uid110_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rOvf_uid111_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal wEP2AllZ_uid112_fpAddTest_q : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal rUdfEQMin_uid113_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rUdfExtraBit_uid114_fpAddTest_in : STD_LOGIC_VECTOR (33 downto 0);\n" +
+                        "    signal rUdfExtraBit_uid114_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rUdf_uid115_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracRPreExc_uid116_fpAddTest_in : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal fracRPreExc_uid116_fpAddTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal expRPreExc_uid117_fpAddTest_in : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal expRPreExc_uid117_fpAddTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal regInputs_uid118_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal regInputs_uid118_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRZeroVInC_uid119_fpAddTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal excRZero_uid120_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rInfOvf_uid121_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRInfVInC_uid122_fpAddTest_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal excRInf_uid123_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRNaN2_uid124_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excAIBISub_uid125_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRNaN_uid126_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal concExc_uid127_fpAddTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal excREnc_uid128_fpAddTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal invAMinusA_uid129_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRReg_uid130_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigBBInf_uid131_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigAAInf_uid132_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRInf_uid133_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excAZBZSigASigB_uid134_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excBZARSigA_uid135_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRZero_uid136_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRInfRZRReg_uid137_fpAddTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRInfRZRReg_uid137_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExcRNaN_uid138_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRPostExc_uid139_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneFracRPostExc2_uid140_fpAddTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal fracRPostExc_uid143_fpAddTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracRPostExc_uid143_fpAddTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal expRPostExc_uid147_fpAddTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal expRPostExc_uid147_fpAddTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal R_uid148_fpAddTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal zs_uid150_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal rVStage_uid151_lzCountVal_uid85_fpAddTest_b : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal vCount_uid152_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal mO_uid153_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal vStage_uid154_lzCountVal_uid85_fpAddTest_in : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal vStage_uid154_lzCountVal_uid85_fpAddTest_b : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal cStage_uid155_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal vStagei_uid157_lzCountVal_uid85_fpAddTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid157_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal vCount_uid160_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid163_lzCountVal_uid85_fpAddTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid163_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal zs_uid164_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal vCount_uid166_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid169_lzCountVal_uid85_fpAddTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid169_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal zs_uid170_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal vCount_uid172_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid175_lzCountVal_uid85_fpAddTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid175_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rVStage_uid177_lzCountVal_uid85_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vCount_uid178_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid179_lzCountVal_uid85_fpAddTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal wIntCst_uid183_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_a : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_o : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rightShiftStage0Idx1Rng16_uid185_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (32 downto 0);\n" +
+                        "    signal rightShiftStage0Idx1_uid187_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage0Idx2Rng32_uid188_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (16 downto 0);\n" +
+                        "    signal rightShiftStage0Idx2Pad32_uid189_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal rightShiftStage0Idx2_uid190_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage0Idx3Rng48_uid191_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rightShiftStage0Idx3Pad48_uid192_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (47 downto 0);\n" +
+                        "    signal rightShiftStage0Idx3_uid193_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage1Idx1Rng4_uid196_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (44 downto 0);\n" +
+                        "    signal rightShiftStage1Idx1_uid198_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage1Idx2Rng8_uid199_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (40 downto 0);\n" +
+                        "    signal rightShiftStage1Idx2_uid201_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage1Idx3Rng12_uid202_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (36 downto 0);\n" +
+                        "    signal rightShiftStage1Idx3Pad12_uid203_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal rightShiftStage1Idx3_uid204_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage2Idx1Rng1_uid207_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (47 downto 0);\n" +
+                        "    signal rightShiftStage2Idx1_uid209_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage2Idx2Rng2_uid210_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (46 downto 0);\n" +
+                        "    signal rightShiftStage2Idx2_uid212_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage2Idx3Rng3_uid213_alignmentShifter_uid64_fpAddTest_b : STD_LOGIC_VECTOR (45 downto 0);\n" +
+                        "    signal rightShiftStage2Idx3Pad3_uid214_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal rightShiftStage2Idx3_uid215_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal zeroOutCst_uid218_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal r_uid219_alignmentShifter_uid64_fpAddTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid219_alignmentShifter_uid64_fpAddTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal leftShiftStage0Idx1Rng8_uid224_fracPostNormExt_uid88_fpAddTest_in : STD_LOGIC_VECTOR (19 downto 0);\n" +
+                        "    signal leftShiftStage0Idx1Rng8_uid224_fracPostNormExt_uid88_fpAddTest_b : STD_LOGIC_VECTOR (19 downto 0);\n" +
+                        "    signal leftShiftStage0Idx1_uid225_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage0Idx2_uid228_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3Pad24_uid229_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3Rng24_uid230_fracPostNormExt_uid88_fpAddTest_in : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3Rng24_uid230_fracPostNormExt_uid88_fpAddTest_b : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3_uid231_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage1Idx1Rng2_uid235_fracPostNormExt_uid88_fpAddTest_in : STD_LOGIC_VECTOR (25 downto 0);\n";
+        String data2 =  "    signal leftShiftStage1Idx1Rng2_uid235_fracPostNormExt_uid88_fpAddTest_b : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal leftShiftStage1Idx1_uid236_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage1Idx2Rng4_uid238_fracPostNormExt_uid88_fpAddTest_in : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal leftShiftStage1Idx2Rng4_uid238_fracPostNormExt_uid88_fpAddTest_b : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal leftShiftStage1Idx2_uid239_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3Pad6_uid240_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3Rng6_uid241_fracPostNormExt_uid88_fpAddTest_in : STD_LOGIC_VECTOR (21 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3Rng6_uid241_fracPostNormExt_uid88_fpAddTest_b : STD_LOGIC_VECTOR (21 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3_uid242_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage2Idx1Rng1_uid246_fracPostNormExt_uid88_fpAddTest_in : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal leftShiftStage2Idx1Rng1_uid246_fracPostNormExt_uid88_fpAddTest_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal leftShiftStage2Idx1_uid247_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_in : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_d : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal stickyBits_uid69_fpAddTest_merged_bit_select_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal stickyBits_uid69_fpAddTest_merged_bit_select_c : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select_c : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select_b : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select_c : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select_d : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist0_stickyBits_uid69_fpAddTest_merged_bit_select_c_1_q : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal redist1_r_uid179_lzCountVal_uid85_fpAddTest_q_1_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal redist2_vStage_uid154_lzCountVal_uid85_fpAddTest_b_2_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal redist3_vCount_uid152_lzCountVal_uid85_fpAddTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist4_aMinusA_uid87_fpAddTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist5_fracGRS_uid84_fpAddTest_q_2_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal redist6_effSub_uid52_fpAddTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist7_sigB_uid51_fpAddTest_b_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist8_sigB_uid51_fpAddTest_b_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist9_sigA_uid50_fpAddTest_b_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist10_sigA_uid50_fpAddTest_b_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist11_InvExpXIsZero_uid44_fpAddTest_q_3_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist12_excI_bSig_uid41_fpAddTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist13_fracXIsZero_uid39_fpAddTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist14_expXIsMax_uid38_fpAddTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist15_excZ_bSig_uid17_uid37_fpAddTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist16_excZ_bSig_uid17_uid37_fpAddTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist17_excZ_bSig_uid17_uid37_fpAddTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist18_excI_aSig_uid27_fpAddTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist19_fracXIsZero_uid25_fpAddTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist20_excZ_aSig_uid16_uid23_fpAddTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist21_frac_aSig_uid22_fpAddTest_b_2_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal redist22_exp_aSig_uid21_fpAddTest_b_3_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- cAmA_uid86_fpAddTest(CONSTANT,85)\n" +
+                        "    cAmA_uid86_fpAddTest_q <= \"11100\";\n" +
+                        "\n" +
+                        "    -- zs_uid150_lzCountVal_uid85_fpAddTest(CONSTANT,149)\n" +
+                        "    zs_uid150_lzCountVal_uid85_fpAddTest_q <= \"0000000000000000\";\n" +
+                        "\n" +
+                        "    -- sigY_uid11_fpAddTest(BITSELECT,10)@0\n" +
+                        "    sigY_uid11_fpAddTest_b <= STD_LOGIC_VECTOR(b(31 downto 31));\n" +
+                        "\n" +
+                        "    -- expY_uid10_fpAddTest(BITSELECT,9)@0\n" +
+                        "    expY_uid10_fpAddTest_b <= b(30 downto 23);\n" +
+                        "\n" +
+                        "    -- fracY_uid9_fpAddTest(BITSELECT,8)@0\n" +
+                        "    fracY_uid9_fpAddTest_b <= b(22 downto 0);\n" +
+                        "\n" +
+                        "    -- ypn_uid12_fpAddTest(BITJOIN,11)@0\n" +
+                        "    ypn_uid12_fpAddTest_q <= sigY_uid11_fpAddTest_b & expY_uid10_fpAddTest_b & fracY_uid9_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- expFracY_uid7_fpAddTest(BITSELECT,6)@0\n" +
+                        "    expFracY_uid7_fpAddTest_b <= b(30 downto 0);\n" +
+                        "\n" +
+                        "    -- expFracX_uid6_fpAddTest(BITSELECT,5)@0\n" +
+                        "    expFracX_uid6_fpAddTest_b <= a(30 downto 0);\n" +
+                        "\n" +
+                        "    -- xGTEy_uid8_fpAddTest(COMPARE,7)@0\n" +
+                        "    xGTEy_uid8_fpAddTest_a <= STD_LOGIC_VECTOR(\"00\" & expFracX_uid6_fpAddTest_b);\n" +
+                        "    xGTEy_uid8_fpAddTest_b <= STD_LOGIC_VECTOR(\"00\" & expFracY_uid7_fpAddTest_b);\n" +
+                        "    xGTEy_uid8_fpAddTest_o <= STD_LOGIC_VECTOR(UNSIGNED(xGTEy_uid8_fpAddTest_a) - UNSIGNED(xGTEy_uid8_fpAddTest_b));\n" +
+                        "    xGTEy_uid8_fpAddTest_n(0) <= not (xGTEy_uid8_fpAddTest_o(32));\n" +
+                        "\n" +
+                        "    -- bSig_uid17_fpAddTest(MUX,16)@0\n" +
+                        "    bSig_uid17_fpAddTest_s <= xGTEy_uid8_fpAddTest_n;\n" +
+                        "    bSig_uid17_fpAddTest_combproc: PROCESS (bSig_uid17_fpAddTest_s, a, ypn_uid12_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (bSig_uid17_fpAddTest_s) IS\n" +
+                        "            WHEN \"0\" => bSig_uid17_fpAddTest_q <= a;\n" +
+                        "            WHEN \"1\" => bSig_uid17_fpAddTest_q <= ypn_uid12_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => bSig_uid17_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- sigB_uid51_fpAddTest(BITSELECT,50)@0\n" +
+                        "    sigB_uid51_fpAddTest_b <= STD_LOGIC_VECTOR(bSig_uid17_fpAddTest_q(31 downto 31));\n" +
+                        "\n" +
+                        "    -- redist7_sigB_uid51_fpAddTest_b_1(DELAY,263)\n" +
+                        "    redist7_sigB_uid51_fpAddTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => sigB_uid51_fpAddTest_b, xout => redist7_sigB_uid51_fpAddTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- aSig_uid16_fpAddTest(MUX,15)@0\n" +
+                        "    aSig_uid16_fpAddTest_s <= xGTEy_uid8_fpAddTest_n;\n" +
+                        "    aSig_uid16_fpAddTest_combproc: PROCESS (aSig_uid16_fpAddTest_s, ypn_uid12_fpAddTest_q, a)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (aSig_uid16_fpAddTest_s) IS\n" +
+                        "            WHEN \"0\" => aSig_uid16_fpAddTest_q <= ypn_uid12_fpAddTest_q;\n" +
+                        "            WHEN \"1\" => aSig_uid16_fpAddTest_q <= a;\n" +
+                        "            WHEN OTHERS => aSig_uid16_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- sigA_uid50_fpAddTest(BITSELECT,49)@0\n" +
+                        "    sigA_uid50_fpAddTest_b <= STD_LOGIC_VECTOR(aSig_uid16_fpAddTest_q(31 downto 31));\n" +
+                        "\n" +
+                        "    -- redist9_sigA_uid50_fpAddTest_b_1(DELAY,265)\n" +
+                        "    redist9_sigA_uid50_fpAddTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => sigA_uid50_fpAddTest_b, xout => redist9_sigA_uid50_fpAddTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- effSub_uid52_fpAddTest(LOGICAL,51)@1 + 1\n" +
+                        "    effSub_uid52_fpAddTest_qi <= redist9_sigA_uid50_fpAddTest_b_1_q xor redist7_sigB_uid51_fpAddTest_b_1_q;\n" +
+                        "    effSub_uid52_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => effSub_uid52_fpAddTest_qi, xout => effSub_uid52_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- exp_bSig_uid35_fpAddTest(BITSELECT,34)@0\n" +
+                        "    exp_bSig_uid35_fpAddTest_in <= bSig_uid17_fpAddTest_q(30 downto 0);\n" +
+                        "    exp_bSig_uid35_fpAddTest_b <= exp_bSig_uid35_fpAddTest_in(30 downto 23);\n" +
+                        "\n" +
+                        "    -- exp_aSig_uid21_fpAddTest(BITSELECT,20)@0\n" +
+                        "    exp_aSig_uid21_fpAddTest_in <= aSig_uid16_fpAddTest_q(30 downto 0);\n" +
+                        "    exp_aSig_uid21_fpAddTest_b <= exp_aSig_uid21_fpAddTest_in(30 downto 23);\n" +
+                        "\n" +
+                        "    -- expAmExpB_uid60_fpAddTest(SUB,59)@0 + 1\n" +
+                        "    expAmExpB_uid60_fpAddTest_a <= STD_LOGIC_VECTOR(\"0\" & exp_aSig_uid21_fpAddTest_b);\n" +
+                        "    expAmExpB_uid60_fpAddTest_b <= STD_LOGIC_VECTOR(\"0\" & exp_bSig_uid35_fpAddTest_b);\n" +
+                        "    expAmExpB_uid60_fpAddTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expAmExpB_uid60_fpAddTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expAmExpB_uid60_fpAddTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expAmExpB_uid60_fpAddTest_a) - UNSIGNED(expAmExpB_uid60_fpAddTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expAmExpB_uid60_fpAddTest_q <= expAmExpB_uid60_fpAddTest_o(8 downto 0);\n" +
+                        "\n" +
+                        "    -- cWFP2_uid61_fpAddTest(CONSTANT,60)\n" +
+                        "    cWFP2_uid61_fpAddTest_q <= \"11001\";\n" +
+                        "\n" +
+                        "    -- shiftedOut_uid63_fpAddTest(COMPARE,62)@1\n" +
+                        "    shiftedOut_uid63_fpAddTest_a <= STD_LOGIC_VECTOR(\"000000\" & cWFP2_uid61_fpAddTest_q);\n" +
+                        "    shiftedOut_uid63_fpAddTest_b <= STD_LOGIC_VECTOR(\"00\" & expAmExpB_uid60_fpAddTest_q);\n" +
+                        "    shiftedOut_uid63_fpAddTest_o <= STD_LOGIC_VECTOR(UNSIGNED(shiftedOut_uid63_fpAddTest_a) - UNSIGNED(shiftedOut_uid63_fpAddTest_b));\n" +
+                        "    shiftedOut_uid63_fpAddTest_c(0) <= shiftedOut_uid63_fpAddTest_o(10);\n" +
+                        "\n" +
+                        "    -- iShiftedOut_uid67_fpAddTest(LOGICAL,66)@1\n" +
+                        "    iShiftedOut_uid67_fpAddTest_q <= not (shiftedOut_uid63_fpAddTest_c);\n" +
+                        "\n" +
+                        "    -- zeroOutCst_uid218_alignmentShifter_uid64_fpAddTest(CONSTANT,217)\n" +
+                        "    zeroOutCst_uid218_alignmentShifter_uid64_fpAddTest_q <= \"0000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx3Pad3_uid214_alignmentShifter_uid64_fpAddTest(CONSTANT,213)\n" +
+                        "    rightShiftStage2Idx3Pad3_uid214_alignmentShifter_uid64_fpAddTest_q <= \"000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx3Rng3_uid213_alignmentShifter_uid64_fpAddTest(BITSELECT,212)@1\n" +
+                        "    rightShiftStage2Idx3Rng3_uid213_alignmentShifter_uid64_fpAddTest_b <= rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q(48 downto 3);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx3_uid215_alignmentShifter_uid64_fpAddTest(BITJOIN,214)@1\n" +
+                        "    rightShiftStage2Idx3_uid215_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage2Idx3Pad3_uid214_alignmentShifter_uid64_fpAddTest_q & rightShiftStage2Idx3Rng3_uid213_alignmentShifter_uid64_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- zs_uid170_lzCountVal_uid85_fpAddTest(CONSTANT,169)\n" +
+                        "    zs_uid170_lzCountVal_uid85_fpAddTest_q <= \"00\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx2Rng2_uid210_alignmentShifter_uid64_fpAddTest(BITSELECT,209)@1\n" +
+                        "    rightShiftStage2Idx2Rng2_uid210_alignmentShifter_uid64_fpAddTest_b <= rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q(48 downto 2);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx2_uid212_alignmentShifter_uid64_fpAddTest(BITJOIN,211)@1\n" +
+                        "    rightShiftStage2Idx2_uid212_alignmentShifter_uid64_fpAddTest_q <= zs_uid170_lzCountVal_uid85_fpAddTest_q & rightShiftStage2Idx2Rng2_uid210_alignmentShifter_uid64_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx1Rng1_uid207_alignmentShifter_uid64_fpAddTest(BITSELECT,206)@1\n" +
+                        "    rightShiftStage2Idx1Rng1_uid207_alignmentShifter_uid64_fpAddTest_b <= rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q(48 downto 1);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx1_uid209_alignmentShifter_uid64_fpAddTest(BITJOIN,208)@1\n" +
+                        "    rightShiftStage2Idx1_uid209_alignmentShifter_uid64_fpAddTest_q <= GND_q & rightShiftStage2Idx1Rng1_uid207_alignmentShifter_uid64_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx3Pad12_uid203_alignmentShifter_uid64_fpAddTest(CONSTANT,202)\n" +
+                        "    rightShiftStage1Idx3Pad12_uid203_alignmentShifter_uid64_fpAddTest_q <= \"000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx3Rng12_uid202_alignmentShifter_uid64_fpAddTest(BITSELECT,201)@1\n" +
+                        "    rightShiftStage1Idx3Rng12_uid202_alignmentShifter_uid64_fpAddTest_b <= rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q(48 downto 12);\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx3_uid204_alignmentShifter_uid64_fpAddTest(BITJOIN,203)@1\n" +
+                        "    rightShiftStage1Idx3_uid204_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage1Idx3Pad12_uid203_alignmentShifter_uid64_fpAddTest_q & rightShiftStage1Idx3Rng12_uid202_alignmentShifter_uid64_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid20_fpAddTest(CONSTANT,19)\n" +
+                        "    cstAllZWE_uid20_fpAddTest_q <= \"00000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx2Rng8_uid199_alignmentShifter_uid64_fpAddTest(BITSELECT,198)@1\n" +
+                        "    rightShiftStage1Idx2Rng8_uid199_alignmentShifter_uid64_fpAddTest_b <= rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q(48 downto 8);\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx2_uid201_alignmentShifter_uid64_fpAddTest(BITJOIN,200)@1\n" +
+                        "    rightShiftStage1Idx2_uid201_alignmentShifter_uid64_fpAddTest_q <= cstAllZWE_uid20_fpAddTest_q & rightShiftStage1Idx2Rng8_uid199_alignmentShifter_uid64_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- zs_uid164_lzCountVal_uid85_fpAddTest(CONSTANT,163)\n" +
+                        "    zs_uid164_lzCountVal_uid85_fpAddTest_q <= \"0000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx1Rng4_uid196_alignmentShifter_uid64_fpAddTest(BITSELECT,195)@1\n" +
+                        "    rightShiftStage1Idx1Rng4_uid196_alignmentShifter_uid64_fpAddTest_b <= rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q(48 downto 4);\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx1_uid198_alignmentShifter_uid64_fpAddTest(BITJOIN,197)@1\n" +
+                        "    rightShiftStage1Idx1_uid198_alignmentShifter_uid64_fpAddTest_q <= zs_uid164_lzCountVal_uid85_fpAddTest_q & rightShiftStage1Idx1Rng4_uid196_alignmentShifter_uid64_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx3Pad48_uid192_alignmentShifter_uid64_fpAddTest(CONSTANT,191)\n" +
+                        "    rightShiftStage0Idx3Pad48_uid192_alignmentShifter_uid64_fpAddTest_q <= \"000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx3Rng48_uid191_alignmentShifter_uid64_fpAddTest(BITSELECT,190)@1\n" +
+                        "    rightShiftStage0Idx3Rng48_uid191_alignmentShifter_uid64_fpAddTest_b <= rightPaddedIn_uid65_fpAddTest_q(48 downto 48);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx3_uid193_alignmentShifter_uid64_fpAddTest(BITJOIN,192)@1\n" +
+                        "    rightShiftStage0Idx3_uid193_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage0Idx3Pad48_uid192_alignmentShifter_uid64_fpAddTest_q & rightShiftStage0Idx3Rng48_uid191_alignmentShifter_uid64_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx2Pad32_uid189_alignmentShifter_uid64_fpAddTest(CONSTANT,188)\n" +
+                        "    rightShiftStage0Idx2Pad32_uid189_alignmentShifter_uid64_fpAddTest_q <= \"00000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx2Rng32_uid188_alignmentShifter_uid64_fpAddTest(BITSELECT,187)@1\n" +
+                        "    rightShiftStage0Idx2Rng32_uid188_alignmentShifter_uid64_fpAddTest_b <= rightPaddedIn_uid65_fpAddTest_q(48 downto 32);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx2_uid190_alignmentShifter_uid64_fpAddTest(BITJOIN,189)@1\n" +
+                        "    rightShiftStage0Idx2_uid190_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage0Idx2Pad32_uid189_alignmentShifter_uid64_fpAddTest_q & rightShiftStage0Idx2Rng32_uid188_alignmentShifter_uid64_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx1Rng16_uid185_alignmentShifter_uid64_fpAddTest(BITSELECT,184)@1\n" +
+                        "    rightShiftStage0Idx1Rng16_uid185_alignmentShifter_uid64_fpAddTest_b <= rightPaddedIn_uid65_fpAddTest_q(48 downto 16);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx1_uid187_alignmentShifter_uid64_fpAddTest(BITJOIN,186)@1\n" +
+                        "    rightShiftStage0Idx1_uid187_alignmentShifter_uid64_fpAddTest_q <= zs_uid150_lzCountVal_uid85_fpAddTest_q & rightShiftStage0Idx1Rng16_uid185_alignmentShifter_uid64_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- excZ_bSig_uid17_uid37_fpAddTest(LOGICAL,36)@0\n" +
+                        "    excZ_bSig_uid17_uid37_fpAddTest_q <= \"1\" WHEN exp_bSig_uid35_fpAddTest_b = cstAllZWE_uid20_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- redist15_excZ_bSig_uid17_uid37_fpAddTest_q_1(DELAY,271)\n" +
+                        "    redist15_excZ_bSig_uid17_uid37_fpAddTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_bSig_uid17_uid37_fpAddTest_q, xout => redist15_excZ_bSig_uid17_uid37_fpAddTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid44_fpAddTest(LOGICAL,43)@1\n" +
+                        "    InvExpXIsZero_uid44_fpAddTest_q <= not (redist15_excZ_bSig_uid17_uid37_fpAddTest_q_1_q);\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid19_fpAddTest(CONSTANT,18)\n" +
+                        "    cstZeroWF_uid19_fpAddTest_q <= \"00000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- frac_bSig_uid36_fpAddTest(BITSELECT,35)@0\n" +
+                        "    frac_bSig_uid36_fpAddTest_in <= bSig_uid17_fpAddTest_q(22 downto 0);\n" +
+                        "    frac_bSig_uid36_fpAddTest_b <= frac_bSig_uid36_fpAddTest_in(22 downto 0);\n" +
+                        "\n" +
+                        "    -- fracBz_uid56_fpAddTest(MUX,55)@0 + 1\n" +
+                        "    fracBz_uid56_fpAddTest_s <= excZ_bSig_uid17_uid37_fpAddTest_q;\n" +
+                        "    fracBz_uid56_fpAddTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            fracBz_uid56_fpAddTest_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (fracBz_uid56_fpAddTest_s) IS\n" +
+                        "                WHEN \"0\" => fracBz_uid56_fpAddTest_q <= frac_bSig_uid36_fpAddTest_b;\n" +
+                        "                WHEN \"1\" => fracBz_uid56_fpAddTest_q <= cstZeroWF_uid19_fpAddTest_q;\n" +
+                        "                WHEN OTHERS => fracBz_uid56_fpAddTest_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oFracB_uid59_fpAddTest(BITJOIN,58)@1\n" +
+                        "    oFracB_uid59_fpAddTest_q <= InvExpXIsZero_uid44_fpAddTest_q & fracBz_uid56_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- padConst_uid64_fpAddTest(CONSTANT,63)\n" +
+                        "    padConst_uid64_fpAddTest_q <= \"0000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightPaddedIn_uid65_fpAddTest(BITJOIN,64)@1\n" +
+                        "    rightPaddedIn_uid65_fpAddTest_q <= oFracB_uid59_fpAddTest_q & padConst_uid64_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest(MUX,194)@1\n" +
+                        "    rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_s <= rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_b;\n" +
+                        "    rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_combproc: PROCESS (rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_s, rightPaddedIn_uid65_fpAddTest_q, rightShiftStage0Idx1_uid187_alignmentShifter_uid64_fpAddTest_q, rightShiftStage0Idx2_uid190_alignmentShifter_uid64_fpAddTest_q, rightShiftStage0Idx3_uid193_alignmentShifter_uid64_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_s) IS\n" +
+                        "            WHEN \"00\" => rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q <= rightPaddedIn_uid65_fpAddTest_q;\n" +
+                        "            WHEN \"01\" => rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage0Idx1_uid187_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN \"10\" => rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage0Idx2_uid190_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN \"11\" => rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage0Idx3_uid193_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest(MUX,205)@1\n" +
+                        "    rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_s <= rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_c;\n" +
+                        "    rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_combproc: PROCESS (rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_s, rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q, rightShiftStage1Idx1_uid198_alignmentShifter_uid64_fpAddTest_q, rightShiftStage1Idx2_uid201_alignmentShifter_uid64_fpAddTest_q, rightShiftStage1Idx3_uid204_alignmentShifter_uid64_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_s) IS\n" +
+                        "            WHEN \"00\" => rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage0_uid195_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN \"01\" => rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage1Idx1_uid198_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN \"10\" => rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage1Idx2_uid201_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN \"11\" => rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage1Idx3_uid204_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select(BITSELECT,250)@1\n" +
+                        "    rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_in <= expAmExpB_uid60_fpAddTest_q(5 downto 0);\n" +
+                        "    rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_b <= rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_in(5 downto 4);\n" +
+                        "    rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_c <= rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_in(3 downto 2);\n" +
+                        "    rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_d <= rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_in(1 downto 0);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest(MUX,216)@1\n" +
+                        "    rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_s <= rightShiftStageSel5Dto4_uid194_alignmentShifter_uid64_fpAddTest_merged_bit_select_d;\n" +
+                        "    rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_combproc: PROCESS (rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_s, rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q, rightShiftStage2Idx1_uid209_alignmentShifter_uid64_fpAddTest_q, rightShiftStage2Idx2_uid212_alignmentShifter_uid64_fpAddTest_q, rightShiftStage2Idx3_uid215_alignmentShifter_uid64_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_s) IS\n" +
+                        "            WHEN \"00\" => rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage1_uid206_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN \"01\" => rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage2Idx1_uid209_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN \"10\" => rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage2Idx2_uid212_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN \"11\" => rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage2Idx3_uid215_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- wIntCst_uid183_alignmentShifter_uid64_fpAddTest(CONSTANT,182)\n" +
+                        "    wIntCst_uid183_alignmentShifter_uid64_fpAddTest_q <= \"110001\";\n" +
+                        "\n" +
+                        "    -- shiftedOut_uid184_alignmentShifter_uid64_fpAddTest(COMPARE,183)@1\n" +
+                        "    shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_a <= STD_LOGIC_VECTOR(\"00\" & expAmExpB_uid60_fpAddTest_q);\n" +
+                        "    shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_b <= STD_LOGIC_VECTOR(\"00000\" & wIntCst_uid183_alignmentShifter_uid64_fpAddTest_q);\n" +
+                        "    shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_o <= STD_LOGIC_VECTOR(UNSIGNED(shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_a) - UNSIGNED(shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_b));\n" +
+                        "    shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_n(0) <= not (shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_o(10));\n" +
+                        "\n" +
+                        "    -- r_uid219_alignmentShifter_uid64_fpAddTest(MUX,218)@1\n" +
+                        "    r_uid219_alignmentShifter_uid64_fpAddTest_s <= shiftedOut_uid184_alignmentShifter_uid64_fpAddTest_n;\n" +
+                        "    r_uid219_alignmentShifter_uid64_fpAddTest_combproc: PROCESS (r_uid219_alignmentShifter_uid64_fpAddTest_s, rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_q, zeroOutCst_uid218_alignmentShifter_uid64_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (r_uid219_alignmentShifter_uid64_fpAddTest_s) IS\n" +
+                        "            WHEN \"0\" => r_uid219_alignmentShifter_uid64_fpAddTest_q <= rightShiftStage2_uid217_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN \"1\" => r_uid219_alignmentShifter_uid64_fpAddTest_q <= zeroOutCst_uid218_alignmentShifter_uid64_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => r_uid219_alignmentShifter_uid64_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- alignFracBPostShiftOut_uid68_fpAddTest(LOGICAL,67)@1\n" +
+                        "    alignFracBPostShiftOut_uid68_fpAddTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((48 downto 1 => iShiftedOut_uid67_fpAddTest_q(0)) & iShiftedOut_uid67_fpAddTest_q));\n" +
+                        "    alignFracBPostShiftOut_uid68_fpAddTest_q <= r_uid219_alignmentShifter_uid64_fpAddTest_q and alignFracBPostShiftOut_uid68_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- stickyBits_uid69_fpAddTest_merged_bit_select(BITSELECT,251)@1\n" +
+                        "    stickyBits_uid69_fpAddTest_merged_bit_select_b <= alignFracBPostShiftOut_uid68_fpAddTest_q(22 downto 0);\n" +
+                        "    stickyBits_uid69_fpAddTest_merged_bit_select_c <= alignFracBPostShiftOut_uid68_fpAddTest_q(48 downto 23);\n" +
+                        "\n" +
+                        "    -- redist0_stickyBits_uid69_fpAddTest_merged_bit_select_c_1(DELAY,256)\n" +
+                        "    redist0_stickyBits_uid69_fpAddTest_merged_bit_select_c_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 26, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => stickyBits_uid69_fpAddTest_merged_bit_select_c, xout => redist0_stickyBits_uid69_fpAddTest_merged_bit_select_c_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracBAddOp_uid80_fpAddTest(BITJOIN,79)@2\n" +
+                        "    fracBAddOp_uid80_fpAddTest_q <= GND_q & redist0_stickyBits_uid69_fpAddTest_merged_bit_select_c_1_q;\n" +
+                        "\n" +
+                        "    -- fracBAddOpPostXor_uid81_fpAddTest(LOGICAL,80)@2\n" +
+                        "    fracBAddOpPostXor_uid81_fpAddTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((26 downto 1 => effSub_uid52_fpAddTest_q(0)) & effSub_uid52_fpAddTest_q));\n" +
+                        "    fracBAddOpPostXor_uid81_fpAddTest_q <= fracBAddOp_uid80_fpAddTest_q xor fracBAddOpPostXor_uid81_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- zocst_uid76_fpAddTest(CONSTANT,75)\n" +
+                        "    zocst_uid76_fpAddTest_q <= \"01\";\n" +
+                        "\n" +
+                        "    -- frac_aSig_uid22_fpAddTest(BITSELECT,21)@0\n" +
+                        "    frac_aSig_uid22_fpAddTest_in <= aSig_uid16_fpAddTest_q(22 downto 0);\n" +
+                        "    frac_aSig_uid22_fpAddTest_b <= frac_aSig_uid22_fpAddTest_in(22 downto 0);\n" +
+                        "\n" +
+                        "    -- redist21_frac_aSig_uid22_fpAddTest_b_2(DELAY,277)\n" +
+                        "    redist21_frac_aSig_uid22_fpAddTest_b_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 23, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => frac_aSig_uid22_fpAddTest_b, xout => redist21_frac_aSig_uid22_fpAddTest_b_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- cmpEQ_stickyBits_cZwF_uid71_fpAddTest(LOGICAL,70)@1 + 1\n" +
+                        "    cmpEQ_stickyBits_cZwF_uid71_fpAddTest_qi <= \"1\" WHEN stickyBits_uid69_fpAddTest_merged_bit_select_b = cstZeroWF_uid19_fpAddTest_q ELSE \"0\";\n" +
+                        "    cmpEQ_stickyBits_cZwF_uid71_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => cmpEQ_stickyBits_cZwF_uid71_fpAddTest_qi, xout => cmpEQ_stickyBits_cZwF_uid71_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- effSubInvSticky_uid74_fpAddTest(LOGICAL,73)@2\n" +
+                        "    effSubInvSticky_uid74_fpAddTest_q <= effSub_uid52_fpAddTest_q and cmpEQ_stickyBits_cZwF_uid71_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- fracAAddOp_uid77_fpAddTest(BITJOIN,76)@2\n" +
+                        "    fracAAddOp_uid77_fpAddTest_q <= zocst_uid76_fpAddTest_q & redist21_frac_aSig_uid22_fpAddTest_b_2_q & GND_q & effSubInvSticky_uid74_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- fracAddResult_uid82_fpAddTest(ADD,81)@2\n" +
+                        "    fracAddResult_uid82_fpAddTest_a <= STD_LOGIC_VECTOR(\"0\" & fracAAddOp_uid77_fpAddTest_q);\n" +
+                        "    fracAddResult_uid82_fpAddTest_b <= STD_LOGIC_VECTOR(\"0\" & fracBAddOpPostXor_uid81_fpAddTest_q);\n" +
+                        "    fracAddResult_uid82_fpAddTest_o <= STD_LOGIC_VECTOR(UNSIGNED(fracAddResult_uid82_fpAddTest_a) + UNSIGNED(fracAddResult_uid82_fpAddTest_b));\n" +
+                        "    fracAddResult_uid82_fpAddTest_q <= fracAddResult_uid82_fpAddTest_o(27 downto 0);\n" +
+                        "\n" +
+                        "    -- rangeFracAddResultMwfp3Dto0_uid83_fpAddTest(BITSELECT,82)@2\n" +
+                        "    rangeFracAddResultMwfp3Dto0_uid83_fpAddTest_in <= fracAddResult_uid82_fpAddTest_q(26 downto 0);\n" +
+                        "    rangeFracAddResultMwfp3Dto0_uid83_fpAddTest_b <= rangeFracAddResultMwfp3Dto0_uid83_fpAddTest_in(26 downto 0);\n" +
+                        "\n" +
+                        "    -- invCmpEQ_stickyBits_cZwF_uid72_fpAddTest(LOGICAL,71)@2\n" +
+                        "    invCmpEQ_stickyBits_cZwF_uid72_fpAddTest_q <= not (cmpEQ_stickyBits_cZwF_uid71_fpAddTest_q);\n" +
+                        "\n" +
+                        "    -- fracGRS_uid84_fpAddTest(BITJOIN,83)@2\n" +
+                        "    fracGRS_uid84_fpAddTest_q <= rangeFracAddResultMwfp3Dto0_uid83_fpAddTest_b & invCmpEQ_stickyBits_cZwF_uid72_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- rVStage_uid151_lzCountVal_uid85_fpAddTest(BITSELECT,150)@2\n" +
+                        "    rVStage_uid151_lzCountVal_uid85_fpAddTest_b <= fracGRS_uid84_fpAddTest_q(27 downto 12);\n" +
+                        "\n" +
+                        "    -- vCount_uid152_lzCountVal_uid85_fpAddTest(LOGICAL,151)@2\n" +
+                        "    vCount_uid152_lzCountVal_uid85_fpAddTest_q <= \"1\" WHEN rVStage_uid151_lzCountVal_uid85_fpAddTest_b = zs_uid150_lzCountVal_uid85_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- redist3_vCount_uid152_lzCountVal_uid85_fpAddTest_q_1(DELAY,259)\n" +
+                        "    redist3_vCount_uid152_lzCountVal_uid85_fpAddTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vCount_uid152_lzCountVal_uid85_fpAddTest_q, xout => redist3_vCount_uid152_lzCountVal_uid85_fpAddTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- vStage_uid154_lzCountVal_uid85_fpAddTest(BITSELECT,153)@2\n" +
+                        "    vStage_uid154_lzCountVal_uid85_fpAddTest_in <= fracGRS_uid84_fpAddTest_q(11 downto 0);\n" +
+                        "    vStage_uid154_lzCountVal_uid85_fpAddTest_b <= vStage_uid154_lzCountVal_uid85_fpAddTest_in(11 downto 0);\n" +
+                        "\n" +
+                        "    -- mO_uid153_lzCountVal_uid85_fpAddTest(CONSTANT,152)\n" +
+                        "    mO_uid153_lzCountVal_uid85_fpAddTest_q <= \"1111\";\n" +
+                        "\n" +
+                        "    -- cStage_uid155_lzCountVal_uid85_fpAddTest(BITJOIN,154)@2\n" +
+                        "    cStage_uid155_lzCountVal_uid85_fpAddTest_q <= vStage_uid154_lzCountVal_uid85_fpAddTest_b & mO_uid153_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- vStagei_uid157_lzCountVal_uid85_fpAddTest(MUX,156)@2 + 1\n" +
+                        "    vStagei_uid157_lzCountVal_uid85_fpAddTest_s <= vCount_uid152_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "    vStagei_uid157_lzCountVal_uid85_fpAddTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            vStagei_uid157_lzCountVal_uid85_fpAddTest_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (vStagei_uid157_lzCountVal_uid85_fpAddTest_s) IS\n" +
+                        "                WHEN \"0\" => vStagei_uid157_lzCountVal_uid85_fpAddTest_q <= rVStage_uid151_lzCountVal_uid85_fpAddTest_b;\n" +
+                        "                WHEN \"1\" => vStagei_uid157_lzCountVal_uid85_fpAddTest_q <= cStage_uid155_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "                WHEN OTHERS => vStagei_uid157_lzCountVal_uid85_fpAddTest_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select(BITSELECT,252)@3\n" +
+                        "    rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select_b <= vStagei_uid157_lzCountVal_uid85_fpAddTest_q(15 downto 8);\n" +
+                        "    rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select_c <= vStagei_uid157_lzCountVal_uid85_fpAddTest_q(7 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid160_lzCountVal_uid85_fpAddTest(LOGICAL,159)@3\n" +
+                        "    vCount_uid160_lzCountVal_uid85_fpAddTest_q <= \"1\" WHEN rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select_b = cstAllZWE_uid20_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- vStagei_uid163_lzCountVal_uid85_fpAddTest(MUX,162)@3\n" +
+                        "    vStagei_uid163_lzCountVal_uid85_fpAddTest_s <= vCount_uid160_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "    vStagei_uid163_lzCountVal_uid85_fpAddTest_combproc: PROCESS (vStagei_uid163_lzCountVal_uid85_fpAddTest_s, rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select_b, rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select_c)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid163_lzCountVal_uid85_fpAddTest_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid163_lzCountVal_uid85_fpAddTest_q <= rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select_b;\n" +
+                        "            WHEN \"1\" => vStagei_uid163_lzCountVal_uid85_fpAddTest_q <= rVStage_uid159_lzCountVal_uid85_fpAddTest_merged_bit_select_c;\n" +
+                        "            WHEN OTHERS => vStagei_uid163_lzCountVal_uid85_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select(BITSELECT,253)@3\n" +
+                        "    rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select_b <= vStagei_uid163_lzCountVal_uid85_fpAddTest_q(7 downto 4);\n" +
+                        "    rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select_c <= vStagei_uid163_lzCountVal_uid85_fpAddTest_q(3 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid166_lzCountVal_uid85_fpAddTest(LOGICAL,165)@3\n" +
+                        "    vCount_uid166_lzCountVal_uid85_fpAddTest_q <= \"1\" WHEN rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select_b = zs_uid164_lzCountVal_uid85_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- vStagei_uid169_lzCountVal_uid85_fpAddTest(MUX,168)@3\n" +
+                        "    vStagei_uid169_lzCountVal_uid85_fpAddTest_s <= vCount_uid166_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "    vStagei_uid169_lzCountVal_uid85_fpAddTest_combproc: PROCESS (vStagei_uid169_lzCountVal_uid85_fpAddTest_s, rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select_b, rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select_c)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid169_lzCountVal_uid85_fpAddTest_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid169_lzCountVal_uid85_fpAddTest_q <= rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select_b;\n" +
+                        "            WHEN \"1\" => vStagei_uid169_lzCountVal_uid85_fpAddTest_q <= rVStage_uid165_lzCountVal_uid85_fpAddTest_merged_bit_select_c;\n" +
+                        "            WHEN OTHERS => vStagei_uid169_lzCountVal_uid85_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select(BITSELECT,254)@3\n" +
+                        "    rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select_b <= vStagei_uid169_lzCountVal_uid85_fpAddTest_q(3 downto 2);\n" +
+                        "    rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select_c <= vStagei_uid169_lzCountVal_uid85_fpAddTest_q(1 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid172_lzCountVal_uid85_fpAddTest(LOGICAL,171)@3\n" +
+                        "    vCount_uid172_lzCountVal_uid85_fpAddTest_q <= \"1\" WHEN rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select_b = zs_uid170_lzCountVal_uid85_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- vStagei_uid175_lzCountVal_uid85_fpAddTest(MUX,174)@3\n" +
+                        "    vStagei_uid175_lzCountVal_uid85_fpAddTest_s <= vCount_uid172_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "    vStagei_uid175_lzCountVal_uid85_fpAddTest_combproc: PROCESS (vStagei_uid175_lzCountVal_uid85_fpAddTest_s, rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select_b, rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select_c)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid175_lzCountVal_uid85_fpAddTest_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid175_lzCountVal_uid85_fpAddTest_q <= rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select_b;\n" +
+                        "            WHEN \"1\" => vStagei_uid175_lzCountVal_uid85_fpAddTest_q <= rVStage_uid171_lzCountVal_uid85_fpAddTest_merged_bit_select_c;\n" +
+                        "            WHEN OTHERS => vStagei_uid175_lzCountVal_uid85_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid177_lzCountVal_uid85_fpAddTest(BITSELECT,176)@3\n" +
+                        "    rVStage_uid177_lzCountVal_uid85_fpAddTest_b <= vStagei_uid175_lzCountVal_uid85_fpAddTest_q(1 downto 1);\n" +
+                        "\n" +
+                        "    -- vCount_uid178_lzCountVal_uid85_fpAddTest(LOGICAL,177)@3\n" +
+                        "    vCount_uid178_lzCountVal_uid85_fpAddTest_q <= \"1\" WHEN rVStage_uid177_lzCountVal_uid85_fpAddTest_b = GND_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- r_uid179_lzCountVal_uid85_fpAddTest(BITJOIN,178)@3\n" +
+                        "    r_uid179_lzCountVal_uid85_fpAddTest_q <= redist3_vCount_uid152_lzCountVal_uid85_fpAddTest_q_1_q & vCount_uid160_lzCountVal_uid85_fpAddTest_q & vCount_uid166_lzCountVal_uid85_fpAddTest_q & vCount_uid172_lzCountVal_uid85_fpAddTest_q & vCount_uid178_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- redist1_r_uid179_lzCountVal_uid85_fpAddTest_q_1(DELAY,257)\n" +
+                        "    redist1_r_uid179_lzCountVal_uid85_fpAddTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 5, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => r_uid179_lzCountVal_uid85_fpAddTest_q, xout => redist1_r_uid179_lzCountVal_uid85_fpAddTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- aMinusA_uid87_fpAddTest(LOGICAL,86)@4\n" +
+                        "    aMinusA_uid87_fpAddTest_q <= \"1\" WHEN redist1_r_uid179_lzCountVal_uid85_fpAddTest_q_1_q = cAmA_uid86_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- invAMinusA_uid129_fpAddTest(LOGICAL,128)@4\n" +
+                        "    invAMinusA_uid129_fpAddTest_q <= not (aMinusA_uid87_fpAddTest_q);\n" +
+                        "\n" +
+                        "    -- redist10_sigA_uid50_fpAddTest_b_4(DELAY,266)\n" +
+                        "    redist10_sigA_uid50_fpAddTest_b_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist9_sigA_uid50_fpAddTest_b_1_q, xout => redist10_sigA_uid50_fpAddTest_b_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid18_fpAddTest(CONSTANT,17)\n";
+        String data3 =  "    cstAllOWE_uid18_fpAddTest_q <= \"11111111\";\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid38_fpAddTest(LOGICAL,37)@0 + 1\n" +
+                        "    expXIsMax_uid38_fpAddTest_qi <= \"1\" WHEN exp_bSig_uid35_fpAddTest_b = cstAllOWE_uid18_fpAddTest_q ELSE \"0\";\n" +
+                        "    expXIsMax_uid38_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid38_fpAddTest_qi, xout => expXIsMax_uid38_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist14_expXIsMax_uid38_fpAddTest_q_4(DELAY,270)\n" +
+                        "    redist14_expXIsMax_uid38_fpAddTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid38_fpAddTest_q, xout => redist14_expXIsMax_uid38_fpAddTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid43_fpAddTest(LOGICAL,42)@4\n" +
+                        "    invExpXIsMax_uid43_fpAddTest_q <= not (redist14_expXIsMax_uid38_fpAddTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- redist11_InvExpXIsZero_uid44_fpAddTest_q_3(DELAY,267)\n" +
+                        "    redist11_InvExpXIsZero_uid44_fpAddTest_q_3 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => InvExpXIsZero_uid44_fpAddTest_q, xout => redist11_InvExpXIsZero_uid44_fpAddTest_q_3_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excR_bSig_uid45_fpAddTest(LOGICAL,44)@4\n" +
+                        "    excR_bSig_uid45_fpAddTest_q <= redist11_InvExpXIsZero_uid44_fpAddTest_q_3_q and invExpXIsMax_uid43_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- redist22_exp_aSig_uid21_fpAddTest_b_3(DELAY,278)\n" +
+                        "    redist22_exp_aSig_uid21_fpAddTest_b_3 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 8, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => exp_aSig_uid21_fpAddTest_b, xout => redist22_exp_aSig_uid21_fpAddTest_b_3_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid24_fpAddTest(LOGICAL,23)@3 + 1\n" +
+                        "    expXIsMax_uid24_fpAddTest_qi <= \"1\" WHEN redist22_exp_aSig_uid21_fpAddTest_b_3_q = cstAllOWE_uid18_fpAddTest_q ELSE \"0\";\n" +
+                        "    expXIsMax_uid24_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid24_fpAddTest_qi, xout => expXIsMax_uid24_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid29_fpAddTest(LOGICAL,28)@4\n" +
+                        "    invExpXIsMax_uid29_fpAddTest_q <= not (expXIsMax_uid24_fpAddTest_q);\n" +
+                        "\n" +
+                        "    -- excZ_aSig_uid16_uid23_fpAddTest(LOGICAL,22)@3 + 1\n" +
+                        "    excZ_aSig_uid16_uid23_fpAddTest_qi <= \"1\" WHEN redist22_exp_aSig_uid21_fpAddTest_b_3_q = cstAllZWE_uid20_fpAddTest_q ELSE \"0\";\n" +
+                        "    excZ_aSig_uid16_uid23_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_aSig_uid16_uid23_fpAddTest_qi, xout => excZ_aSig_uid16_uid23_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid30_fpAddTest(LOGICAL,29)@4\n" +
+                        "    InvExpXIsZero_uid30_fpAddTest_q <= not (excZ_aSig_uid16_uid23_fpAddTest_q);\n" +
+                        "\n" +
+                        "    -- excR_aSig_uid31_fpAddTest(LOGICAL,30)@4\n" +
+                        "    excR_aSig_uid31_fpAddTest_q <= InvExpXIsZero_uid30_fpAddTest_q and invExpXIsMax_uid29_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- signRReg_uid130_fpAddTest(LOGICAL,129)@4\n" +
+                        "    signRReg_uid130_fpAddTest_q <= excR_aSig_uid31_fpAddTest_q and excR_bSig_uid45_fpAddTest_q and redist10_sigA_uid50_fpAddTest_b_4_q and invAMinusA_uid129_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- redist8_sigB_uid51_fpAddTest_b_4(DELAY,264)\n" +
+                        "    redist8_sigB_uid51_fpAddTest_b_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist7_sigB_uid51_fpAddTest_b_1_q, xout => redist8_sigB_uid51_fpAddTest_b_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist16_excZ_bSig_uid17_uid37_fpAddTest_q_4(DELAY,272)\n" +
+                        "    redist16_excZ_bSig_uid17_uid37_fpAddTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist15_excZ_bSig_uid17_uid37_fpAddTest_q_1_q, xout => redist16_excZ_bSig_uid17_uid37_fpAddTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excAZBZSigASigB_uid134_fpAddTest(LOGICAL,133)@4\n" +
+                        "    excAZBZSigASigB_uid134_fpAddTest_q <= excZ_aSig_uid16_uid23_fpAddTest_q and redist16_excZ_bSig_uid17_uid37_fpAddTest_q_4_q and redist10_sigA_uid50_fpAddTest_b_4_q and redist8_sigB_uid51_fpAddTest_b_4_q;\n" +
+                        "\n" +
+                        "    -- excBZARSigA_uid135_fpAddTest(LOGICAL,134)@4\n" +
+                        "    excBZARSigA_uid135_fpAddTest_q <= redist16_excZ_bSig_uid17_uid37_fpAddTest_q_4_q and excR_aSig_uid31_fpAddTest_q and redist10_sigA_uid50_fpAddTest_b_4_q;\n" +
+                        "\n" +
+                        "    -- signRZero_uid136_fpAddTest(LOGICAL,135)@4\n" +
+                        "    signRZero_uid136_fpAddTest_q <= excBZARSigA_uid135_fpAddTest_q or excAZBZSigASigB_uid134_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid39_fpAddTest(LOGICAL,38)@0 + 1\n" +
+                        "    fracXIsZero_uid39_fpAddTest_qi <= \"1\" WHEN cstZeroWF_uid19_fpAddTest_q = frac_bSig_uid36_fpAddTest_b ELSE \"0\";\n" +
+                        "    fracXIsZero_uid39_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid39_fpAddTest_qi, xout => fracXIsZero_uid39_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist13_fracXIsZero_uid39_fpAddTest_q_4(DELAY,269)\n" +
+                        "    redist13_fracXIsZero_uid39_fpAddTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid39_fpAddTest_q, xout => redist13_fracXIsZero_uid39_fpAddTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excI_bSig_uid41_fpAddTest(LOGICAL,40)@4\n" +
+                        "    excI_bSig_uid41_fpAddTest_q <= redist14_expXIsMax_uid38_fpAddTest_q_4_q and redist13_fracXIsZero_uid39_fpAddTest_q_4_q;\n" +
+                        "\n" +
+                        "    -- sigBBInf_uid131_fpAddTest(LOGICAL,130)@4\n" +
+                        "    sigBBInf_uid131_fpAddTest_q <= redist8_sigB_uid51_fpAddTest_b_4_q and excI_bSig_uid41_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid25_fpAddTest(LOGICAL,24)@2 + 1\n" +
+                        "    fracXIsZero_uid25_fpAddTest_qi <= \"1\" WHEN cstZeroWF_uid19_fpAddTest_q = redist21_frac_aSig_uid22_fpAddTest_b_2_q ELSE \"0\";\n" +
+                        "    fracXIsZero_uid25_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid25_fpAddTest_qi, xout => fracXIsZero_uid25_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist19_fracXIsZero_uid25_fpAddTest_q_2(DELAY,275)\n" +
+                        "    redist19_fracXIsZero_uid25_fpAddTest_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid25_fpAddTest_q, xout => redist19_fracXIsZero_uid25_fpAddTest_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excI_aSig_uid27_fpAddTest(LOGICAL,26)@4\n" +
+                        "    excI_aSig_uid27_fpAddTest_q <= expXIsMax_uid24_fpAddTest_q and redist19_fracXIsZero_uid25_fpAddTest_q_2_q;\n" +
+                        "\n" +
+                        "    -- sigAAInf_uid132_fpAddTest(LOGICAL,131)@4\n" +
+                        "    sigAAInf_uid132_fpAddTest_q <= redist10_sigA_uid50_fpAddTest_b_4_q and excI_aSig_uid27_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- signRInf_uid133_fpAddTest(LOGICAL,132)@4\n" +
+                        "    signRInf_uid133_fpAddTest_q <= sigAAInf_uid132_fpAddTest_q or sigBBInf_uid131_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- signRInfRZRReg_uid137_fpAddTest(LOGICAL,136)@4 + 1\n" +
+                        "    signRInfRZRReg_uid137_fpAddTest_qi <= signRInf_uid133_fpAddTest_q or signRZero_uid136_fpAddTest_q or signRReg_uid130_fpAddTest_q;\n" +
+                        "    signRInfRZRReg_uid137_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => signRInfRZRReg_uid137_fpAddTest_qi, xout => signRInfRZRReg_uid137_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid40_fpAddTest(LOGICAL,39)@4\n" +
+                        "    fracXIsNotZero_uid40_fpAddTest_q <= not (redist13_fracXIsZero_uid39_fpAddTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- excN_bSig_uid42_fpAddTest(LOGICAL,41)@4 + 1\n" +
+                        "    excN_bSig_uid42_fpAddTest_qi <= redist14_expXIsMax_uid38_fpAddTest_q_4_q and fracXIsNotZero_uid40_fpAddTest_q;\n" +
+                        "    excN_bSig_uid42_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excN_bSig_uid42_fpAddTest_qi, xout => excN_bSig_uid42_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid26_fpAddTest(LOGICAL,25)@4\n" +
+                        "    fracXIsNotZero_uid26_fpAddTest_q <= not (redist19_fracXIsZero_uid25_fpAddTest_q_2_q);\n" +
+                        "\n" +
+                        "    -- excN_aSig_uid28_fpAddTest(LOGICAL,27)@4 + 1\n" +
+                        "    excN_aSig_uid28_fpAddTest_qi <= expXIsMax_uid24_fpAddTest_q and fracXIsNotZero_uid26_fpAddTest_q;\n" +
+                        "    excN_aSig_uid28_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excN_aSig_uid28_fpAddTest_qi, xout => excN_aSig_uid28_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excRNaN2_uid124_fpAddTest(LOGICAL,123)@5\n" +
+                        "    excRNaN2_uid124_fpAddTest_q <= excN_aSig_uid28_fpAddTest_q or excN_bSig_uid42_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- redist6_effSub_uid52_fpAddTest_q_4(DELAY,262)\n" +
+                        "    redist6_effSub_uid52_fpAddTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => effSub_uid52_fpAddTest_q, xout => redist6_effSub_uid52_fpAddTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist12_excI_bSig_uid41_fpAddTest_q_1(DELAY,268)\n" +
+                        "    redist12_excI_bSig_uid41_fpAddTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excI_bSig_uid41_fpAddTest_q, xout => redist12_excI_bSig_uid41_fpAddTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist18_excI_aSig_uid27_fpAddTest_q_1(DELAY,274)\n" +
+                        "    redist18_excI_aSig_uid27_fpAddTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excI_aSig_uid27_fpAddTest_q, xout => redist18_excI_aSig_uid27_fpAddTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excAIBISub_uid125_fpAddTest(LOGICAL,124)@5\n" +
+                        "    excAIBISub_uid125_fpAddTest_q <= redist18_excI_aSig_uid27_fpAddTest_q_1_q and redist12_excI_bSig_uid41_fpAddTest_q_1_q and redist6_effSub_uid52_fpAddTest_q_4_q;\n" +
+                        "\n" +
+                        "    -- excRNaN_uid126_fpAddTest(LOGICAL,125)@5\n" +
+                        "    excRNaN_uid126_fpAddTest_q <= excAIBISub_uid125_fpAddTest_q or excRNaN2_uid124_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- invExcRNaN_uid138_fpAddTest(LOGICAL,137)@5\n" +
+                        "    invExcRNaN_uid138_fpAddTest_q <= not (excRNaN_uid126_fpAddTest_q);\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- signRPostExc_uid139_fpAddTest(LOGICAL,138)@5\n" +
+                        "    signRPostExc_uid139_fpAddTest_q <= invExcRNaN_uid138_fpAddTest_q and signRInfRZRReg_uid137_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- cRBit_uid99_fpAddTest(CONSTANT,98)\n" +
+                        "    cRBit_uid99_fpAddTest_q <= \"01000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx1Rng1_uid246_fracPostNormExt_uid88_fpAddTest(BITSELECT,245)@4\n" +
+                        "    leftShiftStage2Idx1Rng1_uid246_fracPostNormExt_uid88_fpAddTest_in <= leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_q(26 downto 0);\n" +
+                        "    leftShiftStage2Idx1Rng1_uid246_fracPostNormExt_uid88_fpAddTest_b <= leftShiftStage2Idx1Rng1_uid246_fracPostNormExt_uid88_fpAddTest_in(26 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx1_uid247_fracPostNormExt_uid88_fpAddTest(BITJOIN,246)@4\n" +
+                        "    leftShiftStage2Idx1_uid247_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage2Idx1Rng1_uid246_fracPostNormExt_uid88_fpAddTest_b & GND_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx3Rng6_uid241_fracPostNormExt_uid88_fpAddTest(BITSELECT,240)@4\n" +
+                        "    leftShiftStage1Idx3Rng6_uid241_fracPostNormExt_uid88_fpAddTest_in <= leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q(21 downto 0);\n" +
+                        "    leftShiftStage1Idx3Rng6_uid241_fracPostNormExt_uid88_fpAddTest_b <= leftShiftStage1Idx3Rng6_uid241_fracPostNormExt_uid88_fpAddTest_in(21 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx3Pad6_uid240_fracPostNormExt_uid88_fpAddTest(CONSTANT,239)\n" +
+                        "    leftShiftStage1Idx3Pad6_uid240_fracPostNormExt_uid88_fpAddTest_q <= \"000000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx3_uid242_fracPostNormExt_uid88_fpAddTest(BITJOIN,241)@4\n" +
+                        "    leftShiftStage1Idx3_uid242_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage1Idx3Rng6_uid241_fracPostNormExt_uid88_fpAddTest_b & leftShiftStage1Idx3Pad6_uid240_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx2Rng4_uid238_fracPostNormExt_uid88_fpAddTest(BITSELECT,237)@4\n" +
+                        "    leftShiftStage1Idx2Rng4_uid238_fracPostNormExt_uid88_fpAddTest_in <= leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q(23 downto 0);\n" +
+                        "    leftShiftStage1Idx2Rng4_uid238_fracPostNormExt_uid88_fpAddTest_b <= leftShiftStage1Idx2Rng4_uid238_fracPostNormExt_uid88_fpAddTest_in(23 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx2_uid239_fracPostNormExt_uid88_fpAddTest(BITJOIN,238)@4\n" +
+                        "    leftShiftStage1Idx2_uid239_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage1Idx2Rng4_uid238_fracPostNormExt_uid88_fpAddTest_b & zs_uid164_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx1Rng2_uid235_fracPostNormExt_uid88_fpAddTest(BITSELECT,234)@4\n" +
+                        "    leftShiftStage1Idx1Rng2_uid235_fracPostNormExt_uid88_fpAddTest_in <= leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q(25 downto 0);\n" +
+                        "    leftShiftStage1Idx1Rng2_uid235_fracPostNormExt_uid88_fpAddTest_b <= leftShiftStage1Idx1Rng2_uid235_fracPostNormExt_uid88_fpAddTest_in(25 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx1_uid236_fracPostNormExt_uid88_fpAddTest(BITJOIN,235)@4\n" +
+                        "    leftShiftStage1Idx1_uid236_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage1Idx1Rng2_uid235_fracPostNormExt_uid88_fpAddTest_b & zs_uid170_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx3Rng24_uid230_fracPostNormExt_uid88_fpAddTest(BITSELECT,229)@4\n" +
+                        "    leftShiftStage0Idx3Rng24_uid230_fracPostNormExt_uid88_fpAddTest_in <= redist5_fracGRS_uid84_fpAddTest_q_2_q(3 downto 0);\n" +
+                        "    leftShiftStage0Idx3Rng24_uid230_fracPostNormExt_uid88_fpAddTest_b <= leftShiftStage0Idx3Rng24_uid230_fracPostNormExt_uid88_fpAddTest_in(3 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx3Pad24_uid229_fracPostNormExt_uid88_fpAddTest(CONSTANT,228)\n" +
+                        "    leftShiftStage0Idx3Pad24_uid229_fracPostNormExt_uid88_fpAddTest_q <= \"000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx3_uid231_fracPostNormExt_uid88_fpAddTest(BITJOIN,230)@4\n" +
+                        "    leftShiftStage0Idx3_uid231_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage0Idx3Rng24_uid230_fracPostNormExt_uid88_fpAddTest_b & leftShiftStage0Idx3Pad24_uid229_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- redist2_vStage_uid154_lzCountVal_uid85_fpAddTest_b_2(DELAY,258)\n" +
+                        "    redist2_vStage_uid154_lzCountVal_uid85_fpAddTest_b_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 12, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vStage_uid154_lzCountVal_uid85_fpAddTest_b, xout => redist2_vStage_uid154_lzCountVal_uid85_fpAddTest_b_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx2_uid228_fracPostNormExt_uid88_fpAddTest(BITJOIN,227)@4\n" +
+                        "    leftShiftStage0Idx2_uid228_fracPostNormExt_uid88_fpAddTest_q <= redist2_vStage_uid154_lzCountVal_uid85_fpAddTest_b_2_q & zs_uid150_lzCountVal_uid85_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx1Rng8_uid224_fracPostNormExt_uid88_fpAddTest(BITSELECT,223)@4\n" +
+                        "    leftShiftStage0Idx1Rng8_uid224_fracPostNormExt_uid88_fpAddTest_in <= redist5_fracGRS_uid84_fpAddTest_q_2_q(19 downto 0);\n" +
+                        "    leftShiftStage0Idx1Rng8_uid224_fracPostNormExt_uid88_fpAddTest_b <= leftShiftStage0Idx1Rng8_uid224_fracPostNormExt_uid88_fpAddTest_in(19 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx1_uid225_fracPostNormExt_uid88_fpAddTest(BITJOIN,224)@4\n" +
+                        "    leftShiftStage0Idx1_uid225_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage0Idx1Rng8_uid224_fracPostNormExt_uid88_fpAddTest_b & cstAllZWE_uid20_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- redist5_fracGRS_uid84_fpAddTest_q_2(DELAY,261)\n" +
+                        "    redist5_fracGRS_uid84_fpAddTest_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 28, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracGRS_uid84_fpAddTest_q, xout => redist5_fracGRS_uid84_fpAddTest_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest(MUX,232)@4\n" +
+                        "    leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_s <= leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select_b;\n" +
+                        "    leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_combproc: PROCESS (leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_s, redist5_fracGRS_uid84_fpAddTest_q_2_q, leftShiftStage0Idx1_uid225_fracPostNormExt_uid88_fpAddTest_q, leftShiftStage0Idx2_uid228_fracPostNormExt_uid88_fpAddTest_q, leftShiftStage0Idx3_uid231_fracPostNormExt_uid88_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_s) IS\n" +
+                        "            WHEN \"00\" => leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q <= redist5_fracGRS_uid84_fpAddTest_q_2_q;\n" +
+                        "            WHEN \"01\" => leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage0Idx1_uid225_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "            WHEN \"10\" => leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage0Idx2_uid228_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "            WHEN \"11\" => leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage0Idx3_uid231_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest(MUX,243)@4\n" +
+                        "    leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_s <= leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select_c;\n" +
+                        "    leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_combproc: PROCESS (leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_s, leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q, leftShiftStage1Idx1_uid236_fracPostNormExt_uid88_fpAddTest_q, leftShiftStage1Idx2_uid239_fracPostNormExt_uid88_fpAddTest_q, leftShiftStage1Idx3_uid242_fracPostNormExt_uid88_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_s) IS\n" +
+                        "            WHEN \"00\" => leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage0_uid233_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "            WHEN \"01\" => leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage1Idx1_uid236_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "            WHEN \"10\" => leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage1Idx2_uid239_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "            WHEN \"11\" => leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage1Idx3_uid242_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select(BITSELECT,255)@4\n" +
+                        "    leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select_b <= redist1_r_uid179_lzCountVal_uid85_fpAddTest_q_1_q(4 downto 3);\n" +
+                        "    leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select_c <= redist1_r_uid179_lzCountVal_uid85_fpAddTest_q_1_q(2 downto 1);\n" +
+                        "    leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select_d <= redist1_r_uid179_lzCountVal_uid85_fpAddTest_q_1_q(0 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest(MUX,248)@4\n" +
+                        "    leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_s <= leftShiftStageSel4Dto3_uid232_fracPostNormExt_uid88_fpAddTest_merged_bit_select_d;\n" +
+                        "    leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_combproc: PROCESS (leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_s, leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_q, leftShiftStage2Idx1_uid247_fracPostNormExt_uid88_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_s) IS\n" +
+                        "            WHEN \"0\" => leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage1_uid244_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "            WHEN \"1\" => leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q <= leftShiftStage2Idx1_uid247_fracPostNormExt_uid88_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- LSB_uid97_fpAddTest(BITSELECT,96)@4\n" +
+                        "    LSB_uid97_fpAddTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q(4 downto 0));\n" +
+                        "    LSB_uid97_fpAddTest_b <= STD_LOGIC_VECTOR(LSB_uid97_fpAddTest_in(4 downto 4));\n" +
+                        "\n" +
+                        "    -- Guard_uid96_fpAddTest(BITSELECT,95)@4\n" +
+                        "    Guard_uid96_fpAddTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q(3 downto 0));\n" +
+                        "    Guard_uid96_fpAddTest_b <= STD_LOGIC_VECTOR(Guard_uid96_fpAddTest_in(3 downto 3));\n" +
+                        "\n" +
+                        "    -- Round_uid95_fpAddTest(BITSELECT,94)@4\n" +
+                        "    Round_uid95_fpAddTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q(2 downto 0));\n" +
+                        "    Round_uid95_fpAddTest_b <= STD_LOGIC_VECTOR(Round_uid95_fpAddTest_in(2 downto 2));\n" +
+                        "\n" +
+                        "    -- Sticky1_uid94_fpAddTest(BITSELECT,93)@4\n" +
+                        "    Sticky1_uid94_fpAddTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q(1 downto 0));\n" +
+                        "    Sticky1_uid94_fpAddTest_b <= STD_LOGIC_VECTOR(Sticky1_uid94_fpAddTest_in(1 downto 1));\n" +
+                        "\n" +
+                        "    -- Sticky0_uid93_fpAddTest(BITSELECT,92)@4\n" +
+                        "    Sticky0_uid93_fpAddTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q(0 downto 0));\n" +
+                        "    Sticky0_uid93_fpAddTest_b <= STD_LOGIC_VECTOR(Sticky0_uid93_fpAddTest_in(0 downto 0));\n" +
+                        "\n" +
+                        "    -- rndBitCond_uid98_fpAddTest(BITJOIN,97)@4\n" +
+                        "    rndBitCond_uid98_fpAddTest_q <= LSB_uid97_fpAddTest_b & Guard_uid96_fpAddTest_b & Round_uid95_fpAddTest_b & Sticky1_uid94_fpAddTest_b & Sticky0_uid93_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- rBi_uid100_fpAddTest(LOGICAL,99)@4\n" +
+                        "    rBi_uid100_fpAddTest_q <= \"1\" WHEN rndBitCond_uid98_fpAddTest_q = cRBit_uid99_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- roundBit_uid101_fpAddTest(LOGICAL,100)@4\n" +
+                        "    roundBit_uid101_fpAddTest_q <= not (rBi_uid100_fpAddTest_q);\n" +
+                        "\n" +
+                        "    -- oneCST_uid90_fpAddTest(CONSTANT,89)\n" +
+                        "    oneCST_uid90_fpAddTest_q <= \"00000001\";\n" +
+                        "\n" +
+                        "    -- expInc_uid91_fpAddTest(ADD,90)@3 + 1\n" +
+                        "    expInc_uid91_fpAddTest_a <= STD_LOGIC_VECTOR(\"0\" & redist22_exp_aSig_uid21_fpAddTest_b_3_q);\n" +
+                        "    expInc_uid91_fpAddTest_b <= STD_LOGIC_VECTOR(\"0\" & oneCST_uid90_fpAddTest_q);\n" +
+                        "    expInc_uid91_fpAddTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expInc_uid91_fpAddTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expInc_uid91_fpAddTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expInc_uid91_fpAddTest_a) + UNSIGNED(expInc_uid91_fpAddTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expInc_uid91_fpAddTest_q <= expInc_uid91_fpAddTest_o(8 downto 0);\n" +
+                        "\n" +
+                        "    -- expPostNorm_uid92_fpAddTest(SUB,91)@4\n" +
+                        "    expPostNorm_uid92_fpAddTest_a <= STD_LOGIC_VECTOR(\"0\" & expInc_uid91_fpAddTest_q);\n" +
+                        "    expPostNorm_uid92_fpAddTest_b <= STD_LOGIC_VECTOR(\"00000\" & redist1_r_uid179_lzCountVal_uid85_fpAddTest_q_1_q);\n" +
+                        "    expPostNorm_uid92_fpAddTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expPostNorm_uid92_fpAddTest_a) - UNSIGNED(expPostNorm_uid92_fpAddTest_b));\n" +
+                        "    expPostNorm_uid92_fpAddTest_q <= expPostNorm_uid92_fpAddTest_o(9 downto 0);\n" +
+                        "\n" +
+                        "    -- fracPostNorm_uid89_fpAddTest(BITSELECT,88)@4\n" +
+                        "    fracPostNorm_uid89_fpAddTest_b <= leftShiftStage2_uid249_fracPostNormExt_uid88_fpAddTest_q(27 downto 1);\n" +
+                        "\n" +
+                        "    -- fracPostNormRndRange_uid102_fpAddTest(BITSELECT,101)@4\n" +
+                        "    fracPostNormRndRange_uid102_fpAddTest_in <= fracPostNorm_uid89_fpAddTest_b(25 downto 0);\n" +
+                        "    fracPostNormRndRange_uid102_fpAddTest_b <= fracPostNormRndRange_uid102_fpAddTest_in(25 downto 2);\n" +
+                        "\n" +
+                        "    -- expFracR_uid103_fpAddTest(BITJOIN,102)@4\n" +
+                        "    expFracR_uid103_fpAddTest_q <= expPostNorm_uid92_fpAddTest_q & fracPostNormRndRange_uid102_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- rndExpFrac_uid104_fpAddTest(ADD,103)@4 + 1\n" +
+                        "    rndExpFrac_uid104_fpAddTest_a <= STD_LOGIC_VECTOR(\"0\" & expFracR_uid103_fpAddTest_q);\n" +
+                        "    rndExpFrac_uid104_fpAddTest_b <= STD_LOGIC_VECTOR(\"0000000000000000000000000000000000\" & roundBit_uid101_fpAddTest_q);\n" +
+                        "    rndExpFrac_uid104_fpAddTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            rndExpFrac_uid104_fpAddTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            rndExpFrac_uid104_fpAddTest_o <= STD_LOGIC_VECTOR(UNSIGNED(rndExpFrac_uid104_fpAddTest_a) + UNSIGNED(rndExpFrac_uid104_fpAddTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    rndExpFrac_uid104_fpAddTest_q <= rndExpFrac_uid104_fpAddTest_o(34 downto 0);\n" +
+                        "\n" +
+                        "    -- expRPreExc_uid117_fpAddTest(BITSELECT,116)@5\n" +
+                        "    expRPreExc_uid117_fpAddTest_in <= rndExpFrac_uid104_fpAddTest_q(31 downto 0);\n" +
+                        "    expRPreExc_uid117_fpAddTest_b <= expRPreExc_uid117_fpAddTest_in(31 downto 24);\n" +
+                        "\n" +
+                        "    -- rndExpFracOvfBits_uid109_fpAddTest(BITSELECT,108)@5\n" +
+                        "    rndExpFracOvfBits_uid109_fpAddTest_in <= rndExpFrac_uid104_fpAddTest_q(33 downto 0);\n" +
+                        "    rndExpFracOvfBits_uid109_fpAddTest_b <= rndExpFracOvfBits_uid109_fpAddTest_in(33 downto 32);\n" +
+                        "\n" +
+                        "    -- rOvfExtraBits_uid110_fpAddTest(LOGICAL,109)@5\n" +
+                        "    rOvfExtraBits_uid110_fpAddTest_q <= \"1\" WHEN rndExpFracOvfBits_uid109_fpAddTest_b = zocst_uid76_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- wEP2AllOwE_uid105_fpAddTest(CONSTANT,104)\n" +
+                        "    wEP2AllOwE_uid105_fpAddTest_q <= \"0011111111\";\n" +
+                        "\n" +
+                        "    -- rndExp_uid106_fpAddTest(BITSELECT,105)@5\n" +
+                        "    rndExp_uid106_fpAddTest_in <= rndExpFrac_uid104_fpAddTest_q(33 downto 0);\n" +
+                        "    rndExp_uid106_fpAddTest_b <= rndExp_uid106_fpAddTest_in(33 downto 24);\n" +
+                        "\n" +
+                        "    -- rOvfEQMax_uid107_fpAddTest(LOGICAL,106)@5\n" +
+                        "    rOvfEQMax_uid107_fpAddTest_q <= \"1\" WHEN rndExp_uid106_fpAddTest_b = wEP2AllOwE_uid105_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- rOvf_uid111_fpAddTest(LOGICAL,110)@5\n" +
+                        "    rOvf_uid111_fpAddTest_q <= rOvfEQMax_uid107_fpAddTest_q or rOvfExtraBits_uid110_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- regInputs_uid118_fpAddTest(LOGICAL,117)@4 + 1\n" +
+                        "    regInputs_uid118_fpAddTest_qi <= excR_aSig_uid31_fpAddTest_q and excR_bSig_uid45_fpAddTest_q;\n" +
+                        "    regInputs_uid118_fpAddTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => regInputs_uid118_fpAddTest_qi, xout => regInputs_uid118_fpAddTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rInfOvf_uid121_fpAddTest(LOGICAL,120)@5\n" +
+                        "    rInfOvf_uid121_fpAddTest_q <= regInputs_uid118_fpAddTest_q and rOvf_uid111_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- excRInfVInC_uid122_fpAddTest(BITJOIN,121)@5\n" +
+                        "    excRInfVInC_uid122_fpAddTest_q <= rInfOvf_uid121_fpAddTest_q & excN_bSig_uid42_fpAddTest_q & excN_aSig_uid28_fpAddTest_q & redist12_excI_bSig_uid41_fpAddTest_q_1_q & redist18_excI_aSig_uid27_fpAddTest_q_1_q & redist6_effSub_uid52_fpAddTest_q_4_q;\n" +
+                        "\n" +
+                        "    -- excRInf_uid123_fpAddTest(LOOKUP,122)@5\n" +
+                        "    excRInf_uid123_fpAddTest_combproc: PROCESS (excRInfVInC_uid122_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (excRInfVInC_uid122_fpAddTest_q) IS\n" +
+                        "            WHEN \"000000\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"000001\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"000010\" => excRInf_uid123_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"000011\" => excRInf_uid123_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"000100\" => excRInf_uid123_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"000101\" => excRInf_uid123_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"000110\" => excRInf_uid123_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"000111\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"001000\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"001001\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"001010\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"001011\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"001100\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"001101\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"001110\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"001111\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"010000\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"010001\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"010010\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"010011\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"010100\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"010101\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"010110\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"010111\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"011000\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"011001\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"011010\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"011011\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"011100\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"011101\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"011110\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"011111\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"100000\" => excRInf_uid123_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"100001\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"100010\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"100011\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"100100\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"100101\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"100110\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"100111\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"101000\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"101001\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"101010\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"101011\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"101100\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"101101\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"101110\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"101111\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"110000\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"110001\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"110010\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"110011\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"110100\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"110101\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"110110\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"110111\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"111000\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"111001\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"111010\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"111011\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"111100\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"111101\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"111110\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"111111\" => excRInf_uid123_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excRInf_uid123_fpAddTest_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- redist4_aMinusA_uid87_fpAddTest_q_1(DELAY,260)\n" +
+                        "    redist4_aMinusA_uid87_fpAddTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => aMinusA_uid87_fpAddTest_q, xout => redist4_aMinusA_uid87_fpAddTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rUdfExtraBit_uid114_fpAddTest(BITSELECT,113)@5\n" +
+                        "    rUdfExtraBit_uid114_fpAddTest_in <= STD_LOGIC_VECTOR(rndExpFrac_uid104_fpAddTest_q(33 downto 0));\n" +
+                        "    rUdfExtraBit_uid114_fpAddTest_b <= STD_LOGIC_VECTOR(rUdfExtraBit_uid114_fpAddTest_in(33 downto 33));\n" +
+                        "\n" +
+                        "    -- wEP2AllZ_uid112_fpAddTest(CONSTANT,111)\n" +
+                        "    wEP2AllZ_uid112_fpAddTest_q <= \"0000000000\";\n" +
+                        "\n" +
+                        "    -- rUdfEQMin_uid113_fpAddTest(LOGICAL,112)@5\n" +
+                        "    rUdfEQMin_uid113_fpAddTest_q <= \"1\" WHEN rndExp_uid106_fpAddTest_b = wEP2AllZ_uid112_fpAddTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- rUdf_uid115_fpAddTest(LOGICAL,114)@5\n" +
+                        "    rUdf_uid115_fpAddTest_q <= rUdfEQMin_uid113_fpAddTest_q or rUdfExtraBit_uid114_fpAddTest_b;\n" +
+                        "\n" +
+                        "    -- redist17_excZ_bSig_uid17_uid37_fpAddTest_q_5(DELAY,273)\n" +
+                        "    redist17_excZ_bSig_uid17_uid37_fpAddTest_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist16_excZ_bSig_uid17_uid37_fpAddTest_q_4_q, xout => redist17_excZ_bSig_uid17_uid37_fpAddTest_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist20_excZ_aSig_uid16_uid23_fpAddTest_q_2(DELAY,276)\n" +
+                        "    redist20_excZ_aSig_uid16_uid23_fpAddTest_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_aSig_uid16_uid23_fpAddTest_q, xout => redist20_excZ_aSig_uid16_uid23_fpAddTest_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excRZeroVInC_uid119_fpAddTest(BITJOIN,118)@5\n" +
+                        "    excRZeroVInC_uid119_fpAddTest_q <= redist4_aMinusA_uid87_fpAddTest_q_1_q & rUdf_uid115_fpAddTest_q & regInputs_uid118_fpAddTest_q & redist17_excZ_bSig_uid17_uid37_fpAddTest_q_5_q & redist20_excZ_aSig_uid16_uid23_fpAddTest_q_2_q;\n" +
+                        "\n" +
+                        "    -- excRZero_uid120_fpAddTest(LOOKUP,119)@5\n" +
+                        "    excRZero_uid120_fpAddTest_combproc: PROCESS (excRZeroVInC_uid119_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (excRZeroVInC_uid119_fpAddTest_q) IS\n" +
+                        "            WHEN \"00000\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"00001\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"00010\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"00011\" => excRZero_uid120_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"00100\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"00101\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"00110\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"00111\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"01000\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"01001\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"01010\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"01011\" => excRZero_uid120_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"01100\" => excRZero_uid120_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"01101\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"01110\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"01111\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"10000\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"10001\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"10010\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"10011\" => excRZero_uid120_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"10100\" => excRZero_uid120_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"10101\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"10110\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"10111\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"11000\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"11001\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"11010\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"11011\" => excRZero_uid120_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"11100\" => excRZero_uid120_fpAddTest_q <= \"1\";\n" +
+                        "            WHEN \"11101\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"11110\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN \"11111\" => excRZero_uid120_fpAddTest_q <= \"0\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excRZero_uid120_fpAddTest_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- concExc_uid127_fpAddTest(BITJOIN,126)@5\n" +
+                        "    concExc_uid127_fpAddTest_q <= excRNaN_uid126_fpAddTest_q & excRInf_uid123_fpAddTest_q & excRZero_uid120_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- excREnc_uid128_fpAddTest(LOOKUP,127)@5\n" +
+                        "    excREnc_uid128_fpAddTest_combproc: PROCESS (concExc_uid127_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (concExc_uid127_fpAddTest_q) IS\n" +
+                        "            WHEN \"000\" => excREnc_uid128_fpAddTest_q <= \"01\";\n" +
+                        "            WHEN \"001\" => excREnc_uid128_fpAddTest_q <= \"00\";\n" +
+                        "            WHEN \"010\" => excREnc_uid128_fpAddTest_q <= \"10\";\n" +
+                        "            WHEN \"011\" => excREnc_uid128_fpAddTest_q <= \"10\";\n" +
+                        "            WHEN \"100\" => excREnc_uid128_fpAddTest_q <= \"11\";\n" +
+                        "            WHEN \"101\" => excREnc_uid128_fpAddTest_q <= \"11\";\n" +
+                        "            WHEN \"110\" => excREnc_uid128_fpAddTest_q <= \"11\";\n" +
+                        "            WHEN \"111\" => excREnc_uid128_fpAddTest_q <= \"11\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excREnc_uid128_fpAddTest_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- expRPostExc_uid147_fpAddTest(MUX,146)@5\n" +
+                        "    expRPostExc_uid147_fpAddTest_s <= excREnc_uid128_fpAddTest_q;\n" +
+                        "    expRPostExc_uid147_fpAddTest_combproc: PROCESS (expRPostExc_uid147_fpAddTest_s, cstAllZWE_uid20_fpAddTest_q, expRPreExc_uid117_fpAddTest_b, cstAllOWE_uid18_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (expRPostExc_uid147_fpAddTest_s) IS\n" +
+                        "            WHEN \"00\" => expRPostExc_uid147_fpAddTest_q <= cstAllZWE_uid20_fpAddTest_q;\n" +
+                        "            WHEN \"01\" => expRPostExc_uid147_fpAddTest_q <= expRPreExc_uid117_fpAddTest_b;\n" +
+                        "            WHEN \"10\" => expRPostExc_uid147_fpAddTest_q <= cstAllOWE_uid18_fpAddTest_q;\n" +
+                        "            WHEN \"11\" => expRPostExc_uid147_fpAddTest_q <= cstAllOWE_uid18_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => expRPostExc_uid147_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oneFracRPostExc2_uid140_fpAddTest(CONSTANT,139)\n" +
+                        "    oneFracRPostExc2_uid140_fpAddTest_q <= \"00000000000000000000001\";\n" +
+                        "\n" +
+                        "    -- fracRPreExc_uid116_fpAddTest(BITSELECT,115)@5\n" +
+                        "    fracRPreExc_uid116_fpAddTest_in <= rndExpFrac_uid104_fpAddTest_q(23 downto 0);\n" +
+                        "    fracRPreExc_uid116_fpAddTest_b <= fracRPreExc_uid116_fpAddTest_in(23 downto 1);\n" +
+                        "\n" +
+                        "    -- fracRPostExc_uid143_fpAddTest(MUX,142)@5\n" +
+                        "    fracRPostExc_uid143_fpAddTest_s <= excREnc_uid128_fpAddTest_q;\n" +
+                        "    fracRPostExc_uid143_fpAddTest_combproc: PROCESS (fracRPostExc_uid143_fpAddTest_s, cstZeroWF_uid19_fpAddTest_q, fracRPreExc_uid116_fpAddTest_b, oneFracRPostExc2_uid140_fpAddTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (fracRPostExc_uid143_fpAddTest_s) IS\n" +
+                        "            WHEN \"00\" => fracRPostExc_uid143_fpAddTest_q <= cstZeroWF_uid19_fpAddTest_q;\n" +
+                        "            WHEN \"01\" => fracRPostExc_uid143_fpAddTest_q <= fracRPreExc_uid116_fpAddTest_b;\n" +
+                        "            WHEN \"10\" => fracRPostExc_uid143_fpAddTest_q <= cstZeroWF_uid19_fpAddTest_q;\n" +
+                        "            WHEN \"11\" => fracRPostExc_uid143_fpAddTest_q <= oneFracRPostExc2_uid140_fpAddTest_q;\n" +
+                        "            WHEN OTHERS => fracRPostExc_uid143_fpAddTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- R_uid148_fpAddTest(BITJOIN,147)@5\n" +
+                        "    R_uid148_fpAddTest_q <= signRPostExc_uid139_fpAddTest_q & expRPostExc_uid147_fpAddTest_q & fracRPostExc_uid143_fpAddTest_q;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@5\n" +
+                        "    q <= R_uid148_fpAddTest_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data1, data2, data3);
+    }
+    
     private void generate_FP_SUB_32_qip_file(String Project_Folder_File) {
         String data =   "set_global_assignment -entity \"FP_SUB_32\" -library \"FP_SUB_32\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
                         "set_global_assignment -entity \"FP_SUB_32\" -library \"FP_SUB_32\" -name IP_TOOL_VERSION \"18.0\"\n" +
@@ -22760,7 +28576,1426 @@ public class Write_Hardware_Files {
                         "-- RELATED_FILES: FP_SUB_32.vhd, dspba_library_package.vhd, dspba_library.vhd, FP_SUB_32_0002.vhd";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
-
+    
+    private void generate_FP_SUB_32_0002_vhd_file(String Project_Folder_File) {
+        String data1 =  "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_SUB_32_0002\n" +
+                        "-- VHDL created on Fri Jul 24 01:59:42 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_SUB_32_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        b : in std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        q : out std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_SUB_32_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_SUB_32_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expFracX_uid6_fpSubTest_b : STD_LOGIC_VECTOR (30 downto 0);\n" +
+                        "    signal expFracY_uid7_fpSubTest_b : STD_LOGIC_VECTOR (30 downto 0);\n" +
+                        "    signal xGTEy_uid8_fpSubTest_a : STD_LOGIC_VECTOR (32 downto 0);\n" +
+                        "    signal xGTEy_uid8_fpSubTest_b : STD_LOGIC_VECTOR (32 downto 0);\n" +
+                        "    signal xGTEy_uid8_fpSubTest_o : STD_LOGIC_VECTOR (32 downto 0);\n" +
+                        "    signal xGTEy_uid8_fpSubTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracY_uid9_fpSubTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal expY_uid10_fpSubTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal sigY_uid11_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invSigY_uid12_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal ypn_uid13_fpSubTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal aSig_uid17_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal aSig_uid17_fpSubTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal bSig_uid18_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal bSig_uid18_fpSubTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal cstAllOWE_uid19_fpSubTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal cstZeroWF_uid20_fpSubTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal cstAllZWE_uid21_fpSubTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal exp_aSig_uid22_fpSubTest_in : STD_LOGIC_VECTOR (30 downto 0);\n" +
+                        "    signal exp_aSig_uid22_fpSubTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal frac_aSig_uid23_fpSubTest_in : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal frac_aSig_uid23_fpSubTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal excZ_aSig_uid17_uid24_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excZ_aSig_uid17_uid24_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid25_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid25_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid26_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid26_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid27_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_aSig_uid28_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_aSig_uid29_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_aSig_uid29_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid30_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid31_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_aSig_uid32_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal exp_bSig_uid36_fpSubTest_in : STD_LOGIC_VECTOR (30 downto 0);\n" +
+                        "    signal exp_bSig_uid36_fpSubTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal frac_bSig_uid37_fpSubTest_in : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal frac_bSig_uid37_fpSubTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal excZ_bSig_uid18_uid38_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid39_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid39_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid40_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid40_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid41_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_bSig_uid42_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_bSig_uid43_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_bSig_uid43_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid44_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid45_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_bSig_uid46_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigA_uid51_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigB_uid52_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal effSub_uid53_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal effSub_uid53_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracBz_uid57_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracBz_uid57_fpSubTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal oFracB_uid60_fpSubTest_q : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal expAmExpB_uid61_fpSubTest_a : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expAmExpB_uid61_fpSubTest_b : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expAmExpB_uid61_fpSubTest_o : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expAmExpB_uid61_fpSubTest_q : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal cWFP2_uid62_fpSubTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal shiftedOut_uid64_fpSubTest_a : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid64_fpSubTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid64_fpSubTest_o : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid64_fpSubTest_c : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal padConst_uid65_fpSubTest_q : STD_LOGIC_VECTOR (24 downto 0);\n" +
+                        "    signal rightPaddedIn_uid66_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal iShiftedOut_uid68_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal alignFracBPostShiftOut_uid69_fpSubTest_b : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal alignFracBPostShiftOut_uid69_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal cmpEQ_stickyBits_cZwF_uid72_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cmpEQ_stickyBits_cZwF_uid72_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invCmpEQ_stickyBits_cZwF_uid73_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal effSubInvSticky_uid75_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal zocst_uid77_fpSubTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracAAddOp_uid78_fpSubTest_q : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracBAddOp_uid81_fpSubTest_q : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracBAddOpPostXor_uid82_fpSubTest_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracBAddOpPostXor_uid82_fpSubTest_q : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracAddResult_uid83_fpSubTest_a : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal fracAddResult_uid83_fpSubTest_b : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal fracAddResult_uid83_fpSubTest_o : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal fracAddResult_uid83_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_in : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal fracGRS_uid85_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal cAmA_uid87_fpSubTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal aMinusA_uid88_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracPostNorm_uid90_fpSubTest_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal oneCST_uid91_fpSubTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal expInc_uid92_fpSubTest_a : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expInc_uid92_fpSubTest_b : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expInc_uid92_fpSubTest_o : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expInc_uid92_fpSubTest_q : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expPostNorm_uid93_fpSubTest_a : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal expPostNorm_uid93_fpSubTest_b : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal expPostNorm_uid93_fpSubTest_o : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal expPostNorm_uid93_fpSubTest_q : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal Sticky0_uid94_fpSubTest_in : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Sticky0_uid94_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Sticky1_uid95_fpSubTest_in : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal Sticky1_uid95_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Round_uid96_fpSubTest_in : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal Round_uid96_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal Guard_uid97_fpSubTest_in : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal Guard_uid97_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal LSB_uid98_fpSubTest_in : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal LSB_uid98_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rndBitCond_uid99_fpSubTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal cRBit_uid100_fpSubTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal rBi_uid101_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal roundBit_uid102_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracPostNormRndRange_uid103_fpSubTest_in : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal fracPostNormRndRange_uid103_fpSubTest_b : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal expFracR_uid104_fpSubTest_q : STD_LOGIC_VECTOR (33 downto 0);\n" +
+                        "    signal rndExpFrac_uid105_fpSubTest_a : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal rndExpFrac_uid105_fpSubTest_b : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal rndExpFrac_uid105_fpSubTest_o : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal rndExpFrac_uid105_fpSubTest_q : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal wEP2AllOwE_uid106_fpSubTest_q : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal rndExp_uid107_fpSubTest_in : STD_LOGIC_VECTOR (33 downto 0);\n" +
+                        "    signal rndExp_uid107_fpSubTest_b : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal rOvfEQMax_uid108_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rndExpFracOvfBits_uid110_fpSubTest_in : STD_LOGIC_VECTOR (33 downto 0);\n" +
+                        "    signal rndExpFracOvfBits_uid110_fpSubTest_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rOvfExtraBits_uid111_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rOvf_uid112_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal wEP2AllZ_uid113_fpSubTest_q : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal rUdfEQMin_uid114_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rUdfExtraBit_uid115_fpSubTest_in : STD_LOGIC_VECTOR (33 downto 0);\n" +
+                        "    signal rUdfExtraBit_uid115_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rUdf_uid116_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracRPreExc_uid117_fpSubTest_in : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal fracRPreExc_uid117_fpSubTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal expRPreExc_uid118_fpSubTest_in : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal expRPreExc_uid118_fpSubTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal regInputs_uid119_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal regInputs_uid119_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRZeroVInC_uid120_fpSubTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal excRZero_uid121_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rInfOvf_uid122_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRInfVInC_uid123_fpSubTest_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal excRInf_uid124_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRNaN2_uid125_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excAIBISub_uid126_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRNaN_uid127_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal concExc_uid128_fpSubTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal excREnc_uid129_fpSubTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal invAMinusA_uid130_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRReg_uid131_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigBBInf_uid132_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sigAAInf_uid133_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRInf_uid134_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excAZBZSigASigB_uid135_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excBZARSigA_uid136_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRZero_uid137_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRInfRZRReg_uid138_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRInfRZRReg_uid138_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExcRNaN_uid139_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRPostExc_uid140_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal oneFracRPostExc2_uid141_fpSubTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal fracRPostExc_uid144_fpSubTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracRPostExc_uid144_fpSubTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal expRPostExc_uid148_fpSubTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal expRPostExc_uid148_fpSubTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal R_uid149_fpSubTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal zs_uid151_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal rVStage_uid152_lzCountVal_uid86_fpSubTest_b : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal vCount_uid153_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal mO_uid154_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal vStage_uid155_lzCountVal_uid86_fpSubTest_in : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal vStage_uid155_lzCountVal_uid86_fpSubTest_b : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal cStage_uid156_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal vStagei_uid158_lzCountVal_uid86_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid158_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (15 downto 0);\n" +
+                        "    signal vCount_uid161_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid164_lzCountVal_uid86_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid164_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal zs_uid165_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal vCount_uid167_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid170_lzCountVal_uid86_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid170_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal zs_uid171_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal vCount_uid173_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid176_lzCountVal_uid86_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vStagei_uid176_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rVStage_uid178_lzCountVal_uid86_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal vCount_uid179_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid180_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal wIntCst_uid184_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_a : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_o : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rightShiftStage0Idx1Rng16_uid186_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (32 downto 0);\n" +
+                        "    signal rightShiftStage0Idx1_uid188_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage0Idx2Rng32_uid189_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (16 downto 0);\n" +
+                        "    signal rightShiftStage0Idx2Pad32_uid190_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal rightShiftStage0Idx2_uid191_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage0Idx3Rng48_uid192_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal rightShiftStage0Idx3Pad48_uid193_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (47 downto 0);\n" +
+                        "    signal rightShiftStage0Idx3_uid194_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage1Idx1Rng4_uid197_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (44 downto 0);\n" +
+                        "    signal rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage1Idx2Rng8_uid200_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (40 downto 0);\n" +
+                        "    signal rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage1Idx3Rng12_uid203_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (36 downto 0);\n" +
+                        "    signal rightShiftStage1Idx3Pad12_uid204_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage2Idx1Rng1_uid208_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (47 downto 0);\n" +
+                        "    signal rightShiftStage2Idx1_uid210_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage2Idx2Rng2_uid211_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (46 downto 0);\n" +
+                        "    signal rightShiftStage2Idx2_uid213_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage2Idx3Rng3_uid214_alignmentShifter_uid65_fpSubTest_b : STD_LOGIC_VECTOR (45 downto 0);\n" +
+                        "    signal rightShiftStage2Idx3Pad3_uid215_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal rightShiftStage2Idx3_uid216_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal zeroOutCst_uid219_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal r_uid220_alignmentShifter_uid65_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal r_uid220_alignmentShifter_uid65_fpSubTest_q : STD_LOGIC_VECTOR (48 downto 0);\n" +
+                        "    signal leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_in : STD_LOGIC_VECTOR (19 downto 0);\n" +
+                        "    signal leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_b : STD_LOGIC_VECTOR (19 downto 0);\n" +
+                        "    signal leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3Pad24_uid230_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_in : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_b : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_in : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_b : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal leftShiftStage1Idx1_uid237_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_in : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_b : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal leftShiftStage1Idx2_uid240_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3Pad6_uid241_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_in : STD_LOGIC_VECTOR (21 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_b : STD_LOGIC_VECTOR (21 downto 0);\n" +
+                        "    signal leftShiftStage1Idx3_uid243_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_in : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_b : STD_LOGIC_VECTOR (26 downto 0);\n" +
+                        "    signal leftShiftStage2Idx1_uid248_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_in : STD_LOGIC_VECTOR (5 downto 0);\n" +
+                        "    signal rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal stickyBits_uid70_fpSubTest_merged_bit_select_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal stickyBits_uid70_fpSubTest_merged_bit_select_c : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_b : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_c : STD_LOGIC_VECTOR (3 downto 0);\n" +
+                        "    signal rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_d : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1_q : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q : STD_LOGIC_VECTOR (4 downto 0);\n" +
+                        "    signal redist2_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal redist3_vCount_uid153_lzCountVal_uid86_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist4_aMinusA_uid88_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist5_fracGRS_uid85_fpSubTest_q_2_q : STD_LOGIC_VECTOR (27 downto 0);\n" +
+                        "    signal redist6_effSub_uid53_fpSubTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist7_sigB_uid52_fpSubTest_b_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist8_sigB_uid52_fpSubTest_b_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist9_sigA_uid51_fpSubTest_b_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist10_sigA_uid51_fpSubTest_b_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist11_InvExpXIsZero_uid45_fpSubTest_q_3_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist12_excI_bSig_uid42_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist13_fracXIsZero_uid40_fpSubTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist14_expXIsMax_uid39_fpSubTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist15_excZ_bSig_uid18_uid38_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist16_excZ_bSig_uid18_uid38_fpSubTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist17_excZ_bSig_uid18_uid38_fpSubTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist18_excI_aSig_uid28_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist19_fracXIsZero_uid26_fpSubTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist20_excZ_aSig_uid17_uid24_fpSubTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist21_frac_aSig_uid23_fpSubTest_b_2_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal redist22_exp_aSig_uid22_fpSubTest_b_3_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- cAmA_uid87_fpSubTest(CONSTANT,86)\n" +
+                        "    cAmA_uid87_fpSubTest_q <= \"11100\";\n" +
+                        "\n" +
+                        "    -- zs_uid151_lzCountVal_uid86_fpSubTest(CONSTANT,150)\n" +
+                        "    zs_uid151_lzCountVal_uid86_fpSubTest_q <= \"0000000000000000\";\n" +
+                        "\n" +
+                        "    -- sigY_uid11_fpSubTest(BITSELECT,10)@0\n" +
+                        "    sigY_uid11_fpSubTest_b <= STD_LOGIC_VECTOR(b(31 downto 31));\n" +
+                        "\n" +
+                        "    -- invSigY_uid12_fpSubTest(LOGICAL,11)@0\n" +
+                        "    invSigY_uid12_fpSubTest_q <= not (sigY_uid11_fpSubTest_b);\n" +
+                        "\n" +
+                        "    -- expY_uid10_fpSubTest(BITSELECT,9)@0\n" +
+                        "    expY_uid10_fpSubTest_b <= b(30 downto 23);\n" +
+                        "\n" +
+                        "    -- fracY_uid9_fpSubTest(BITSELECT,8)@0\n" +
+                        "    fracY_uid9_fpSubTest_b <= b(22 downto 0);\n" +
+                        "\n" +
+                        "    -- ypn_uid13_fpSubTest(BITJOIN,12)@0\n" +
+                        "    ypn_uid13_fpSubTest_q <= invSigY_uid12_fpSubTest_q & expY_uid10_fpSubTest_b & fracY_uid9_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- expFracY_uid7_fpSubTest(BITSELECT,6)@0\n" +
+                        "    expFracY_uid7_fpSubTest_b <= b(30 downto 0);\n" +
+                        "\n" +
+                        "    -- expFracX_uid6_fpSubTest(BITSELECT,5)@0\n" +
+                        "    expFracX_uid6_fpSubTest_b <= a(30 downto 0);\n" +
+                        "\n" +
+                        "    -- xGTEy_uid8_fpSubTest(COMPARE,7)@0\n" +
+                        "    xGTEy_uid8_fpSubTest_a <= STD_LOGIC_VECTOR(\"00\" & expFracX_uid6_fpSubTest_b);\n" +
+                        "    xGTEy_uid8_fpSubTest_b <= STD_LOGIC_VECTOR(\"00\" & expFracY_uid7_fpSubTest_b);\n" +
+                        "    xGTEy_uid8_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(xGTEy_uid8_fpSubTest_a) - UNSIGNED(xGTEy_uid8_fpSubTest_b));\n" +
+                        "    xGTEy_uid8_fpSubTest_n(0) <= not (xGTEy_uid8_fpSubTest_o(32));\n" +
+                        "\n" +
+                        "    -- bSig_uid18_fpSubTest(MUX,17)@0\n" +
+                        "    bSig_uid18_fpSubTest_s <= xGTEy_uid8_fpSubTest_n;\n" +
+                        "    bSig_uid18_fpSubTest_combproc: PROCESS (bSig_uid18_fpSubTest_s, a, ypn_uid13_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (bSig_uid18_fpSubTest_s) IS\n" +
+                        "            WHEN \"0\" => bSig_uid18_fpSubTest_q <= a;\n" +
+                        "            WHEN \"1\" => bSig_uid18_fpSubTest_q <= ypn_uid13_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => bSig_uid18_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- sigB_uid52_fpSubTest(BITSELECT,51)@0\n" +
+                        "    sigB_uid52_fpSubTest_b <= STD_LOGIC_VECTOR(bSig_uid18_fpSubTest_q(31 downto 31));\n" +
+                        "\n" +
+                        "    -- redist7_sigB_uid52_fpSubTest_b_1(DELAY,264)\n" +
+                        "    redist7_sigB_uid52_fpSubTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => sigB_uid52_fpSubTest_b, xout => redist7_sigB_uid52_fpSubTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- aSig_uid17_fpSubTest(MUX,16)@0\n" +
+                        "    aSig_uid17_fpSubTest_s <= xGTEy_uid8_fpSubTest_n;\n" +
+                        "    aSig_uid17_fpSubTest_combproc: PROCESS (aSig_uid17_fpSubTest_s, ypn_uid13_fpSubTest_q, a)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (aSig_uid17_fpSubTest_s) IS\n" +
+                        "            WHEN \"0\" => aSig_uid17_fpSubTest_q <= ypn_uid13_fpSubTest_q;\n" +
+                        "            WHEN \"1\" => aSig_uid17_fpSubTest_q <= a;\n" +
+                        "            WHEN OTHERS => aSig_uid17_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- sigA_uid51_fpSubTest(BITSELECT,50)@0\n" +
+                        "    sigA_uid51_fpSubTest_b <= STD_LOGIC_VECTOR(aSig_uid17_fpSubTest_q(31 downto 31));\n" +
+                        "\n" +
+                        "    -- redist9_sigA_uid51_fpSubTest_b_1(DELAY,266)\n" +
+                        "    redist9_sigA_uid51_fpSubTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => sigA_uid51_fpSubTest_b, xout => redist9_sigA_uid51_fpSubTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- effSub_uid53_fpSubTest(LOGICAL,52)@1 + 1\n" +
+                        "    effSub_uid53_fpSubTest_qi <= redist9_sigA_uid51_fpSubTest_b_1_q xor redist7_sigB_uid52_fpSubTest_b_1_q;\n" +
+                        "    effSub_uid53_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => effSub_uid53_fpSubTest_qi, xout => effSub_uid53_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- exp_bSig_uid36_fpSubTest(BITSELECT,35)@0\n" +
+                        "    exp_bSig_uid36_fpSubTest_in <= bSig_uid18_fpSubTest_q(30 downto 0);\n" +
+                        "    exp_bSig_uid36_fpSubTest_b <= exp_bSig_uid36_fpSubTest_in(30 downto 23);\n" +
+                        "\n" +
+                        "    -- exp_aSig_uid22_fpSubTest(BITSELECT,21)@0\n" +
+                        "    exp_aSig_uid22_fpSubTest_in <= aSig_uid17_fpSubTest_q(30 downto 0);\n" +
+                        "    exp_aSig_uid22_fpSubTest_b <= exp_aSig_uid22_fpSubTest_in(30 downto 23);\n" +
+                        "\n" +
+                        "    -- expAmExpB_uid61_fpSubTest(SUB,60)@0 + 1\n" +
+                        "    expAmExpB_uid61_fpSubTest_a <= STD_LOGIC_VECTOR(\"0\" & exp_aSig_uid22_fpSubTest_b);\n" +
+                        "    expAmExpB_uid61_fpSubTest_b <= STD_LOGIC_VECTOR(\"0\" & exp_bSig_uid36_fpSubTest_b);\n" +
+                        "    expAmExpB_uid61_fpSubTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expAmExpB_uid61_fpSubTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expAmExpB_uid61_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expAmExpB_uid61_fpSubTest_a) - UNSIGNED(expAmExpB_uid61_fpSubTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expAmExpB_uid61_fpSubTest_q <= expAmExpB_uid61_fpSubTest_o(8 downto 0);\n" +
+                        "\n" +
+                        "    -- cWFP2_uid62_fpSubTest(CONSTANT,61)\n" +
+                        "    cWFP2_uid62_fpSubTest_q <= \"11001\";\n" +
+                        "\n" +
+                        "    -- shiftedOut_uid64_fpSubTest(COMPARE,63)@1\n" +
+                        "    shiftedOut_uid64_fpSubTest_a <= STD_LOGIC_VECTOR(\"000000\" & cWFP2_uid62_fpSubTest_q);\n" +
+                        "    shiftedOut_uid64_fpSubTest_b <= STD_LOGIC_VECTOR(\"00\" & expAmExpB_uid61_fpSubTest_q);\n" +
+                        "    shiftedOut_uid64_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(shiftedOut_uid64_fpSubTest_a) - UNSIGNED(shiftedOut_uid64_fpSubTest_b));\n" +
+                        "    shiftedOut_uid64_fpSubTest_c(0) <= shiftedOut_uid64_fpSubTest_o(10);\n" +
+                        "\n" +
+                        "    -- iShiftedOut_uid68_fpSubTest(LOGICAL,67)@1\n" +
+                        "    iShiftedOut_uid68_fpSubTest_q <= not (shiftedOut_uid64_fpSubTest_c);\n" +
+                        "\n" +
+                        "    -- zeroOutCst_uid219_alignmentShifter_uid65_fpSubTest(CONSTANT,218)\n" +
+                        "    zeroOutCst_uid219_alignmentShifter_uid65_fpSubTest_q <= \"0000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx3Pad3_uid215_alignmentShifter_uid65_fpSubTest(CONSTANT,214)\n" +
+                        "    rightShiftStage2Idx3Pad3_uid215_alignmentShifter_uid65_fpSubTest_q <= \"000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx3Rng3_uid214_alignmentShifter_uid65_fpSubTest(BITSELECT,213)@1\n" +
+                        "    rightShiftStage2Idx3Rng3_uid214_alignmentShifter_uid65_fpSubTest_b <= rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q(48 downto 3);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx3_uid216_alignmentShifter_uid65_fpSubTest(BITJOIN,215)@1\n" +
+                        "    rightShiftStage2Idx3_uid216_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx3Pad3_uid215_alignmentShifter_uid65_fpSubTest_q & rightShiftStage2Idx3Rng3_uid214_alignmentShifter_uid65_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- zs_uid171_lzCountVal_uid86_fpSubTest(CONSTANT,170)\n" +
+                        "    zs_uid171_lzCountVal_uid86_fpSubTest_q <= \"00\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx2Rng2_uid211_alignmentShifter_uid65_fpSubTest(BITSELECT,210)@1\n" +
+                        "    rightShiftStage2Idx2Rng2_uid211_alignmentShifter_uid65_fpSubTest_b <= rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q(48 downto 2);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx2_uid213_alignmentShifter_uid65_fpSubTest(BITJOIN,212)@1\n" +
+                        "    rightShiftStage2Idx2_uid213_alignmentShifter_uid65_fpSubTest_q <= zs_uid171_lzCountVal_uid86_fpSubTest_q & rightShiftStage2Idx2Rng2_uid211_alignmentShifter_uid65_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx1Rng1_uid208_alignmentShifter_uid65_fpSubTest(BITSELECT,207)@1\n" +
+                        "    rightShiftStage2Idx1Rng1_uid208_alignmentShifter_uid65_fpSubTest_b <= rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q(48 downto 1);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2Idx1_uid210_alignmentShifter_uid65_fpSubTest(BITJOIN,209)@1\n" +
+                        "    rightShiftStage2Idx1_uid210_alignmentShifter_uid65_fpSubTest_q <= GND_q & rightShiftStage2Idx1Rng1_uid208_alignmentShifter_uid65_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx3Pad12_uid204_alignmentShifter_uid65_fpSubTest(CONSTANT,203)\n" +
+                        "    rightShiftStage1Idx3Pad12_uid204_alignmentShifter_uid65_fpSubTest_q <= \"000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx3Rng12_uid203_alignmentShifter_uid65_fpSubTest(BITSELECT,202)@1\n" +
+                        "    rightShiftStage1Idx3Rng12_uid203_alignmentShifter_uid65_fpSubTest_b <= rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q(48 downto 12);\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest(BITJOIN,204)@1\n" +
+                        "    rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx3Pad12_uid204_alignmentShifter_uid65_fpSubTest_q & rightShiftStage1Idx3Rng12_uid203_alignmentShifter_uid65_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid21_fpSubTest(CONSTANT,20)\n" +
+                        "    cstAllZWE_uid21_fpSubTest_q <= \"00000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx2Rng8_uid200_alignmentShifter_uid65_fpSubTest(BITSELECT,199)@1\n" +
+                        "    rightShiftStage1Idx2Rng8_uid200_alignmentShifter_uid65_fpSubTest_b <= rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q(48 downto 8);\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest(BITJOIN,201)@1\n" +
+                        "    rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest_q <= cstAllZWE_uid21_fpSubTest_q & rightShiftStage1Idx2Rng8_uid200_alignmentShifter_uid65_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- zs_uid165_lzCountVal_uid86_fpSubTest(CONSTANT,164)\n" +
+                        "    zs_uid165_lzCountVal_uid86_fpSubTest_q <= \"0000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx1Rng4_uid197_alignmentShifter_uid65_fpSubTest(BITSELECT,196)@1\n" +
+                        "    rightShiftStage1Idx1Rng4_uid197_alignmentShifter_uid65_fpSubTest_b <= rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q(48 downto 4);\n" +
+                        "\n" +
+                        "    -- rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest(BITJOIN,198)@1\n" +
+                        "    rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest_q <= zs_uid165_lzCountVal_uid86_fpSubTest_q & rightShiftStage1Idx1Rng4_uid197_alignmentShifter_uid65_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx3Pad48_uid193_alignmentShifter_uid65_fpSubTest(CONSTANT,192)\n" +
+                        "    rightShiftStage0Idx3Pad48_uid193_alignmentShifter_uid65_fpSubTest_q <= \"000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx3Rng48_uid192_alignmentShifter_uid65_fpSubTest(BITSELECT,191)@1\n" +
+                        "    rightShiftStage0Idx3Rng48_uid192_alignmentShifter_uid65_fpSubTest_b <= rightPaddedIn_uid66_fpSubTest_q(48 downto 48);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx3_uid194_alignmentShifter_uid65_fpSubTest(BITJOIN,193)@1\n" +
+                        "    rightShiftStage0Idx3_uid194_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0Idx3Pad48_uid193_alignmentShifter_uid65_fpSubTest_q & rightShiftStage0Idx3Rng48_uid192_alignmentShifter_uid65_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx2Pad32_uid190_alignmentShifter_uid65_fpSubTest(CONSTANT,189)\n" +
+                        "    rightShiftStage0Idx2Pad32_uid190_alignmentShifter_uid65_fpSubTest_q <= \"00000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx2Rng32_uid189_alignmentShifter_uid65_fpSubTest(BITSELECT,188)@1\n" +
+                        "    rightShiftStage0Idx2Rng32_uid189_alignmentShifter_uid65_fpSubTest_b <= rightPaddedIn_uid66_fpSubTest_q(48 downto 32);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx2_uid191_alignmentShifter_uid65_fpSubTest(BITJOIN,190)@1\n" +
+                        "    rightShiftStage0Idx2_uid191_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0Idx2Pad32_uid190_alignmentShifter_uid65_fpSubTest_q & rightShiftStage0Idx2Rng32_uid189_alignmentShifter_uid65_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx1Rng16_uid186_alignmentShifter_uid65_fpSubTest(BITSELECT,185)@1\n" +
+                        "    rightShiftStage0Idx1Rng16_uid186_alignmentShifter_uid65_fpSubTest_b <= rightPaddedIn_uid66_fpSubTest_q(48 downto 16);\n" +
+                        "\n" +
+                        "    -- rightShiftStage0Idx1_uid188_alignmentShifter_uid65_fpSubTest(BITJOIN,187)@1\n" +
+                        "    rightShiftStage0Idx1_uid188_alignmentShifter_uid65_fpSubTest_q <= zs_uid151_lzCountVal_uid86_fpSubTest_q & rightShiftStage0Idx1Rng16_uid186_alignmentShifter_uid65_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- excZ_bSig_uid18_uid38_fpSubTest(LOGICAL,37)@0\n" +
+                        "    excZ_bSig_uid18_uid38_fpSubTest_q <= \"1\" WHEN exp_bSig_uid36_fpSubTest_b = cstAllZWE_uid21_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- redist15_excZ_bSig_uid18_uid38_fpSubTest_q_1(DELAY,272)\n" +
+                        "    redist15_excZ_bSig_uid18_uid38_fpSubTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_bSig_uid18_uid38_fpSubTest_q, xout => redist15_excZ_bSig_uid18_uid38_fpSubTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid45_fpSubTest(LOGICAL,44)@1\n" +
+                        "    InvExpXIsZero_uid45_fpSubTest_q <= not (redist15_excZ_bSig_uid18_uid38_fpSubTest_q_1_q);\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid20_fpSubTest(CONSTANT,19)\n" +
+                        "    cstZeroWF_uid20_fpSubTest_q <= \"00000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- frac_bSig_uid37_fpSubTest(BITSELECT,36)@0\n" +
+                        "    frac_bSig_uid37_fpSubTest_in <= bSig_uid18_fpSubTest_q(22 downto 0);\n" +
+                        "    frac_bSig_uid37_fpSubTest_b <= frac_bSig_uid37_fpSubTest_in(22 downto 0);\n" +
+                        "\n" +
+                        "    -- fracBz_uid57_fpSubTest(MUX,56)@0 + 1\n" +
+                        "    fracBz_uid57_fpSubTest_s <= excZ_bSig_uid18_uid38_fpSubTest_q;\n" +
+                        "    fracBz_uid57_fpSubTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            fracBz_uid57_fpSubTest_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (fracBz_uid57_fpSubTest_s) IS\n" +
+                        "                WHEN \"0\" => fracBz_uid57_fpSubTest_q <= frac_bSig_uid37_fpSubTest_b;\n" +
+                        "                WHEN \"1\" => fracBz_uid57_fpSubTest_q <= cstZeroWF_uid20_fpSubTest_q;\n" +
+                        "                WHEN OTHERS => fracBz_uid57_fpSubTest_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oFracB_uid60_fpSubTest(BITJOIN,59)@1\n" +
+                        "    oFracB_uid60_fpSubTest_q <= InvExpXIsZero_uid45_fpSubTest_q & fracBz_uid57_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- padConst_uid65_fpSubTest(CONSTANT,64)\n" +
+                        "    padConst_uid65_fpSubTest_q <= \"0000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rightPaddedIn_uid66_fpSubTest(BITJOIN,65)@1\n" +
+                        "    rightPaddedIn_uid66_fpSubTest_q <= oFracB_uid60_fpSubTest_q & padConst_uid65_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest(MUX,195)@1\n" +
+                        "    rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_s <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_b;\n" +
+                        "    rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_combproc: PROCESS (rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_s, rightPaddedIn_uid66_fpSubTest_q, rightShiftStage0Idx1_uid188_alignmentShifter_uid65_fpSubTest_q, rightShiftStage0Idx2_uid191_alignmentShifter_uid65_fpSubTest_q, rightShiftStage0Idx3_uid194_alignmentShifter_uid65_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_s) IS\n" +
+                        "            WHEN \"00\" => rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q <= rightPaddedIn_uid66_fpSubTest_q;\n" +
+                        "            WHEN \"01\" => rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0Idx1_uid188_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN \"10\" => rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0Idx2_uid191_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN \"11\" => rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0Idx3_uid194_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest(MUX,206)@1\n" +
+                        "    rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_s <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_c;\n" +
+                        "    rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_combproc: PROCESS (rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_s, rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q, rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest_q, rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest_q, rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_s) IS\n" +
+                        "            WHEN \"00\" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN \"01\" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN \"10\" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN \"11\" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select(BITSELECT,251)@1\n" +
+                        "    rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_in <= expAmExpB_uid61_fpSubTest_q(5 downto 0);\n" +
+                        "    rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_b <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_in(5 downto 4);\n" +
+                        "    rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_c <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_in(3 downto 2);\n" +
+                        "    rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_in(1 downto 0);\n" +
+                        "\n" +
+                        "    -- rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest(MUX,217)@1\n" +
+                        "    rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_s <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d;\n" +
+                        "    rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_combproc: PROCESS (rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_s, rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q, rightShiftStage2Idx1_uid210_alignmentShifter_uid65_fpSubTest_q, rightShiftStage2Idx2_uid213_alignmentShifter_uid65_fpSubTest_q, rightShiftStage2Idx3_uid216_alignmentShifter_uid65_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_s) IS\n" +
+                        "            WHEN \"00\" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN \"01\" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx1_uid210_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN \"10\" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx2_uid213_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN \"11\" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx3_uid216_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- wIntCst_uid184_alignmentShifter_uid65_fpSubTest(CONSTANT,183)\n" +
+                        "    wIntCst_uid184_alignmentShifter_uid65_fpSubTest_q <= \"110001\";\n" +
+                        "\n" +
+                        "    -- shiftedOut_uid185_alignmentShifter_uid65_fpSubTest(COMPARE,184)@1\n" +
+                        "    shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_a <= STD_LOGIC_VECTOR(\"00\" & expAmExpB_uid61_fpSubTest_q);\n" +
+                        "    shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_b <= STD_LOGIC_VECTOR(\"00000\" & wIntCst_uid184_alignmentShifter_uid65_fpSubTest_q);\n" +
+                        "    shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_a) - UNSIGNED(shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_b));\n" +
+                        "    shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_n(0) <= not (shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_o(10));\n" +
+                        "\n" +
+                        "    -- r_uid220_alignmentShifter_uid65_fpSubTest(MUX,219)@1\n" +
+                        "    r_uid220_alignmentShifter_uid65_fpSubTest_s <= shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_n;\n" +
+                        "    r_uid220_alignmentShifter_uid65_fpSubTest_combproc: PROCESS (r_uid220_alignmentShifter_uid65_fpSubTest_s, rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q, zeroOutCst_uid219_alignmentShifter_uid65_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (r_uid220_alignmentShifter_uid65_fpSubTest_s) IS\n" +
+                        "            WHEN \"0\" => r_uid220_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN \"1\" => r_uid220_alignmentShifter_uid65_fpSubTest_q <= zeroOutCst_uid219_alignmentShifter_uid65_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => r_uid220_alignmentShifter_uid65_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- alignFracBPostShiftOut_uid69_fpSubTest(LOGICAL,68)@1\n" +
+                        "    alignFracBPostShiftOut_uid69_fpSubTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((48 downto 1 => iShiftedOut_uid68_fpSubTest_q(0)) & iShiftedOut_uid68_fpSubTest_q));\n" +
+                        "    alignFracBPostShiftOut_uid69_fpSubTest_q <= r_uid220_alignmentShifter_uid65_fpSubTest_q and alignFracBPostShiftOut_uid69_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- stickyBits_uid70_fpSubTest_merged_bit_select(BITSELECT,252)@1\n" +
+                        "    stickyBits_uid70_fpSubTest_merged_bit_select_b <= alignFracBPostShiftOut_uid69_fpSubTest_q(22 downto 0);\n" +
+                        "    stickyBits_uid70_fpSubTest_merged_bit_select_c <= alignFracBPostShiftOut_uid69_fpSubTest_q(48 downto 23);\n" +
+                        "\n" +
+                        "    -- redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1(DELAY,257)\n" +
+                        "    redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 26, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => stickyBits_uid70_fpSubTest_merged_bit_select_c, xout => redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracBAddOp_uid81_fpSubTest(BITJOIN,80)@2\n" +
+                        "    fracBAddOp_uid81_fpSubTest_q <= GND_q & redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1_q;\n" +
+                        "\n" +
+                        "    -- fracBAddOpPostXor_uid82_fpSubTest(LOGICAL,81)@2\n" +
+                        "    fracBAddOpPostXor_uid82_fpSubTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((26 downto 1 => effSub_uid53_fpSubTest_q(0)) & effSub_uid53_fpSubTest_q));\n" +
+                        "    fracBAddOpPostXor_uid82_fpSubTest_q <= fracBAddOp_uid81_fpSubTest_q xor fracBAddOpPostXor_uid82_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- zocst_uid77_fpSubTest(CONSTANT,76)\n" +
+                        "    zocst_uid77_fpSubTest_q <= \"01\";\n" +
+                        "\n" +
+                        "    -- frac_aSig_uid23_fpSubTest(BITSELECT,22)@0\n" +
+                        "    frac_aSig_uid23_fpSubTest_in <= aSig_uid17_fpSubTest_q(22 downto 0);\n" +
+                        "    frac_aSig_uid23_fpSubTest_b <= frac_aSig_uid23_fpSubTest_in(22 downto 0);\n" +
+                        "\n" +
+                        "    -- redist21_frac_aSig_uid23_fpSubTest_b_2(DELAY,278)\n" +
+                        "    redist21_frac_aSig_uid23_fpSubTest_b_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 23, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => frac_aSig_uid23_fpSubTest_b, xout => redist21_frac_aSig_uid23_fpSubTest_b_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- cmpEQ_stickyBits_cZwF_uid72_fpSubTest(LOGICAL,71)@1 + 1\n" +
+                        "    cmpEQ_stickyBits_cZwF_uid72_fpSubTest_qi <= \"1\" WHEN stickyBits_uid70_fpSubTest_merged_bit_select_b = cstZeroWF_uid20_fpSubTest_q ELSE \"0\";\n" +
+                        "    cmpEQ_stickyBits_cZwF_uid72_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => cmpEQ_stickyBits_cZwF_uid72_fpSubTest_qi, xout => cmpEQ_stickyBits_cZwF_uid72_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- effSubInvSticky_uid75_fpSubTest(LOGICAL,74)@2\n" +
+                        "    effSubInvSticky_uid75_fpSubTest_q <= effSub_uid53_fpSubTest_q and cmpEQ_stickyBits_cZwF_uid72_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- fracAAddOp_uid78_fpSubTest(BITJOIN,77)@2\n" +
+                        "    fracAAddOp_uid78_fpSubTest_q <= zocst_uid77_fpSubTest_q & redist21_frac_aSig_uid23_fpSubTest_b_2_q & GND_q & effSubInvSticky_uid75_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- fracAddResult_uid83_fpSubTest(ADD,82)@2\n" +
+                        "    fracAddResult_uid83_fpSubTest_a <= STD_LOGIC_VECTOR(\"0\" & fracAAddOp_uid78_fpSubTest_q);\n" +
+                        "    fracAddResult_uid83_fpSubTest_b <= STD_LOGIC_VECTOR(\"0\" & fracBAddOpPostXor_uid82_fpSubTest_q);\n" +
+                        "    fracAddResult_uid83_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(fracAddResult_uid83_fpSubTest_a) + UNSIGNED(fracAddResult_uid83_fpSubTest_b));\n" +
+                        "    fracAddResult_uid83_fpSubTest_q <= fracAddResult_uid83_fpSubTest_o(27 downto 0);\n" +
+                        "\n" +
+                        "    -- rangeFracAddResultMwfp3Dto0_uid84_fpSubTest(BITSELECT,83)@2\n" +
+                        "    rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_in <= fracAddResult_uid83_fpSubTest_q(26 downto 0);\n" +
+                        "    rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b <= rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_in(26 downto 0);\n" +
+                        "\n" +
+                        "    -- invCmpEQ_stickyBits_cZwF_uid73_fpSubTest(LOGICAL,72)@2\n" +
+                        "    invCmpEQ_stickyBits_cZwF_uid73_fpSubTest_q <= not (cmpEQ_stickyBits_cZwF_uid72_fpSubTest_q);\n" +
+                        "\n" +
+                        "    -- fracGRS_uid85_fpSubTest(BITJOIN,84)@2\n" +
+                        "    fracGRS_uid85_fpSubTest_q <= rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b & invCmpEQ_stickyBits_cZwF_uid73_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- rVStage_uid152_lzCountVal_uid86_fpSubTest(BITSELECT,151)@2\n" +
+                        "    rVStage_uid152_lzCountVal_uid86_fpSubTest_b <= fracGRS_uid85_fpSubTest_q(27 downto 12);\n" +
+                        "\n" +
+                        "    -- vCount_uid153_lzCountVal_uid86_fpSubTest(LOGICAL,152)@2\n" +
+                        "    vCount_uid153_lzCountVal_uid86_fpSubTest_q <= \"1\" WHEN rVStage_uid152_lzCountVal_uid86_fpSubTest_b = zs_uid151_lzCountVal_uid86_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- redist3_vCount_uid153_lzCountVal_uid86_fpSubTest_q_1(DELAY,260)\n" +
+                        "    redist3_vCount_uid153_lzCountVal_uid86_fpSubTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vCount_uid153_lzCountVal_uid86_fpSubTest_q, xout => redist3_vCount_uid153_lzCountVal_uid86_fpSubTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- vStage_uid155_lzCountVal_uid86_fpSubTest(BITSELECT,154)@2\n" +
+                        "    vStage_uid155_lzCountVal_uid86_fpSubTest_in <= fracGRS_uid85_fpSubTest_q(11 downto 0);\n" +
+                        "    vStage_uid155_lzCountVal_uid86_fpSubTest_b <= vStage_uid155_lzCountVal_uid86_fpSubTest_in(11 downto 0);\n" +
+                        "\n" +
+                        "    -- mO_uid154_lzCountVal_uid86_fpSubTest(CONSTANT,153)\n" +
+                        "    mO_uid154_lzCountVal_uid86_fpSubTest_q <= \"1111\";\n" +
+                        "\n" +
+                        "    -- cStage_uid156_lzCountVal_uid86_fpSubTest(BITJOIN,155)@2\n" +
+                        "    cStage_uid156_lzCountVal_uid86_fpSubTest_q <= vStage_uid155_lzCountVal_uid86_fpSubTest_b & mO_uid154_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- vStagei_uid158_lzCountVal_uid86_fpSubTest(MUX,157)@2 + 1\n" +
+                        "    vStagei_uid158_lzCountVal_uid86_fpSubTest_s <= vCount_uid153_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "    vStagei_uid158_lzCountVal_uid86_fpSubTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            vStagei_uid158_lzCountVal_uid86_fpSubTest_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (vStagei_uid158_lzCountVal_uid86_fpSubTest_s) IS\n" +
+                        "                WHEN \"0\" => vStagei_uid158_lzCountVal_uid86_fpSubTest_q <= rVStage_uid152_lzCountVal_uid86_fpSubTest_b;\n" +
+                        "                WHEN \"1\" => vStagei_uid158_lzCountVal_uid86_fpSubTest_q <= cStage_uid156_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "                WHEN OTHERS => vStagei_uid158_lzCountVal_uid86_fpSubTest_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select(BITSELECT,253)@3\n" +
+                        "    rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b <= vStagei_uid158_lzCountVal_uid86_fpSubTest_q(15 downto 8);\n" +
+                        "    rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c <= vStagei_uid158_lzCountVal_uid86_fpSubTest_q(7 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid161_lzCountVal_uid86_fpSubTest(LOGICAL,160)@3\n" +
+                        "    vCount_uid161_lzCountVal_uid86_fpSubTest_q <= \"1\" WHEN rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b = cstAllZWE_uid21_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- vStagei_uid164_lzCountVal_uid86_fpSubTest(MUX,163)@3\n" +
+                        "    vStagei_uid164_lzCountVal_uid86_fpSubTest_s <= vCount_uid161_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "    vStagei_uid164_lzCountVal_uid86_fpSubTest_combproc: PROCESS (vStagei_uid164_lzCountVal_uid86_fpSubTest_s, rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b, rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid164_lzCountVal_uid86_fpSubTest_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b;\n" +
+                        "            WHEN \"1\" => vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c;\n" +
+                        "            WHEN OTHERS => vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select(BITSELECT,254)@3\n" +
+                        "    rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_b <= vStagei_uid164_lzCountVal_uid86_fpSubTest_q(7 downto 4);\n" +
+                        "    rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_c <= vStagei_uid164_lzCountVal_uid86_fpSubTest_q(3 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid167_lzCountVal_uid86_fpSubTest(LOGICAL,166)@3\n" +
+                        "    vCount_uid167_lzCountVal_uid86_fpSubTest_q <= \"1\" WHEN rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_b = zs_uid165_lzCountVal_uid86_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- vStagei_uid170_lzCountVal_uid86_fpSubTest(MUX,169)@3\n" +
+                        "    vStagei_uid170_lzCountVal_uid86_fpSubTest_s <= vCount_uid167_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "    vStagei_uid170_lzCountVal_uid86_fpSubTest_combproc: PROCESS (vStagei_uid170_lzCountVal_uid86_fpSubTest_s, rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_b, rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_c)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid170_lzCountVal_uid86_fpSubTest_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid170_lzCountVal_uid86_fpSubTest_q <= rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_b;\n" +
+                        "            WHEN \"1\" => vStagei_uid170_lzCountVal_uid86_fpSubTest_q <= rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_c;\n" +
+                        "            WHEN OTHERS => vStagei_uid170_lzCountVal_uid86_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select(BITSELECT,255)@3\n" +
+                        "    rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_b <= vStagei_uid170_lzCountVal_uid86_fpSubTest_q(3 downto 2);\n" +
+                        "    rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_c <= vStagei_uid170_lzCountVal_uid86_fpSubTest_q(1 downto 0);\n" +
+                        "\n" +
+                        "    -- vCount_uid173_lzCountVal_uid86_fpSubTest(LOGICAL,172)@3\n" +
+                        "    vCount_uid173_lzCountVal_uid86_fpSubTest_q <= \"1\" WHEN rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_b = zs_uid171_lzCountVal_uid86_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- vStagei_uid176_lzCountVal_uid86_fpSubTest(MUX,175)@3\n" +
+                        "    vStagei_uid176_lzCountVal_uid86_fpSubTest_s <= vCount_uid173_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "    vStagei_uid176_lzCountVal_uid86_fpSubTest_combproc: PROCESS (vStagei_uid176_lzCountVal_uid86_fpSubTest_s, rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_b, rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_c)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (vStagei_uid176_lzCountVal_uid86_fpSubTest_s) IS\n" +
+                        "            WHEN \"0\" => vStagei_uid176_lzCountVal_uid86_fpSubTest_q <= rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_b;\n" +
+                        "            WHEN \"1\" => vStagei_uid176_lzCountVal_uid86_fpSubTest_q <= rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_c;\n" +
+                        "            WHEN OTHERS => vStagei_uid176_lzCountVal_uid86_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- rVStage_uid178_lzCountVal_uid86_fpSubTest(BITSELECT,177)@3\n" +
+                        "    rVStage_uid178_lzCountVal_uid86_fpSubTest_b <= vStagei_uid176_lzCountVal_uid86_fpSubTest_q(1 downto 1);\n" +
+                        "\n" +
+                        "    -- vCount_uid179_lzCountVal_uid86_fpSubTest(LOGICAL,178)@3\n" +
+                        "    vCount_uid179_lzCountVal_uid86_fpSubTest_q <= \"1\" WHEN rVStage_uid178_lzCountVal_uid86_fpSubTest_b = GND_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- r_uid180_lzCountVal_uid86_fpSubTest(BITJOIN,179)@3\n" +
+                        "    r_uid180_lzCountVal_uid86_fpSubTest_q <= redist3_vCount_uid153_lzCountVal_uid86_fpSubTest_q_1_q & vCount_uid161_lzCountVal_uid86_fpSubTest_q & vCount_uid167_lzCountVal_uid86_fpSubTest_q & vCount_uid173_lzCountVal_uid86_fpSubTest_q & vCount_uid179_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1(DELAY,258)\n" +
+                        "    redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 5, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => r_uid180_lzCountVal_uid86_fpSubTest_q, xout => redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- aMinusA_uid88_fpSubTest(LOGICAL,87)@4\n" +
+                        "    aMinusA_uid88_fpSubTest_q <= \"1\" WHEN redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q = cAmA_uid87_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- invAMinusA_uid130_fpSubTest(LOGICAL,129)@4\n" +
+                        "    invAMinusA_uid130_fpSubTest_q <= not (aMinusA_uid88_fpSubTest_q);\n" +
+                        "\n" +
+                        "    -- redist10_sigA_uid51_fpSubTest_b_4(DELAY,267)\n" +
+                        "    redist10_sigA_uid51_fpSubTest_b_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist9_sigA_uid51_fpSubTest_b_1_q, xout => redist10_sigA_uid51_fpSubTest_b_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid19_fpSubTest(CONSTANT,18)\n" +
+                        "    cstAllOWE_uid19_fpSubTest_q <= \"11111111\";\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid39_fpSubTest(LOGICAL,38)@0 + 1\n" +
+                        "    expXIsMax_uid39_fpSubTest_qi <= \"1\" WHEN exp_bSig_uid36_fpSubTest_b = cstAllOWE_uid19_fpSubTest_q ELSE \"0\";\n" +
+                        "    expXIsMax_uid39_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid39_fpSubTest_qi, xout => expXIsMax_uid39_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist14_expXIsMax_uid39_fpSubTest_q_4(DELAY,271)\n" +
+                        "    redist14_expXIsMax_uid39_fpSubTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid39_fpSubTest_q, xout => redist14_expXIsMax_uid39_fpSubTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid44_fpSubTest(LOGICAL,43)@4\n" +
+                        "    invExpXIsMax_uid44_fpSubTest_q <= not (redist14_expXIsMax_uid39_fpSubTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- redist11_InvExpXIsZero_uid45_fpSubTest_q_3(DELAY,268)\n" +
+                        "    redist11_InvExpXIsZero_uid45_fpSubTest_q_3 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => InvExpXIsZero_uid45_fpSubTest_q, xout => redist11_InvExpXIsZero_uid45_fpSubTest_q_3_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excR_bSig_uid46_fpSubTest(LOGICAL,45)@4\n" +
+                        "    excR_bSig_uid46_fpSubTest_q <= redist11_InvExpXIsZero_uid45_fpSubTest_q_3_q and invExpXIsMax_uid44_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- redist22_exp_aSig_uid22_fpSubTest_b_3(DELAY,279)\n" +
+                        "    redist22_exp_aSig_uid22_fpSubTest_b_3 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 8, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => exp_aSig_uid22_fpSubTest_b, xout => redist22_exp_aSig_uid22_fpSubTest_b_3_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid25_fpSubTest(LOGICAL,24)@3 + 1\n" +
+                        "    expXIsMax_uid25_fpSubTest_qi <= \"1\" WHEN redist22_exp_aSig_uid22_fpSubTest_b_3_q = cstAllOWE_uid19_fpSubTest_q ELSE \"0\";\n" +
+                        "    expXIsMax_uid25_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid25_fpSubTest_qi, xout => expXIsMax_uid25_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid30_fpSubTest(LOGICAL,29)@4\n" +
+                        "    invExpXIsMax_uid30_fpSubTest_q <= not (expXIsMax_uid25_fpSubTest_q);\n" +
+                        "\n" +
+                        "    -- excZ_aSig_uid17_uid24_fpSubTest(LOGICAL,23)@3 + 1\n" +
+                        "    excZ_aSig_uid17_uid24_fpSubTest_qi <= \"1\" WHEN redist22_exp_aSig_uid22_fpSubTest_b_3_q = cstAllZWE_uid21_fpSubTest_q ELSE \"0\";\n" +
+                        "    excZ_aSig_uid17_uid24_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_aSig_uid17_uid24_fpSubTest_qi, xout => excZ_aSig_uid17_uid24_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid31_fpSubTest(LOGICAL,30)@4\n" +
+                        "    InvExpXIsZero_uid31_fpSubTest_q <= not (excZ_aSig_uid17_uid24_fpSubTest_q);\n" +
+                        "\n" +
+                        "    -- excR_aSig_uid32_fpSubTest(LOGICAL,31)@4\n" +
+                        "    excR_aSig_uid32_fpSubTest_q <= InvExpXIsZero_uid31_fpSubTest_q and invExpXIsMax_uid30_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- signRReg_uid131_fpSubTest(LOGICAL,130)@4\n" +
+                        "    signRReg_uid131_fpSubTest_q <= excR_aSig_uid32_fpSubTest_q and excR_bSig_uid46_fpSubTest_q and redist10_sigA_uid51_fpSubTest_b_4_q and invAMinusA_uid130_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- redist8_sigB_uid52_fpSubTest_b_4(DELAY,265)\n" +
+                        "    redist8_sigB_uid52_fpSubTest_b_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist7_sigB_uid52_fpSubTest_b_1_q, xout => redist8_sigB_uid52_fpSubTest_b_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist16_excZ_bSig_uid18_uid38_fpSubTest_q_4(DELAY,273)\n" +
+                        "    redist16_excZ_bSig_uid18_uid38_fpSubTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist15_excZ_bSig_uid18_uid38_fpSubTest_q_1_q, xout => redist16_excZ_bSig_uid18_uid38_fpSubTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excAZBZSigASigB_uid135_fpSubTest(LOGICAL,134)@4\n" +
+                        "    excAZBZSigASigB_uid135_fpSubTest_q <= excZ_aSig_uid17_uid24_fpSubTest_q and redist16_excZ_bSig_uid18_uid38_fpSubTest_q_4_q and redist10_sigA_uid51_fpSubTest_b_4_q and redist8_sigB_uid52_fpSubTest_b_4_q;\n" +
+                        "\n" +
+                        "    -- excBZARSigA_uid136_fpSubTest(LOGICAL,135)@4\n" +
+                        "    excBZARSigA_uid136_fpSubTest_q <= redist16_excZ_bSig_uid18_uid38_fpSubTest_q_4_q and excR_aSig_uid32_fpSubTest_q and redist10_sigA_uid51_fpSubTest_b_4_q;\n" +
+                        "\n" +
+                        "    -- signRZero_uid137_fpSubTest(LOGICAL,136)@4\n" +
+                        "    signRZero_uid137_fpSubTest_q <= excBZARSigA_uid136_fpSubTest_q or excAZBZSigASigB_uid135_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid40_fpSubTest(LOGICAL,39)@0 + 1\n" +
+                        "    fracXIsZero_uid40_fpSubTest_qi <= \"1\" WHEN cstZeroWF_uid20_fpSubTest_q = frac_bSig_uid37_fpSubTest_b ELSE \"0\";\n" +
+                        "    fracXIsZero_uid40_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid40_fpSubTest_qi, xout => fracXIsZero_uid40_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist13_fracXIsZero_uid40_fpSubTest_q_4(DELAY,270)\n" +
+                        "    redist13_fracXIsZero_uid40_fpSubTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid40_fpSubTest_q, xout => redist13_fracXIsZero_uid40_fpSubTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excI_bSig_uid42_fpSubTest(LOGICAL,41)@4\n" +
+                        "    excI_bSig_uid42_fpSubTest_q <= redist14_expXIsMax_uid39_fpSubTest_q_4_q and redist13_fracXIsZero_uid40_fpSubTest_q_4_q;\n" +
+                        "\n" +
+                        "    -- sigBBInf_uid132_fpSubTest(LOGICAL,131)@4\n" +
+                        "    sigBBInf_uid132_fpSubTest_q <= redist8_sigB_uid52_fpSubTest_b_4_q and excI_bSig_uid42_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid26_fpSubTest(LOGICAL,25)@2 + 1\n" +
+                        "    fracXIsZero_uid26_fpSubTest_qi <= \"1\" WHEN cstZeroWF_uid20_fpSubTest_q = redist21_frac_aSig_uid23_fpSubTest_b_2_q ELSE \"0\";\n" +
+                        "    fracXIsZero_uid26_fpSubTest_delay : dspba_delay\n";
+        String data2 =  "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid26_fpSubTest_qi, xout => fracXIsZero_uid26_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist19_fracXIsZero_uid26_fpSubTest_q_2(DELAY,276)\n" +
+                        "    redist19_fracXIsZero_uid26_fpSubTest_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid26_fpSubTest_q, xout => redist19_fracXIsZero_uid26_fpSubTest_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excI_aSig_uid28_fpSubTest(LOGICAL,27)@4\n" +
+                        "    excI_aSig_uid28_fpSubTest_q <= expXIsMax_uid25_fpSubTest_q and redist19_fracXIsZero_uid26_fpSubTest_q_2_q;\n" +
+                        "\n" +
+                        "    -- sigAAInf_uid133_fpSubTest(LOGICAL,132)@4\n" +
+                        "    sigAAInf_uid133_fpSubTest_q <= redist10_sigA_uid51_fpSubTest_b_4_q and excI_aSig_uid28_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- signRInf_uid134_fpSubTest(LOGICAL,133)@4\n" +
+                        "    signRInf_uid134_fpSubTest_q <= sigAAInf_uid133_fpSubTest_q or sigBBInf_uid132_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- signRInfRZRReg_uid138_fpSubTest(LOGICAL,137)@4 + 1\n" +
+                        "    signRInfRZRReg_uid138_fpSubTest_qi <= signRInf_uid134_fpSubTest_q or signRZero_uid137_fpSubTest_q or signRReg_uid131_fpSubTest_q;\n" +
+                        "    signRInfRZRReg_uid138_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => signRInfRZRReg_uid138_fpSubTest_qi, xout => signRInfRZRReg_uid138_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid41_fpSubTest(LOGICAL,40)@4\n" +
+                        "    fracXIsNotZero_uid41_fpSubTest_q <= not (redist13_fracXIsZero_uid40_fpSubTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- excN_bSig_uid43_fpSubTest(LOGICAL,42)@4 + 1\n" +
+                        "    excN_bSig_uid43_fpSubTest_qi <= redist14_expXIsMax_uid39_fpSubTest_q_4_q and fracXIsNotZero_uid41_fpSubTest_q;\n" +
+                        "    excN_bSig_uid43_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excN_bSig_uid43_fpSubTest_qi, xout => excN_bSig_uid43_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid27_fpSubTest(LOGICAL,26)@4\n" +
+                        "    fracXIsNotZero_uid27_fpSubTest_q <= not (redist19_fracXIsZero_uid26_fpSubTest_q_2_q);\n" +
+                        "\n" +
+                        "    -- excN_aSig_uid29_fpSubTest(LOGICAL,28)@4 + 1\n" +
+                        "    excN_aSig_uid29_fpSubTest_qi <= expXIsMax_uid25_fpSubTest_q and fracXIsNotZero_uid27_fpSubTest_q;\n" +
+                        "    excN_aSig_uid29_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excN_aSig_uid29_fpSubTest_qi, xout => excN_aSig_uid29_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excRNaN2_uid125_fpSubTest(LOGICAL,124)@5\n" +
+                        "    excRNaN2_uid125_fpSubTest_q <= excN_aSig_uid29_fpSubTest_q or excN_bSig_uid43_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- redist6_effSub_uid53_fpSubTest_q_4(DELAY,263)\n" +
+                        "    redist6_effSub_uid53_fpSubTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => effSub_uid53_fpSubTest_q, xout => redist6_effSub_uid53_fpSubTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist12_excI_bSig_uid42_fpSubTest_q_1(DELAY,269)\n" +
+                        "    redist12_excI_bSig_uid42_fpSubTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excI_bSig_uid42_fpSubTest_q, xout => redist12_excI_bSig_uid42_fpSubTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist18_excI_aSig_uid28_fpSubTest_q_1(DELAY,275)\n" +
+                        "    redist18_excI_aSig_uid28_fpSubTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excI_aSig_uid28_fpSubTest_q, xout => redist18_excI_aSig_uid28_fpSubTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excAIBISub_uid126_fpSubTest(LOGICAL,125)@5\n" +
+                        "    excAIBISub_uid126_fpSubTest_q <= redist18_excI_aSig_uid28_fpSubTest_q_1_q and redist12_excI_bSig_uid42_fpSubTest_q_1_q and redist6_effSub_uid53_fpSubTest_q_4_q;\n" +
+                        "\n" +
+                        "    -- excRNaN_uid127_fpSubTest(LOGICAL,126)@5\n" +
+                        "    excRNaN_uid127_fpSubTest_q <= excAIBISub_uid126_fpSubTest_q or excRNaN2_uid125_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- invExcRNaN_uid139_fpSubTest(LOGICAL,138)@5\n" +
+                        "    invExcRNaN_uid139_fpSubTest_q <= not (excRNaN_uid127_fpSubTest_q);\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- signRPostExc_uid140_fpSubTest(LOGICAL,139)@5\n" +
+                        "    signRPostExc_uid140_fpSubTest_q <= invExcRNaN_uid139_fpSubTest_q and signRInfRZRReg_uid138_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- cRBit_uid100_fpSubTest(CONSTANT,99)\n" +
+                        "    cRBit_uid100_fpSubTest_q <= \"01000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest(BITSELECT,246)@4\n" +
+                        "    leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_in <= leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q(26 downto 0);\n" +
+                        "    leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_in(26 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage2Idx1_uid248_fracPostNormExt_uid89_fpSubTest(BITJOIN,247)@4\n" +
+                        "    leftShiftStage2Idx1_uid248_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_b & GND_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest(BITSELECT,241)@4\n" +
+                        "    leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_in <= leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q(21 downto 0);\n" +
+                        "    leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_in(21 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx3Pad6_uid241_fracPostNormExt_uid89_fpSubTest(CONSTANT,240)\n" +
+                        "    leftShiftStage1Idx3Pad6_uid241_fracPostNormExt_uid89_fpSubTest_q <= \"000000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx3_uid243_fracPostNormExt_uid89_fpSubTest(BITJOIN,242)@4\n" +
+                        "    leftShiftStage1Idx3_uid243_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_b & leftShiftStage1Idx3Pad6_uid241_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest(BITSELECT,238)@4\n" +
+                        "    leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_in <= leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q(23 downto 0);\n" +
+                        "    leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_in(23 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx2_uid240_fracPostNormExt_uid89_fpSubTest(BITJOIN,239)@4\n" +
+                        "    leftShiftStage1Idx2_uid240_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_b & zs_uid165_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest(BITSELECT,235)@4\n" +
+                        "    leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_in <= leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q(25 downto 0);\n" +
+                        "    leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_in(25 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage1Idx1_uid237_fracPostNormExt_uid89_fpSubTest(BITJOIN,236)@4\n" +
+                        "    leftShiftStage1Idx1_uid237_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_b & zs_uid171_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest(BITSELECT,230)@4\n" +
+                        "    leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_in <= redist5_fracGRS_uid85_fpSubTest_q_2_q(3 downto 0);\n" +
+                        "    leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_in(3 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx3Pad24_uid230_fracPostNormExt_uid89_fpSubTest(CONSTANT,229)\n" +
+                        "    leftShiftStage0Idx3Pad24_uid230_fracPostNormExt_uid89_fpSubTest_q <= \"000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest(BITJOIN,231)@4\n" +
+                        "    leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_b & leftShiftStage0Idx3Pad24_uid230_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- redist2_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2(DELAY,259)\n" +
+                        "    redist2_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 12, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => vStage_uid155_lzCountVal_uid86_fpSubTest_b, xout => redist2_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest(BITJOIN,228)@4\n" +
+                        "    leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest_q <= redist2_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2_q & zs_uid151_lzCountVal_uid86_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest(BITSELECT,224)@4\n" +
+                        "    leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_in <= redist5_fracGRS_uid85_fpSubTest_q_2_q(19 downto 0);\n" +
+                        "    leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_in(19 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest(BITJOIN,225)@4\n" +
+                        "    leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_b & cstAllZWE_uid21_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- redist5_fracGRS_uid85_fpSubTest_q_2(DELAY,262)\n" +
+                        "    redist5_fracGRS_uid85_fpSubTest_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 28, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracGRS_uid85_fpSubTest_q, xout => redist5_fracGRS_uid85_fpSubTest_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest(MUX,233)@4\n" +
+                        "    leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_s <= leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_b;\n" +
+                        "    leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_combproc: PROCESS (leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_s, redist5_fracGRS_uid85_fpSubTest_q_2_q, leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_s) IS\n" +
+                        "            WHEN \"00\" => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= redist5_fracGRS_uid85_fpSubTest_q_2_q;\n" +
+                        "            WHEN \"01\" => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "            WHEN \"10\" => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "            WHEN \"11\" => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest(MUX,244)@4\n" +
+                        "    leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_s <= leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_c;\n" +
+                        "    leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_combproc: PROCESS (leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_s, leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage1Idx1_uid237_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage1Idx2_uid240_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage1Idx3_uid243_fracPostNormExt_uid89_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_s) IS\n" +
+                        "            WHEN \"00\" => leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "            WHEN \"01\" => leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1Idx1_uid237_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "            WHEN \"10\" => leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1Idx2_uid240_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "            WHEN \"11\" => leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1Idx3_uid243_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select(BITSELECT,256)@4\n" +
+                        "    leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_b <= redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q(4 downto 3);\n" +
+                        "    leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_c <= redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q(2 downto 1);\n" +
+                        "    leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_d <= redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q(0 downto 0);\n" +
+                        "\n" +
+                        "    -- leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest(MUX,249)@4\n" +
+                        "    leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_s <= leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_d;\n" +
+                        "    leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_combproc: PROCESS (leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_s, leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage2Idx1_uid248_fracPostNormExt_uid89_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_s) IS\n" +
+                        "            WHEN \"0\" => leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "            WHEN \"1\" => leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage2Idx1_uid248_fracPostNormExt_uid89_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- LSB_uid98_fpSubTest(BITSELECT,97)@4\n" +
+                        "    LSB_uid98_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(4 downto 0));\n";
+        String data3 =  "    LSB_uid98_fpSubTest_b <= STD_LOGIC_VECTOR(LSB_uid98_fpSubTest_in(4 downto 4));\n" +
+                        "\n" +
+                        "    -- Guard_uid97_fpSubTest(BITSELECT,96)@4\n" +
+                        "    Guard_uid97_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(3 downto 0));\n" +
+                        "    Guard_uid97_fpSubTest_b <= STD_LOGIC_VECTOR(Guard_uid97_fpSubTest_in(3 downto 3));\n" +
+                        "\n" +
+                        "    -- Round_uid96_fpSubTest(BITSELECT,95)@4\n" +
+                        "    Round_uid96_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(2 downto 0));\n" +
+                        "    Round_uid96_fpSubTest_b <= STD_LOGIC_VECTOR(Round_uid96_fpSubTest_in(2 downto 2));\n" +
+                        "\n" +
+                        "    -- Sticky1_uid95_fpSubTest(BITSELECT,94)@4\n" +
+                        "    Sticky1_uid95_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(1 downto 0));\n" +
+                        "    Sticky1_uid95_fpSubTest_b <= STD_LOGIC_VECTOR(Sticky1_uid95_fpSubTest_in(1 downto 1));\n" +
+                        "\n" +
+                        "    -- Sticky0_uid94_fpSubTest(BITSELECT,93)@4\n" +
+                        "    Sticky0_uid94_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(0 downto 0));\n" +
+                        "    Sticky0_uid94_fpSubTest_b <= STD_LOGIC_VECTOR(Sticky0_uid94_fpSubTest_in(0 downto 0));\n" +
+                        "\n" +
+                        "    -- rndBitCond_uid99_fpSubTest(BITJOIN,98)@4\n" +
+                        "    rndBitCond_uid99_fpSubTest_q <= LSB_uid98_fpSubTest_b & Guard_uid97_fpSubTest_b & Round_uid96_fpSubTest_b & Sticky1_uid95_fpSubTest_b & Sticky0_uid94_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- rBi_uid101_fpSubTest(LOGICAL,100)@4\n" +
+                        "    rBi_uid101_fpSubTest_q <= \"1\" WHEN rndBitCond_uid99_fpSubTest_q = cRBit_uid100_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- roundBit_uid102_fpSubTest(LOGICAL,101)@4\n" +
+                        "    roundBit_uid102_fpSubTest_q <= not (rBi_uid101_fpSubTest_q);\n" +
+                        "\n" +
+                        "    -- oneCST_uid91_fpSubTest(CONSTANT,90)\n" +
+                        "    oneCST_uid91_fpSubTest_q <= \"00000001\";\n" +
+                        "\n" +
+                        "    -- expInc_uid92_fpSubTest(ADD,91)@3 + 1\n" +
+                        "    expInc_uid92_fpSubTest_a <= STD_LOGIC_VECTOR(\"0\" & redist22_exp_aSig_uid22_fpSubTest_b_3_q);\n" +
+                        "    expInc_uid92_fpSubTest_b <= STD_LOGIC_VECTOR(\"0\" & oneCST_uid91_fpSubTest_q);\n" +
+                        "    expInc_uid92_fpSubTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expInc_uid92_fpSubTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expInc_uid92_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expInc_uid92_fpSubTest_a) + UNSIGNED(expInc_uid92_fpSubTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expInc_uid92_fpSubTest_q <= expInc_uid92_fpSubTest_o(8 downto 0);\n" +
+                        "\n" +
+                        "    -- expPostNorm_uid93_fpSubTest(SUB,92)@4\n" +
+                        "    expPostNorm_uid93_fpSubTest_a <= STD_LOGIC_VECTOR(\"0\" & expInc_uid92_fpSubTest_q);\n" +
+                        "    expPostNorm_uid93_fpSubTest_b <= STD_LOGIC_VECTOR(\"00000\" & redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q);\n" +
+                        "    expPostNorm_uid93_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expPostNorm_uid93_fpSubTest_a) - UNSIGNED(expPostNorm_uid93_fpSubTest_b));\n" +
+                        "    expPostNorm_uid93_fpSubTest_q <= expPostNorm_uid93_fpSubTest_o(9 downto 0);\n" +
+                        "\n" +
+                        "    -- fracPostNorm_uid90_fpSubTest(BITSELECT,89)@4\n" +
+                        "    fracPostNorm_uid90_fpSubTest_b <= leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(27 downto 1);\n" +
+                        "\n" +
+                        "    -- fracPostNormRndRange_uid103_fpSubTest(BITSELECT,102)@4\n" +
+                        "    fracPostNormRndRange_uid103_fpSubTest_in <= fracPostNorm_uid90_fpSubTest_b(25 downto 0);\n" +
+                        "    fracPostNormRndRange_uid103_fpSubTest_b <= fracPostNormRndRange_uid103_fpSubTest_in(25 downto 2);\n" +
+                        "\n" +
+                        "    -- expFracR_uid104_fpSubTest(BITJOIN,103)@4\n" +
+                        "    expFracR_uid104_fpSubTest_q <= expPostNorm_uid93_fpSubTest_q & fracPostNormRndRange_uid103_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- rndExpFrac_uid105_fpSubTest(ADD,104)@4 + 1\n" +
+                        "    rndExpFrac_uid105_fpSubTest_a <= STD_LOGIC_VECTOR(\"0\" & expFracR_uid104_fpSubTest_q);\n" +
+                        "    rndExpFrac_uid105_fpSubTest_b <= STD_LOGIC_VECTOR(\"0000000000000000000000000000000000\" & roundBit_uid102_fpSubTest_q);\n" +
+                        "    rndExpFrac_uid105_fpSubTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            rndExpFrac_uid105_fpSubTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            rndExpFrac_uid105_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(rndExpFrac_uid105_fpSubTest_a) + UNSIGNED(rndExpFrac_uid105_fpSubTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    rndExpFrac_uid105_fpSubTest_q <= rndExpFrac_uid105_fpSubTest_o(34 downto 0);\n" +
+                        "\n" +
+                        "    -- expRPreExc_uid118_fpSubTest(BITSELECT,117)@5\n" +
+                        "    expRPreExc_uid118_fpSubTest_in <= rndExpFrac_uid105_fpSubTest_q(31 downto 0);\n" +
+                        "    expRPreExc_uid118_fpSubTest_b <= expRPreExc_uid118_fpSubTest_in(31 downto 24);\n" +
+                        "\n" +
+                        "    -- rndExpFracOvfBits_uid110_fpSubTest(BITSELECT,109)@5\n" +
+                        "    rndExpFracOvfBits_uid110_fpSubTest_in <= rndExpFrac_uid105_fpSubTest_q(33 downto 0);\n" +
+                        "    rndExpFracOvfBits_uid110_fpSubTest_b <= rndExpFracOvfBits_uid110_fpSubTest_in(33 downto 32);\n" +
+                        "\n" +
+                        "    -- rOvfExtraBits_uid111_fpSubTest(LOGICAL,110)@5\n" +
+                        "    rOvfExtraBits_uid111_fpSubTest_q <= \"1\" WHEN rndExpFracOvfBits_uid110_fpSubTest_b = zocst_uid77_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- wEP2AllOwE_uid106_fpSubTest(CONSTANT,105)\n" +
+                        "    wEP2AllOwE_uid106_fpSubTest_q <= \"0011111111\";\n" +
+                        "\n" +
+                        "    -- rndExp_uid107_fpSubTest(BITSELECT,106)@5\n" +
+                        "    rndExp_uid107_fpSubTest_in <= rndExpFrac_uid105_fpSubTest_q(33 downto 0);\n" +
+                        "    rndExp_uid107_fpSubTest_b <= rndExp_uid107_fpSubTest_in(33 downto 24);\n" +
+                        "\n" +
+                        "    -- rOvfEQMax_uid108_fpSubTest(LOGICAL,107)@5\n" +
+                        "    rOvfEQMax_uid108_fpSubTest_q <= \"1\" WHEN rndExp_uid107_fpSubTest_b = wEP2AllOwE_uid106_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- rOvf_uid112_fpSubTest(LOGICAL,111)@5\n" +
+                        "    rOvf_uid112_fpSubTest_q <= rOvfEQMax_uid108_fpSubTest_q or rOvfExtraBits_uid111_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- regInputs_uid119_fpSubTest(LOGICAL,118)@4 + 1\n" +
+                        "    regInputs_uid119_fpSubTest_qi <= excR_aSig_uid32_fpSubTest_q and excR_bSig_uid46_fpSubTest_q;\n" +
+                        "    regInputs_uid119_fpSubTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => regInputs_uid119_fpSubTest_qi, xout => regInputs_uid119_fpSubTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rInfOvf_uid122_fpSubTest(LOGICAL,121)@5\n" +
+                        "    rInfOvf_uid122_fpSubTest_q <= regInputs_uid119_fpSubTest_q and rOvf_uid112_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- excRInfVInC_uid123_fpSubTest(BITJOIN,122)@5\n" +
+                        "    excRInfVInC_uid123_fpSubTest_q <= rInfOvf_uid122_fpSubTest_q & excN_bSig_uid43_fpSubTest_q & excN_aSig_uid29_fpSubTest_q & redist12_excI_bSig_uid42_fpSubTest_q_1_q & redist18_excI_aSig_uid28_fpSubTest_q_1_q & redist6_effSub_uid53_fpSubTest_q_4_q;\n" +
+                        "\n" +
+                        "    -- excRInf_uid124_fpSubTest(LOOKUP,123)@5\n" +
+                        "    excRInf_uid124_fpSubTest_combproc: PROCESS (excRInfVInC_uid123_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (excRInfVInC_uid123_fpSubTest_q) IS\n" +
+                        "            WHEN \"000000\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"000001\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"000010\" => excRInf_uid124_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"000011\" => excRInf_uid124_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"000100\" => excRInf_uid124_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"000101\" => excRInf_uid124_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"000110\" => excRInf_uid124_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"000111\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"001000\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"001001\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"001010\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"001011\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"001100\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"001101\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"001110\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"001111\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"010000\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"010001\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"010010\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"010011\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"010100\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"010101\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"010110\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"010111\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"011000\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"011001\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"011010\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"011011\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"011100\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"011101\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"011110\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"011111\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"100000\" => excRInf_uid124_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"100001\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"100010\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"100011\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"100100\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"100101\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"100110\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"100111\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"101000\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"101001\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"101010\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"101011\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"101100\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"101101\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"101110\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"101111\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"110000\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"110001\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"110010\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"110011\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"110100\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"110101\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"110110\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"110111\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"111000\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"111001\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"111010\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"111011\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"111100\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"111101\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"111110\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"111111\" => excRInf_uid124_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excRInf_uid124_fpSubTest_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- redist4_aMinusA_uid88_fpSubTest_q_1(DELAY,261)\n" +
+                        "    redist4_aMinusA_uid88_fpSubTest_q_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => aMinusA_uid88_fpSubTest_q, xout => redist4_aMinusA_uid88_fpSubTest_q_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- rUdfExtraBit_uid115_fpSubTest(BITSELECT,114)@5\n" +
+                        "    rUdfExtraBit_uid115_fpSubTest_in <= STD_LOGIC_VECTOR(rndExpFrac_uid105_fpSubTest_q(33 downto 0));\n" +
+                        "    rUdfExtraBit_uid115_fpSubTest_b <= STD_LOGIC_VECTOR(rUdfExtraBit_uid115_fpSubTest_in(33 downto 33));\n" +
+                        "\n" +
+                        "    -- wEP2AllZ_uid113_fpSubTest(CONSTANT,112)\n" +
+                        "    wEP2AllZ_uid113_fpSubTest_q <= \"0000000000\";\n" +
+                        "\n" +
+                        "    -- rUdfEQMin_uid114_fpSubTest(LOGICAL,113)@5\n" +
+                        "    rUdfEQMin_uid114_fpSubTest_q <= \"1\" WHEN rndExp_uid107_fpSubTest_b = wEP2AllZ_uid113_fpSubTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- rUdf_uid116_fpSubTest(LOGICAL,115)@5\n" +
+                        "    rUdf_uid116_fpSubTest_q <= rUdfEQMin_uid114_fpSubTest_q or rUdfExtraBit_uid115_fpSubTest_b;\n" +
+                        "\n" +
+                        "    -- redist17_excZ_bSig_uid18_uid38_fpSubTest_q_5(DELAY,274)\n" +
+                        "    redist17_excZ_bSig_uid18_uid38_fpSubTest_q_5 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => redist16_excZ_bSig_uid18_uid38_fpSubTest_q_4_q, xout => redist17_excZ_bSig_uid18_uid38_fpSubTest_q_5_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist20_excZ_aSig_uid17_uid24_fpSubTest_q_2(DELAY,277)\n" +
+                        "    redist20_excZ_aSig_uid17_uid24_fpSubTest_q_2 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_aSig_uid17_uid24_fpSubTest_q, xout => redist20_excZ_aSig_uid17_uid24_fpSubTest_q_2_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excRZeroVInC_uid120_fpSubTest(BITJOIN,119)@5\n" +
+                        "    excRZeroVInC_uid120_fpSubTest_q <= redist4_aMinusA_uid88_fpSubTest_q_1_q & rUdf_uid116_fpSubTest_q & regInputs_uid119_fpSubTest_q & redist17_excZ_bSig_uid18_uid38_fpSubTest_q_5_q & redist20_excZ_aSig_uid17_uid24_fpSubTest_q_2_q;\n" +
+                        "\n" +
+                        "    -- excRZero_uid121_fpSubTest(LOOKUP,120)@5\n" +
+                        "    excRZero_uid121_fpSubTest_combproc: PROCESS (excRZeroVInC_uid120_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (excRZeroVInC_uid120_fpSubTest_q) IS\n" +
+                        "            WHEN \"00000\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"00001\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"00010\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"00011\" => excRZero_uid121_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"00100\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"00101\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"00110\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"00111\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"01000\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"01001\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"01010\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"01011\" => excRZero_uid121_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"01100\" => excRZero_uid121_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"01101\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"01110\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"01111\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"10000\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"10001\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"10010\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"10011\" => excRZero_uid121_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"10100\" => excRZero_uid121_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"10101\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"10110\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"10111\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"11000\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"11001\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"11010\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"11011\" => excRZero_uid121_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"11100\" => excRZero_uid121_fpSubTest_q <= \"1\";\n" +
+                        "            WHEN \"11101\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"11110\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN \"11111\" => excRZero_uid121_fpSubTest_q <= \"0\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excRZero_uid121_fpSubTest_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- concExc_uid128_fpSubTest(BITJOIN,127)@5\n" +
+                        "    concExc_uid128_fpSubTest_q <= excRNaN_uid127_fpSubTest_q & excRInf_uid124_fpSubTest_q & excRZero_uid121_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- excREnc_uid129_fpSubTest(LOOKUP,128)@5\n" +
+                        "    excREnc_uid129_fpSubTest_combproc: PROCESS (concExc_uid128_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (concExc_uid128_fpSubTest_q) IS\n" +
+                        "            WHEN \"000\" => excREnc_uid129_fpSubTest_q <= \"01\";\n" +
+                        "            WHEN \"001\" => excREnc_uid129_fpSubTest_q <= \"00\";\n" +
+                        "            WHEN \"010\" => excREnc_uid129_fpSubTest_q <= \"10\";\n" +
+                        "            WHEN \"011\" => excREnc_uid129_fpSubTest_q <= \"10\";\n" +
+                        "            WHEN \"100\" => excREnc_uid129_fpSubTest_q <= \"11\";\n" +
+                        "            WHEN \"101\" => excREnc_uid129_fpSubTest_q <= \"11\";\n" +
+                        "            WHEN \"110\" => excREnc_uid129_fpSubTest_q <= \"11\";\n" +
+                        "            WHEN \"111\" => excREnc_uid129_fpSubTest_q <= \"11\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excREnc_uid129_fpSubTest_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- expRPostExc_uid148_fpSubTest(MUX,147)@5\n" +
+                        "    expRPostExc_uid148_fpSubTest_s <= excREnc_uid129_fpSubTest_q;\n" +
+                        "    expRPostExc_uid148_fpSubTest_combproc: PROCESS (expRPostExc_uid148_fpSubTest_s, cstAllZWE_uid21_fpSubTest_q, expRPreExc_uid118_fpSubTest_b, cstAllOWE_uid19_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (expRPostExc_uid148_fpSubTest_s) IS\n" +
+                        "            WHEN \"00\" => expRPostExc_uid148_fpSubTest_q <= cstAllZWE_uid21_fpSubTest_q;\n" +
+                        "            WHEN \"01\" => expRPostExc_uid148_fpSubTest_q <= expRPreExc_uid118_fpSubTest_b;\n" +
+                        "            WHEN \"10\" => expRPostExc_uid148_fpSubTest_q <= cstAllOWE_uid19_fpSubTest_q;\n" +
+                        "            WHEN \"11\" => expRPostExc_uid148_fpSubTest_q <= cstAllOWE_uid19_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => expRPostExc_uid148_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oneFracRPostExc2_uid141_fpSubTest(CONSTANT,140)\n" +
+                        "    oneFracRPostExc2_uid141_fpSubTest_q <= \"00000000000000000000001\";\n" +
+                        "\n" +
+                        "    -- fracRPreExc_uid117_fpSubTest(BITSELECT,116)@5\n" +
+                        "    fracRPreExc_uid117_fpSubTest_in <= rndExpFrac_uid105_fpSubTest_q(23 downto 0);\n" +
+                        "    fracRPreExc_uid117_fpSubTest_b <= fracRPreExc_uid117_fpSubTest_in(23 downto 1);\n" +
+                        "\n" +
+                        "    -- fracRPostExc_uid144_fpSubTest(MUX,143)@5\n" +
+                        "    fracRPostExc_uid144_fpSubTest_s <= excREnc_uid129_fpSubTest_q;\n" +
+                        "    fracRPostExc_uid144_fpSubTest_combproc: PROCESS (fracRPostExc_uid144_fpSubTest_s, cstZeroWF_uid20_fpSubTest_q, fracRPreExc_uid117_fpSubTest_b, oneFracRPostExc2_uid141_fpSubTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (fracRPostExc_uid144_fpSubTest_s) IS\n" +
+                        "            WHEN \"00\" => fracRPostExc_uid144_fpSubTest_q <= cstZeroWF_uid20_fpSubTest_q;\n" +
+                        "            WHEN \"01\" => fracRPostExc_uid144_fpSubTest_q <= fracRPreExc_uid117_fpSubTest_b;\n" +
+                        "            WHEN \"10\" => fracRPostExc_uid144_fpSubTest_q <= cstZeroWF_uid20_fpSubTest_q;\n" +
+                        "            WHEN \"11\" => fracRPostExc_uid144_fpSubTest_q <= oneFracRPostExc2_uid141_fpSubTest_q;\n" +
+                        "            WHEN OTHERS => fracRPostExc_uid144_fpSubTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- R_uid149_fpSubTest(BITJOIN,148)@5\n" +
+                        "    R_uid149_fpSubTest_q <= signRPostExc_uid140_fpSubTest_q & expRPostExc_uid148_fpSubTest_q & fracRPostExc_uid144_fpSubTest_q;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@5\n" +
+                        "    q <= R_uid149_fpSubTest_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data1, data2, data3);
+    }
+    
     private void generate_FP_MUL_32_qip_file(String Project_Folder_File) {
         String data =   "set_global_assignment -entity \"FP_MUL_32\" -library \"FP_MUL_32\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
                         "set_global_assignment -entity \"FP_MUL_32\" -library \"FP_MUL_32\" -name IP_TOOL_VERSION \"18.0\"\n" +
@@ -22978,52 +30213,1648 @@ public class Write_Hardware_Files {
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
 
+    private void generate_FP_MUL_32_0002_vhd_file(String Project_Folder_File) {
+        String data =   "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_MUL_32_0002\n" +
+                        "-- VHDL created on Fri Jul 24 01:45:14 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_MUL_32_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        b : in std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        q : out std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_MUL_32_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_MUL_32_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expX_uid6_fpMulTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal expY_uid7_fpMulTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal signX_uid8_fpMulTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signY_uid9_fpMulTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cstAllOWE_uid10_fpMulTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal cstZeroWF_uid11_fpMulTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal cstAllZWE_uid12_fpMulTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal frac_x_uid14_fpMulTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal excZ_x_uid15_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excZ_x_uid15_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid16_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid16_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid17_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid17_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid18_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_x_uid19_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_x_uid20_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid21_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid22_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_x_uid23_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal frac_y_uid28_fpMulTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal excZ_y_uid29_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excZ_y_uid29_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid30_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid30_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid31_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid31_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid32_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_y_uid33_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_y_uid34_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid35_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid36_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_y_uid37_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal ofracX_uid40_fpMulTest_q : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal ofracY_uid43_fpMulTest_q : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal expSum_uid44_fpMulTest_a : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expSum_uid44_fpMulTest_b : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expSum_uid44_fpMulTest_o : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal expSum_uid44_fpMulTest_q : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal biasInc_uid45_fpMulTest_q : STD_LOGIC_VECTOR (9 downto 0);\n" +
+                        "    signal expSumMBias_uid46_fpMulTest_a : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expSumMBias_uid46_fpMulTest_b : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expSumMBias_uid46_fpMulTest_o : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expSumMBias_uid46_fpMulTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal signR_uid48_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signR_uid48_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal normalizeBit_uid49_fpMulTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracRPostNormHigh_uid51_fpMulTest_in : STD_LOGIC_VECTOR (46 downto 0);\n" +
+                        "    signal fracRPostNormHigh_uid51_fpMulTest_b : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal fracRPostNormLow_uid52_fpMulTest_in : STD_LOGIC_VECTOR (45 downto 0);\n" +
+                        "    signal fracRPostNormLow_uid52_fpMulTest_b : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal fracRPostNorm_uid53_fpMulTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracRPostNorm_uid53_fpMulTest_q : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal stickyRange_uid54_fpMulTest_in : STD_LOGIC_VECTOR (21 downto 0);\n" +
+                        "    signal stickyRange_uid54_fpMulTest_b : STD_LOGIC_VECTOR (21 downto 0);\n" +
+                        "    signal extraStickyBitOfProd_uid55_fpMulTest_in : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal extraStickyBitOfProd_uid55_fpMulTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal extraStickyBit_uid56_fpMulTest_s : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal extraStickyBit_uid56_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal stickyExtendedRange_uid57_fpMulTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal stickyRangeComparator_uid59_fpMulTest_qi : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal stickyRangeComparator_uid59_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal sticky_uid60_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracRPostNorm1dto0_uid61_fpMulTest_in : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracRPostNorm1dto0_uid61_fpMulTest_b : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal lrs_uid62_fpMulTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal roundBitDetectionConstant_uid63_fpMulTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal roundBitDetectionPattern_uid64_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal roundBit_uid65_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expFracPreRound_uid66_fpMulTest_q : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal roundBitAndNormalizationOp_uid68_fpMulTest_q : STD_LOGIC_VECTOR (25 downto 0);\n" +
+                        "    signal expFracRPostRounding_uid69_fpMulTest_a : STD_LOGIC_VECTOR (36 downto 0);\n" +
+                        "    signal expFracRPostRounding_uid69_fpMulTest_b : STD_LOGIC_VECTOR (36 downto 0);\n" +
+                        "    signal expFracRPostRounding_uid69_fpMulTest_o : STD_LOGIC_VECTOR (36 downto 0);\n" +
+                        "    signal expFracRPostRounding_uid69_fpMulTest_q : STD_LOGIC_VECTOR (35 downto 0);\n" +
+                        "    signal fracRPreExc_uid70_fpMulTest_in : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal fracRPreExc_uid70_fpMulTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal expRPreExcExt_uid71_fpMulTest_b : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal expRPreExc_uid72_fpMulTest_in : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal expRPreExc_uid72_fpMulTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal expUdf_uid73_fpMulTest_a : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal expUdf_uid73_fpMulTest_b : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal expUdf_uid73_fpMulTest_o : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal expUdf_uid73_fpMulTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expOvf_uid75_fpMulTest_a : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal expOvf_uid75_fpMulTest_b : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal expOvf_uid75_fpMulTest_o : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal expOvf_uid75_fpMulTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXZAndExcYZ_uid76_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXZAndExcYR_uid77_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excYZAndExcXR_uid78_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excZC3_uid79_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRZero_uid80_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXIAndExcYI_uid81_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXRAndExcYI_uid82_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excYRAndExcXI_uid83_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal ExcROvfAndInReg_uid84_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRInf_uid85_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excYZAndExcXI_uid86_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excXZAndExcYI_uid87_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal ZeroTimesInf_uid88_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRNaN_uid89_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal concExc_uid90_fpMulTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal excREnc_uid91_fpMulTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal oneFracRPostExc2_uid92_fpMulTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal fracRPostExc_uid95_fpMulTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracRPostExc_uid95_fpMulTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal expRPostExc_uid100_fpMulTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal expRPostExc_uid100_fpMulTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal invExcRNaN_uid101_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal signRPostExc_uid102_fpMulTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal R_uid103_fpMulTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_reset : std_logic;\n" +
+                        "    type prodXY_uid105_prod_uid47_fpMulTest_cma_a0type is array(NATURAL range <>) of UNSIGNED(23 downto 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_a0 : prodXY_uid105_prod_uid47_fpMulTest_cma_a0type(0 to 0);\n" +
+                        "    attribute preserve : boolean;\n" +
+                        "    attribute preserve of prodXY_uid105_prod_uid47_fpMulTest_cma_a0 : signal is true;\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_c0 : prodXY_uid105_prod_uid47_fpMulTest_cma_a0type(0 to 0);\n" +
+                        "    attribute preserve of prodXY_uid105_prod_uid47_fpMulTest_cma_c0 : signal is true;\n" +
+                        "    type prodXY_uid105_prod_uid47_fpMulTest_cma_ptype is array(NATURAL range <>) of UNSIGNED(47 downto 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_p : prodXY_uid105_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_u : prodXY_uid105_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_w : prodXY_uid105_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_x : prodXY_uid105_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_y : prodXY_uid105_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_s : prodXY_uid105_prod_uid47_fpMulTest_cma_ptype(0 to 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_qq : STD_LOGIC_VECTOR (47 downto 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_q : STD_LOGIC_VECTOR (47 downto 0);\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_ena0 : std_logic;\n" +
+                        "    signal prodXY_uid105_prod_uid47_fpMulTest_cma_ena1 : std_logic;\n" +
+                        "    signal redist0_expRPreExcExt_uid71_fpMulTest_b_1_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal redist1_fracRPreExc_uid70_fpMulTest_b_1_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal redist2_normalizeBit_uid49_fpMulTest_b_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist3_signR_uid48_fpMulTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist4_expSum_uid44_fpMulTest_q_3_q : STD_LOGIC_VECTOR (8 downto 0);\n" +
+                        "    signal redist5_fracXIsZero_uid31_fpMulTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist6_expXIsMax_uid30_fpMulTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist7_excZ_y_uid29_fpMulTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist8_fracXIsZero_uid17_fpMulTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist9_expXIsMax_uid16_fpMulTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist10_excZ_x_uid15_fpMulTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- frac_x_uid14_fpMulTest(BITSELECT,13)@0\n" +
+                        "    frac_x_uid14_fpMulTest_b <= a(22 downto 0);\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid11_fpMulTest(CONSTANT,10)\n" +
+                        "    cstZeroWF_uid11_fpMulTest_q <= \"00000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid17_fpMulTest(LOGICAL,16)@0 + 1\n" +
+                        "    fracXIsZero_uid17_fpMulTest_qi <= \"1\" WHEN cstZeroWF_uid11_fpMulTest_q = frac_x_uid14_fpMulTest_b ELSE \"0\";\n" +
+                        "    fracXIsZero_uid17_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid17_fpMulTest_qi, xout => fracXIsZero_uid17_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist8_fracXIsZero_uid17_fpMulTest_q_4(DELAY,116)\n" +
+                        "    redist8_fracXIsZero_uid17_fpMulTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid17_fpMulTest_q, xout => redist8_fracXIsZero_uid17_fpMulTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid10_fpMulTest(CONSTANT,9)\n" +
+                        "    cstAllOWE_uid10_fpMulTest_q <= \"11111111\";\n" +
+                        "\n" +
+                        "    -- expX_uid6_fpMulTest(BITSELECT,5)@0\n" +
+                        "    expX_uid6_fpMulTest_b <= a(30 downto 23);\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid16_fpMulTest(LOGICAL,15)@0 + 1\n" +
+                        "    expXIsMax_uid16_fpMulTest_qi <= \"1\" WHEN expX_uid6_fpMulTest_b = cstAllOWE_uid10_fpMulTest_q ELSE \"0\";\n" +
+                        "    expXIsMax_uid16_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid16_fpMulTest_qi, xout => expXIsMax_uid16_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist9_expXIsMax_uid16_fpMulTest_q_4(DELAY,117)\n" +
+                        "    redist9_expXIsMax_uid16_fpMulTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid16_fpMulTest_q, xout => redist9_expXIsMax_uid16_fpMulTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excI_x_uid19_fpMulTest(LOGICAL,18)@4\n" +
+                        "    excI_x_uid19_fpMulTest_q <= redist9_expXIsMax_uid16_fpMulTest_q_4_q and redist8_fracXIsZero_uid17_fpMulTest_q_4_q;\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid12_fpMulTest(CONSTANT,11)\n" +
+                        "    cstAllZWE_uid12_fpMulTest_q <= \"00000000\";\n" +
+                        "\n" +
+                        "    -- expY_uid7_fpMulTest(BITSELECT,6)@0\n" +
+                        "    expY_uid7_fpMulTest_b <= b(30 downto 23);\n" +
+                        "\n" +
+                        "    -- excZ_y_uid29_fpMulTest(LOGICAL,28)@0 + 1\n" +
+                        "    excZ_y_uid29_fpMulTest_qi <= \"1\" WHEN expY_uid7_fpMulTest_b = cstAllZWE_uid12_fpMulTest_q ELSE \"0\";\n" +
+                        "    excZ_y_uid29_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_y_uid29_fpMulTest_qi, xout => excZ_y_uid29_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist7_excZ_y_uid29_fpMulTest_q_4(DELAY,115)\n" +
+                        "    redist7_excZ_y_uid29_fpMulTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_y_uid29_fpMulTest_q, xout => redist7_excZ_y_uid29_fpMulTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excYZAndExcXI_uid86_fpMulTest(LOGICAL,85)@4\n" +
+                        "    excYZAndExcXI_uid86_fpMulTest_q <= redist7_excZ_y_uid29_fpMulTest_q_4_q and excI_x_uid19_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- frac_y_uid28_fpMulTest(BITSELECT,27)@0\n" +
+                        "    frac_y_uid28_fpMulTest_b <= b(22 downto 0);\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid31_fpMulTest(LOGICAL,30)@0 + 1\n" +
+                        "    fracXIsZero_uid31_fpMulTest_qi <= \"1\" WHEN cstZeroWF_uid11_fpMulTest_q = frac_y_uid28_fpMulTest_b ELSE \"0\";\n" +
+                        "    fracXIsZero_uid31_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid31_fpMulTest_qi, xout => fracXIsZero_uid31_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist5_fracXIsZero_uid31_fpMulTest_q_4(DELAY,113)\n" +
+                        "    redist5_fracXIsZero_uid31_fpMulTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracXIsZero_uid31_fpMulTest_q, xout => redist5_fracXIsZero_uid31_fpMulTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid30_fpMulTest(LOGICAL,29)@0 + 1\n" +
+                        "    expXIsMax_uid30_fpMulTest_qi <= \"1\" WHEN expY_uid7_fpMulTest_b = cstAllOWE_uid10_fpMulTest_q ELSE \"0\";\n" +
+                        "    expXIsMax_uid30_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid30_fpMulTest_qi, xout => expXIsMax_uid30_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist6_expXIsMax_uid30_fpMulTest_q_4(DELAY,114)\n" +
+                        "    redist6_expXIsMax_uid30_fpMulTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expXIsMax_uid30_fpMulTest_q, xout => redist6_expXIsMax_uid30_fpMulTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excI_y_uid33_fpMulTest(LOGICAL,32)@4\n" +
+                        "    excI_y_uid33_fpMulTest_q <= redist6_expXIsMax_uid30_fpMulTest_q_4_q and redist5_fracXIsZero_uid31_fpMulTest_q_4_q;\n" +
+                        "\n" +
+                        "    -- excZ_x_uid15_fpMulTest(LOGICAL,14)@0 + 1\n" +
+                        "    excZ_x_uid15_fpMulTest_qi <= \"1\" WHEN expX_uid6_fpMulTest_b = cstAllZWE_uid12_fpMulTest_q ELSE \"0\";\n" +
+                        "    excZ_x_uid15_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_x_uid15_fpMulTest_qi, xout => excZ_x_uid15_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist10_excZ_x_uid15_fpMulTest_q_4(DELAY,118)\n" +
+                        "    redist10_excZ_x_uid15_fpMulTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => excZ_x_uid15_fpMulTest_q, xout => redist10_excZ_x_uid15_fpMulTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- excXZAndExcYI_uid87_fpMulTest(LOGICAL,86)@4\n" +
+                        "    excXZAndExcYI_uid87_fpMulTest_q <= redist10_excZ_x_uid15_fpMulTest_q_4_q and excI_y_uid33_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- ZeroTimesInf_uid88_fpMulTest(LOGICAL,87)@4\n" +
+                        "    ZeroTimesInf_uid88_fpMulTest_q <= excXZAndExcYI_uid87_fpMulTest_q or excYZAndExcXI_uid86_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid32_fpMulTest(LOGICAL,31)@4\n" +
+                        "    fracXIsNotZero_uid32_fpMulTest_q <= not (redist5_fracXIsZero_uid31_fpMulTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- excN_y_uid34_fpMulTest(LOGICAL,33)@4\n" +
+                        "    excN_y_uid34_fpMulTest_q <= redist6_expXIsMax_uid30_fpMulTest_q_4_q and fracXIsNotZero_uid32_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid18_fpMulTest(LOGICAL,17)@4\n" +
+                        "    fracXIsNotZero_uid18_fpMulTest_q <= not (redist8_fracXIsZero_uid17_fpMulTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- excN_x_uid20_fpMulTest(LOGICAL,19)@4\n" +
+                        "    excN_x_uid20_fpMulTest_q <= redist9_expXIsMax_uid16_fpMulTest_q_4_q and fracXIsNotZero_uid18_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excRNaN_uid89_fpMulTest(LOGICAL,88)@4\n" +
+                        "    excRNaN_uid89_fpMulTest_q <= excN_x_uid20_fpMulTest_q or excN_y_uid34_fpMulTest_q or ZeroTimesInf_uid88_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- invExcRNaN_uid101_fpMulTest(LOGICAL,100)@4\n" +
+                        "    invExcRNaN_uid101_fpMulTest_q <= not (excRNaN_uid89_fpMulTest_q);\n" +
+                        "\n" +
+                        "    -- signY_uid9_fpMulTest(BITSELECT,8)@0\n" +
+                        "    signY_uid9_fpMulTest_b <= STD_LOGIC_VECTOR(b(31 downto 31));\n" +
+                        "\n" +
+                        "    -- signX_uid8_fpMulTest(BITSELECT,7)@0\n" +
+                        "    signX_uid8_fpMulTest_b <= STD_LOGIC_VECTOR(a(31 downto 31));\n" +
+                        "\n" +
+                        "    -- signR_uid48_fpMulTest(LOGICAL,47)@0 + 1\n" +
+                        "    signR_uid48_fpMulTest_qi <= signX_uid8_fpMulTest_b xor signY_uid9_fpMulTest_b;\n" +
+                        "    signR_uid48_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => signR_uid48_fpMulTest_qi, xout => signR_uid48_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- redist3_signR_uid48_fpMulTest_q_4(DELAY,111)\n" +
+                        "    redist3_signR_uid48_fpMulTest_q_4 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 3, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => signR_uid48_fpMulTest_q, xout => redist3_signR_uid48_fpMulTest_q_4_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- signRPostExc_uid102_fpMulTest(LOGICAL,101)@4\n" +
+                        "    signRPostExc_uid102_fpMulTest_q <= redist3_signR_uid48_fpMulTest_q_4_q and invExcRNaN_uid101_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- ofracY_uid43_fpMulTest(BITJOIN,42)@0\n" +
+                        "    ofracY_uid43_fpMulTest_q <= VCC_q & frac_y_uid28_fpMulTest_b;\n" +
+                        "\n" +
+                        "    -- ofracX_uid40_fpMulTest(BITJOIN,39)@0\n" +
+                        "    ofracX_uid40_fpMulTest_q <= VCC_q & frac_x_uid14_fpMulTest_b;\n" +
+                        "\n" +
+                        "    -- prodXY_uid105_prod_uid47_fpMulTest_cma(CHAINMULTADD,107)@0 + 2\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_reset <= areset;\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_ena0 <= '1';\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_ena1 <= prodXY_uid105_prod_uid47_fpMulTest_cma_ena0;\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_p(0) <= prodXY_uid105_prod_uid47_fpMulTest_cma_a0(0) * prodXY_uid105_prod_uid47_fpMulTest_cma_c0(0);\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_u(0) <= RESIZE(prodXY_uid105_prod_uid47_fpMulTest_cma_p(0),48);\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_w(0) <= prodXY_uid105_prod_uid47_fpMulTest_cma_u(0);\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_x(0) <= prodXY_uid105_prod_uid47_fpMulTest_cma_w(0);\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_y(0) <= prodXY_uid105_prod_uid47_fpMulTest_cma_x(0);\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_chainmultadd_input: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            prodXY_uid105_prod_uid47_fpMulTest_cma_a0 <= (others => (others => '0'));\n" +
+                        "            prodXY_uid105_prod_uid47_fpMulTest_cma_c0 <= (others => (others => '0'));\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            IF (prodXY_uid105_prod_uid47_fpMulTest_cma_ena0 = '1') THEN\n" +
+                        "                prodXY_uid105_prod_uid47_fpMulTest_cma_a0(0) <= RESIZE(UNSIGNED(ofracX_uid40_fpMulTest_q),24);\n" +
+                        "                prodXY_uid105_prod_uid47_fpMulTest_cma_c0(0) <= RESIZE(UNSIGNED(ofracY_uid43_fpMulTest_q),24);\n" +
+                        "            END IF;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_chainmultadd_output: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            prodXY_uid105_prod_uid47_fpMulTest_cma_s <= (others => (others => '0'));\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            IF (prodXY_uid105_prod_uid47_fpMulTest_cma_ena1 = '1') THEN\n" +
+                        "                prodXY_uid105_prod_uid47_fpMulTest_cma_s(0) <= prodXY_uid105_prod_uid47_fpMulTest_cma_y(0);\n" +
+                        "            END IF;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 48, depth => 0, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => STD_LOGIC_VECTOR(prodXY_uid105_prod_uid47_fpMulTest_cma_s(0)(47 downto 0)), xout => prodXY_uid105_prod_uid47_fpMulTest_cma_qq, clk => clk, aclr => areset );\n" +
+                        "    prodXY_uid105_prod_uid47_fpMulTest_cma_q <= STD_LOGIC_VECTOR(prodXY_uid105_prod_uid47_fpMulTest_cma_qq(47 downto 0));\n" +
+                        "\n" +
+                        "    -- normalizeBit_uid49_fpMulTest(BITSELECT,48)@2\n" +
+                        "    normalizeBit_uid49_fpMulTest_b <= STD_LOGIC_VECTOR(prodXY_uid105_prod_uid47_fpMulTest_cma_q(47 downto 47));\n" +
+                        "\n" +
+                        "    -- redist2_normalizeBit_uid49_fpMulTest_b_1(DELAY,110)\n" +
+                        "    redist2_normalizeBit_uid49_fpMulTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => normalizeBit_uid49_fpMulTest_b, xout => redist2_normalizeBit_uid49_fpMulTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- roundBitDetectionConstant_uid63_fpMulTest(CONSTANT,62)\n" +
+                        "    roundBitDetectionConstant_uid63_fpMulTest_q <= \"010\";\n" +
+                        "\n" +
+                        "    -- fracRPostNormHigh_uid51_fpMulTest(BITSELECT,50)@2\n" +
+                        "    fracRPostNormHigh_uid51_fpMulTest_in <= prodXY_uid105_prod_uid47_fpMulTest_cma_q(46 downto 0);\n" +
+                        "    fracRPostNormHigh_uid51_fpMulTest_b <= fracRPostNormHigh_uid51_fpMulTest_in(46 downto 23);\n" +
+                        "\n" +
+                        "    -- fracRPostNormLow_uid52_fpMulTest(BITSELECT,51)@2\n" +
+                        "    fracRPostNormLow_uid52_fpMulTest_in <= prodXY_uid105_prod_uid47_fpMulTest_cma_q(45 downto 0);\n" +
+                        "    fracRPostNormLow_uid52_fpMulTest_b <= fracRPostNormLow_uid52_fpMulTest_in(45 downto 22);\n" +
+                        "\n" +
+                        "    -- fracRPostNorm_uid53_fpMulTest(MUX,52)@2 + 1\n" +
+                        "    fracRPostNorm_uid53_fpMulTest_s <= normalizeBit_uid49_fpMulTest_b;\n" +
+                        "    fracRPostNorm_uid53_fpMulTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            fracRPostNorm_uid53_fpMulTest_q <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (fracRPostNorm_uid53_fpMulTest_s) IS\n" +
+                        "                WHEN \"0\" => fracRPostNorm_uid53_fpMulTest_q <= fracRPostNormLow_uid52_fpMulTest_b;\n" +
+                        "                WHEN \"1\" => fracRPostNorm_uid53_fpMulTest_q <= fracRPostNormHigh_uid51_fpMulTest_b;\n" +
+                        "                WHEN OTHERS => fracRPostNorm_uid53_fpMulTest_q <= (others => '0');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- fracRPostNorm1dto0_uid61_fpMulTest(BITSELECT,60)@3\n" +
+                        "    fracRPostNorm1dto0_uid61_fpMulTest_in <= fracRPostNorm_uid53_fpMulTest_q(1 downto 0);\n" +
+                        "    fracRPostNorm1dto0_uid61_fpMulTest_b <= fracRPostNorm1dto0_uid61_fpMulTest_in(1 downto 0);\n" +
+                        "\n" +
+                        "    -- extraStickyBitOfProd_uid55_fpMulTest(BITSELECT,54)@2\n" +
+                        "    extraStickyBitOfProd_uid55_fpMulTest_in <= STD_LOGIC_VECTOR(prodXY_uid105_prod_uid47_fpMulTest_cma_q(22 downto 0));\n" +
+                        "    extraStickyBitOfProd_uid55_fpMulTest_b <= STD_LOGIC_VECTOR(extraStickyBitOfProd_uid55_fpMulTest_in(22 downto 22));\n" +
+                        "\n" +
+                        "    -- extraStickyBit_uid56_fpMulTest(MUX,55)@2\n" +
+                        "    extraStickyBit_uid56_fpMulTest_s <= normalizeBit_uid49_fpMulTest_b;\n" +
+                        "    extraStickyBit_uid56_fpMulTest_combproc: PROCESS (extraStickyBit_uid56_fpMulTest_s, GND_q, extraStickyBitOfProd_uid55_fpMulTest_b)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (extraStickyBit_uid56_fpMulTest_s) IS\n" +
+                        "            WHEN \"0\" => extraStickyBit_uid56_fpMulTest_q <= GND_q;\n" +
+                        "            WHEN \"1\" => extraStickyBit_uid56_fpMulTest_q <= extraStickyBitOfProd_uid55_fpMulTest_b;\n" +
+                        "            WHEN OTHERS => extraStickyBit_uid56_fpMulTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- stickyRange_uid54_fpMulTest(BITSELECT,53)@2\n" +
+                        "    stickyRange_uid54_fpMulTest_in <= prodXY_uid105_prod_uid47_fpMulTest_cma_q(21 downto 0);\n" +
+                        "    stickyRange_uid54_fpMulTest_b <= stickyRange_uid54_fpMulTest_in(21 downto 0);\n" +
+                        "\n" +
+                        "    -- stickyExtendedRange_uid57_fpMulTest(BITJOIN,56)@2\n" +
+                        "    stickyExtendedRange_uid57_fpMulTest_q <= extraStickyBit_uid56_fpMulTest_q & stickyRange_uid54_fpMulTest_b;\n" +
+                        "\n" +
+                        "    -- stickyRangeComparator_uid59_fpMulTest(LOGICAL,58)@2 + 1\n" +
+                        "    stickyRangeComparator_uid59_fpMulTest_qi <= \"1\" WHEN stickyExtendedRange_uid57_fpMulTest_q = cstZeroWF_uid11_fpMulTest_q ELSE \"0\";\n" +
+                        "    stickyRangeComparator_uid59_fpMulTest_delay : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => stickyRangeComparator_uid59_fpMulTest_qi, xout => stickyRangeComparator_uid59_fpMulTest_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- sticky_uid60_fpMulTest(LOGICAL,59)@3\n" +
+                        "    sticky_uid60_fpMulTest_q <= not (stickyRangeComparator_uid59_fpMulTest_q);\n" +
+                        "\n" +
+                        "    -- lrs_uid62_fpMulTest(BITJOIN,61)@3\n" +
+                        "    lrs_uid62_fpMulTest_q <= fracRPostNorm1dto0_uid61_fpMulTest_b & sticky_uid60_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- roundBitDetectionPattern_uid64_fpMulTest(LOGICAL,63)@3\n" +
+                        "    roundBitDetectionPattern_uid64_fpMulTest_q <= \"1\" WHEN lrs_uid62_fpMulTest_q = roundBitDetectionConstant_uid63_fpMulTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- roundBit_uid65_fpMulTest(LOGICAL,64)@3\n" +
+                        "    roundBit_uid65_fpMulTest_q <= not (roundBitDetectionPattern_uid64_fpMulTest_q);\n" +
+                        "\n" +
+                        "    -- roundBitAndNormalizationOp_uid68_fpMulTest(BITJOIN,67)@3\n" +
+                        "    roundBitAndNormalizationOp_uid68_fpMulTest_q <= GND_q & redist2_normalizeBit_uid49_fpMulTest_b_1_q & cstZeroWF_uid11_fpMulTest_q & roundBit_uid65_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- biasInc_uid45_fpMulTest(CONSTANT,44)\n" +
+                        "    biasInc_uid45_fpMulTest_q <= \"0001111111\";\n" +
+                        "\n" +
+                        "    -- expSum_uid44_fpMulTest(ADD,43)@0 + 1\n" +
+                        "    expSum_uid44_fpMulTest_a <= STD_LOGIC_VECTOR(\"0\" & expX_uid6_fpMulTest_b);\n" +
+                        "    expSum_uid44_fpMulTest_b <= STD_LOGIC_VECTOR(\"0\" & expY_uid7_fpMulTest_b);\n" +
+                        "    expSum_uid44_fpMulTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            expSum_uid44_fpMulTest_o <= (others => '0');\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            expSum_uid44_fpMulTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expSum_uid44_fpMulTest_a) + UNSIGNED(expSum_uid44_fpMulTest_b));\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "    expSum_uid44_fpMulTest_q <= expSum_uid44_fpMulTest_o(8 downto 0);\n" +
+                        "\n" +
+                        "    -- redist4_expSum_uid44_fpMulTest_q_3(DELAY,112)\n" +
+                        "    redist4_expSum_uid44_fpMulTest_q_3 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 9, depth => 2, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expSum_uid44_fpMulTest_q, xout => redist4_expSum_uid44_fpMulTest_q_3_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expSumMBias_uid46_fpMulTest(SUB,45)@3\n" +
+                        "    expSumMBias_uid46_fpMulTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"000\" & redist4_expSum_uid44_fpMulTest_q_3_q));\n" +
+                        "    expSumMBias_uid46_fpMulTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((11 downto 10 => biasInc_uid45_fpMulTest_q(9)) & biasInc_uid45_fpMulTest_q));\n" +
+                        "    expSumMBias_uid46_fpMulTest_o <= STD_LOGIC_VECTOR(SIGNED(expSumMBias_uid46_fpMulTest_a) - SIGNED(expSumMBias_uid46_fpMulTest_b));\n" +
+                        "    expSumMBias_uid46_fpMulTest_q <= expSumMBias_uid46_fpMulTest_o(10 downto 0);\n" +
+                        "\n" +
+                        "    -- expFracPreRound_uid66_fpMulTest(BITJOIN,65)@3\n" +
+                        "    expFracPreRound_uid66_fpMulTest_q <= expSumMBias_uid46_fpMulTest_q & fracRPostNorm_uid53_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- expFracRPostRounding_uid69_fpMulTest(ADD,68)@3\n" +
+                        "    expFracRPostRounding_uid69_fpMulTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((36 downto 35 => expFracPreRound_uid66_fpMulTest_q(34)) & expFracPreRound_uid66_fpMulTest_q));\n" +
+                        "    expFracRPostRounding_uid69_fpMulTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"00000000000\" & roundBitAndNormalizationOp_uid68_fpMulTest_q));\n" +
+                        "    expFracRPostRounding_uid69_fpMulTest_o <= STD_LOGIC_VECTOR(SIGNED(expFracRPostRounding_uid69_fpMulTest_a) + SIGNED(expFracRPostRounding_uid69_fpMulTest_b));\n" +
+                        "    expFracRPostRounding_uid69_fpMulTest_q <= expFracRPostRounding_uid69_fpMulTest_o(35 downto 0);\n" +
+                        "\n" +
+                        "    -- expRPreExcExt_uid71_fpMulTest(BITSELECT,70)@3\n" +
+                        "    expRPreExcExt_uid71_fpMulTest_b <= STD_LOGIC_VECTOR(expFracRPostRounding_uid69_fpMulTest_q(35 downto 24));\n" +
+                        "\n" +
+                        "    -- redist0_expRPreExcExt_uid71_fpMulTest_b_1(DELAY,108)\n" +
+                        "    redist0_expRPreExcExt_uid71_fpMulTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 12, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expRPreExcExt_uid71_fpMulTest_b, xout => redist0_expRPreExcExt_uid71_fpMulTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expRPreExc_uid72_fpMulTest(BITSELECT,71)@4\n" +
+                        "    expRPreExc_uid72_fpMulTest_in <= redist0_expRPreExcExt_uid71_fpMulTest_b_1_q(7 downto 0);\n" +
+                        "    expRPreExc_uid72_fpMulTest_b <= expRPreExc_uid72_fpMulTest_in(7 downto 0);\n" +
+                        "\n" +
+                        "    -- expOvf_uid75_fpMulTest(COMPARE,74)@4\n" +
+                        "    expOvf_uid75_fpMulTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((13 downto 12 => redist0_expRPreExcExt_uid71_fpMulTest_b_1_q(11)) & redist0_expRPreExcExt_uid71_fpMulTest_b_1_q));\n" +
+                        "    expOvf_uid75_fpMulTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"000000\" & cstAllOWE_uid10_fpMulTest_q));\n" +
+                        "    expOvf_uid75_fpMulTest_o <= STD_LOGIC_VECTOR(SIGNED(expOvf_uid75_fpMulTest_a) - SIGNED(expOvf_uid75_fpMulTest_b));\n" +
+                        "    expOvf_uid75_fpMulTest_n(0) <= not (expOvf_uid75_fpMulTest_o(13));\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid35_fpMulTest(LOGICAL,34)@4\n" +
+                        "    invExpXIsMax_uid35_fpMulTest_q <= not (redist6_expXIsMax_uid30_fpMulTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid36_fpMulTest(LOGICAL,35)@4\n" +
+                        "    InvExpXIsZero_uid36_fpMulTest_q <= not (redist7_excZ_y_uid29_fpMulTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- excR_y_uid37_fpMulTest(LOGICAL,36)@4\n" +
+                        "    excR_y_uid37_fpMulTest_q <= InvExpXIsZero_uid36_fpMulTest_q and invExpXIsMax_uid35_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid21_fpMulTest(LOGICAL,20)@4\n" +
+                        "    invExpXIsMax_uid21_fpMulTest_q <= not (redist9_expXIsMax_uid16_fpMulTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid22_fpMulTest(LOGICAL,21)@4\n" +
+                        "    InvExpXIsZero_uid22_fpMulTest_q <= not (redist10_excZ_x_uid15_fpMulTest_q_4_q);\n" +
+                        "\n" +
+                        "    -- excR_x_uid23_fpMulTest(LOGICAL,22)@4\n" +
+                        "    excR_x_uid23_fpMulTest_q <= InvExpXIsZero_uid22_fpMulTest_q and invExpXIsMax_uid21_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- ExcROvfAndInReg_uid84_fpMulTest(LOGICAL,83)@4\n" +
+                        "    ExcROvfAndInReg_uid84_fpMulTest_q <= excR_x_uid23_fpMulTest_q and excR_y_uid37_fpMulTest_q and expOvf_uid75_fpMulTest_n;\n" +
+                        "\n" +
+                        "    -- excYRAndExcXI_uid83_fpMulTest(LOGICAL,82)@4\n" +
+                        "    excYRAndExcXI_uid83_fpMulTest_q <= excR_y_uid37_fpMulTest_q and excI_x_uid19_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excXRAndExcYI_uid82_fpMulTest(LOGICAL,81)@4\n" +
+                        "    excXRAndExcYI_uid82_fpMulTest_q <= excR_x_uid23_fpMulTest_q and excI_y_uid33_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excXIAndExcYI_uid81_fpMulTest(LOGICAL,80)@4\n" +
+                        "    excXIAndExcYI_uid81_fpMulTest_q <= excI_x_uid19_fpMulTest_q and excI_y_uid33_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excRInf_uid85_fpMulTest(LOGICAL,84)@4\n" +
+                        "    excRInf_uid85_fpMulTest_q <= excXIAndExcYI_uid81_fpMulTest_q or excXRAndExcYI_uid82_fpMulTest_q or excYRAndExcXI_uid83_fpMulTest_q or ExcROvfAndInReg_uid84_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- expUdf_uid73_fpMulTest(COMPARE,72)@4\n" +
+                        "    expUdf_uid73_fpMulTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"0000000000000\" & GND_q));\n" +
+                        "    expUdf_uid73_fpMulTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((13 downto 12 => redist0_expRPreExcExt_uid71_fpMulTest_b_1_q(11)) & redist0_expRPreExcExt_uid71_fpMulTest_b_1_q));\n" +
+                        "    expUdf_uid73_fpMulTest_o <= STD_LOGIC_VECTOR(SIGNED(expUdf_uid73_fpMulTest_a) - SIGNED(expUdf_uid73_fpMulTest_b));\n" +
+                        "    expUdf_uid73_fpMulTest_n(0) <= not (expUdf_uid73_fpMulTest_o(13));\n" +
+                        "\n" +
+                        "    -- excZC3_uid79_fpMulTest(LOGICAL,78)@4\n" +
+                        "    excZC3_uid79_fpMulTest_q <= excR_x_uid23_fpMulTest_q and excR_y_uid37_fpMulTest_q and expUdf_uid73_fpMulTest_n;\n" +
+                        "\n" +
+                        "    -- excYZAndExcXR_uid78_fpMulTest(LOGICAL,77)@4\n" +
+                        "    excYZAndExcXR_uid78_fpMulTest_q <= redist7_excZ_y_uid29_fpMulTest_q_4_q and excR_x_uid23_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excXZAndExcYR_uid77_fpMulTest(LOGICAL,76)@4\n" +
+                        "    excXZAndExcYR_uid77_fpMulTest_q <= redist10_excZ_x_uid15_fpMulTest_q_4_q and excR_y_uid37_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excXZAndExcYZ_uid76_fpMulTest(LOGICAL,75)@4\n" +
+                        "    excXZAndExcYZ_uid76_fpMulTest_q <= redist10_excZ_x_uid15_fpMulTest_q_4_q and redist7_excZ_y_uid29_fpMulTest_q_4_q;\n" +
+                        "\n" +
+                        "    -- excRZero_uid80_fpMulTest(LOGICAL,79)@4\n" +
+                        "    excRZero_uid80_fpMulTest_q <= excXZAndExcYZ_uid76_fpMulTest_q or excXZAndExcYR_uid77_fpMulTest_q or excYZAndExcXR_uid78_fpMulTest_q or excZC3_uid79_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- concExc_uid90_fpMulTest(BITJOIN,89)@4\n" +
+                        "    concExc_uid90_fpMulTest_q <= excRNaN_uid89_fpMulTest_q & excRInf_uid85_fpMulTest_q & excRZero_uid80_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- excREnc_uid91_fpMulTest(LOOKUP,90)@4\n" +
+                        "    excREnc_uid91_fpMulTest_combproc: PROCESS (concExc_uid90_fpMulTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (concExc_uid90_fpMulTest_q) IS\n" +
+                        "            WHEN \"000\" => excREnc_uid91_fpMulTest_q <= \"01\";\n" +
+                        "            WHEN \"001\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN \"010\" => excREnc_uid91_fpMulTest_q <= \"10\";\n" +
+                        "            WHEN \"011\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN \"100\" => excREnc_uid91_fpMulTest_q <= \"11\";\n" +
+                        "            WHEN \"101\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN \"110\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN \"111\" => excREnc_uid91_fpMulTest_q <= \"00\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excREnc_uid91_fpMulTest_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- expRPostExc_uid100_fpMulTest(MUX,99)@4\n" +
+                        "    expRPostExc_uid100_fpMulTest_s <= excREnc_uid91_fpMulTest_q;\n" +
+                        "    expRPostExc_uid100_fpMulTest_combproc: PROCESS (expRPostExc_uid100_fpMulTest_s, cstAllZWE_uid12_fpMulTest_q, expRPreExc_uid72_fpMulTest_b, cstAllOWE_uid10_fpMulTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (expRPostExc_uid100_fpMulTest_s) IS\n" +
+                        "            WHEN \"00\" => expRPostExc_uid100_fpMulTest_q <= cstAllZWE_uid12_fpMulTest_q;\n" +
+                        "            WHEN \"01\" => expRPostExc_uid100_fpMulTest_q <= expRPreExc_uid72_fpMulTest_b;\n" +
+                        "            WHEN \"10\" => expRPostExc_uid100_fpMulTest_q <= cstAllOWE_uid10_fpMulTest_q;\n" +
+                        "            WHEN \"11\" => expRPostExc_uid100_fpMulTest_q <= cstAllOWE_uid10_fpMulTest_q;\n" +
+                        "            WHEN OTHERS => expRPostExc_uid100_fpMulTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oneFracRPostExc2_uid92_fpMulTest(CONSTANT,91)\n" +
+                        "    oneFracRPostExc2_uid92_fpMulTest_q <= \"00000000000000000000001\";\n" +
+                        "\n" +
+                        "    -- fracRPreExc_uid70_fpMulTest(BITSELECT,69)@3\n" +
+                        "    fracRPreExc_uid70_fpMulTest_in <= expFracRPostRounding_uid69_fpMulTest_q(23 downto 0);\n" +
+                        "    fracRPreExc_uid70_fpMulTest_b <= fracRPreExc_uid70_fpMulTest_in(23 downto 1);\n" +
+                        "\n" +
+                        "    -- redist1_fracRPreExc_uid70_fpMulTest_b_1(DELAY,109)\n" +
+                        "    redist1_fracRPreExc_uid70_fpMulTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 23, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracRPreExc_uid70_fpMulTest_b, xout => redist1_fracRPreExc_uid70_fpMulTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracRPostExc_uid95_fpMulTest(MUX,94)@4\n" +
+                        "    fracRPostExc_uid95_fpMulTest_s <= excREnc_uid91_fpMulTest_q;\n" +
+                        "    fracRPostExc_uid95_fpMulTest_combproc: PROCESS (fracRPostExc_uid95_fpMulTest_s, cstZeroWF_uid11_fpMulTest_q, redist1_fracRPreExc_uid70_fpMulTest_b_1_q, oneFracRPostExc2_uid92_fpMulTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (fracRPostExc_uid95_fpMulTest_s) IS\n" +
+                        "            WHEN \"00\" => fracRPostExc_uid95_fpMulTest_q <= cstZeroWF_uid11_fpMulTest_q;\n" +
+                        "            WHEN \"01\" => fracRPostExc_uid95_fpMulTest_q <= redist1_fracRPreExc_uid70_fpMulTest_b_1_q;\n" +
+                        "            WHEN \"10\" => fracRPostExc_uid95_fpMulTest_q <= cstZeroWF_uid11_fpMulTest_q;\n" +
+                        "            WHEN \"11\" => fracRPostExc_uid95_fpMulTest_q <= oneFracRPostExc2_uid92_fpMulTest_q;\n" +
+                        "            WHEN OTHERS => fracRPostExc_uid95_fpMulTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- R_uid103_fpMulTest(BITJOIN,102)@4\n" +
+                        "    R_uid103_fpMulTest_q <= signRPostExc_uid102_fpMulTest_q & expRPostExc_uid100_fpMulTest_q & fracRPostExc_uid95_fpMulTest_q;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@4\n" +
+                        "    q <= R_uid103_fpMulTest_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void generate_FP_S2D_qip_file(String Project_Folder_File) {
+        String data =   "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_TOOL_VERSION \"18.0\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_TOOL_ENV \"mwpim\"\n" +
+                        "set_global_assignment -library \"FP_S2D\" -name MISC_FILE [file join $::quartus(qip_path) \"FP_S2D.cmp\"]\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_TARGETED_DEVICE_FAMILY \"Cyclone V\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_QSYS_MODE \"UNKNOWN\"\n" +
+                        "set_global_assignment -name SYNTHESIS_ONLY_QIP ON\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_COMPONENT_NAME \"RlBfUzJE\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_COMPONENT_DISPLAY_NAME \"QUxURVJBX0ZQX0ZVTkNUSU9OUw==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_COMPONENT_REPORT_HIERARCHY \"Off\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_COMPONENT_INTERNAL \"Off\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_COMPONENT_AUTHOR \"QWx0ZXJhIENvcnBvcmF0aW9u\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_COMPONENT_VERSION \"MTguMA==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"FP_S2D\" -name IP_COMPONENT_DESCRIPTION \"QSBjb2xsZWN0aW9uIG9mIGZsb2F0aW5nIHBvaW50IGZ1bmN0aW9ucw==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_NAME \"RlBfUzJEXzAwMDI=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_DISPLAY_NAME \"QUxURVJBX0ZQX0ZVTkNUSU9OUw==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_REPORT_HIERARCHY \"Off\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_INTERNAL \"Off\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_AUTHOR \"QWx0ZXJhIENvcnBvcmF0aW9u\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_VERSION \"MTguMA==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_DESCRIPTION \"QSBjb2xsZWN0aW9uIG9mIGZsb2F0aW5nIHBvaW50IGZ1bmN0aW9ucw==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"RlVOQ1RJT05fRkFNSUxZ::Q09OVkVSVA==::RmFtaWx5\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"QVJJVEhfZnVuY3Rpb24=::QURE::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"Q09OVkVSVF9mdW5jdGlvbg==::RlBfRlA=::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"QUxMX2Z1bmN0aW9u::QURE::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"RVhQX0xPR19mdW5jdGlvbg==::RVhQRQ==::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"VFJJR19mdW5jdGlvbg==::U0lO::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"Q09NUEFSRV9mdW5jdGlvbg==::TUlO::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"Uk9PVFNfZnVuY3Rpb24=::U1FSVA==::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZGVyaXZlZGZ1bmN0aW9u::RlBfRlA=::ZGVyaXZlZGZ1bmN0aW9u\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfZm9ybWF0::c2luZ2xl::Rm9ybWF0\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfZXhw::OA==::RXhwb25lbnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfZXhwX2Rlcml2ZWQ=::OA==::ZnBfZXhwX2Rlcml2ZWQ=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfbWFu::MjM=::TWFudGlzc2E=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfbWFuX2Rlcml2ZWQ=::MjM=::ZnBfbWFuX2Rlcml2ZWQ=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZXhwb25lbnRfd2lkdGg=::MjM=::RXhwb25lbnQgV2lkdGg=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnJlcXVlbmN5X3RhcmdldA==::NzU=::VGFyZ2V0\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"bGF0ZW5jeV90YXJnZXQ=::MA==::VGFyZ2V0\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"cGVyZm9ybWFuY2VfZ29hbA==::ZnJlcXVlbmN5::R29hbA==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"cm91bmRpbmdfbW9kZQ==::bmVhcmVzdCB3aXRoIHRpZSBicmVha2luZyBhd2F5IGZyb20gemVybw==::TW9kZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"cm91bmRpbmdfbW9kZV9kZXJpdmVk::bmVhcmVzdCB3aXRoIHRpZSBicmVha2luZyB0byBldmVu::TW9kZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"dXNlX3JvdW5kaW5nX21vZGU=::ZmFsc2U=::dXNlX3JvdW5kaW5nX21vZGU=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZmFpdGhmdWxfcm91bmRpbmc=::ZmFsc2U=::UmVsYXggcm91bmRpbmcgdG8gcm91bmQgdXAgb3IgZG93biB0byByZWR1Y2UgcmVzb3VyY2UgdXNhZ2U=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"Z2VuX2VuYWJsZQ==::ZmFsc2U=::R2VuZXJhdGUgYW4gZW5hYmxlIHBvcnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZGl2aWRlX3R5cGU=::MA==::TWV0aG9k\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"c2VsZWN0X3NpZ25hbF9lbmFibGU=::ZmFsc2U=::VXNlIFNlbGVjdCBTaWduYWw=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"c2NhbGVfYnlfcGk=::ZmFsc2U=::UmVwcmVzZW50IGFuZ2xlIGFzIG11bHRpcGxlIG9mIFBp\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"bnVtYmVyX29mX2lucHV0cw==::Mg==::SW5wdXQgVmVjdG9yIERpbWVuc2lvbg==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"dHJpZ19ub19yYW5nZV9yZWR1Y3Rpb24=::ZmFsc2U=::SW5wdXRzIGFyZSB3aXRoaW4gcmFuZ2UgLTJwaSB0byArMnBp\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"cmVwb3J0X3Jlc291cmNlc190b194bWw=::ZmFsc2U=::cmVwb3J0X3Jlc291cmNlc190b194bWw=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnhwdF93aWR0aA==::MzI=::V2lkdGg=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnhwdF9mcmFjdGlvbg==::MA==::RnJhY3Rpb24=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnhwdF9zaWdu::MQ==::U2lnbg==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnJlcXVlbmN5X2ZlZWRiYWNr::Nzc=::ZnJlcXVlbmN5X2ZlZWRiYWNr\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"bGF0ZW5jeV9mZWVkYmFjaw==::MA==::bGF0ZW5jeV9mZWVkYmFjaw==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"Zm9yY2VfZWxhYm9yYXRl::MQ==::Zm9yY2VfZWxhYm9yYXRl\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X2Zvcm1hdA==::ZG91Ymxl::T3V0cHV0IEZvcm1hdA==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X2V4cA==::OA==::T3V0cHV0IEV4cG9uZW50\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X2V4cF9kZXJpdmVk::MTE=::ZnBfb3V0X2V4cF9kZXJpdmVk\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X21hbg==::MjM=::T3V0cHV0IE1hbnRpc3Nh\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X21hbl9kZXJpdmVk::NTI=::ZnBfb3V0X21hbl9kZXJpdmVk\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fZm9ybWF0::c2luZ2xl::SW5wdXQgRm9ybWF0\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fZXhw::OA==::SW5wdXQgRXhwb25lbnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fZXhwX2Rlcml2ZWQ=::OA==::ZnBfaW5fZXhwX2Rlcml2ZWQ=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fbWFu::MjM=::SW5wdXQgTWFudGlzc2E=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fbWFuX2Rlcml2ZWQ=::MjM=::ZnBfaW5fbWFuX2Rlcml2ZWQ=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"ZW5hYmxlX2hhcmRfZnA=::dHJ1ZQ==::RW5hYmxlIEhhcmQgRmxvYXRpbmcgUG9pbnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"bWFudWFsX2RzcF9wbGFubmluZw==::dHJ1ZQ==::RW5hYmxlIEhhcmQgRmxvYXRpbmcgUG9pbnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"Zm9yY2VSZWdpc3RlcnM=::MTExMQ==::Zm9yY2VSZWdpc3RlcnM=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"UkVTX0RTUF9wYXJhbQ==::MA==::TXVsdGlwbGllcw==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"UkVTX0xVVF9wYXJhbQ==::MTEy::TFVUcw==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"UkVTX01CSVRfcGFyYW0=::MA==::TWVtb3J5IEJpdHM=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"UkVTX01CTE9DS19wYXJhbQ==::MA==::TWVtb3J5IEJsb2Nrcw==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"c2VsZWN0ZWRfZGV2aWNlX2ZhbWlseQ==::Q3ljbG9uZSBW::c2VsZWN0ZWRfZGV2aWNlX2ZhbWlseQ==\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"c2VsZWN0ZWRfZGV2aWNlX3NwZWVkZ3JhZGU=::Nw==::c2VsZWN0ZWRfZGV2aWNlX3NwZWVkZ3JhZGU=\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_COMPONENT_PARAMETER \"dmFsaWRhdGlvbl9mYWlsZWQ=::ZmFsc2U=::dmFsaWRhdGlvbl9mYWlsZWQ=\"\n" +
+                        "\n" +
+                        "set_global_assignment -library \"FP_S2D\" -name VHDL_FILE [file join $::quartus(qip_path) \"FP_S2D.vhd\"]\n" +
+                        "set_global_assignment -library \"FP_S2D\" -name VHDL_FILE [file join $::quartus(qip_path) \"FP_S2D/dspba_library_package.vhd\"]\n" +
+                        "set_global_assignment -library \"FP_S2D\" -name VHDL_FILE [file join $::quartus(qip_path) \"FP_S2D/dspba_library.vhd\"]\n" +
+                        "set_global_assignment -library \"FP_S2D\" -name VHDL_FILE [file join $::quartus(qip_path) \"FP_S2D/FP_S2D_0002.vhd\"]\n" +
+                        "\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_TOOL_VERSION \"18.0\"\n" +
+                        "set_global_assignment -entity \"FP_S2D_0002\" -library \"FP_S2D\" -name IP_TOOL_ENV \"mwpim\"";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void generate_FP_S2D_sip_file(String Project_Folder_File) {
+        String data =   "set_global_assignment -entity \"FP_S2D\" -library \"lib_FP_S2D\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"lib_FP_S2D\" -name IP_TOOL_VERSION \"18.0\"\n" +
+                        "set_global_assignment -entity \"FP_S2D\" -library \"lib_FP_S2D\" -name IP_TOOL_ENV \"mwpim\"\n" +
+                        "set_global_assignment -library \"lib_FP_S2D\" -name SPD_FILE [file join $::quartus(sip_path) \"FP_S2D.spd\"]\n" +
+                        "\n" +
+                        "set_global_assignment -library \"lib_FP_S2D\" -name MISC_FILE [file join $::quartus(sip_path) \"FP_S2D_sim/dspba_library_package.vhd\"]\n" +
+                        "set_global_assignment -library \"lib_FP_S2D\" -name MISC_FILE [file join $::quartus(sip_path) \"FP_S2D_sim/dspba_library.vhd\"]\n" +
+                        "set_global_assignment -library \"lib_FP_S2D\" -name MISC_FILE [file join $::quartus(sip_path) \"FP_S2D_sim/FP_S2D.vhd\"]";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void generate_FP_S2D_vhd_file(String Project_Folder_File) {
+        String data =   "-- megafunction wizard: %ALTERA_FP_FUNCTIONS v18.0%\n" +
+                        "-- GENERATION: XML\n" +
+                        "-- FP_S2D.vhd\n" +
+                        "\n" +
+                        "-- Generated using ACDS version 18.0 614\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.numeric_std.all;\n" +
+                        "\n" +
+                        "entity FP_S2D is\n" +
+                        "	port (\n" +
+                        "		clk    : in  std_logic                     := '0';             --    clk.clk\n" +
+                        "		areset : in  std_logic                     := '0';             -- areset.reset\n" +
+                        "		a      : in  std_logic_vector(31 downto 0) := (others => '0'); --      a.a\n" +
+                        "		q      : out std_logic_vector(63 downto 0)                     --      q.q\n" +
+                        "	);\n" +
+                        "end entity FP_S2D;\n" +
+                        "\n" +
+                        "architecture rtl of FP_S2D is\n" +
+                        "	component FP_S2D_0002 is\n" +
+                        "		port (\n" +
+                        "			clk    : in  std_logic                     := 'X';             -- clk\n" +
+                        "			areset : in  std_logic                     := 'X';             -- reset\n" +
+                        "			a      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- a\n" +
+                        "			q      : out std_logic_vector(63 downto 0)                     -- q\n" +
+                        "		);\n" +
+                        "	end component FP_S2D_0002;\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "	fp_s2d_inst : component FP_S2D_0002\n" +
+                        "		port map (\n" +
+                        "			clk    => clk,    --    clk.clk\n" +
+                        "			areset => areset, -- areset.reset\n" +
+                        "			a      => a,      --      a.a\n" +
+                        "			q      => q       --      q.q\n" +
+                        "		);\n" +
+                        "\n" +
+                        "end architecture rtl; -- of FP_S2D\n" +
+                        "-- Retrieval info: <?xml version=\"1.0\"?>\n" +
+                        "--<!--\n" +
+                        "--	Generated by Altera MegaWizard Launcher Utility version 1.0\n" +
+                        "--	************************************************************\n" +
+                        "--	THIS IS A WIZARD-GENERATED FILE. DO NOT EDIT THIS FILE!\n" +
+                        "--	************************************************************\n" +
+                        "--	Copyright (C) 1991-2020 Altera Corporation\n" +
+                        "--	Any megafunction design, and related net list (encrypted or decrypted),\n" +
+                        "--	support information, device programming or simulation file, and any other\n" +
+                        "--	associated documentation or information provided by Altera or a partner\n" +
+                        "--	under Altera's Megafunction Partnership Program may be used only to\n" +
+                        "--	program PLD devices (but not masked PLD devices) from Altera.  Any other\n" +
+                        "--	use of such megafunction design, net list, support information, device\n" +
+                        "--	programming or simulation file, or any other related documentation or\n" +
+                        "--	information is prohibited for any other purpose, including, but not\n" +
+                        "--	limited to modification, reverse engineering, de-compiling, or use with\n" +
+                        "--	any other silicon devices, unless such use is explicitly licensed under\n" +
+                        "--	a separate agreement with Altera or a megafunction partner.  Title to\n" +
+                        "--	the intellectual property, including patents, copyrights, trademarks,\n" +
+                        "--	trade secrets, or maskworks, embodied in any such megafunction design,\n" +
+                        "--	net list, support information, device programming or simulation file, or\n" +
+                        "--	any other related documentation or information provided by Altera or a\n" +
+                        "--	megafunction partner, remains with Altera, the megafunction partner, or\n" +
+                        "--	their respective licensors.  No other licenses, including any licenses\n" +
+                        "--	needed under any third party's intellectual property, are provided herein.\n" +
+                        "---->\n" +
+                        "-- Retrieval info: <instance entity-name=\"altera_fp_functions\" version=\"18.0\" >\n" +
+                        "-- Retrieval info: 	<generic name=\"FUNCTION_FAMILY\" value=\"CONVERT\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"ARITH_function\" value=\"ADD\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"CONVERT_function\" value=\"FP_FP\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"ALL_function\" value=\"ADD\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"EXP_LOG_function\" value=\"EXPE\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"TRIG_function\" value=\"SIN\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"COMPARE_function\" value=\"MIN\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"ROOTS_function\" value=\"SQRT\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_format\" value=\"single\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_exp\" value=\"8\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_man\" value=\"23\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"exponent_width\" value=\"23\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"frequency_target\" value=\"75\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"latency_target\" value=\"0\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"performance_goal\" value=\"frequency\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"rounding_mode\" value=\"nearest with tie breaking away from zero\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"faithful_rounding\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"gen_enable\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"divide_type\" value=\"0\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"select_signal_enable\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"scale_by_pi\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"number_of_inputs\" value=\"2\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"trig_no_range_reduction\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"report_resources_to_xml\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fxpt_width\" value=\"32\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fxpt_fraction\" value=\"0\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fxpt_sign\" value=\"1\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_out_format\" value=\"double\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_out_exp\" value=\"8\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_out_man\" value=\"23\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_in_format\" value=\"single\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_in_exp\" value=\"8\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_in_man\" value=\"23\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"enable_hard_fp\" value=\"true\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"manual_dsp_planning\" value=\"true\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"forceRegisters\" value=\"1111\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"selected_device_family\" value=\"Cyclone V\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"selected_device_speedgrade\" value=\"7\" />\n" +
+                        "-- Retrieval info: </instance>\n" +
+                        "-- IPFS_FILES : FP_S2D.vho\n" +
+                        "-- RELATED_FILES: FP_S2D.vhd, dspba_library_package.vhd, dspba_library.vhd, FP_S2D_0002.vhd";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void generate_FP_S2D_0002_vhd_file(String Project_Folder_File) {
+        String data =   "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_S2D_0002\n" +
+                        "-- VHDL created on Fri Oct  2 04:32:53 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_S2D_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        q : out std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_S2D_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_S2D_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cstBiasOut_uid6_fpToFPTest_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal cstAllOWE_uid7_fpToFPTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal cstZeroWF_uid8_fpToFPTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal cstAllZWE_uid9_fpToFPTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal exp_x_uid10_fpToFPTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal frac_x_uid11_fpToFPTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal excZ_x_uid12_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid13_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid14_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid15_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_x_uid16_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_x_uid17_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid18_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid19_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_x_uid20_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal zP_uid23_fpToFPTest_q : STD_LOGIC_VECTOR (28 downto 0);\n" +
+                        "    signal fracR_uid24_fpToFPTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal expRExt_uid25_fpToFPTest_a : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal expRExt_uid25_fpToFPTest_b : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal expRExt_uid25_fpToFPTest_o : STD_LOGIC_VECTOR (13 downto 0);\n" +
+                        "    signal expRExt_uid25_fpToFPTest_q : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal expR_uid26_fpToFPTest_in : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal expR_uid26_fpToFPTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal expUdf_uid27_fpToFPTest_a : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expUdf_uid27_fpToFPTest_b : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expUdf_uid27_fpToFPTest_o : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expUdf_uid27_fpToFPTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expWEOutAllO_uid28_fpToFPTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal expOvf_uid29_fpToFPTest_a : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expOvf_uid29_fpToFPTest_b : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expOvf_uid29_fpToFPTest_o : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expOvf_uid29_fpToFPTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal inRegAndUdf_uid30_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRZero_uid31_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal inRegAndOvf_uid32_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRInf_uid33_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal concExc_uid34_fpToFPTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal excREnc_uid35_fpToFPTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal oneFracRPostExc2_uid36_fpToFPTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal zeroFracRPostExc_uid37_fpToFPTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal fracRPostExc_uid39_fpToFPTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracRPostExc_uid39_fpToFPTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal zeroExpRPostExc_uid42_fpToFPTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal expRPostExc_uid43_fpToFPTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal expRPostExc_uid43_fpToFPTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal signX_uid44_fpToFPTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fpRes_uid45_fpToFPTest_q : STD_LOGIC_VECTOR (63 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- signX_uid44_fpToFPTest(BITSELECT,43)@0\n" +
+                        "    signX_uid44_fpToFPTest_b <= STD_LOGIC_VECTOR(a(31 downto 31));\n" +
+                        "\n" +
+                        "    -- expWEOutAllO_uid28_fpToFPTest(CONSTANT,27)\n" +
+                        "    expWEOutAllO_uid28_fpToFPTest_q <= \"11111111111\";\n" +
+                        "\n" +
+                        "    -- cstBiasOut_uid6_fpToFPTest(CONSTANT,5)\n" +
+                        "    cstBiasOut_uid6_fpToFPTest_q <= \"001110000000\";\n" +
+                        "\n" +
+                        "    -- exp_x_uid10_fpToFPTest(BITSELECT,9)@0\n" +
+                        "    exp_x_uid10_fpToFPTest_b <= a(30 downto 23);\n" +
+                        "\n" +
+                        "    -- expRExt_uid25_fpToFPTest(ADD,24)@0\n" +
+                        "    expRExt_uid25_fpToFPTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"000000\" & exp_x_uid10_fpToFPTest_b));\n" +
+                        "    expRExt_uid25_fpToFPTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((13 downto 12 => cstBiasOut_uid6_fpToFPTest_q(11)) & cstBiasOut_uid6_fpToFPTest_q));\n" +
+                        "    expRExt_uid25_fpToFPTest_o <= STD_LOGIC_VECTOR(SIGNED(expRExt_uid25_fpToFPTest_a) + SIGNED(expRExt_uid25_fpToFPTest_b));\n" +
+                        "    expRExt_uid25_fpToFPTest_q <= expRExt_uid25_fpToFPTest_o(12 downto 0);\n" +
+                        "\n" +
+                        "    -- expR_uid26_fpToFPTest(BITSELECT,25)@0\n" +
+                        "    expR_uid26_fpToFPTest_in <= expRExt_uid25_fpToFPTest_q(10 downto 0);\n" +
+                        "    expR_uid26_fpToFPTest_b <= expR_uid26_fpToFPTest_in(10 downto 0);\n" +
+                        "\n" +
+                        "    -- zeroExpRPostExc_uid42_fpToFPTest(CONSTANT,41)\n" +
+                        "    zeroExpRPostExc_uid42_fpToFPTest_q <= \"00000000000\";\n" +
+                        "\n" +
+                        "    -- frac_x_uid11_fpToFPTest(BITSELECT,10)@0\n" +
+                        "    frac_x_uid11_fpToFPTest_b <= a(22 downto 0);\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid8_fpToFPTest(CONSTANT,7)\n" +
+                        "    cstZeroWF_uid8_fpToFPTest_q <= \"00000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid14_fpToFPTest(LOGICAL,13)@0\n" +
+                        "    fracXIsZero_uid14_fpToFPTest_q <= \"1\" WHEN cstZeroWF_uid8_fpToFPTest_q = frac_x_uid11_fpToFPTest_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid15_fpToFPTest(LOGICAL,14)@0\n" +
+                        "    fracXIsNotZero_uid15_fpToFPTest_q <= not (fracXIsZero_uid14_fpToFPTest_q);\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid7_fpToFPTest(CONSTANT,6)\n" +
+                        "    cstAllOWE_uid7_fpToFPTest_q <= \"11111111\";\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid13_fpToFPTest(LOGICAL,12)@0\n" +
+                        "    expXIsMax_uid13_fpToFPTest_q <= \"1\" WHEN exp_x_uid10_fpToFPTest_b = cstAllOWE_uid7_fpToFPTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_x_uid17_fpToFPTest(LOGICAL,16)@0\n" +
+                        "    excN_x_uid17_fpToFPTest_q <= expXIsMax_uid13_fpToFPTest_q and fracXIsNotZero_uid15_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- expOvf_uid29_fpToFPTest(COMPARE,28)@0\n" +
+                        "    expOvf_uid29_fpToFPTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((14 downto 13 => expRExt_uid25_fpToFPTest_q(12)) & expRExt_uid25_fpToFPTest_q));\n" +
+                        "    expOvf_uid29_fpToFPTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"0000\" & expWEOutAllO_uid28_fpToFPTest_q));\n" +
+                        "    expOvf_uid29_fpToFPTest_o <= STD_LOGIC_VECTOR(SIGNED(expOvf_uid29_fpToFPTest_a) - SIGNED(expOvf_uid29_fpToFPTest_b));\n" +
+                        "    expOvf_uid29_fpToFPTest_n(0) <= not (expOvf_uid29_fpToFPTest_o(14));\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid18_fpToFPTest(LOGICAL,17)@0\n" +
+                        "    invExpXIsMax_uid18_fpToFPTest_q <= not (expXIsMax_uid13_fpToFPTest_q);\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid9_fpToFPTest(CONSTANT,8)\n" +
+                        "    cstAllZWE_uid9_fpToFPTest_q <= \"00000000\";\n" +
+                        "\n" +
+                        "    -- excZ_x_uid12_fpToFPTest(LOGICAL,11)@0\n" +
+                        "    excZ_x_uid12_fpToFPTest_q <= \"1\" WHEN exp_x_uid10_fpToFPTest_b = cstAllZWE_uid9_fpToFPTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid19_fpToFPTest(LOGICAL,18)@0\n" +
+                        "    InvExpXIsZero_uid19_fpToFPTest_q <= not (excZ_x_uid12_fpToFPTest_q);\n" +
+                        "\n" +
+                        "    -- excR_x_uid20_fpToFPTest(LOGICAL,19)@0\n" +
+                        "    excR_x_uid20_fpToFPTest_q <= InvExpXIsZero_uid19_fpToFPTest_q and invExpXIsMax_uid18_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- inRegAndOvf_uid32_fpToFPTest(LOGICAL,31)@0\n" +
+                        "    inRegAndOvf_uid32_fpToFPTest_q <= excR_x_uid20_fpToFPTest_q and expOvf_uid29_fpToFPTest_n;\n" +
+                        "\n" +
+                        "    -- excI_x_uid16_fpToFPTest(LOGICAL,15)@0\n" +
+                        "    excI_x_uid16_fpToFPTest_q <= expXIsMax_uid13_fpToFPTest_q and fracXIsZero_uid14_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- excRInf_uid33_fpToFPTest(LOGICAL,32)@0\n" +
+                        "    excRInf_uid33_fpToFPTest_q <= excI_x_uid16_fpToFPTest_q or inRegAndOvf_uid32_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- expUdf_uid27_fpToFPTest(COMPARE,26)@0\n" +
+                        "    expUdf_uid27_fpToFPTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"00000000000000\" & GND_q));\n" +
+                        "    expUdf_uid27_fpToFPTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((14 downto 13 => expRExt_uid25_fpToFPTest_q(12)) & expRExt_uid25_fpToFPTest_q));\n" +
+                        "    expUdf_uid27_fpToFPTest_o <= STD_LOGIC_VECTOR(SIGNED(expUdf_uid27_fpToFPTest_a) - SIGNED(expUdf_uid27_fpToFPTest_b));\n" +
+                        "    expUdf_uid27_fpToFPTest_n(0) <= not (expUdf_uid27_fpToFPTest_o(14));\n" +
+                        "\n" +
+                        "    -- inRegAndUdf_uid30_fpToFPTest(LOGICAL,29)@0\n" +
+                        "    inRegAndUdf_uid30_fpToFPTest_q <= excR_x_uid20_fpToFPTest_q and expUdf_uid27_fpToFPTest_n;\n" +
+                        "\n" +
+                        "    -- excRZero_uid31_fpToFPTest(LOGICAL,30)@0\n" +
+                        "    excRZero_uid31_fpToFPTest_q <= excZ_x_uid12_fpToFPTest_q or inRegAndUdf_uid30_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- concExc_uid34_fpToFPTest(BITJOIN,33)@0\n" +
+                        "    concExc_uid34_fpToFPTest_q <= excN_x_uid17_fpToFPTest_q & excRInf_uid33_fpToFPTest_q & excRZero_uid31_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- excREnc_uid35_fpToFPTest(LOOKUP,34)@0\n" +
+                        "    excREnc_uid35_fpToFPTest_combproc: PROCESS (concExc_uid34_fpToFPTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        -- Begin reserved scope level\n" +
+                        "        CASE (concExc_uid34_fpToFPTest_q) IS\n" +
+                        "            WHEN \"000\" => excREnc_uid35_fpToFPTest_q <= \"01\";\n" +
+                        "            WHEN \"001\" => excREnc_uid35_fpToFPTest_q <= \"00\";\n" +
+                        "            WHEN \"010\" => excREnc_uid35_fpToFPTest_q <= \"10\";\n" +
+                        "            WHEN \"011\" => excREnc_uid35_fpToFPTest_q <= \"00\";\n" +
+                        "            WHEN \"100\" => excREnc_uid35_fpToFPTest_q <= \"11\";\n" +
+                        "            WHEN \"101\" => excREnc_uid35_fpToFPTest_q <= \"00\";\n" +
+                        "            WHEN \"110\" => excREnc_uid35_fpToFPTest_q <= \"00\";\n" +
+                        "            WHEN \"111\" => excREnc_uid35_fpToFPTest_q <= \"00\";\n" +
+                        "            WHEN OTHERS => -- unreachable\n" +
+                        "                           excREnc_uid35_fpToFPTest_q <= (others => '-');\n" +
+                        "        END CASE;\n" +
+                        "        -- End reserved scope level\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- expRPostExc_uid43_fpToFPTest(MUX,42)@0\n" +
+                        "    expRPostExc_uid43_fpToFPTest_s <= excREnc_uid35_fpToFPTest_q;\n" +
+                        "    expRPostExc_uid43_fpToFPTest_combproc: PROCESS (expRPostExc_uid43_fpToFPTest_s, zeroExpRPostExc_uid42_fpToFPTest_q, expR_uid26_fpToFPTest_b, expWEOutAllO_uid28_fpToFPTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (expRPostExc_uid43_fpToFPTest_s) IS\n" +
+                        "            WHEN \"00\" => expRPostExc_uid43_fpToFPTest_q <= zeroExpRPostExc_uid42_fpToFPTest_q;\n" +
+                        "            WHEN \"01\" => expRPostExc_uid43_fpToFPTest_q <= expR_uid26_fpToFPTest_b;\n" +
+                        "            WHEN \"10\" => expRPostExc_uid43_fpToFPTest_q <= expWEOutAllO_uid28_fpToFPTest_q;\n" +
+                        "            WHEN \"11\" => expRPostExc_uid43_fpToFPTest_q <= expWEOutAllO_uid28_fpToFPTest_q;\n" +
+                        "            WHEN OTHERS => expRPostExc_uid43_fpToFPTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oneFracRPostExc2_uid36_fpToFPTest(CONSTANT,35)\n" +
+                        "    oneFracRPostExc2_uid36_fpToFPTest_q <= \"0000000000000000000000000000000000000000000000000001\";\n" +
+                        "\n" +
+                        "    -- zP_uid23_fpToFPTest(CONSTANT,22)\n" +
+                        "    zP_uid23_fpToFPTest_q <= \"00000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracR_uid24_fpToFPTest(BITJOIN,23)@0\n" +
+                        "    fracR_uid24_fpToFPTest_q <= frac_x_uid11_fpToFPTest_b & zP_uid23_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- zeroFracRPostExc_uid37_fpToFPTest(CONSTANT,36)\n" +
+                        "    zeroFracRPostExc_uid37_fpToFPTest_q <= \"0000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracRPostExc_uid39_fpToFPTest(MUX,38)@0\n" +
+                        "    fracRPostExc_uid39_fpToFPTest_s <= excREnc_uid35_fpToFPTest_q;\n" +
+                        "    fracRPostExc_uid39_fpToFPTest_combproc: PROCESS (fracRPostExc_uid39_fpToFPTest_s, zeroFracRPostExc_uid37_fpToFPTest_q, fracR_uid24_fpToFPTest_q, oneFracRPostExc2_uid36_fpToFPTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (fracRPostExc_uid39_fpToFPTest_s) IS\n" +
+                        "            WHEN \"00\" => fracRPostExc_uid39_fpToFPTest_q <= zeroFracRPostExc_uid37_fpToFPTest_q;\n" +
+                        "            WHEN \"01\" => fracRPostExc_uid39_fpToFPTest_q <= fracR_uid24_fpToFPTest_q;\n" +
+                        "            WHEN \"10\" => fracRPostExc_uid39_fpToFPTest_q <= zeroFracRPostExc_uid37_fpToFPTest_q;\n" +
+                        "            WHEN \"11\" => fracRPostExc_uid39_fpToFPTest_q <= oneFracRPostExc2_uid36_fpToFPTest_q;\n" +
+                        "            WHEN OTHERS => fracRPostExc_uid39_fpToFPTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- fpRes_uid45_fpToFPTest(BITJOIN,44)@0\n" +
+                        "    fpRes_uid45_fpToFPTest_q <= signX_uid44_fpToFPTest_b & expRPostExc_uid43_fpToFPTest_q & fracRPostExc_uid39_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@0\n" +
+                        "    q <= fpRes_uid45_fpToFPTest_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void generate_FP_D2S_qip_file(String Project_Folder_File) {
+        String data =   "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_TOOL_VERSION \"18.0\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_TOOL_ENV \"mwpim\"\n" +
+                        "set_global_assignment -library \"FP_D2S\" -name MISC_FILE [file join $::quartus(qip_path) \"FP_D2S.cmp\"]\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_TARGETED_DEVICE_FAMILY \"Cyclone V\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_GENERATED_DEVICE_FAMILY \"{Cyclone V}\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_QSYS_MODE \"UNKNOWN\"\n" +
+                        "set_global_assignment -name SYNTHESIS_ONLY_QIP ON\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_COMPONENT_NAME \"RlBfRDJT\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_COMPONENT_DISPLAY_NAME \"QUxURVJBX0ZQX0ZVTkNUSU9OUw==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_COMPONENT_REPORT_HIERARCHY \"Off\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_COMPONENT_INTERNAL \"Off\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_COMPONENT_AUTHOR \"QWx0ZXJhIENvcnBvcmF0aW9u\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_COMPONENT_VERSION \"MTguMA==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"FP_D2S\" -name IP_COMPONENT_DESCRIPTION \"QSBjb2xsZWN0aW9uIG9mIGZsb2F0aW5nIHBvaW50IGZ1bmN0aW9ucw==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_NAME \"RlBfRDJTXzAwMDI=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_DISPLAY_NAME \"QUxURVJBX0ZQX0ZVTkNUSU9OUw==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_REPORT_HIERARCHY \"Off\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_INTERNAL \"Off\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_AUTHOR \"QWx0ZXJhIENvcnBvcmF0aW9u\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_VERSION \"MTguMA==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_DESCRIPTION \"QSBjb2xsZWN0aW9uIG9mIGZsb2F0aW5nIHBvaW50IGZ1bmN0aW9ucw==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"RlVOQ1RJT05fRkFNSUxZ::Q09OVkVSVA==::RmFtaWx5\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"QVJJVEhfZnVuY3Rpb24=::QURE::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"Q09OVkVSVF9mdW5jdGlvbg==::RlBfRlA=::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"QUxMX2Z1bmN0aW9u::QURE::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"RVhQX0xPR19mdW5jdGlvbg==::RVhQRQ==::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"VFJJR19mdW5jdGlvbg==::U0lO::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"Q09NUEFSRV9mdW5jdGlvbg==::TUlO::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"Uk9PVFNfZnVuY3Rpb24=::U1FSVA==::TmFtZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZGVyaXZlZGZ1bmN0aW9u::RlBfRlA=::ZGVyaXZlZGZ1bmN0aW9u\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfZm9ybWF0::c2luZ2xl::Rm9ybWF0\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfZXhw::OA==::RXhwb25lbnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfZXhwX2Rlcml2ZWQ=::OA==::ZnBfZXhwX2Rlcml2ZWQ=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfbWFu::MjM=::TWFudGlzc2E=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfbWFuX2Rlcml2ZWQ=::MjM=::ZnBfbWFuX2Rlcml2ZWQ=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZXhwb25lbnRfd2lkdGg=::MjM=::RXhwb25lbnQgV2lkdGg=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnJlcXVlbmN5X3RhcmdldA==::NzU=::VGFyZ2V0\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"bGF0ZW5jeV90YXJnZXQ=::Mg==::VGFyZ2V0\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"cGVyZm9ybWFuY2VfZ29hbA==::ZnJlcXVlbmN5::R29hbA==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"cm91bmRpbmdfbW9kZQ==::bmVhcmVzdCB3aXRoIHRpZSBicmVha2luZyBhd2F5IGZyb20gemVybw==::TW9kZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"cm91bmRpbmdfbW9kZV9kZXJpdmVk::bmVhcmVzdCB3aXRoIHRpZSBicmVha2luZyB0byBldmVu::TW9kZQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"dXNlX3JvdW5kaW5nX21vZGU=::ZmFsc2U=::dXNlX3JvdW5kaW5nX21vZGU=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZmFpdGhmdWxfcm91bmRpbmc=::ZmFsc2U=::UmVsYXggcm91bmRpbmcgdG8gcm91bmQgdXAgb3IgZG93biB0byByZWR1Y2UgcmVzb3VyY2UgdXNhZ2U=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"Z2VuX2VuYWJsZQ==::ZmFsc2U=::R2VuZXJhdGUgYW4gZW5hYmxlIHBvcnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZGl2aWRlX3R5cGU=::MA==::TWV0aG9k\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"c2VsZWN0X3NpZ25hbF9lbmFibGU=::ZmFsc2U=::VXNlIFNlbGVjdCBTaWduYWw=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"c2NhbGVfYnlfcGk=::ZmFsc2U=::UmVwcmVzZW50IGFuZ2xlIGFzIG11bHRpcGxlIG9mIFBp\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"bnVtYmVyX29mX2lucHV0cw==::Mg==::SW5wdXQgVmVjdG9yIERpbWVuc2lvbg==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"dHJpZ19ub19yYW5nZV9yZWR1Y3Rpb24=::ZmFsc2U=::SW5wdXRzIGFyZSB3aXRoaW4gcmFuZ2UgLTJwaSB0byArMnBp\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"cmVwb3J0X3Jlc291cmNlc190b194bWw=::ZmFsc2U=::cmVwb3J0X3Jlc291cmNlc190b194bWw=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnhwdF93aWR0aA==::MzI=::V2lkdGg=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnhwdF9mcmFjdGlvbg==::MA==::RnJhY3Rpb24=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnhwdF9zaWdu::MQ==::U2lnbg==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnJlcXVlbmN5X2ZlZWRiYWNr::MA==::ZnJlcXVlbmN5X2ZlZWRiYWNr\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"bGF0ZW5jeV9mZWVkYmFjaw==::MQ==::bGF0ZW5jeV9mZWVkYmFjaw==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"Zm9yY2VfZWxhYm9yYXRl::MA==::Zm9yY2VfZWxhYm9yYXRl\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X2Zvcm1hdA==::c2luZ2xl::T3V0cHV0IEZvcm1hdA==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X2V4cA==::OA==::T3V0cHV0IEV4cG9uZW50\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X2V4cF9kZXJpdmVk::OA==::ZnBfb3V0X2V4cF9kZXJpdmVk\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X21hbg==::MjM=::T3V0cHV0IE1hbnRpc3Nh\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfb3V0X21hbl9kZXJpdmVk::MjM=::ZnBfb3V0X21hbl9kZXJpdmVk\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fZm9ybWF0::ZG91Ymxl::SW5wdXQgRm9ybWF0\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fZXhw::OA==::SW5wdXQgRXhwb25lbnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fZXhwX2Rlcml2ZWQ=::MTE=::ZnBfaW5fZXhwX2Rlcml2ZWQ=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fbWFu::MjM=::SW5wdXQgTWFudGlzc2E=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZnBfaW5fbWFuX2Rlcml2ZWQ=::NTI=::ZnBfaW5fbWFuX2Rlcml2ZWQ=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"ZW5hYmxlX2hhcmRfZnA=::dHJ1ZQ==::RW5hYmxlIEhhcmQgRmxvYXRpbmcgUG9pbnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"bWFudWFsX2RzcF9wbGFubmluZw==::dHJ1ZQ==::RW5hYmxlIEhhcmQgRmxvYXRpbmcgUG9pbnQ=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"Zm9yY2VSZWdpc3RlcnM=::MTExMQ==::Zm9yY2VSZWdpc3RlcnM=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"UkVTX0RTUF9wYXJhbQ==::MA==::TXVsdGlwbGllcw==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"UkVTX0xVVF9wYXJhbQ==::MTM5::TFVUcw==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"UkVTX01CSVRfcGFyYW0=::MA==::TWVtb3J5IEJpdHM=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"UkVTX01CTE9DS19wYXJhbQ==::MA==::TWVtb3J5IEJsb2Nrcw==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"c2VsZWN0ZWRfZGV2aWNlX2ZhbWlseQ==::Q3ljbG9uZSBW::c2VsZWN0ZWRfZGV2aWNlX2ZhbWlseQ==\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"c2VsZWN0ZWRfZGV2aWNlX3NwZWVkZ3JhZGU=::Nw==::c2VsZWN0ZWRfZGV2aWNlX3NwZWVkZ3JhZGU=\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_COMPONENT_PARAMETER \"dmFsaWRhdGlvbl9mYWlsZWQ=::ZmFsc2U=::dmFsaWRhdGlvbl9mYWlsZWQ=\"\n" +
+                        "\n" +
+                        "set_global_assignment -library \"FP_D2S\" -name VHDL_FILE [file join $::quartus(qip_path) \"FP_D2S.vhd\"]\n" +
+                        "set_global_assignment -library \"FP_D2S\" -name VHDL_FILE [file join $::quartus(qip_path) \"FP_D2S/dspba_library_package.vhd\"]\n" +
+                        "set_global_assignment -library \"FP_D2S\" -name VHDL_FILE [file join $::quartus(qip_path) \"FP_D2S/dspba_library.vhd\"]\n" +
+                        "set_global_assignment -library \"FP_D2S\" -name VHDL_FILE [file join $::quartus(qip_path) \"FP_D2S/FP_D2S_0002.vhd\"]\n" +
+                        "\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_TOOL_VERSION \"18.0\"\n" +
+                        "set_global_assignment -entity \"FP_D2S_0002\" -library \"FP_D2S\" -name IP_TOOL_ENV \"mwpim\"";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void generate_FP_D2S_sip_file(String Project_Folder_File) {
+        String data =   "set_global_assignment -entity \"FP_D2S\" -library \"lib_FP_D2S\" -name IP_TOOL_NAME \"altera_fp_functions\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"lib_FP_D2S\" -name IP_TOOL_VERSION \"18.0\"\n" +
+                        "set_global_assignment -entity \"FP_D2S\" -library \"lib_FP_D2S\" -name IP_TOOL_ENV \"mwpim\"\n" +
+                        "set_global_assignment -library \"lib_FP_D2S\" -name SPD_FILE [file join $::quartus(sip_path) \"FP_D2S.spd\"]\n" +
+                        "\n" +
+                        "set_global_assignment -library \"lib_FP_D2S\" -name MISC_FILE [file join $::quartus(sip_path) \"FP_D2S_sim/dspba_library_package.vhd\"]\n" +
+                        "set_global_assignment -library \"lib_FP_D2S\" -name MISC_FILE [file join $::quartus(sip_path) \"FP_D2S_sim/dspba_library.vhd\"]\n" +
+                        "set_global_assignment -library \"lib_FP_D2S\" -name MISC_FILE [file join $::quartus(sip_path) \"FP_D2S_sim/FP_D2S.vhd\"]";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void generate_FP_D2S_vhd_file(String Project_Folder_File) {
+        String data =   "-- megafunction wizard: %ALTERA_FP_FUNCTIONS v18.0%\n" +
+                        "-- GENERATION: XML\n" +
+                        "-- FP_D2S.vhd\n" +
+                        "\n" +
+                        "-- Generated using ACDS version 18.0 614\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.numeric_std.all;\n" +
+                        "\n" +
+                        "entity FP_D2S is\n" +
+                        "	port (\n" +
+                        "		clk    : in  std_logic                     := '0';             --    clk.clk\n" +
+                        "		areset : in  std_logic                     := '0';             -- areset.reset\n" +
+                        "		a      : in  std_logic_vector(63 downto 0) := (others => '0'); --      a.a\n" +
+                        "		q      : out std_logic_vector(31 downto 0)                     --      q.q\n" +
+                        "	);\n" +
+                        "end entity FP_D2S;\n" +
+                        "\n" +
+                        "architecture rtl of FP_D2S is\n" +
+                        "	component FP_D2S_0002 is\n" +
+                        "		port (\n" +
+                        "			clk    : in  std_logic                     := 'X';             -- clk\n" +
+                        "			areset : in  std_logic                     := 'X';             -- reset\n" +
+                        "			a      : in  std_logic_vector(63 downto 0) := (others => 'X'); -- a\n" +
+                        "			q      : out std_logic_vector(31 downto 0)                     -- q\n" +
+                        "		);\n" +
+                        "	end component FP_D2S_0002;\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "	fp_d2s_inst : component FP_D2S_0002\n" +
+                        "		port map (\n" +
+                        "			clk    => clk,    --    clk.clk\n" +
+                        "			areset => areset, -- areset.reset\n" +
+                        "			a      => a,      --      a.a\n" +
+                        "			q      => q       --      q.q\n" +
+                        "		);\n" +
+                        "\n" +
+                        "end architecture rtl; -- of FP_D2S\n" +
+                        "-- Retrieval info: <?xml version=\"1.0\"?>\n" +
+                        "--<!--\n" +
+                        "--	Generated by Altera MegaWizard Launcher Utility version 1.0\n" +
+                        "--	************************************************************\n" +
+                        "--	THIS IS A WIZARD-GENERATED FILE. DO NOT EDIT THIS FILE!\n" +
+                        "--	************************************************************\n" +
+                        "--	Copyright (C) 1991-2020 Altera Corporation\n" +
+                        "--	Any megafunction design, and related net list (encrypted or decrypted),\n" +
+                        "--	support information, device programming or simulation file, and any other\n" +
+                        "--	associated documentation or information provided by Altera or a partner\n" +
+                        "--	under Altera's Megafunction Partnership Program may be used only to\n" +
+                        "--	program PLD devices (but not masked PLD devices) from Altera.  Any other\n" +
+                        "--	use of such megafunction design, net list, support information, device\n" +
+                        "--	programming or simulation file, or any other related documentation or\n" +
+                        "--	information is prohibited for any other purpose, including, but not\n" +
+                        "--	limited to modification, reverse engineering, de-compiling, or use with\n" +
+                        "--	any other silicon devices, unless such use is explicitly licensed under\n" +
+                        "--	a separate agreement with Altera or a megafunction partner.  Title to\n" +
+                        "--	the intellectual property, including patents, copyrights, trademarks,\n" +
+                        "--	trade secrets, or maskworks, embodied in any such megafunction design,\n" +
+                        "--	net list, support information, device programming or simulation file, or\n" +
+                        "--	any other related documentation or information provided by Altera or a\n" +
+                        "--	megafunction partner, remains with Altera, the megafunction partner, or\n" +
+                        "--	their respective licensors.  No other licenses, including any licenses\n" +
+                        "--	needed under any third party's intellectual property, are provided herein.\n" +
+                        "---->\n" +
+                        "-- Retrieval info: <instance entity-name=\"altera_fp_functions\" version=\"18.0\" >\n" +
+                        "-- Retrieval info: 	<generic name=\"FUNCTION_FAMILY\" value=\"CONVERT\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"ARITH_function\" value=\"ADD\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"CONVERT_function\" value=\"FP_FP\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"ALL_function\" value=\"ADD\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"EXP_LOG_function\" value=\"EXPE\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"TRIG_function\" value=\"SIN\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"COMPARE_function\" value=\"MIN\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"ROOTS_function\" value=\"SQRT\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_format\" value=\"single\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_exp\" value=\"8\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_man\" value=\"23\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"exponent_width\" value=\"23\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"frequency_target\" value=\"75\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"latency_target\" value=\"2\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"performance_goal\" value=\"frequency\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"rounding_mode\" value=\"nearest with tie breaking away from zero\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"faithful_rounding\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"gen_enable\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"divide_type\" value=\"0\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"select_signal_enable\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"scale_by_pi\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"number_of_inputs\" value=\"2\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"trig_no_range_reduction\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"report_resources_to_xml\" value=\"false\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fxpt_width\" value=\"32\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fxpt_fraction\" value=\"0\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fxpt_sign\" value=\"1\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_out_format\" value=\"single\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_out_exp\" value=\"8\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_out_man\" value=\"23\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_in_format\" value=\"double\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_in_exp\" value=\"8\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"fp_in_man\" value=\"23\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"enable_hard_fp\" value=\"true\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"manual_dsp_planning\" value=\"true\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"forceRegisters\" value=\"1111\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"selected_device_family\" value=\"Cyclone V\" />\n" +
+                        "-- Retrieval info: 	<generic name=\"selected_device_speedgrade\" value=\"7\" />\n" +
+                        "-- Retrieval info: </instance>\n" +
+                        "-- IPFS_FILES : FP_D2S.vho\n" +
+                        "-- RELATED_FILES: FP_D2S.vhd, dspba_library_package.vhd, dspba_library.vhd, FP_D2S_0002.vhd";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
+    private void generate_FP_D2S_0002_vhd_file(String Project_Folder_File) {
+        String data =   "-- ------------------------------------------------------------------------- \n" +
+                        "-- High Level Design Compiler for Intel(R) FPGAs Version 18.0 (Release Build #614)\n" +
+                        "-- Quartus Prime development tool and MATLAB/Simulink Interface\n" +
+                        "-- \n" +
+                        "-- Legal Notice: Copyright 2018 Intel Corporation.  All rights reserved.\n" +
+                        "-- Your use of  Intel Corporation's design tools,  logic functions and other\n" +
+                        "-- software and  tools, and its AMPP partner logic functions, and any output\n" +
+                        "-- files any  of the foregoing (including  device programming  or simulation\n" +
+                        "-- files), and  any associated  documentation  or information  are expressly\n" +
+                        "-- subject  to the terms and  conditions of the  Intel FPGA Software License\n" +
+                        "-- Agreement, Intel MegaCore Function License Agreement, or other applicable\n" +
+                        "-- license agreement,  including,  without limitation,  that your use is for\n" +
+                        "-- the  sole  purpose of  programming  logic devices  manufactured by  Intel\n" +
+                        "-- and  sold by Intel  or its authorized  distributors. Please refer  to the\n" +
+                        "-- applicable agreement for further details.\n" +
+                        "-- ---------------------------------------------------------------------------\n" +
+                        "\n" +
+                        "-- VHDL created from FP_D2S_0002\n" +
+                        "-- VHDL created on Thu Oct  1 23:50:51 2020\n" +
+                        "\n" +
+                        "\n" +
+                        "library IEEE;\n" +
+                        "use IEEE.std_logic_1164.all;\n" +
+                        "use IEEE.NUMERIC_STD.all;\n" +
+                        "use IEEE.MATH_REAL.all;\n" +
+                        "use std.TextIO.all;\n" +
+                        "use work.dspba_library_package.all;\n" +
+                        "\n" +
+                        "LIBRARY altera_mf;\n" +
+                        "USE altera_mf.altera_mf_components.all;\n" +
+                        "LIBRARY altera_lnsim;\n" +
+                        "USE altera_lnsim.altera_lnsim_components.altera_syncram;\n" +
+                        "LIBRARY lpm;\n" +
+                        "USE lpm.lpm_components.all;\n" +
+                        "\n" +
+                        "entity FP_D2S_0002 is\n" +
+                        "    port (\n" +
+                        "        a : in std_logic_vector(63 downto 0);  -- float64_m52\n" +
+                        "        q : out std_logic_vector(31 downto 0);  -- float32_m23\n" +
+                        "        clk : in std_logic;\n" +
+                        "        areset : in std_logic\n" +
+                        "    );\n" +
+                        "end FP_D2S_0002;\n" +
+                        "\n" +
+                        "architecture normal of FP_D2S_0002 is\n" +
+                        "\n" +
+                        "    attribute altera_attribute : string;\n" +
+                        "    attribute altera_attribute of normal : architecture is \"-name AUTO_SHIFT_REGISTER_RECOGNITION OFF; -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 10037; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 15400; -name MESSAGE_DISABLE 14130; -name MESSAGE_DISABLE 10036; -name MESSAGE_DISABLE 12020; -name MESSAGE_DISABLE 12030; -name MESSAGE_DISABLE 12010; -name MESSAGE_DISABLE 12110; -name MESSAGE_DISABLE 14320; -name MESSAGE_DISABLE 13410; -name MESSAGE_DISABLE 113007\";\n" +
+                        "    \n" +
+                        "    signal GND_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal VCC_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal cstBiasOut_uid6_fpToFPTest_q : STD_LOGIC_VECTOR (11 downto 0);\n" +
+                        "    signal cstAllOWE_uid7_fpToFPTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal cstZeroWF_uid8_fpToFPTest_q : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal cstAllZWE_uid9_fpToFPTest_q : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal exp_x_uid10_fpToFPTest_b : STD_LOGIC_VECTOR (10 downto 0);\n" +
+                        "    signal frac_x_uid11_fpToFPTest_b : STD_LOGIC_VECTOR (51 downto 0);\n" +
+                        "    signal excZ_x_uid12_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expXIsMax_uid13_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsZero_uid14_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXIsNotZero_uid15_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excI_x_uid16_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excN_x_uid17_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal invExpXIsMax_uid18_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal InvExpXIsZero_uid19_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excR_x_uid20_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fracXWOP1_uid23_fpToFPTest_b : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal expXFracX_uid24_fpToFPTest_q : STD_LOGIC_VECTOR (34 downto 0);\n" +
+                        "    signal zeroPaddingInAddition_uid27_fpToFPTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal rndExpUpdate_uid28_fpToFPTest_q : STD_LOGIC_VECTOR (35 downto 0);\n" +
+                        "    signal expFracR_uid29_fpToFPTest_a : STD_LOGIC_VECTOR (37 downto 0);\n" +
+                        "    signal expFracR_uid29_fpToFPTest_b : STD_LOGIC_VECTOR (37 downto 0);\n" +
+                        "    signal expFracR_uid29_fpToFPTest_o : STD_LOGIC_VECTOR (37 downto 0);\n" +
+                        "    signal expFracR_uid29_fpToFPTest_q : STD_LOGIC_VECTOR (36 downto 0);\n" +
+                        "    signal fracR_uid30_fpToFPTest_in : STD_LOGIC_VECTOR (23 downto 0);\n" +
+                        "    signal fracR_uid30_fpToFPTest_b : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal expR_uid31_fpToFPTest_in : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal expR_uid31_fpToFPTest_b : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal expRExt_uid32_fpToFPTest_b : STD_LOGIC_VECTOR (12 downto 0);\n" +
+                        "    signal expUdf_uid33_fpToFPTest_a : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expUdf_uid33_fpToFPTest_b : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expUdf_uid33_fpToFPTest_o : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expUdf_uid33_fpToFPTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal expWEOutAllO_uid34_fpToFPTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal expOvf_uid35_fpToFPTest_a : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expOvf_uid35_fpToFPTest_b : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expOvf_uid35_fpToFPTest_o : STD_LOGIC_VECTOR (14 downto 0);\n" +
+                        "    signal expOvf_uid35_fpToFPTest_n : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal inRegAndUdf_uid36_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRZero_uid37_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal inRegAndOvf_uid38_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal excRInf_uid39_fpToFPTest_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal concExc_uid40_fpToFPTest_q : STD_LOGIC_VECTOR (2 downto 0);\n" +
+                        "    signal excREnc_uid41_fpToFPTest_q : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal oneFracRPostExc2_uid42_fpToFPTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal fracRPostExc_uid45_fpToFPTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal fracRPostExc_uid45_fpToFPTest_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "    signal zeroExpRPostExc_uid48_fpToFPTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal expRPostExc_uid49_fpToFPTest_s : STD_LOGIC_VECTOR (1 downto 0);\n" +
+                        "    signal expRPostExc_uid49_fpToFPTest_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal signX_uid50_fpToFPTest_b : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal fpRes_uid51_fpToFPTest_q : STD_LOGIC_VECTOR (31 downto 0);\n" +
+                        "    signal redist0_signX_uid50_fpToFPTest_b_1_q : STD_LOGIC_VECTOR (0 downto 0);\n" +
+                        "    signal redist1_expR_uid31_fpToFPTest_b_1_q : STD_LOGIC_VECTOR (7 downto 0);\n" +
+                        "    signal redist2_fracR_uid30_fpToFPTest_b_1_q : STD_LOGIC_VECTOR (22 downto 0);\n" +
+                        "\n" +
+                        "begin\n" +
+                        "\n" +
+                        "\n" +
+                        "    -- VCC(CONSTANT,1)\n" +
+                        "    VCC_q <= \"1\";\n" +
+                        "\n" +
+                        "    -- signX_uid50_fpToFPTest(BITSELECT,49)@0\n" +
+                        "    signX_uid50_fpToFPTest_b <= STD_LOGIC_VECTOR(a(63 downto 63));\n" +
+                        "\n" +
+                        "    -- redist0_signX_uid50_fpToFPTest_b_1(DELAY,52)\n" +
+                        "    redist0_signX_uid50_fpToFPTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 1, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => signX_uid50_fpToFPTest_b, xout => redist0_signX_uid50_fpToFPTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- expWEOutAllO_uid34_fpToFPTest(CONSTANT,33)\n" +
+                        "    expWEOutAllO_uid34_fpToFPTest_q <= \"11111111\";\n" +
+                        "\n" +
+                        "    -- cstBiasOut_uid6_fpToFPTest(CONSTANT,5)\n" +
+                        "    cstBiasOut_uid6_fpToFPTest_q <= \"110010000000\";\n" +
+                        "\n" +
+                        "    -- zeroPaddingInAddition_uid27_fpToFPTest(CONSTANT,26)\n" +
+                        "    zeroPaddingInAddition_uid27_fpToFPTest_q <= \"00000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- rndExpUpdate_uid28_fpToFPTest(BITJOIN,27)@0\n" +
+                        "    rndExpUpdate_uid28_fpToFPTest_q <= cstBiasOut_uid6_fpToFPTest_q & zeroPaddingInAddition_uid27_fpToFPTest_q & VCC_q;\n" +
+                        "\n" +
+                        "    -- exp_x_uid10_fpToFPTest(BITSELECT,9)@0\n" +
+                        "    exp_x_uid10_fpToFPTest_b <= a(62 downto 52);\n" +
+                        "\n" +
+                        "    -- frac_x_uid11_fpToFPTest(BITSELECT,10)@0\n" +
+                        "    frac_x_uid11_fpToFPTest_b <= a(51 downto 0);\n" +
+                        "\n" +
+                        "    -- fracXWOP1_uid23_fpToFPTest(BITSELECT,22)@0\n" +
+                        "    fracXWOP1_uid23_fpToFPTest_b <= frac_x_uid11_fpToFPTest_b(51 downto 28);\n" +
+                        "\n" +
+                        "    -- expXFracX_uid24_fpToFPTest(BITJOIN,23)@0\n" +
+                        "    expXFracX_uid24_fpToFPTest_q <= exp_x_uid10_fpToFPTest_b & fracXWOP1_uid23_fpToFPTest_b;\n" +
+                        "\n" +
+                        "    -- expFracR_uid29_fpToFPTest(ADD,28)@0\n" +
+                        "    expFracR_uid29_fpToFPTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"000\" & expXFracX_uid24_fpToFPTest_q));\n" +
+                        "    expFracR_uid29_fpToFPTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((37 downto 36 => rndExpUpdate_uid28_fpToFPTest_q(35)) & rndExpUpdate_uid28_fpToFPTest_q));\n" +
+                        "    expFracR_uid29_fpToFPTest_o <= STD_LOGIC_VECTOR(SIGNED(expFracR_uid29_fpToFPTest_a) + SIGNED(expFracR_uid29_fpToFPTest_b));\n" +
+                        "    expFracR_uid29_fpToFPTest_q <= expFracR_uid29_fpToFPTest_o(36 downto 0);\n" +
+                        "\n" +
+                        "    -- expR_uid31_fpToFPTest(BITSELECT,30)@0\n" +
+                        "    expR_uid31_fpToFPTest_in <= expFracR_uid29_fpToFPTest_q(31 downto 0);\n" +
+                        "    expR_uid31_fpToFPTest_b <= expR_uid31_fpToFPTest_in(31 downto 24);\n" +
+                        "\n" +
+                        "    -- redist1_expR_uid31_fpToFPTest_b_1(DELAY,53)\n" +
+                        "    redist1_expR_uid31_fpToFPTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 8, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => expR_uid31_fpToFPTest_b, xout => redist1_expR_uid31_fpToFPTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- zeroExpRPostExc_uid48_fpToFPTest(CONSTANT,47)\n" +
+                        "    zeroExpRPostExc_uid48_fpToFPTest_q <= \"00000000\";\n" +
+                        "\n" +
+                        "    -- cstZeroWF_uid8_fpToFPTest(CONSTANT,7)\n" +
+                        "    cstZeroWF_uid8_fpToFPTest_q <= \"0000000000000000000000000000000000000000000000000000\";\n" +
+                        "\n" +
+                        "    -- fracXIsZero_uid14_fpToFPTest(LOGICAL,13)@0\n" +
+                        "    fracXIsZero_uid14_fpToFPTest_q <= \"1\" WHEN cstZeroWF_uid8_fpToFPTest_q = frac_x_uid11_fpToFPTest_b ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- fracXIsNotZero_uid15_fpToFPTest(LOGICAL,14)@0\n" +
+                        "    fracXIsNotZero_uid15_fpToFPTest_q <= not (fracXIsZero_uid14_fpToFPTest_q);\n" +
+                        "\n" +
+                        "    -- cstAllOWE_uid7_fpToFPTest(CONSTANT,6)\n" +
+                        "    cstAllOWE_uid7_fpToFPTest_q <= \"11111111111\";\n" +
+                        "\n" +
+                        "    -- expXIsMax_uid13_fpToFPTest(LOGICAL,12)@0\n" +
+                        "    expXIsMax_uid13_fpToFPTest_q <= \"1\" WHEN exp_x_uid10_fpToFPTest_b = cstAllOWE_uid7_fpToFPTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- excN_x_uid17_fpToFPTest(LOGICAL,16)@0\n" +
+                        "    excN_x_uid17_fpToFPTest_q <= expXIsMax_uid13_fpToFPTest_q and fracXIsNotZero_uid15_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- GND(CONSTANT,0)\n" +
+                        "    GND_q <= \"0\";\n" +
+                        "\n" +
+                        "    -- expRExt_uid32_fpToFPTest(BITSELECT,31)@0\n" +
+                        "    expRExt_uid32_fpToFPTest_b <= STD_LOGIC_VECTOR(expFracR_uid29_fpToFPTest_q(36 downto 24));\n" +
+                        "\n" +
+                        "    -- expOvf_uid35_fpToFPTest(COMPARE,34)@0\n" +
+                        "    expOvf_uid35_fpToFPTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((14 downto 13 => expRExt_uid32_fpToFPTest_b(12)) & expRExt_uid32_fpToFPTest_b));\n" +
+                        "    expOvf_uid35_fpToFPTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"0000000\" & expWEOutAllO_uid34_fpToFPTest_q));\n" +
+                        "    expOvf_uid35_fpToFPTest_o <= STD_LOGIC_VECTOR(SIGNED(expOvf_uid35_fpToFPTest_a) - SIGNED(expOvf_uid35_fpToFPTest_b));\n" +
+                        "    expOvf_uid35_fpToFPTest_n(0) <= not (expOvf_uid35_fpToFPTest_o(14));\n" +
+                        "\n" +
+                        "    -- invExpXIsMax_uid18_fpToFPTest(LOGICAL,17)@0\n" +
+                        "    invExpXIsMax_uid18_fpToFPTest_q <= not (expXIsMax_uid13_fpToFPTest_q);\n" +
+                        "\n" +
+                        "    -- cstAllZWE_uid9_fpToFPTest(CONSTANT,8)\n" +
+                        "    cstAllZWE_uid9_fpToFPTest_q <= \"00000000000\";\n" +
+                        "\n" +
+                        "    -- excZ_x_uid12_fpToFPTest(LOGICAL,11)@0\n" +
+                        "    excZ_x_uid12_fpToFPTest_q <= \"1\" WHEN exp_x_uid10_fpToFPTest_b = cstAllZWE_uid9_fpToFPTest_q ELSE \"0\";\n" +
+                        "\n" +
+                        "    -- InvExpXIsZero_uid19_fpToFPTest(LOGICAL,18)@0\n" +
+                        "    InvExpXIsZero_uid19_fpToFPTest_q <= not (excZ_x_uid12_fpToFPTest_q);\n" +
+                        "\n" +
+                        "    -- excR_x_uid20_fpToFPTest(LOGICAL,19)@0\n" +
+                        "    excR_x_uid20_fpToFPTest_q <= InvExpXIsZero_uid19_fpToFPTest_q and invExpXIsMax_uid18_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- inRegAndOvf_uid38_fpToFPTest(LOGICAL,37)@0\n" +
+                        "    inRegAndOvf_uid38_fpToFPTest_q <= excR_x_uid20_fpToFPTest_q and expOvf_uid35_fpToFPTest_n;\n" +
+                        "\n" +
+                        "    -- excI_x_uid16_fpToFPTest(LOGICAL,15)@0\n" +
+                        "    excI_x_uid16_fpToFPTest_q <= expXIsMax_uid13_fpToFPTest_q and fracXIsZero_uid14_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- excRInf_uid39_fpToFPTest(LOGICAL,38)@0\n" +
+                        "    excRInf_uid39_fpToFPTest_q <= excI_x_uid16_fpToFPTest_q or inRegAndOvf_uid38_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- expUdf_uid33_fpToFPTest(COMPARE,32)@0\n" +
+                        "    expUdf_uid33_fpToFPTest_a <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR(\"00000000000000\" & GND_q));\n" +
+                        "    expUdf_uid33_fpToFPTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((14 downto 13 => expRExt_uid32_fpToFPTest_b(12)) & expRExt_uid32_fpToFPTest_b));\n" +
+                        "    expUdf_uid33_fpToFPTest_o <= STD_LOGIC_VECTOR(SIGNED(expUdf_uid33_fpToFPTest_a) - SIGNED(expUdf_uid33_fpToFPTest_b));\n" +
+                        "    expUdf_uid33_fpToFPTest_n(0) <= not (expUdf_uid33_fpToFPTest_o(14));\n" +
+                        "\n" +
+                        "    -- inRegAndUdf_uid36_fpToFPTest(LOGICAL,35)@0\n" +
+                        "    inRegAndUdf_uid36_fpToFPTest_q <= excR_x_uid20_fpToFPTest_q and expUdf_uid33_fpToFPTest_n;\n" +
+                        "\n" +
+                        "    -- excRZero_uid37_fpToFPTest(LOGICAL,36)@0\n" +
+                        "    excRZero_uid37_fpToFPTest_q <= excZ_x_uid12_fpToFPTest_q or inRegAndUdf_uid36_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- concExc_uid40_fpToFPTest(BITJOIN,39)@0\n" +
+                        "    concExc_uid40_fpToFPTest_q <= excN_x_uid17_fpToFPTest_q & excRInf_uid39_fpToFPTest_q & excRZero_uid37_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- excREnc_uid41_fpToFPTest(LOOKUP,40)@0 + 1\n" +
+                        "    excREnc_uid41_fpToFPTest_clkproc: PROCESS (clk, areset)\n" +
+                        "    BEGIN\n" +
+                        "        IF (areset = '1') THEN\n" +
+                        "            excREnc_uid41_fpToFPTest_q <= \"01\";\n" +
+                        "        ELSIF (clk'EVENT AND clk = '1') THEN\n" +
+                        "            CASE (concExc_uid40_fpToFPTest_q) IS\n" +
+                        "                WHEN \"000\" => excREnc_uid41_fpToFPTest_q <= \"01\";\n" +
+                        "                WHEN \"001\" => excREnc_uid41_fpToFPTest_q <= \"00\";\n" +
+                        "                WHEN \"010\" => excREnc_uid41_fpToFPTest_q <= \"10\";\n" +
+                        "                WHEN \"011\" => excREnc_uid41_fpToFPTest_q <= \"00\";\n" +
+                        "                WHEN \"100\" => excREnc_uid41_fpToFPTest_q <= \"11\";\n" +
+                        "                WHEN \"101\" => excREnc_uid41_fpToFPTest_q <= \"00\";\n" +
+                        "                WHEN \"110\" => excREnc_uid41_fpToFPTest_q <= \"00\";\n" +
+                        "                WHEN \"111\" => excREnc_uid41_fpToFPTest_q <= \"00\";\n" +
+                        "                WHEN OTHERS => -- unreachable\n" +
+                        "                               excREnc_uid41_fpToFPTest_q <= (others => '-');\n" +
+                        "            END CASE;\n" +
+                        "        END IF;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- expRPostExc_uid49_fpToFPTest(MUX,48)@1\n" +
+                        "    expRPostExc_uid49_fpToFPTest_s <= excREnc_uid41_fpToFPTest_q;\n" +
+                        "    expRPostExc_uid49_fpToFPTest_combproc: PROCESS (expRPostExc_uid49_fpToFPTest_s, zeroExpRPostExc_uid48_fpToFPTest_q, redist1_expR_uid31_fpToFPTest_b_1_q, expWEOutAllO_uid34_fpToFPTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (expRPostExc_uid49_fpToFPTest_s) IS\n" +
+                        "            WHEN \"00\" => expRPostExc_uid49_fpToFPTest_q <= zeroExpRPostExc_uid48_fpToFPTest_q;\n" +
+                        "            WHEN \"01\" => expRPostExc_uid49_fpToFPTest_q <= redist1_expR_uid31_fpToFPTest_b_1_q;\n" +
+                        "            WHEN \"10\" => expRPostExc_uid49_fpToFPTest_q <= expWEOutAllO_uid34_fpToFPTest_q;\n" +
+                        "            WHEN \"11\" => expRPostExc_uid49_fpToFPTest_q <= expWEOutAllO_uid34_fpToFPTest_q;\n" +
+                        "            WHEN OTHERS => expRPostExc_uid49_fpToFPTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- oneFracRPostExc2_uid42_fpToFPTest(CONSTANT,41)\n" +
+                        "    oneFracRPostExc2_uid42_fpToFPTest_q <= \"00000000000000000000001\";\n" +
+                        "\n" +
+                        "    -- fracR_uid30_fpToFPTest(BITSELECT,29)@0\n" +
+                        "    fracR_uid30_fpToFPTest_in <= expFracR_uid29_fpToFPTest_q(23 downto 0);\n" +
+                        "    fracR_uid30_fpToFPTest_b <= fracR_uid30_fpToFPTest_in(23 downto 1);\n" +
+                        "\n" +
+                        "    -- redist2_fracR_uid30_fpToFPTest_b_1(DELAY,54)\n" +
+                        "    redist2_fracR_uid30_fpToFPTest_b_1 : dspba_delay\n" +
+                        "    GENERIC MAP ( width => 23, depth => 1, reset_kind => \"ASYNC\" )\n" +
+                        "    PORT MAP ( xin => fracR_uid30_fpToFPTest_b, xout => redist2_fracR_uid30_fpToFPTest_b_1_q, clk => clk, aclr => areset );\n" +
+                        "\n" +
+                        "    -- fracRPostExc_uid45_fpToFPTest(MUX,44)@1\n" +
+                        "    fracRPostExc_uid45_fpToFPTest_s <= excREnc_uid41_fpToFPTest_q;\n" +
+                        "    fracRPostExc_uid45_fpToFPTest_combproc: PROCESS (fracRPostExc_uid45_fpToFPTest_s, zeroPaddingInAddition_uid27_fpToFPTest_q, redist2_fracR_uid30_fpToFPTest_b_1_q, oneFracRPostExc2_uid42_fpToFPTest_q)\n" +
+                        "    BEGIN\n" +
+                        "        CASE (fracRPostExc_uid45_fpToFPTest_s) IS\n" +
+                        "            WHEN \"00\" => fracRPostExc_uid45_fpToFPTest_q <= zeroPaddingInAddition_uid27_fpToFPTest_q;\n" +
+                        "            WHEN \"01\" => fracRPostExc_uid45_fpToFPTest_q <= redist2_fracR_uid30_fpToFPTest_b_1_q;\n" +
+                        "            WHEN \"10\" => fracRPostExc_uid45_fpToFPTest_q <= zeroPaddingInAddition_uid27_fpToFPTest_q;\n" +
+                        "            WHEN \"11\" => fracRPostExc_uid45_fpToFPTest_q <= oneFracRPostExc2_uid42_fpToFPTest_q;\n" +
+                        "            WHEN OTHERS => fracRPostExc_uid45_fpToFPTest_q <= (others => '0');\n" +
+                        "        END CASE;\n" +
+                        "    END PROCESS;\n" +
+                        "\n" +
+                        "    -- fpRes_uid51_fpToFPTest(BITJOIN,50)@1\n" +
+                        "    fpRes_uid51_fpToFPTest_q <= redist0_signX_uid50_fpToFPTest_b_1_q & expRPostExc_uid49_fpToFPTest_q & fracRPostExc_uid45_fpToFPTest_q;\n" +
+                        "\n" +
+                        "    -- xOut(GPOUT,4)@1\n" +
+                        "    q <= fpRes_uid51_fpToFPTest_q;\n" +
+                        "\n" +
+                        "END normal;";
+        new GeneralFunctions().write_file(Project_Folder_File, data);
+    }
+
     /*private void generate_test_vhd_file(String Project_Folder_File) {
-        String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-
-    private void generate_test_vhd_file(String Project_Folder_File) {
-        String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-
-    private void generate_test_vhd_file(String Project_Folder_File) {
-        String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-
-    private void generate_test_vhd_file(String Project_Folder_File) {
-        String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-
-    private void generate_test_vhd_file(String Project_Folder_File) {
-        String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-
-    private void generate_test_vhd_file(String Project_Folder_File) {
-        String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-
-    private void generate_test_vhd_file(String Project_Folder_File) {
-        String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-
-    private void generate_test_vhd_file(String Project_Folder_File) {
-        String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-
-    private void generate_test_vhd_file(String Project_Folder_File) {
-        String data =   "";
-        new GeneralFunctions().write_file(Project_Folder_File, data);
-    }
-
-    private void generate_test_vhd_file(String Project_Folder_File) {
         String data =   "";
         new GeneralFunctions().write_file(Project_Folder_File, data);
     }
